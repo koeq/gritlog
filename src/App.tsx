@@ -1,5 +1,8 @@
 import React, { useState } from "react";
 import "./App.css";
+import { Header } from "./header";
+import { Input } from "./input";
+import { Table } from "./table";
 
 function App() {
   const [text, setText] = useState<string>();
@@ -19,36 +22,12 @@ function App() {
         alignItems: "center",
       }}
     >
-      <h1>backslash</h1>
+      <Header />
       <br />
-      <textarea
-        onChange={handleChange}
-        value={text}
-        name="training"
-        id="training"
-        cols={30}
-        rows={10}
-      ></textarea>
-      <br />
-      <input type="submit" />
-
+      <Input handleChange={handleChange} text={text} />
       <br></br>
       <br></br>
-
-      {text && (
-        <div>
-          <table style={{ border: "1px solid grey" }}>
-            <tr>
-              <th style={{ borderBottom: "1px solid grey" }}>
-                {new Date().toLocaleDateString()}
-              </th>
-            </tr>
-            <tr>
-              <td>{text}</td>
-            </tr>
-          </table>
-        </div>
-      )}
+      <Table text={text} />
     </div>
   );
 }
