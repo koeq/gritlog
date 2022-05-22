@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import "./App.css";
+import "./app.css";
 import { Header } from "./header";
 import { Input } from "./input";
 import { Table } from "./table";
