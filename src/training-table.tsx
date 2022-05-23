@@ -1,16 +1,17 @@
 import React from "react";
+import { Training } from "./app";
 import "./table.css";
-import { parser } from "./parser";
 
 interface TableProps {
-  text: string | undefined;
+  training: Training | undefined;
 }
 
-export const Table = ({ text }: TableProps): JSX.Element | null => {
-  if (!text) {
+export const TrainingTable = ({ training }: TableProps): JSX.Element | null => {
+  if (!training) {
     return null;
   }
-  const { exercise, weight, repetitions } = parser(text);
+
+  const { exercise, weight, repetitions } = training;
 
   return (
     <table style={{ width: "350px", border: "1px solid grey" }}>

@@ -3,9 +3,14 @@ import React from "react";
 interface InputProps {
   handleChange: (event: React.ChangeEvent<HTMLTextAreaElement>) => void;
   text: string | undefined;
+  handleAdd: (event: React.FormEvent<HTMLInputElement>) => void;
 }
 
-export const Input = ({ handleChange, text }: InputProps): JSX.Element => {
+export const Input = ({
+  handleChange,
+  text,
+  handleAdd,
+}: InputProps): JSX.Element => {
   return (
     <>
       <textarea
@@ -17,7 +22,7 @@ export const Input = ({ handleChange, text }: InputProps): JSX.Element => {
         rows={10}
       ></textarea>
       <br />
-      <input type="submit" />
+      <input type="submit" value="add" onClick={handleAdd} />
     </>
   );
 };
