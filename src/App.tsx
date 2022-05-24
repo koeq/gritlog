@@ -4,6 +4,7 @@ import { Header } from "./header";
 import { Input } from "./input";
 import { TrainingTable } from "./training-table";
 import { parse } from "./parser";
+import { HistoryTable } from "./history-table";
 
 export interface Training {
   exercise: string | null;
@@ -11,7 +12,7 @@ export interface Training {
   repetitions: string | null;
 }
 
-interface History {
+export interface History {
   [k: string]: Training;
 }
 
@@ -42,39 +43,39 @@ function App() {
   };
 
   return (
-    <div
-      style={{
-        width: "100%",
-        height: "500px",
-        display: "flex",
-        flexDirection: "column",
-        justifyContent: "center",
-        alignItems: "center",
-      }}
-    >
-      <Header />
-      <br />
-      <Input
-        text={currentTrainingInput}
-        handleChange={handleChange}
-        handleAdd={handleAdd}
-      />
-      <br></br>
-      <br></br>
-      <TrainingTable training={currentTraining} />
-      <br></br>
-      <br></br>
-      <br></br>
-      <br></br>
-      <br></br>
-      <br></br>
-      <br></br>
-      {/* TO DO: refactor history into own component */}
-      {history &&
-        Object.keys(history).map((id) => (
-          <TrainingTable key={id} training={history[id]}></TrainingTable>
-        ))}
-    </div>
+    <>
+      <div
+        style={{
+          width: "100%",
+          height: "500px",
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        <Header />
+        <br />
+        <Input
+          text={currentTrainingInput}
+          handleChange={handleChange}
+          handleAdd={handleAdd}
+        />
+        <br></br>
+        <br></br>
+        <TrainingTable training={currentTraining} />
+        <br></br>
+        <br></br>
+        <br></br>
+        <br></br>
+        <br></br>
+        <br></br>
+        <br></br>
+        {/* TO DO: refactor history into own component */}
+      </div>
+
+      <HistoryTable id={id} history={history} />
+    </>
   );
 }
 
