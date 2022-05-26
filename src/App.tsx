@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./app.css";
 import { Header } from "./header";
 import { Input } from "./input";
@@ -18,10 +18,23 @@ export interface History {
 
 function App() {
   const [currentTrainingInput, setCurrentTrainingInput] = useState<string>();
-  const [history, setHistory] = useState<History>();
-  const [id, setId] = useState(0);
+  const savedHistory = localStorage.getItem("history");
 
+  const [history, setHistory] = useState<History>(
+    savedHistory ? JSON.parse(savedHistory) : undefined
+  );
+
+  const savedId = localStorage.getItem("id");
+  const [id, setId] = useState(savedId ? parseInt(savedId) : 0);
   const currentTraining = parse(currentTrainingInput);
+
+  useEffect(() => {
+    localStorage.setItem("id", `${id}`);
+
+    if (history) {
+      localStorage.setItem("history", JSON.stringify(history));
+    }
+  }, [id, history]);
 
   const handleChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
     setCurrentTrainingInput(event.currentTarget.value);
@@ -71,7 +84,6 @@ function App() {
         <br></br>
         <br></br>
         <br></br>
-        {/* TO DO: refactor history into own component */}
       </div>
 
       <HistoryTable id={id} history={history} />
