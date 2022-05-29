@@ -18,9 +18,10 @@ export const parse = (
   );
   const exercise = exerciseMatch && exerciseMatch[0].trim();
 
-  // match one or more numbers optionally with "kg" or "lbs"
-  // TO DO: allow "," and "." to make inputs like "12,5kg" valid
-  const weightMatch = currentTrainingInput.match(/(\d+\s*kg|\d+\s*lbs|\d+)/);
+  // match one or more numbers optionally seperated by "," or "." and optionally with "kg" or "lbs"
+  const weightMatch = currentTrainingInput.match(
+    /(\d+,?.?\d*\s*kg|\d+,?.?\d*\s*lbs|\d+,?.?\d*)/
+  );
   const weight = weightMatch && weightMatch[0];
 
   // match any number or number of numbers seperated by a slash with optionally whitespace at the end
