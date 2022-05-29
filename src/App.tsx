@@ -55,6 +55,13 @@ function App() {
     }
   };
 
+  const handleDelete = (id: number) => {
+    setHistory((history) => {
+      delete history[id];
+      return { ...history };
+    });
+  };
+
   return (
     <>
       <div
@@ -86,7 +93,7 @@ function App() {
         <br></br>
       </div>
 
-      <HistoryTable id={id} history={history} />
+      <HistoryTable id={id} history={history} handleDelete={handleDelete} />
     </>
   );
 }

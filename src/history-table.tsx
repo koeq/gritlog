@@ -5,11 +5,13 @@ import { TrainingTable } from "./training-table";
 interface HistoryTableProps {
   id: number;
   history: History | undefined;
+  handleDelete: (id: number) => void;
 }
 
 export const HistoryTable = ({
   id,
   history,
+  handleDelete,
 }: HistoryTableProps): JSX.Element | null => {
   if (!history) {
     return null;
@@ -25,7 +27,10 @@ export const HistoryTable = ({
     >
       {history &&
         Object.keys(history).map((id) => (
-          <TrainingTable key={id} training={history[id]}></TrainingTable>
+          <div style={{ display: "flex" }} key={id}>
+            <TrainingTable training={history[id]}></TrainingTable>
+            <button onClick={() => handleDelete(parseInt(id))}>delete</button>
+          </div>
         ))}
     </div>
   );
