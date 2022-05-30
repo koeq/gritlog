@@ -6,14 +6,14 @@ import { TrainingTable } from "./training-table";
 import { parse } from "./parser";
 import { HistoryTable } from "./history-table";
 
-export interface Training {
-  exercise: string | null;
+export interface Exercise {
+  exerciseName: string | null;
   weight: string | null;
   repetitions: string | null;
 }
 
 export interface History {
-  [k: string]: Training;
+  [k: string]: Exercise[];
 }
 
 function App() {
@@ -47,7 +47,7 @@ function App() {
       setHistory((pastHistory) => {
         return {
           ...pastHistory,
-          [id]: { ...currentTraining },
+          [id]: currentTraining,
         };
       });
       setId((id) => ++id);
@@ -93,7 +93,9 @@ function App() {
         <br></br>
       </div>
 
-      <HistoryTable id={id} history={history} handleDelete={handleDelete} />
+      {history && (
+        <HistoryTable history={history} handleDelete={handleDelete} />
+      )}
     </>
   );
 }

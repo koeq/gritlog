@@ -1,17 +1,15 @@
 import React from "react";
-import { Training } from "./app";
+import { Exercise } from "./app";
 import "./table.css";
 
 interface TableProps {
-  training: Training | undefined;
+  training: Exercise[] | undefined;
 }
 
 export const TrainingTable = ({ training }: TableProps): JSX.Element | null => {
   if (!training) {
     return null;
   }
-
-  const { exercise, weight, repetitions } = training;
 
   return (
     <table style={{ width: "350px", border: "1px solid grey" }}>
@@ -26,11 +24,14 @@ export const TrainingTable = ({ training }: TableProps): JSX.Element | null => {
           <th>weight</th>
           <th>repetitions</th>
         </tr>
-        <tr>
-          <td>{exercise}</td>
-          <td>{weight}</td>
-          <td>{repetitions}</td>
-        </tr>
+
+        {training.map(({ exerciseName, weight, repetitions }, index) => (
+          <tr key={index}>
+            <td>{exerciseName}</td>
+            <td>{weight}</td>
+            <td>{repetitions}</td>
+          </tr>
+        ))}
       </tbody>
     </table>
   );
