@@ -18,6 +18,7 @@ export interface History {
 
 function App() {
   const [currentTrainingInput, setCurrentTrainingInput] = useState<string>();
+  const [editId, setEditId] = useState<number | undefined>(undefined);
   const savedHistory = localStorage.getItem("history");
 
   const [history, setHistory] = useState<History>(
@@ -28,6 +29,7 @@ function App() {
   const [id, setId] = useState(savedId ? parseInt(savedId) : 0);
   const currentTraining = parse(currentTrainingInput);
 
+  // sync id and history with local storage
   useEffect(() => {
     localStorage.setItem("id", `${id}`);
 
@@ -40,19 +42,22 @@ function App() {
     setCurrentTrainingInput(event.currentTarget.value);
   };
 
-  const handleAdd = (event: React.FormEvent<HTMLInputElement>) => {
-    event.preventDefault();
+  // jump out of edit mode if currentTrainingInput gets deleted
+  useEffect(() => {}, [currentTrainingInput]);
 
+  const handleAdd = (editId: number | undefined = undefined) => {
     if (currentTraining) {
       setHistory((pastHistory) => {
         return {
           ...pastHistory,
-          [id]: currentTraining,
+          [editId ? `${editId}` : id]: currentTraining,
         };
       });
-      setId((id) => ++id);
+      !editId && setId((id) => ++id);
       setCurrentTrainingInput("");
     }
+
+    editId && setEditId(undefined);
   };
 
   const handleEdit = (id: number) => {
@@ -70,6 +75,7 @@ function App() {
     });
 
     setCurrentTrainingInput(trainingInput);
+    setEditId(id);
   };
 
   const handleDelete = (id: number) => {
@@ -97,6 +103,9 @@ function App() {
           text={currentTrainingInput}
           handleChange={handleChange}
           handleAdd={handleAdd}
+          editId={editId}
+          setEditId={setEditId}
+          setCurrentTrainingInput={setCurrentTrainingInput}
         />
         <br></br>
         <br></br>

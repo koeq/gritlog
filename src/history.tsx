@@ -27,7 +27,10 @@ export const HistoryTable = ({
     >
       {history &&
         Object.keys(history).map((id) => (
-          <div style={{ display: "flex", width: "90%" }} key={id}>
+          <div
+            style={{ display: "flex", width: "90%", justifyContent: "center" }}
+            key={id}
+          >
             <TrainingTable training={history[id]} />
             <button onClick={() => handleEdit(parseInt(id))}>edit</button>
             <button onClick={() => handleDelete(parseInt(id))}>delete</button>
