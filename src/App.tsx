@@ -4,7 +4,7 @@ import { Header } from "./header";
 import { Input } from "./input";
 import { TrainingTable } from "./training-table";
 import { parse } from "./parser";
-import { HistoryTable } from "./history-table";
+import { HistoryTable } from "./history";
 
 export interface Exercise {
   exerciseName: string | null;
@@ -55,6 +55,23 @@ function App() {
     }
   };
 
+  const handleEdit = (id: number) => {
+    let trainingInput: string = "";
+
+    const training = history[id].map(
+      ({ exerciseName, weight, repetitions }) =>
+        `${exerciseName ? exerciseName : ""} ${weight ? weight : ""} ${
+          repetitions ? repetitions : ""
+        }`
+    );
+
+    training.forEach((exercise) => {
+      trainingInput += `${exercise}\n`;
+    });
+
+    setCurrentTrainingInput(trainingInput);
+  };
+
   const handleDelete = (id: number) => {
     setHistory((history) => {
       delete history[id];
@@ -94,7 +111,11 @@ function App() {
       </div>
 
       {history && (
-        <HistoryTable history={history} handleDelete={handleDelete} />
+        <HistoryTable
+          history={history}
+          handleEdit={handleEdit}
+          handleDelete={handleDelete}
+        />
       )}
     </>
   );

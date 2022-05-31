@@ -4,11 +4,13 @@ import { TrainingTable } from "./training-table";
 
 interface HistoryTableProps {
   history: History | undefined;
+  handleEdit: (id: number) => void;
   handleDelete: (id: number) => void;
 }
 
 export const HistoryTable = ({
   history,
+  handleEdit,
   handleDelete,
 }: HistoryTableProps): JSX.Element | null => {
   if (!history) {
@@ -25,9 +27,9 @@ export const HistoryTable = ({
     >
       {history &&
         Object.keys(history).map((id) => (
-          <div style={{ display: "flex" }} key={id}>
+          <div style={{ display: "flex", width: "90%" }} key={id}>
             <TrainingTable training={history[id]} />
-            {/* TO DO: add edit button & functionality */}
+            <button onClick={() => handleEdit(parseInt(id))}>edit</button>
             <button onClick={() => handleDelete(parseInt(id))}>delete</button>
           </div>
         ))}
