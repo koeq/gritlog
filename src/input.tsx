@@ -4,7 +4,7 @@ interface InputProps {
   readonly handleChange: (
     event: React.ChangeEvent<HTMLTextAreaElement>
   ) => void;
-  readonly text: string | undefined;
+  readonly currentTrainingInput: string | undefined;
   readonly handleAdd: (editId: number | undefined) => void;
   readonly editId: number | undefined;
   readonly setEditId: React.Dispatch<React.SetStateAction<number | undefined>>;
@@ -15,7 +15,7 @@ interface InputProps {
 
 export const Input = ({
   handleChange,
-  text,
+  currentTrainingInput,
   handleAdd,
   editId,
   setEditId,
@@ -32,7 +32,7 @@ export const Input = ({
     <>
       <textarea
         onChange={handleChange}
-        value={text}
+        value={currentTrainingInput}
         name="training"
         id="training"
         cols={30}

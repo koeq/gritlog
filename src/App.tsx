@@ -1,17 +1,17 @@
 import React, { useEffect, useState } from "react";
-import "./app.css";
 import { Header } from "./header";
 import { Input } from "./input";
 import { parse } from "./parser";
 import { TrainingsTable } from "./trainings";
 import { Training, Trainings } from "./types";
+import { useSyncLocalStorage } from "./useSyncLocalStorage";
 
-function App() {
+export const App = () => {
   const [currentTrainingInput, setCurrentTrainingInput] = useState<string>();
   const [editId, setEditId] = useState<number | undefined>(undefined);
-  const savedTrainings = localStorage.getItem("history");
+  const savedTrainings = localStorage.getItem("trainings");
 
-  const [trainings, setTrainings] = useState<Trainings>(
+  const [trainings, setTrainings] = useState<Trainings | undefined>(
     savedTrainings ? JSON.parse(savedTrainings) : undefined
   );
 
@@ -22,24 +22,15 @@ function App() {
     exercises: parse(currentTrainingInput),
   };
 
-  // sync id and history with local storage
-  useEffect(() => {
-    localStorage.setItem("id", `${id}`);
-
-    if (trainings) {
-      localStorage.setItem("history", JSON.stringify(trainings));
-    }
-  }, [id, trainings]);
+  // sync id and trainings with local storage
+  useSyncLocalStorage(id, trainings);
 
   const handleChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
     setCurrentTrainingInput(event.currentTarget.value);
   };
 
-  // jump out of edit mode if currentTrainingInput gets deleted
-  useEffect(() => {}, [currentTrainingInput]);
-
   const handleAdd = (editId: number | undefined = undefined) => {
-    if (currentTraining) {
+    if (currentTraining.exercises) {
       setTrainings((pastTrainings) => {
         return {
           ...pastTrainings,
@@ -54,6 +45,10 @@ function App() {
   };
 
   const handleEdit = (id: number) => {
+    if (!trainings) {
+      return;
+    }
+
     let trainingInput: string = "";
 
     const exercises = trainings[id].exercises;
@@ -75,7 +70,11 @@ function App() {
   };
 
   const handleDelete = (id: number) => {
-    setTrainings((history) => {
+    if (!trainings) {
+      return;
+    }
+
+    setTrainings(() => {
       delete trainings[id];
       return { ...trainings };
     });
@@ -95,7 +94,7 @@ function App() {
         <Header />
         <br />
         <Input
-          text={currentTrainingInput}
+          currentTrainingInput={currentTrainingInput}
           handleChange={handleChange}
           handleAdd={handleAdd}
           editId={editId}
@@ -119,6 +118,4 @@ function App() {
       )}
     </>
   );
-}
-
-export default App;
+};
