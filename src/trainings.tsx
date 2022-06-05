@@ -1,19 +1,19 @@
 import React from "react";
-import { History } from "./app";
+import { Trainings } from "./app";
 import { TrainingTable } from "./training-table";
 
-interface HistoryTableProps {
-  history: History | undefined;
-  handleEdit: (id: number) => void;
-  handleDelete: (id: number) => void;
+interface TrainingsTableProps {
+  readonly trainings: Trainings | undefined;
+  readonly handleEdit: (id: number) => void;
+  readonly handleDelete: (id: number) => void;
 }
 
-export const HistoryTable = ({
-  history,
+export const TrainingsTable = ({
+  trainings,
   handleEdit,
   handleDelete,
-}: HistoryTableProps): JSX.Element | null => {
-  if (!history) {
+}: TrainingsTableProps): JSX.Element | null => {
+  if (!trainings) {
     return null;
   }
 
@@ -25,13 +25,13 @@ export const HistoryTable = ({
         alignItems: "center",
       }}
     >
-      {history &&
-        Object.keys(history).map((id) => (
+      {trainings &&
+        Object.keys(trainings).map((id) => (
           <div
             style={{ display: "flex", width: "90%", justifyContent: "center" }}
             key={id}
           >
-            <TrainingTable training={history[id]} />
+            <TrainingTable training={trainings[id]} />
             <button onClick={() => handleEdit(parseInt(id))}>edit</button>
             <button onClick={() => handleDelete(parseInt(id))}>delete</button>
           </div>

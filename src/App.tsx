@@ -2,41 +2,48 @@ import React, { useEffect, useState } from "react";
 import "./app.css";
 import { Header } from "./header";
 import { Input } from "./input";
-import { TrainingTable } from "./training-table";
 import { parse } from "./parser";
-import { HistoryTable } from "./history";
+import { TrainingsTable } from "./trainings";
 
 export interface Exercise {
-  exerciseName: string | null;
-  weight: string | null;
-  repetitions: string | null;
+  readonly exerciseName: string | null;
+  readonly weight: string | null;
+  readonly repetitions: string | null;
 }
 
-export interface History {
-  [k: string]: Exercise[];
+export interface Training {
+  readonly date: string;
+  readonly exercises: Exercise[] | undefined;
+}
+
+export interface Trainings {
+  [id: string]: Training;
 }
 
 function App() {
   const [currentTrainingInput, setCurrentTrainingInput] = useState<string>();
   const [editId, setEditId] = useState<number | undefined>(undefined);
-  const savedHistory = localStorage.getItem("history");
+  const savedTrainings = localStorage.getItem("history");
 
-  const [history, setHistory] = useState<History>(
-    savedHistory ? JSON.parse(savedHistory) : undefined
+  const [trainings, setTrainings] = useState<Trainings>(
+    savedTrainings ? JSON.parse(savedTrainings) : undefined
   );
 
   const savedId = localStorage.getItem("id");
   const [id, setId] = useState(savedId ? parseInt(savedId) : 0);
-  const currentTraining = parse(currentTrainingInput);
+  const currentTraining: Training = {
+    date: new Date().toLocaleDateString(),
+    exercises: parse(currentTrainingInput),
+  };
 
   // sync id and history with local storage
   useEffect(() => {
     localStorage.setItem("id", `${id}`);
 
-    if (history) {
-      localStorage.setItem("history", JSON.stringify(history));
+    if (trainings) {
+      localStorage.setItem("history", JSON.stringify(trainings));
     }
-  }, [id, history]);
+  }, [id, trainings]);
 
   const handleChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
     setCurrentTrainingInput(event.currentTarget.value);
@@ -47,9 +54,9 @@ function App() {
 
   const handleAdd = (editId: number | undefined = undefined) => {
     if (currentTraining) {
-      setHistory((pastHistory) => {
+      setTrainings((pastTrainings) => {
         return {
-          ...pastHistory,
+          ...pastTrainings,
           [editId ? `${editId}` : id]: currentTraining,
         };
       });
@@ -63,14 +70,17 @@ function App() {
   const handleEdit = (id: number) => {
     let trainingInput: string = "";
 
-    const training = history[id].map(
-      ({ exerciseName, weight, repetitions }) =>
-        `${exerciseName ? exerciseName : ""} ${weight ? weight : ""} ${
-          repetitions ? repetitions : ""
-        }`
-    );
+    const exercises = trainings[id].exercises;
+    const exercisesInput = exercises
+      ? exercises.map(
+          ({ exerciseName, weight, repetitions }) =>
+            `${exerciseName ? exerciseName : ""} ${weight ? weight : ""} ${
+              repetitions ? repetitions : ""
+            }`
+        )
+      : [];
 
-    training.forEach((exercise) => {
+    exercisesInput.forEach((exercise) => {
       trainingInput += `${exercise}\n`;
     });
 
@@ -79,9 +89,9 @@ function App() {
   };
 
   const handleDelete = (id: number) => {
-    setHistory((history) => {
-      delete history[id];
-      return { ...history };
+    setTrainings((history) => {
+      delete trainings[id];
+      return { ...trainings };
     });
   };
 
@@ -90,7 +100,6 @@ function App() {
       <div
         style={{
           width: "100%",
-          height: "500px",
           display: "flex",
           flexDirection: "column",
           justifyContent: "center",
@@ -107,21 +116,17 @@ function App() {
           setEditId={setEditId}
           setCurrentTrainingInput={setCurrentTrainingInput}
         />
+        {/* <br></br>
         <br></br>
-        <br></br>
-        <TrainingTable training={currentTraining} />
-        <br></br>
-        <br></br>
-        <br></br>
-        <br></br>
-        <br></br>
-        <br></br>
-        <br></br>
+         DEBUGG PARSER 
+        <TrainingTable training={currentTraining} /> */}
       </div>
-
-      {history && (
-        <HistoryTable
-          history={history}
+      <br />
+      <br />
+      <br />
+      {trainings && (
+        <TrainingsTable
+          trainings={trainings}
           handleEdit={handleEdit}
           handleDelete={handleDelete}
         />
