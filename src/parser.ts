@@ -1,22 +1,22 @@
 import React, { useState } from "react";
 import { Exercise } from "./types";
 
-// input structure  --->  Benchpress 90kg 8/8/8
+// INPUT STRUCTURE  -->  Benchpress 90kg 8/8/8
 
 export const parse = (
-  currentTrainingInput: string | undefined
+  currentInput: string | undefined
 ): Exercise[] | undefined => {
-  if (!currentTrainingInput) {
+  if (!currentInput) {
     return;
   }
 
   const training: Exercise[] = [];
   let exerciseLines: string[] = [];
 
-  if (currentTrainingInput.match(/\n/)) {
-    exerciseLines = currentTrainingInput.split(/\n/);
+  if (currentInput.match(/\n/)) {
+    exerciseLines = currentInput.split(/\n/);
   } else {
-    exerciseLines.push(currentTrainingInput);
+    exerciseLines.push(currentInput);
   }
 
   exerciseLines.forEach((line) => {

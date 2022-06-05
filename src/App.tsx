@@ -4,29 +4,30 @@ import { Input } from "./input";
 import { parse } from "./parser";
 import { TrainingsTable } from "./trainings";
 import { Training, Trainings } from "./types";
-import { useSyncLocalStorage } from "./useSyncLocalStorage";
+import { useLocalStorage } from "./useLocalStorage";
 
+// TO DO:
 export const App = () => {
-  const [currentTrainingInput, setCurrentTrainingInput] = useState<string>();
+  const [id, setId] = useLocalStorage<number>("id", 0);
   const [editId, setEditId] = useState<number | undefined>(undefined);
-  const savedTrainings = localStorage.getItem("trainings");
 
-  const [trainings, setTrainings] = useState<Trainings | undefined>(
-    savedTrainings ? JSON.parse(savedTrainings) : undefined
+  const [currentInput, setCurrentInput] = useLocalStorage<string | undefined>(
+    "currentInput",
+    undefined
   );
 
-  const savedId = localStorage.getItem("id");
-  const [id, setId] = useState(savedId ? parseInt(savedId) : 0);
+  const [trainings, setTrainings] = useLocalStorage<Trainings | undefined>(
+    "trainings",
+    undefined
+  );
+
   const currentTraining: Training = {
     date: new Date().toLocaleDateString(),
-    exercises: parse(currentTrainingInput),
+    exercises: parse(currentInput),
   };
 
-  // sync id and trainings with local storage
-  useSyncLocalStorage(id, trainings);
-
-  const handleChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
-    setCurrentTrainingInput(event.currentTarget.value);
+  const handleInputChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
+    setCurrentInput(event.currentTarget.value);
   };
 
   const handleAdd = (editId: number | undefined = undefined) => {
@@ -38,7 +39,7 @@ export const App = () => {
         };
       });
       !editId && setId((id) => ++id);
-      setCurrentTrainingInput("");
+      setCurrentInput("");
     }
 
     editId && setEditId(undefined);
@@ -50,8 +51,8 @@ export const App = () => {
     }
 
     let trainingInput: string = "";
-
     const exercises = trainings[id].exercises;
+
     const exercisesInput = exercises
       ? exercises.map(
           ({ exerciseName, weight, repetitions }) =>
@@ -65,7 +66,7 @@ export const App = () => {
       trainingInput += `${exercise}\n`;
     });
 
-    setCurrentTrainingInput(trainingInput);
+    setCurrentInput(trainingInput.trim());
     setEditId(id);
   };
 
@@ -94,16 +95,16 @@ export const App = () => {
         <Header />
         <br />
         <Input
-          currentTrainingInput={currentTrainingInput}
-          handleChange={handleChange}
+          currentInput={currentInput}
+          handleInputChange={handleInputChange}
           handleAdd={handleAdd}
           editId={editId}
           setEditId={setEditId}
-          setCurrentTrainingInput={setCurrentTrainingInput}
+          setCurrentInput={setCurrentInput}
         />
-        {/* <br></br>
-        <br></br>
-         DEBUGG PARSER 
+
+        {/* 
+         DEBUGG PARSER: 
         <TrainingTable training={currentTraining} /> */}
       </div>
       <br />
