@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Exercise } from "./app";
+import { Exercise } from "./types";
 
 // input structure  --->  Benchpress 90kg 8/8/8
 

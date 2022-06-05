@@ -4,21 +4,7 @@ import { Header } from "./header";
 import { Input } from "./input";
 import { parse } from "./parser";
 import { TrainingsTable } from "./trainings";
-
-export interface Exercise {
-  readonly exerciseName: string | null;
-  readonly weight: string | null;
-  readonly repetitions: string | null;
-}
-
-export interface Training {
-  readonly date: string;
-  readonly exercises: Exercise[] | undefined;
-}
-
-export interface Trainings {
-  [id: string]: Training;
-}
+import { Training, Trainings } from "./types";
 
 function App() {
   const [currentTrainingInput, setCurrentTrainingInput] = useState<string>();

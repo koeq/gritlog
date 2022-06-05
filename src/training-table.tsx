@@ -1,6 +1,6 @@
 import React from "react";
-import { Training } from "./app";
 import "./table.css";
+import { Training } from "./types";
 
 interface TrainingTableProps {
   readonly training: Training | undefined;
