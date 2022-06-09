@@ -12,3 +12,5 @@ export interface Training {
 export interface Trainings {
   [id: string]: Training;
 }
+
+export type Mode = "add" | "edit";

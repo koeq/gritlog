@@ -1,15 +1,18 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Header } from "./header";
 import { Input } from "./input";
 import { parse } from "./parser";
 import { TrainingsTable } from "./trainings";
-import { Training, Trainings } from "./types";
+import { Mode, Training, Trainings } from "./types";
 import { useLocalStorage } from "./useLocalStorage";
 
-// TO DO:
 export const App = () => {
+  const [mode, setMode] = useLocalStorage<Mode>("mode", "add");
+  const [editId, setEditId] = useLocalStorage<number | undefined>(
+    "editId",
+    undefined
+  );
   const [id, setId] = useLocalStorage<number>("id", 0);
-  const [editId, setEditId] = useState<number | undefined>(undefined);
 
   const [currentInput, setCurrentInput] = useLocalStorage<string | undefined>(
     "currentInput",
@@ -35,14 +38,19 @@ export const App = () => {
       setTrainings((pastTrainings) => {
         return {
           ...pastTrainings,
-          [editId ? `${editId}` : id]: currentTraining,
+          [mode === "edit" ? `${editId}` : id]: currentTraining,
         };
       });
-      !editId && setId((id) => ++id);
+
+      if (mode === "add") {
+        setId((id) => ++id);
+      } else if (mode === "edit") {
+        setMode("add");
+        setEditId(undefined);
+      }
+
       setCurrentInput("");
     }
-
-    editId && setEditId(undefined);
   };
 
   const handleEdit = (id: number) => {
@@ -67,6 +75,7 @@ export const App = () => {
     });
 
     setCurrentInput(trainingInput.trim());
+    setMode("edit");
     setEditId(id);
   };
 
@@ -98,9 +107,11 @@ export const App = () => {
           currentInput={currentInput}
           handleInputChange={handleInputChange}
           handleAdd={handleAdd}
+          mode={mode}
+          setMode={setMode}
+          setCurrentInput={setCurrentInput}
           editId={editId}
           setEditId={setEditId}
-          setCurrentInput={setCurrentInput}
         />
 
         {/* 
