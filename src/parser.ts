@@ -20,7 +20,7 @@ export const parse = (
   }
 
   exerciseLines.forEach((line) => {
-    //  match every word or sign from the start of the string until the first occurence of a number and trim whitespace at the end
+    // match every word or sign from the start of the string until the first occurence of a number and trim whitespace at the end
     const exerciseNameMatch = line.match(
       /^[-!$%^&*()_+|~=`{}\[\]:";'<>?,.\/a-z\s]+/i
     );
@@ -30,7 +30,9 @@ export const parse = (
     const weightMatch = line.match(
       /(\d+,?.?\d*\s*kg|\d+,?.?\d*\s*lbs|\d+,?.?\d*)/
     );
-    const weight = weightMatch && weightMatch[0];
+
+    // remove whitespace if format is "_ kg"
+    const weight = weightMatch && weightMatch[0].replace(/\s/g, "");
 
     // match any number or number of numbers seperated by a slash with optionally whitespace at the end
     // TO DO: match whitepace between slashes but not at beginning of the match

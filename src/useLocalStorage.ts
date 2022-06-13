@@ -19,7 +19,6 @@ export function useLocalStorage<T>(key: string, defaultValue: T) {
       setStoredValue(valueToStore);
       localStorage.setItem(key, JSON.stringify(valueToStore));
     } catch (err) {
-      // TO DO: handle this error?
       console.log(err);
     }
   };
