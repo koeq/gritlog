@@ -26,16 +26,22 @@ export const TrainingsTable = ({
       }}
     >
       {trainings &&
-        Object.keys(trainings).map((id) => (
-          <div
-            style={{ display: "flex", width: "90%", justifyContent: "center" }}
-            key={id}
-          >
-            <TrainingTable training={trainings[id]} />
-            <button onClick={() => handleEdit(parseInt(id))}>edit</button>
-            <button onClick={() => handleDelete(parseInt(id))}>delete</button>
-          </div>
-        ))}
+        Object.keys(trainings)
+          .reverse()
+          .map((id) => (
+            <div
+              style={{
+                display: "flex",
+                width: "90%",
+                justifyContent: "center",
+              }}
+              key={id}
+            >
+              <TrainingTable training={trainings[id]} />
+              <button onClick={() => handleEdit(parseInt(id))}>edit</button>
+              <button onClick={() => handleDelete(parseInt(id))}>delete</button>
+            </div>
+          ))}
     </div>
   );
 };

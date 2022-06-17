@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Header } from "./header";
 import { Input } from "./input";
 import { parse } from "./parser";
+import { TrainingTable } from "./training-table";
 import { TrainingsTable } from "./trainings";
 import { Mode, Training, Trainings } from "./types";
 import { useLocalStorage } from "./useLocalStorage";
@@ -114,9 +115,8 @@ export const App = () => {
           setEditId={setEditId}
         />
 
-        {/* 
-         DEBUGG PARSER: 
-        <TrainingTable training={currentTraining} /> */}
+        {/* DEBUGG PARSER:  */}
+        <TrainingTable training={currentTraining} />
       </div>
       <br />
       <br />

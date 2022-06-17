@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { forEachChild } from "typescript";
 import { Exercise } from "./types";
 
 // INPUT STRUCTURE  -->  Benchpress 90kg 8/8/8
@@ -27,19 +27,24 @@ export const parse = (
     const exerciseName = exerciseNameMatch && exerciseNameMatch[0].trim();
 
     // match one or more numbers optionally seperated by "," or "." and optionally with "kg" or "lbs"
-    const weightMatch = line.match(
-      /(\d+,?.?\d*\s*kg|\d+,?.?\d*\s*lbs|\d+,?.?\d*)/
-    );
+    const weightMatches = line.match(/\d+((,|.)[0-9]+)?\s*(kg|lbs?)/g) || [];
+    // console.log(weightMatches);
 
     // remove whitespace if format is "_ kg"
-    const weight = weightMatch && weightMatch[0].replace(/\s/g, "");
 
     // match any number or number of numbers seperated by a slash with optionally whitespace at the end
     // TO DO: match whitepace between slashes but not at beginning of the match
-    const repetitionsMatch = line.match(/[\d\/]+\s*$/);
-    const repetitions = repetitionsMatch && repetitionsMatch[0].trim();
+    const repetitionsMatches = line.match(/\d+\/\d*(\/\d*)*/g) || [];
 
-    training.push({ exerciseName, weight, repetitions });
+    // console.log(repetitionsMatch);
+
+    weightMatches.forEach((weightMatch, index) => {
+      const weight = weightMatch.replace(/\s/g, "");
+
+      const repetitions = repetitionsMatches[index]?.trim();
+
+      training.push({ exerciseName, weight, repetitions });
+    });
   });
 
   return training;
