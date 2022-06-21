@@ -1,8 +1,7 @@
 import { forEachChild } from "typescript";
 import { Exercise } from "./types";
 
-// INPUT STRUCTURE  -->  Benchpress 90kg 8/8/8
-
+// INPUT STRUCTURE  -->  Benchpress 90kg 8/8/8 92,2kg 8/8
 export const parse = (
   currentInput: string | undefined
 ): Exercise[] | undefined => {
@@ -20,23 +19,17 @@ export const parse = (
   }
 
   exerciseLines.forEach((line) => {
-    // match every word or sign from the start of the string until the first occurence of a number and trim whitespace at the end
+    // match every number of charakters or signs from the start of the string, case insensitive and trim whitespace
     const exerciseNameMatch = line.match(
       /^[-!$%^&*()_+|~=`{}\[\]:";'<>?,.\/a-z\s]+/i
     );
     const exerciseName = exerciseNameMatch && exerciseNameMatch[0].trim();
 
     // match one or more numbers optionally seperated by "," or "." and optionally with "kg" or "lbs"
-    const weightMatches = line.match(/\d+((,|.)[0-9]+)?\s*(kg|lbs?)/g) || [];
-    // console.log(weightMatches);
+    const weightMatches = line.match(/\d+((,|\.)\d+)?\s*(kg|lbs?)/g) || [];
 
-    // remove whitespace if format is "_ kg"
-
-    // match any number or number of numbers seperated by a slash with optionally whitespace at the end
-    // TO DO: match whitepace between slashes but not at beginning of the match
+    // match any number or number of digits seperated by a slash
     const repetitionsMatches = line.match(/\d+\/\d*(\/\d*)*/g) || [];
-
-    // console.log(repetitionsMatch);
 
     weightMatches.forEach((weightMatch, index) => {
       const weight = weightMatch.replace(/\s/g, "");
