@@ -1,5 +1,5 @@
 import React from "react";
-import "./table.css";
+import "./styles/training-table.css";
 import { Training } from "./types";
 
 interface TrainingTableProps {
@@ -14,10 +14,26 @@ export const TrainingTable = ({
   }
 
   return (
-    <table style={{ width: "350px", border: "1px solid grey" }}>
+    <table
+      style={{
+        width: "350px",
+        padding: "8px",
+        border: "1px solid #FAFAFA",
+        borderRadius: "6px",
+      }}
+    >
       <tbody>
         <tr>
-          <th style={{ paddingBottom: "10px" }}>{training.date}</th>
+          <th
+            colSpan={3}
+            style={{
+              width: "100px",
+              paddingBottom: "10px",
+              borderBottom: "1px solid #EAEAEA",
+            }}
+          >
+            {training.date}
+          </th>
         </tr>
         <tr>
           <th>exercise</th>

@@ -1,5 +1,5 @@
 import React from "react";
 
 export const Header = (): JSX.Element => {
-  return <h1>backslash</h1>;
+  return <h1 style={{ fontWeight: "500" }}>backslash</h1>;
 };
