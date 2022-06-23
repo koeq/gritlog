@@ -1,6 +1,8 @@
 @import url("https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600&display=swap");
 
 * {
+  box-sizing: border-box;
+
   /* vars */
   --shadow-smallest: 0px 2px 4px rgba(0, 0, 0, 0.1);
   --shadow-extra-small: 0px 4px 8px rgba(0, 0, 0, 0.12);
@@ -8,10 +10,36 @@
   --shadow-medium: 0 8px 30px rgba(0, 0, 0, 0.12);
   --shadow-large: 0 30px 60px rgba(0, 0, 0, 0.12);
   --shadow-hover: 0 30px 60px rgba(0, 0, 0, 0.12);
+
   font-family: "IBM Plex Sans", sans-serif;
   font-weight: 300;
 }
 
 html {
   height: 100%;
+}
+
+button {
+  background: rgba(0, 0, 0, 0);
+  color: rgba(0, 0, 0, 0.4);
+  padding: 8px 12px;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+button:hover {
+  color: rgba(0, 0, 0, 1);
+}
+
+.btn-delete:hover {
+  background-color: rgba(255, 0, 0, 0.1);
+}
+
+.btn-edit:hover {
+  background-color: rgba(0, 0, 255, 0.04);
+}
+
+.btn-add:hover {
+  background-color: rgba(0, 255, 0, 0.08);
 }

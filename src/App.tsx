@@ -3,7 +3,7 @@ import { Header } from "./header";
 import { Input } from "./input";
 import { parse } from "./parser";
 import { TrainingTable } from "./training-table";
-import { TrainingsTable } from "./trainings";
+import { TrainingsTable } from "./trainings-table";
 import { Mode, Training, Trainings } from "./types";
 import { useLocalStorage } from "./useLocalStorage";
 
@@ -116,7 +116,9 @@ export const App = () => {
         />
 
         {/* DEBUGG PARSER:  */}
-        <TrainingTable training={currentTraining} />
+        <div style={{ marginTop: "12px" }}>
+          <TrainingTable training={currentTraining} />
+        </div>
       </div>
       <br />
       <br />

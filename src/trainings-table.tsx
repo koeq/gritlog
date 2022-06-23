@@ -1,6 +1,7 @@
 import React from "react";
 import { TrainingTable } from "./training-table";
 import { Trainings } from "./types";
+import "./styles/trainings-table.css";
 
 interface TrainingsTableProps {
   readonly trainings: Trainings | undefined;
@@ -34,12 +35,31 @@ export const TrainingsTable = ({
                 display: "flex",
                 width: "90%",
                 justifyContent: "center",
+                marginBottom: "16px",
               }}
               key={id}
             >
               <TrainingTable training={trainings[id]} />
-              <button onClick={() => handleEdit(parseInt(id))}>edit</button>
-              <button onClick={() => handleDelete(parseInt(id))}>delete</button>
+              <div
+                style={{
+                  display: "flex",
+                  marginLeft: "6px",
+                }}
+              >
+                <button
+                  className="btn-edit"
+                  style={{ marginRight: "2px" }}
+                  onClick={() => handleEdit(parseInt(id))}
+                >
+                  edit
+                </button>
+                <button
+                  className="btn-delete"
+                  onClick={() => handleDelete(parseInt(id))}
+                >
+                  x
+                </button>
+              </div>
             </div>
           ))}
     </div>

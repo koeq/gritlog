@@ -48,9 +48,17 @@ export const Input = ({
       <br />
 
       <div style={{ display: "flex" }}>
-        <button onClick={() => handleAdd(editId)}>{mode}</button>
+        <button
+          className={mode === "add" ? "btn-add" : "btn-edit"}
+          onClick={() => handleAdd(editId)}
+        >
+          {mode}
+        </button>
         {mode === "edit" && (
-          <button onClick={() => handleStopEdit(setMode, setEditId)}>
+          <button
+            className="btn-delete"
+            onClick={() => handleStopEdit(setMode, setEditId)}
+          >
             stop edit
           </button>
         )}
