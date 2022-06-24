@@ -44,6 +44,11 @@ export const Input = ({
         id="training"
         cols={30}
         rows={10}
+        style={{
+          width: "min(400px, 80%)",
+          border: "1px solid rgba(0, 0, 0, 0.2)",
+          borderRadius: "4px",
+        }}
       ></textarea>
       <br />
 

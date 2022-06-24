@@ -14,14 +14,7 @@ export const TrainingTable = ({
   }
 
   return (
-    <table
-      style={{
-        width: "350px",
-        padding: "8px",
-        border: "1px solid #FAFAFA",
-        borderRadius: "6px",
-      }}
-    >
+    <table>
       <tbody>
         <tr>
           <th
@@ -36,9 +29,9 @@ export const TrainingTable = ({
           </th>
         </tr>
         <tr>
-          <th>exercise</th>
-          <th>weight</th>
-          <th>repetitions</th>
+          <th style={{ fontWeight: "400" }}>exercise</th>
+          <th style={{ fontWeight: "400" }}>weight</th>
+          <th style={{ fontWeight: "400" }}>repetitions</th>
         </tr>
 
         {training.exercises &&

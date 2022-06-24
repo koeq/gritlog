@@ -2,8 +2,8 @@ table {
   box-shadow: var(--shadow-smallest);
   width: 350px;
   padding: 8px;
-  border: 1px solid #fafafa;
-  border-radius: 6px;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: 4px;
 }
 
 th {
