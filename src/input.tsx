@@ -6,14 +6,14 @@ interface InputProps {
     event: React.ChangeEvent<HTMLTextAreaElement>
   ) => void;
   readonly currentInput: string | undefined;
-  readonly handleAdd: (editId: number | undefined) => void;
+  readonly handleAdd: (editId: number | null) => void;
   readonly mode: Mode;
   readonly setMode: React.Dispatch<React.SetStateAction<Mode>>;
   readonly setCurrentInput: React.Dispatch<
     React.SetStateAction<string | undefined>
   >;
-  readonly editId: number | undefined;
-  readonly setEditId: React.Dispatch<React.SetStateAction<number | undefined>>;
+  readonly editId: number | null;
+  readonly setEditId: React.Dispatch<React.SetStateAction<number | null>>;
 }
 
 export const Input = ({
@@ -28,10 +28,10 @@ export const Input = ({
 }: InputProps): JSX.Element => {
   const handleStopEdit = (
     setMode: React.Dispatch<React.SetStateAction<Mode>>,
-    setEditId: React.Dispatch<React.SetStateAction<number | undefined>>
+    setEditId: React.Dispatch<React.SetStateAction<number | null>>
   ) => {
     setMode("add");
-    setEditId(undefined);
+    setEditId(null);
     setCurrentInput("");
   };
 
@@ -54,6 +54,7 @@ export const Input = ({
 
       <div style={{ display: "flex" }}>
         <button
+          style={mode === "add" ? { width: "250px" } : {}}
           className={mode === "add" ? "btn-add" : "btn-edit"}
           onClick={() => handleAdd(editId)}
         >

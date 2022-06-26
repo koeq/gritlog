@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { Header } from "./header";
 import { Input } from "./input";
 import { parse } from "./parser";
@@ -8,11 +8,9 @@ import { Mode, Training, Trainings } from "./types";
 import { useLocalStorage } from "./useLocalStorage";
 
 export const App = () => {
+  // TO DO: set inital defaultValue to null --> you can't JSON.parse(undefined), but null
   const [mode, setMode] = useLocalStorage<Mode>("mode", "add");
-  const [editId, setEditId] = useLocalStorage<number | undefined>(
-    "editId",
-    undefined
-  );
+  const [editId, setEditId] = useLocalStorage<number | null>("editId", null);
   const [id, setId] = useLocalStorage<number>("id", 0);
 
   const [currentInput, setCurrentInput] = useLocalStorage<string | undefined>(
@@ -34,7 +32,7 @@ export const App = () => {
     setCurrentInput(event.currentTarget.value);
   };
 
-  const handleAdd = (editId: number | undefined = undefined) => {
+  const handleAdd = (editId: number | null = null) => {
     if (currentTraining.exercises) {
       setTrainings((pastTrainings) => {
         return {
@@ -47,7 +45,7 @@ export const App = () => {
         setId((id) => ++id);
       } else if (mode === "edit") {
         setMode("add");
-        setEditId(undefined);
+        setEditId(null);
       }
 
       setCurrentInput("");
@@ -116,13 +114,11 @@ export const App = () => {
         />
 
         {/* DEBUGG PARSER:  */}
-        <div style={{ marginTop: "12px" }}>
+        <div style={{ margin: "40px 0" }}>
           <TrainingTable training={currentTraining} />
         </div>
       </div>
-      <br />
-      <br />
-      <br />
+
       {trainings && (
         <TrainingsTable
           trainings={trainings}
