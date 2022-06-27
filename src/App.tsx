@@ -1,5 +1,6 @@
 import React from "react";
 import { Header } from "./header";
+import { Login } from "./login";
 import { Input } from "./input";
 import { parse } from "./parser";
 import { TrainingTable } from "./training-table";
@@ -8,7 +9,6 @@ import { Mode, Training, Trainings } from "./types";
 import { useLocalStorage } from "./useLocalStorage";
 
 export const App = () => {
-  // TO DO: set inital defaultValue to null --> you can't JSON.parse(undefined), but null
   const [mode, setMode] = useLocalStorage<Mode>("mode", "add");
   const [editId, setEditId] = useLocalStorage<number | null>("editId", null);
   const [id, setId] = useLocalStorage<number>("id", 0);
@@ -112,6 +112,8 @@ export const App = () => {
           editId={editId}
           setEditId={setEditId}
         />
+
+        {/* <Login /> */}
 
         {/* DEBUGG PARSER:  */}
         <div style={{ margin: "40px 0" }}>
