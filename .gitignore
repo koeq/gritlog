@@ -22,3 +22,7 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# zipped lambda & minified lambda
+**/db-handler/index.js
+*.zip
