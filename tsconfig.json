@@ -16,7 +16,7 @@
     "noEmit": true,
     "jsx": "react-jsx"
   },
-  "include": ["src"],
-  "exclude": ["src/db-handler"],
+  "include": ["src", "db-handler"],
+  "exclude": ["db-handler"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }
