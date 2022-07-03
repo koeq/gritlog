@@ -1,0 +1,19 @@
+{
+  "name": "db-handler",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@types/sqlstring": "^2.3.0",
+    "sqlstring": "^2.3.3"
+  },
+  "devDependencies": {
+    "@types/aws-lambda": "^8.10.101",
+    "aws-lambda": "^1.0.7"
+  }
+}

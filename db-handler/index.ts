@@ -4,6 +4,7 @@ import {
   APIGatewayProxyEventQueryStringParameters,
   APIGatewayProxyResult,
 } from "aws-lambda";
+const SqlString = require("sqlstring");
 
 const RDS = new RDSDataService();
 const secretArn = process.env.DBSecretsStoreArn;
@@ -31,8 +32,9 @@ const getUser = async (
 
   let { userID } = queryStringParameters;
 
-  // TO DO: implement a more secure way the string to avoid SQL injection
-  const sql = `SELECT * FROM users WHERE userID = ${userID}`;
+  const sql = SqlString.format("SELECT * FROM users WHERE userID = ?", [
+    userID,
+  ]);
   params.sql = sql;
 
   try {
@@ -55,9 +57,10 @@ const addUser = async (
   }
 
   const { userID, email }: { userID: string; email: string } = JSON.parse(body);
-  console.log(userID, email);
-  // TO DO: implement a more secure way the string to avoid SQL injection
-  const sql = `INSERT INTO users (userID, email) VALUES (${userID}, '${email}')`;
+  const sql = SqlString.format(
+    "INSERT INTO users (userID, email) VALUES (?,?)",
+    [userID, email]
+  );
 
   params.sql = sql;
 
