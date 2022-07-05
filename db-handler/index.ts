@@ -27,11 +27,10 @@ const getUser = async (
   params: RDSDataService.ExecuteStatementRequest
 ) => {
   if (!queryStringParameters || !queryStringParameters.userID) {
-    return buildResponse(404, "Missing query parameter");
+    return buildResponse(500, "Missing query parameter");
   }
 
-  let { userID } = queryStringParameters;
-
+  const { userID } = queryStringParameters;
   const sql = SqlString.format("SELECT * FROM users WHERE userID = ?", [
     userID,
   ]);
@@ -75,6 +74,29 @@ const addUser = async (
   }
 };
 
+const deleteUser = async (
+  queryStringParameters: APIGatewayProxyEventQueryStringParameters | null,
+  params: RDSDataService.ExecuteStatementRequest
+) => {
+  if (!queryStringParameters || !queryStringParameters.userID) {
+    return buildResponse(500, "Missing query parameter");
+  }
+
+  const { userID } = queryStringParameters;
+  const sql = SqlString.format("DELETE FROM users WHERE userID = ?", [userID]);
+  params.sql = sql;
+
+  try {
+    return await RDS.executeStatement(params)
+      .promise()
+      .then((response) => buildResponse(200, "Deleted User"));
+  } catch (err) {
+    console.log(err);
+
+    return buildResponse(500, err);
+  }
+};
+
 const buildResponse = (statusCode: number, body: any): JsonResponse => {
   return {
     statusCode: statusCode,
@@ -88,7 +110,6 @@ const buildResponse = (statusCode: number, body: any): JsonResponse => {
 exports.handler = async (
   event: APIGatewayProxyEvent
 ): Promise<APIGatewayProxyResult> => {
-  console.log(secretArn, resourceArn);
   if (!secretArn || !resourceArn) {
     return buildResponse(500, "Missing aws arn");
   }
@@ -105,12 +126,16 @@ exports.handler = async (
 
   switch (true) {
     case event.httpMethod === "GET" && event.path === userPath:
-      event.queryStringParameters;
       response = await getUser(event.queryStringParameters, params);
       break;
 
     case event.httpMethod === "POST" && event.path === userPath:
       response = await addUser(event.body, params);
+      break;
+
+    case event.httpMethod === "DELETE" && event.path === userPath:
+      console.log("delete happend");
+      response = await deleteUser(event.queryStringParameters, params);
       break;
 
     default:
