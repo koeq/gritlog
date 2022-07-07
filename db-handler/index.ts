@@ -18,6 +18,9 @@ interface JsonResponse {
   statusCode: number;
   headers: {
     "Content-Type": string;
+    "Access-Control-Allow-Origin": string;
+    "Access-Control-Allow-Methods": string;
+    "Access-Control-Allow-Headers": string;
   };
   body: string;
 }
@@ -97,11 +100,22 @@ const deleteUser = async (
   }
 };
 
-const buildResponse = (statusCode: number, body: any): JsonResponse => {
+const returnUser = async (body: string | null) => {
+  if (!body) {
+    return buildResponse(404, "Missing body");
+  }
+
+  return buildResponse(200, body);
+};
+
+const buildResponse = (statusCode: number, body: any) => {
   return {
     statusCode: statusCode,
     headers: {
       "Content-Type": "application/json",
+      "Access-Control-Allow-Origin": "*",
+      "Access-Control-Allow-Methods": "POST",
+      "Access-Control-Allow-Headers": "Content-Type, Authorization",
     },
     body: JSON.stringify(body),
   };
@@ -130,7 +144,8 @@ exports.handler = async (
       break;
 
     case event.httpMethod === "POST" && event.path === userPath:
-      response = await addUser(event.body, params);
+      // response = await addUser(event.body, params);
+      response = await returnUser(event.body);
       break;
 
     case event.httpMethod === "DELETE" && event.path === userPath:

@@ -100,8 +100,8 @@ export const App = () => {
           alignItems: "center",
         }}
       >
-        <Header />
         <SignIn />
+        <Header />
         <br />
         <Input
           currentInput={currentInput}
@@ -113,8 +113,6 @@ export const App = () => {
           editId={editId}
           setEditId={setEditId}
         />
-
-        {/* <Login /> */}
 
         {/* DEBUGG PARSER:  */}
         <div style={{ margin: "40px 0" }}>

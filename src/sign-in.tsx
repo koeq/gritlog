@@ -12,7 +12,20 @@ interface Response {
   select_by: string;
 }
 const handleToken = (response: Response) => {
-  console.log(response.credential);
+  const requestOptions = {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      "x-api-key": import.meta.env.VITE_GATEWAY_API_KEY,
+    },
+    body: JSON.stringify(response.credential),
+  };
+  fetch(
+    "https://pp98tw0fj6.execute-api.eu-central-1.amazonaws.com/prod/user",
+    requestOptions
+  )
+    .then((res) => res.json())
+    .then((data) => console.log(data));
 };
 
 export const SignIn = (): JSX.Element => {
@@ -30,7 +43,7 @@ export const SignIn = (): JSX.Element => {
       ></div>
 
       {/* login button */}
-      {/* <div
+      <div
         className="g_id_signin"
         data-type="standard"
         data-size="large"
@@ -38,7 +51,7 @@ export const SignIn = (): JSX.Element => {
         data-text="sign_in_with"
         data-shape="rectangular"
         data-logo_alignment="left"
-      ></div> */}
+      ></div>
     </>
   );
 };

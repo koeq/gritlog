@@ -7,7 +7,7 @@
     "build": "tsc && vite build",
     "preview": "vite preview",
     "test": "jest",
-    "handler:deploy": "tsc db-handler/index.ts &&  cd db-handler && zip -r db-handler.zip index.js node_modules/sqlstring && cd .. && aws lambda update-function-code --function-name db-handler --region eu-central-1 --zip-file fileb://db-handler/db-handler.zip"
+    "db-handler:deploy": "tsc db-handler/index.ts &&  cd db-handler && zip -r db-handler.zip index.js node_modules/sqlstring && cd .. && aws lambda update-function-code --function-name db-handler --region eu-central-1 --zip-file fileb://db-handler/db-handler.zip"
   },
   "dependencies": {
     "react": "^18.0.0",
