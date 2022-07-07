@@ -1,12 +1,12 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Header } from "./header";
-import { Login } from "./login";
 import { Input } from "./input";
 import { parse } from "./parser";
 import { TrainingTable } from "./training-table";
 import { TrainingsTable } from "./trainings-table";
 import { Mode, Training, Trainings } from "./types";
 import { useLocalStorage } from "./useLocalStorage";
+import { SignIn } from "./sign-in";
 
 export const App = () => {
   const [mode, setMode] = useLocalStorage<Mode>("mode", "add");
@@ -101,6 +101,7 @@ export const App = () => {
         }}
       >
         <Header />
+        <SignIn />
         <br />
         <Input
           currentInput={currentInput}
