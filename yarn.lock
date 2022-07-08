@@ -674,6 +674,16 @@
   dependencies:
     "@babel/types" "^7.3.0"
 
+"@types/google-one-tap@^1.2.0":
+  "integrity" "sha512-now7U24Mqe7MLvBUBaYN1YJiKN4ghT76pS2OzVZS66mG6llZP+MvXxPICiK1ejHvAlEV1poDm6sQSB6lr/Jj+w=="
+  "resolved" "https://registry.npmjs.org/@types/google-one-tap/-/google-one-tap-1.2.0.tgz"
+  "version" "1.2.0"
+
+"@types/google.accounts@^0.0.2":
+  "integrity" "sha512-wmnbDIiGZNr3dJ+NCGiWme78rhsf5gn1YJM6uRjf3FCb8lrRptybQeAnHQ+GDfKSo+z2hRxhS32VRDXJEAvCmg=="
+  "resolved" "https://registry.npmjs.org/@types/google.accounts/-/google.accounts-0.0.2.tgz"
+  "version" "0.0.2"
+
 "@types/graceful-fs@^4.1.3":
   "integrity" "sha512-anKkLmZZ+xm4p8JWBf4hElkM4XR+EZeA2M9BAkkTldmcyDY4mbdIJnRghDJH3Ov5ooY7/UAoENtmdMSkaAd7Cw=="
   "resolved" "https://registry.npmjs.org/@types/graceful-fs/-/graceful-fs-4.1.5.tgz"

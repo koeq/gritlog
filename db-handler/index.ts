@@ -4,6 +4,7 @@ import {
   APIGatewayProxyEventQueryStringParameters,
   APIGatewayProxyResult,
 } from "aws-lambda";
+const axios = require("axios").default;
 const SqlString = require("sqlstring");
 
 const RDS = new RDSDataService();
@@ -102,19 +103,37 @@ const deleteUser = async (
 
 const returnUser = async (body: string | null) => {
   if (!body) {
-    return buildResponse(404, "Missing body");
+    return buildResponse(500, "Missing body");
   }
-
-  return buildResponse(200, body);
+  const userData = await fetchGoogleUserData(JSON.parse(body));
+  return buildResponse(200, userData);
 };
 
-const buildResponse = (statusCode: number, body: any) => {
+const fetchGoogleUserData = async (jsonWebToken: string | null) => {
+  if (!jsonWebToken) {
+    return;
+  }
+
+  const authUrl = `https://www.googleapis.com/oauth2/v3/tokeninfo?id_token=${jsonWebToken}`;
+
+  let userData;
+  await axios
+    .get(authUrl)
+    .then((res) => res.json())
+    .then((data) => (userData = data))
+    .catch((err) => console.log(err));
+
+  console.log(userData);
+  return userData;
+};
+
+const buildResponse = (statusCode: number, body: any): JsonResponse => {
   return {
     statusCode: statusCode,
     headers: {
       "Content-Type": "application/json",
       "Access-Control-Allow-Origin": "*",
-      "Access-Control-Allow-Methods": "POST",
+      "Access-Control-Allow-Methods": "OPTIONS,POST,GET",
       "Access-Control-Allow-Headers": "Content-Type, Authorization",
     },
     body: JSON.stringify(body),
@@ -144,12 +163,13 @@ exports.handler = async (
       break;
 
     case event.httpMethod === "POST" && event.path === userPath:
+      response = await returnUser(event.body);
       // response = await addUser(event.body, params);
+
       response = await returnUser(event.body);
       break;
 
     case event.httpMethod === "DELETE" && event.path === userPath:
-      console.log("delete happend");
       response = await deleteUser(event.queryStringParameters, params);
       break;
 

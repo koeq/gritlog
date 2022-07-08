@@ -9,10 +9,10 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@types/sqlstring": "^2.3.0",
     "sqlstring": "^2.3.3"
   },
   "devDependencies": {
+    "@types/sqlstring": "^2.3.0",
     "@types/aws-lambda": "^8.10.101",
     "aws-lambda": "^1.0.7"
   }

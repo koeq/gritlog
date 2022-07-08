@@ -7,8 +7,30 @@ import { TrainingsTable } from "./trainings-table";
 import { Mode, Training, Trainings } from "./types";
 import { useLocalStorage } from "./useLocalStorage";
 import { SignIn } from "./sign-in";
+import { CredentialResponse } from "google-one-tap";
+
+const handleSignIn = async (response: CredentialResponse) => {
+  const jsonWebToken = response.credential;
+  const authUrl = `https://www.googleapis.com/oauth2/v3/tokeninfo?id_token=${jsonWebToken}`;
+
+  try {
+    const res = await fetch(authUrl);
+    const googleUserData = await res.json();
+    const { given_name, family_name, email } = googleUserData;
+  } catch (err) {
+    console.log(err);
+  }
+};
 
 export const App = () => {
+  // SIGN IN
+  useEffect(() => {
+    google.accounts.id.initialize({
+      client_id: import.meta.env.VITE_DATA_CLIENT_ID,
+      callback: handleSignIn,
+    });
+  }, []);
+
   const [mode, setMode] = useLocalStorage<Mode>("mode", "add");
   const [editId, setEditId] = useLocalStorage<number | null>("editId", null);
   const [id, setId] = useLocalStorage<number>("id", 0);
