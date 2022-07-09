@@ -3,20 +3,12 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
-  "scripts": {
-    "dev": "vite",
-    "build": "tsc && vite build",
-    "preview": "vite preview"
-  },
   "dependencies": {
     "google-auth-library": "^8.1.0",
     "sqlstring": "^2.3.3"
   },
   "devDependencies": {
-    "typescript": "^4.5.4",
-    "vite": "^2.9.9",
     "@types/aws-lambda": "^8.10.101",
-    "@types/sqlstring": "^2.3.0",
-    "aws-lambda": "^1.0.7"
+    "@types/sqlstring": "^2.3.0"
   }
 }
