@@ -4,7 +4,6 @@ import {
   APIGatewayProxyEventQueryStringParameters,
   APIGatewayProxyResult,
 } from "aws-lambda";
-const axios = require("axios").default;
 const SqlString = require("sqlstring");
 
 const RDS = new RDSDataService();
@@ -12,8 +11,6 @@ const secretArn = process.env.DBSecretsStoreArn;
 const resourceArn = process.env.DBAuroraClusterArn;
 const database = process.env.DatabaseName;
 const userPath = "/user";
-const trainingPath = "/training";
-const exercisePath = "/exercise";
 
 interface JsonResponse {
   statusCode: number;
@@ -114,17 +111,7 @@ const fetchGoogleUserData = async (jsonWebToken: string | null) => {
     return;
   }
 
-  const authUrl = `https://www.googleapis.com/oauth2/v3/tokeninfo?id_token=${jsonWebToken}`;
-
-  let userData;
-  await axios
-    .get(authUrl)
-    .then((res) => res.json())
-    .then((data) => (userData = data))
-    .catch((err) => console.log(err));
-
-  console.log(userData);
-  return userData;
+  return jsonWebToken;
 };
 
 const buildResponse = (statusCode: number, body: any): JsonResponse => {
