@@ -48,32 +48,32 @@ const getUser = async (
   }
 };
 
-const addUser = async (
-  body: string | null,
-  params: RDSDataService.ExecuteStatementRequest
-) => {
-  if (!body) {
-    return buildResponse(404, "Missing body");
-  }
+// const addUser = async (
+//   body: string | null,
+//   params: RDSDataService.ExecuteStatementRequest
+// ) => {
+//   if (!body) {
+//     return buildResponse(404, "Missing body");
+//   }
 
-  const { userID, email }: { userID: string; email: string } = JSON.parse(body);
-  const sql = SqlString.format(
-    "INSERT INTO users (userID, email) VALUES (?,?)",
-    [userID, email]
-  );
+//   const { userID, email }: { userID: string; email: string } = JSON.parse(body);
+//   const sql = SqlString.format(
+//     "INSERT INTO users (userID, email) VALUES (?,?)",
+//     [userID, email]
+//   );
 
-  params.sql = sql;
+//   params.sql = sql;
 
-  try {
-    return await RDS.executeStatement(params)
-      .promise()
-      .then((response) => buildResponse(201, "Created user"));
-  } catch (err) {
-    console.log(err);
+//   try {
+//     return await RDS.executeStatement(params)
+//       .promise()
+//       .then((response) => buildResponse(201, "Created user"));
+//   } catch (err) {
+//     console.log(err);
 
-    return buildResponse(404, err);
-  }
-};
+//     return buildResponse(404, err);
+//   }
+// };
 
 const deleteUser = async (
   queryStringParameters: APIGatewayProxyEventQueryStringParameters | null,
@@ -90,7 +90,7 @@ const deleteUser = async (
   try {
     return await RDS.executeStatement(params)
       .promise()
-      .then((response) => buildResponse(200, "Deleted User"));
+      .then(() => buildResponse(200, "Deleted User"));
   } catch (err) {
     console.log(err);
 
@@ -102,11 +102,11 @@ const returnUser = async (body: string | null) => {
   if (!body) {
     return buildResponse(500, "Missing body");
   }
-  const userData = await fetchGoogleUserData(JSON.parse(body));
+  const userData = await verifyJwtToken(JSON.parse(body));
   return buildResponse(200, userData);
 };
 
-const fetchGoogleUserData = async (jsonWebToken: string | null) => {
+const verifyJwtToken = async (jsonWebToken: string | null) => {
   if (!jsonWebToken) {
     return;
   }
@@ -153,7 +153,6 @@ exports.handler = async (
       response = await returnUser(event.body);
       // response = await addUser(event.body, params);
 
-      response = await returnUser(event.body);
       break;
 
     case event.httpMethod === "DELETE" && event.path === userPath:

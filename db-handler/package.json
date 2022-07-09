@@ -4,16 +4,19 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "preview": "vite preview"
   },
-  "author": "",
-  "license": "ISC",
   "dependencies": {
+    "google-auth-library": "^8.1.0",
     "sqlstring": "^2.3.3"
   },
   "devDependencies": {
-    "@types/sqlstring": "^2.3.0",
+    "typescript": "^4.5.4",
+    "vite": "^2.9.9",
     "@types/aws-lambda": "^8.10.101",
+    "@types/sqlstring": "^2.3.0",
     "aws-lambda": "^1.0.7"
   }
 }
