@@ -1,17 +1,3 @@
-import React, { useEffect } from "react";
-
-// declare global {
-//   interface Window {
-//     handleToken: (response: Response) => void;
-//   }
-// }
-
-// interface Response {
-//   clientId: string;
-//   credential: string;
-//   select_by: string;
-// }
-
 // interface GoogleUserData {
 //   iss: string;
 //   nbf: string;
