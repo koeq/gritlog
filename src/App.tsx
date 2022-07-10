@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Header } from "./header";
 import { Input } from "./input";
 import { parse } from "./parser";
@@ -6,12 +6,12 @@ import { TrainingTable } from "./training-table";
 import { TrainingsTable } from "./trainings-table";
 import { Mode, Training, Trainings } from "./types";
 import { useLocalStorage } from "./use-local-storage";
-import { SignIn } from "./sign-in";
-import { useSignIn } from "./sign-in/use-sign-in";
+import { SignIn, useSignIn } from "./sign-in";
 
 export const App = () => {
+  const [loggedIn, setLoggedIn] = useState(false);
   // the condition when the user is logged probably has to change
-  const jsonWebToken = useSignIn();
+  useSignIn(setLoggedIn);
 
   const [mode, setMode] = useLocalStorage<Mode>("mode", "add");
   const [editId, setEditId] = useLocalStorage<number | null>("editId", null);
@@ -95,7 +95,7 @@ export const App = () => {
 
   return (
     <>
-      <SignIn jsonWebToken={jsonWebToken} />
+      <SignIn loggedIn={loggedIn} />
       <div
         style={{
           width: "100%",

@@ -8,6 +8,7 @@ const secretArn = process.env.DBSecretsStoreArn;
 const resourceArn = process.env.DBAuroraClusterArn;
 const database = process.env.DatabaseName;
 const userPath = "/user";
+const authPath = "/auth";
 
 exports.handler = async (
   event: APIGatewayProxyEvent
@@ -24,25 +25,39 @@ exports.handler = async (
   };
 
   console.log(JSON.stringify(event, null, 2));
-  let response: JsonResponse;
+  let response: JsonResponse = { body: "", headers: {}, statusCode: 0 };
 
-  switch (true) {
-    case event.httpMethod === "GET" && event.path === userPath:
-      response = await getUser(event.queryStringParameters, params);
-      break;
+  if (event.path === userPath) {
+    switch (event.httpMethod) {
+      case "GET":
+        response = await getUser(event.queryStringParameters, params);
+        break;
 
-    case event.httpMethod === "POST" && event.path === userPath:
-      response = await returnUser(event.body);
-      // response = await addUser(event.body, params);
+      case "POST":
+        response = await returnUser(event.body);
+        // response = await addUser(event.body, params);
 
-      break;
+        break;
 
-    case event.httpMethod === "DELETE" && event.path === userPath:
-      response = await deleteUser(event.queryStringParameters, params);
-      break;
+      case "DELETE":
+        response = await deleteUser(event.queryStringParameters, params);
+        break;
 
-    default:
-      response = buildResponse(404, "404 not found");
+      default:
+        response = buildResponse(404, "404 not found, user");
+    }
+  }
+
+  if (event.path === authPath) {
+    switch (event.httpMethod) {
+      case "POST":
+        response = buildResponse(200, event.body, true);
+        console.log(response);
+        break;
+
+      default:
+        response = buildResponse(404, "404 not found, auth");
+    }
   }
 
   return response;

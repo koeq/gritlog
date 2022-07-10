@@ -20,14 +20,14 @@
 // }
 
 // const handleToken = async (response: Response) => {
-//   // const requestOptions = {
-//   //   method: "POST",
-//   //   headers: {
-//   //     "Content-Type": "application/json",
-//   //     "x-api-key": import.meta.env.VITE_GATEWAY_API_KEY,
-//   //   },
-//   //   body: JSON.stringify(response.credential),
-//   // };
+// const requestOptions = {
+//   method: "POST",
+//   headers: {
+//     "Content-Type": "application/json",
+//     "x-api-key": import.meta.env.VITE_GATEWAY_API_KEY,
+//   },
+//   body: JSON.stringify(response.credential),
+// };
 
 //   const jsonWebToken = response.credential;
 //   const authUrl = `https://www.googleapis.com/oauth2/v3/tokeninfo?id_token=${jsonWebToken}`;
@@ -40,15 +40,11 @@
 //     console.log(err);
 //   }
 
-export const SignIn = ({
-  jsonWebToken,
-}: {
-  jsonWebToken: string | undefined;
-}): JSX.Element => {
+export const SignIn = ({ loggedIn }: { loggedIn: boolean }): JSX.Element => {
   return (
     <div
       style={
-        jsonWebToken && jsonWebToken.length > 0
+        loggedIn
           ? { display: "none" }
           : {
               display: "flex",
