@@ -14,7 +14,7 @@ export const buildResponse = (statusCode: number, body: any): JsonResponse => {
     statusCode: statusCode,
     headers: {
       "Content-Type": "application/json",
-      "Access-Control-Allow-Origin": "*",
+      "Access-Control-Allow-Origin": "http://localhost:3000/",
       "Access-Control-Allow-Methods": "OPTIONS,POST,GET",
       "Access-Control-Allow-Headers": "Content-Type, Authorization",
     },

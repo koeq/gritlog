@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { Header } from "./header";
 import { Input } from "./input";
 import { parse } from "./parser";
@@ -11,7 +11,6 @@ import { useSignIn } from "./sign-in/use-sign-in";
 
 export const App = () => {
   // the condition when the user is logged probably has to change
-  const [signedIn, setSignedIn] = useState(false);
   const jsonWebToken = useSignIn();
 
   const [mode, setMode] = useLocalStorage<Mode>("mode", "add");
