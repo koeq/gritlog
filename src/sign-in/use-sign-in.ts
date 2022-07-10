@@ -11,10 +11,11 @@ export const useSignIn = () => {
     });
 
     // login button
-    // window.google.accounts.id.renderButton(document.getElementById("signIn")!, {
-    //   shape: "rectangular",
-    //   theme: "outline",
-    // });
+    window.google.accounts.id.renderButton(document.getElementById("signIn")!, {
+      shape: "rectangular",
+      theme: "outline",
+      size: "large",
+    });
 
     // one tap button
     window.google.accounts.id.prompt();

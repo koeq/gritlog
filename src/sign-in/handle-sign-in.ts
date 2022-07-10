@@ -5,6 +5,7 @@ export const handleSignIn = async (
   setJsonWebToken: React.Dispatch<React.SetStateAction<string | undefined>>
 ) => {
   const jsonWebToken = response.credential;
+
   setJsonWebToken(jsonWebToken);
   // const authUrl = `https://www.googleapis.com/oauth2/v3/tokeninfo?id_token=${jsonWebToken}`;
 

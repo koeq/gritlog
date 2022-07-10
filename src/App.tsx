@@ -1,16 +1,19 @@
-import React from "react";
+import React, { useState } from "react";
 import { Header } from "./header";
 import { Input } from "./input";
 import { parse } from "./parser";
 import { TrainingTable } from "./training-table";
 import { TrainingsTable } from "./trainings-table";
 import { Mode, Training, Trainings } from "./types";
-import { useLocalStorage } from "./useLocalStorage";
-import { SignIn } from "./login";
-import { useSignIn } from "./login/useSignIn";
+import { useLocalStorage } from "./use-local-storage";
+import { SignIn } from "./sign-in";
+import { useSignIn } from "./sign-in/use-sign-in";
 
 export const App = () => {
+  // the condition when the user is logged probably has to change
+  const [signedIn, setSignedIn] = useState(false);
   const jsonWebToken = useSignIn();
+
   const [mode, setMode] = useLocalStorage<Mode>("mode", "add");
   const [editId, setEditId] = useLocalStorage<number | null>("editId", null);
   const [id, setId] = useLocalStorage<number>("id", 0);
@@ -93,6 +96,7 @@ export const App = () => {
 
   return (
     <>
+      <SignIn jsonWebToken={jsonWebToken} />
       <div
         style={{
           width: "100%",
@@ -102,7 +106,6 @@ export const App = () => {
           alignItems: "center",
         }}
       >
-        <SignIn />
         <Header />
         <br />
         <Input

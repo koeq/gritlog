@@ -1,26 +1,31 @@
 {
   "name": "backslash",
-  "private": true,
   "version": "0.0.0",
+  "private": true,
   "scripts": {
-    "dev": "vite",
     "build": "tsc && vite build",
+    "db-handler:deploy": "tsc db-handler/index.ts &&  cd db-handler && zip -r  db-handler.zip * -x *.ts utils/*.ts package-lock.json package.json   && cd .. && aws lambda update-function-code --function-name db-handler --region eu-central-1 --zip-file fileb://db-handler/db-handler.zip",
+    "dev": "vite",
+    "fix": "npm run format && npm run sort-package-jsons",
+    "format": "prettier --write '**/*.{ts,tsx,md,json,jsx,css}'",
     "preview": "vite preview",
-    "test": "jest",
-    "db-handler:deploy": "tsc db-handler/index.ts &&  cd db-handler && zip -r  db-handler.zip * -x *.ts utils/*.ts package-lock.json package.json   && cd .. && aws lambda update-function-code --function-name db-handler --region eu-central-1 --zip-file fileb://db-handler/db-handler.zip"
+    "sort-package-jsons": "sort-package-json package.json src/*/package.json",
+    "test": "jest"
   },
   "dependencies": {
     "react": "^18.0.0",
     "react-dom": "^18.0.0"
   },
   "devDependencies": {
+    "@types/google-one-tap": "^1.2.0",
     "@types/jest": "^28.1.3",
     "@types/react": "^18.0.0",
     "@types/react-dom": "^18.0.0",
-    "@types/google-one-tap": "^1.2.0",
     "@vitejs/plugin-react": "^1.3.0",
     "aws-sdk": "^2.1167.0",
     "jest": "^28.1.1",
+    "prettier": "^2.7.1",
+    "sort-package-json": "^1.57.0",
     "ts-jest": "^28.0.5",
     "ts-node": "^10.8.1",
     "typescript": "^4.6.3",

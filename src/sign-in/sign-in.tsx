@@ -40,6 +40,28 @@
 //     console.log(err);
 //   }
 
-export const SignIn = (): JSX.Element => {
-  return <div id="signIn"></div>;
+export const SignIn = ({
+  jsonWebToken,
+}: {
+  jsonWebToken: string | undefined;
+}): JSX.Element => {
+  return (
+    <div
+      style={
+        jsonWebToken && jsonWebToken.length > 0
+          ? { display: "none" }
+          : {
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              width: "100%",
+              height: "100%",
+              position: "fixed",
+              backdropFilter: "blur(6px)",
+            }
+      }
+    >
+      <div id="signIn"></div>
+    </div>
+  );
 };

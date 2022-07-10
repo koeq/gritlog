@@ -10,7 +10,7 @@ export const getUser = async (
   if (!queryStringParameters || !queryStringParameters.userID) {
     return buildResponse(500, "Missing query parameter");
   }
-  
+
   const RDS = new RDSDataService();
   const { userID } = queryStringParameters;
   const sql = SqlString.format("SELECT * FROM users WHERE userID = ?", [
