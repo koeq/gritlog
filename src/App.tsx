@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Header } from "./header";
 import { Input } from "./input";
 import { parse } from "./parser";
@@ -10,9 +10,7 @@ import { SignIn, useSignIn } from "./sign-in";
 
 export const App = () => {
   const [loggedIn, setLoggedIn] = useState(false);
-  // the condition when the user is logged probably has to change
   useSignIn(setLoggedIn);
-
   const [mode, setMode] = useLocalStorage<Mode>("mode", "add");
   const [editId, setEditId] = useLocalStorage<number | null>("editId", null);
   const [id, setId] = useLocalStorage<number>("id", 0);

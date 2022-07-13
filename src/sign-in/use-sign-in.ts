@@ -34,20 +34,32 @@ const handleSignIn = async (
 export const useSignIn = (
   setLoggedIn: React.Dispatch<React.SetStateAction<boolean>>
 ) => {
+  // check if user has an active session
+  // yes? -> logg user in
+  // no? -> use sign in via google
   useEffect(() => {
-    window.google.accounts.id.initialize({
-      client_id: import.meta.env.VITE_DATA_CLIENT_ID,
-      callback: (response) => handleSignIn(response, setLoggedIn),
-    });
+    // TO DO: set up GET route on API gateway
+    // implement GET request to /auth endpoint
+    if (false) {
+      setLoggedIn(true);
+    } else {
+      window.google.accounts.id.initialize({
+        client_id: import.meta.env.VITE_DATA_CLIENT_ID,
+        callback: (response) => handleSignIn(response, setLoggedIn),
+      });
 
-    // login button
-    window.google.accounts.id.renderButton(document.getElementById("signIn")!, {
-      shape: "rectangular",
-      theme: "outline",
-      size: "large",
-    });
+      // login button
+      window.google.accounts.id.renderButton(
+        document.getElementById("signIn")!,
+        {
+          shape: "rectangular",
+          theme: "outline",
+          size: "large",
+        }
+      );
 
-    // one tap button
-    window.google.accounts.id.prompt();
+      // one tap button
+      window.google.accounts.id.prompt();
+    }
   }, []);
 };

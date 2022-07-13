@@ -14,13 +14,10 @@ export interface JsonResponse {
 export const buildResponse = (
   statusCode: number,
   body: any,
-  setCookie?: boolean
+  cookie?: {
+    "Set-Cookie": string;
+  }
 ): JsonResponse => {
-  const cookie = {
-    "Set-Cookie":
-      "TESTID=444; path=/; expires=Fri, 13-Feb-2032 13:27:44 GMT; secure; HttpOnly; SameSite=None",
-  };
-
   return {
     statusCode: statusCode,
     headers: {
@@ -29,7 +26,7 @@ export const buildResponse = (
       "Access-Control-Allow-Methods": "OPTIONS,POST,GET",
       "Access-Control-Allow-Headers": "Content-Type, Authorization",
       "Access-Control-Allow-Credentials": "true",
-      ...(setCookie && cookie),
+      ...(cookie && cookie),
     },
     body: JSON.stringify(body),
   };

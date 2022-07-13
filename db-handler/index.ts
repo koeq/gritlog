@@ -1,8 +1,13 @@
+import {
+  addUser,
+  buildResponse,
+  JsonResponse,
+  getUser,
+  deleteUser,
+  setAuthCookie,
+} from "./utils";
 import { RDSDataService } from "aws-sdk";
 import { APIGatewayProxyEvent, APIGatewayProxyResult } from "aws-lambda";
-import { buildResponse, JsonResponse } from "./utils/build-response";
-import { getUser } from "./utils/get-user";
-import { deleteUser } from "./utils/delete-user";
 
 const secretArn = process.env.DBSecretsStoreArn;
 const resourceArn = process.env.DBAuroraClusterArn;
@@ -34,8 +39,7 @@ exports.handler = async (
         break;
 
       case "POST":
-        response = await returnUser(event.body);
-        // response = await addUser(event.body, params);
+        response = await addUser(event.body, params);
 
         break;
 
@@ -51,7 +55,7 @@ exports.handler = async (
   if (event.path === authPath) {
     switch (event.httpMethod) {
       case "POST":
-        response = buildResponse(200, event.body, true);
+        response = setAuthCookie(event.body);
         console.log(response);
         break;
 
@@ -61,20 +65,4 @@ exports.handler = async (
   }
 
   return response;
-};
-
-const returnUser = async (body: string | null) => {
-  if (!body) {
-    return buildResponse(500, "Missing body");
-  }
-  const userData = await verifyJwtToken(JSON.parse(body));
-  return buildResponse(200, userData);
-};
-
-const verifyJwtToken = async (jsonWebToken: string | null) => {
-  if (!jsonWebToken) {
-    return;
-  }
-
-  return jsonWebToken;
 };
