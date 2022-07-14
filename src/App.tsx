@@ -9,8 +9,8 @@ import { useLocalStorage } from "./use-local-storage";
 import { SignIn, useSignIn } from "./sign-in";
 
 export const App = () => {
-  const [loggedIn, setLoggedIn] = useState(false);
-  useSignIn(setLoggedIn);
+  const [signedIn, setSignedIn] = useState(false);
+  useSignIn(setSignedIn);
   const [mode, setMode] = useLocalStorage<Mode>("mode", "add");
   const [editId, setEditId] = useLocalStorage<number | null>("editId", null);
   const [id, setId] = useLocalStorage<number>("id", 0);
@@ -93,7 +93,7 @@ export const App = () => {
 
   return (
     <>
-      <SignIn loggedIn={loggedIn} />
+      <SignIn signedIn={signedIn} />
       <div
         style={{
           width: "100%",

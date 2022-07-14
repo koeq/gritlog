@@ -1,6 +1,7 @@
 import {
   addUser,
   buildResponse,
+  isUserAuthenticated,
   JsonResponse,
   getUser,
   deleteUser,
@@ -54,6 +55,10 @@ exports.handler = async (
 
   if (event.path === authPath) {
     switch (event.httpMethod) {
+      case "GET":
+        response = isUserAuthenticated(event.headers);
+        break;
+
       case "POST":
         response = setAuthCookie(event.body);
         console.log(response);
