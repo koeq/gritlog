@@ -19,7 +19,8 @@ const headers = {
 
 const handleSignIn = async (
   response: CredentialResponse,
-  setSignedIn: React.Dispatch<React.SetStateAction<boolean>>
+  setSignedIn: React.Dispatch<React.SetStateAction<boolean>>,
+  setUserData: React.Dispatch<unknown>
 ) => {
   const requestOptions = {
     ...credentials,
@@ -31,11 +32,30 @@ const handleSignIn = async (
 
   try {
     const res = await fetch(authUrl, requestOptions);
+    const data = await res.json();
 
     // log in if cookie was set
-    if (res.status === 200) {
+    if (res.status === 201 || res.status === 200) {
       setSignedIn(true);
     }
+    setUserData(data);
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+const checkAuthentication = async () => {
+  const requestOptions = {
+    ...credentials,
+    ...headers,
+    method: "GET",
+  };
+
+  try {
+    const res = await fetch(authUrl, requestOptions);
+    const data = await res.json();
+
+    return data;
   } catch (err) {
     console.log(err);
   }
@@ -44,23 +64,21 @@ const handleSignIn = async (
 export const useSignIn = (
   setSignedIn: React.Dispatch<React.SetStateAction<boolean>>
 ) => {
+  const [userData, setUserData] = useState<any>();
+
   useEffect(() => {
-    const authenticate = async () => {
-      const requestOptions = {
-        ...credentials,
-        ...headers,
-        method: "GET",
-      };
+    const authOrSignIn = async () => {
       try {
-        const res = await fetch(authUrl, requestOptions);
-        const data = await res.json();
+        const data = await checkAuthentication();
+
         if (data.cookie) {
           setSignedIn(true);
         } else {
           // use google sign in flow
           window.google.accounts.id.initialize({
             client_id: import.meta.env.VITE_DATA_CLIENT_ID,
-            callback: (response) => handleSignIn(response, setSignedIn),
+            callback: (response) =>
+              handleSignIn(response, setSignedIn, setUserData),
           });
 
           // login button
@@ -81,6 +99,8 @@ export const useSignIn = (
       }
     };
 
-    authenticate();
+    authOrSignIn();
   }, []);
+
+  return userData;
 };

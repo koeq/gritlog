@@ -9,8 +9,11 @@ import { useLocalStorage } from "./use-local-storage";
 import { SignIn, useSignIn } from "./sign-in";
 
 export const App = () => {
+  // SIGN IN
   const [signedIn, setSignedIn] = useState(false);
-  useSignIn(setSignedIn);
+  const userData = useSignIn(setSignedIn);
+  console.log(userData);
+
   const [mode, setMode] = useLocalStorage<Mode>("mode", "add");
   const [editId, setEditId] = useLocalStorage<number | null>("editId", null);
   const [id, setId] = useLocalStorage<number>("id", 0);
