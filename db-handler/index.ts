@@ -1,11 +1,12 @@
 import {
-  addUser,
   buildResponse,
   isUserAuthenticated,
   JsonResponse,
   getUser,
   deleteUser,
   setAuthCookie,
+  checkForUser,
+  createUser,
 } from "./utils";
 import { RDSDataService } from "aws-sdk";
 import { APIGatewayProxyEvent, APIGatewayProxyResult } from "aws-lambda";
@@ -40,8 +41,8 @@ exports.handler = async (
         break;
 
       case "POST":
-        response = await addUser(event.body, params);
-
+        // TO DO: CHECK
+        // is this even needed anymore?
         break;
 
       case "DELETE":
@@ -49,7 +50,7 @@ exports.handler = async (
         break;
 
       default:
-        response = buildResponse(404, "404 not found, user");
+        response = buildResponse(404, "404 not found");
     }
   }
 
@@ -60,12 +61,17 @@ exports.handler = async (
         break;
 
       case "POST":
-        response = setAuthCookie(event.body);
-        console.log(response);
+        const user = await checkForUser(event.body, params);
+
+        if (user) {
+          response = setAuthCookie(200, event.body);
+        } else {
+          response = await createUser(event.body, params);
+        }
         break;
 
       default:
-        response = buildResponse(404, "404 not found, auth");
+        response = buildResponse(404, "404 not found");
     }
   }
 

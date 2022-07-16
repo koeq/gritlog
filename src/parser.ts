@@ -18,7 +18,7 @@ export const parse = (
   }
 
   exerciseLines.forEach((line) => {
-    // match every number of charakters or signs from the start of the string, case insensitive and trim whitespace
+    // match every number of characters or signs from the start of the string, case insensitive and trim whitespace
     const exerciseNameMatch = line.match(
       /^[-!$%^&*()_+|~=`{}\[\]:";'<>?,.\/a-z\s]+/i
     );

@@ -26,7 +26,7 @@ export const buildResponse = (
       "Access-Control-Allow-Methods": "OPTIONS,POST,GET",
       "Access-Control-Allow-Headers": "Content-Type, Authorization",
       "Access-Control-Allow-Credentials": "true",
-      ...(cookie && cookie),
+      ...cookie,
     },
     body: JSON.stringify(body),
   };

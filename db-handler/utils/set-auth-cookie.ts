@@ -1,8 +1,8 @@
 import { buildResponse } from "./build-response";
 
-export const setAuthCookie = (body: string | null) => {
+export const setAuthCookie = (statusCode: number, body: string | null) => {
   if (!body) {
-    return buildResponse(404, "no body");
+    return buildResponse(401, "Not authorized");
   }
   const jwt = JSON.parse(body);
 
@@ -12,5 +12,5 @@ export const setAuthCookie = (body: string | null) => {
     }; Secure; HttpOnly; SameSite=none`,
   };
 
-  return buildResponse(200, "cookie was set", cookie);
+  return buildResponse(statusCode, "auth cookie was set", cookie);
 };
