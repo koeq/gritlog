@@ -13,7 +13,7 @@ export interface JsonResponse {
 
 export const buildResponse = (
   statusCode: number,
-  body: any,
+  body: unknown,
   cookie?: {
     "Set-Cookie": string;
   }

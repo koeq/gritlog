@@ -1,6 +1,6 @@
 import {
   buildResponse,
-  isUserAuthenticated,
+  checkAuthentication,
   JsonResponse,
   getUser,
   deleteUser,
@@ -57,7 +57,7 @@ exports.handler = async (
   if (event.path === authPath) {
     switch (event.httpMethod) {
       case "GET":
-        response = isUserAuthenticated(event.headers);
+        response = checkAuthentication(event.headers);
         break;
 
       case "POST":
