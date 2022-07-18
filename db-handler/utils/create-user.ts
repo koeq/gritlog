@@ -30,29 +30,30 @@ export const createUser = async (
   params: RDSDataService.ExecuteStatementRequest
 ) => {
   if (!body) {
-    return buildResponse(404, "Missing body");
+    return buildResponse(500, "No body found");
   }
 
-  const decoded: GoogleUserData = jwt_decode(body);
-  const { email } = decoded;
-
-  const RDS = new RDSDataService();
-  const sql = SqlString.format("INSERT INTO users (email) VALUES (?)", [email]);
-
-  params.sql = sql;
-
   try {
+    const decoded: GoogleUserData = jwt_decode(body);
+    const { email } = decoded;
+    const RDS = new RDSDataService();
+    const sql = SqlString.format("INSERT INTO users (email) VALUES (?)", [
+      email,
+    ]);
+
+    params.sql = sql;
+
     const res = await RDS.executeStatement(params).promise();
 
     if (res.numberOfRecordsUpdated && res.numberOfRecordsUpdated > 0) {
       return setAuthCookie(201, body);
     } else {
-      return buildResponse(404, "couldn't create user");
+      return buildResponse(500, "Couldn't create user");
     }
   } catch (err) {
     console.log(err);
 
-    return buildResponse(404, err);
+    return buildResponse(500, err);
   }
 };
 
@@ -61,16 +62,18 @@ export const checkForUser = async (
   params: RDSDataService.ExecuteStatementRequest
 ) => {
   if (!body) {
-    return;
+    return false;
   }
 
-  const decoded: GoogleUserData = jwt_decode(body);
-  const { email } = decoded;
-  const RDS = new RDSDataService();
-  const sql = SqlString.format("SELECT * FROM users WHERE email = ?", [email]);
-  params.sql = sql;
-
   try {
+    const decoded: GoogleUserData = jwt_decode(body);
+    const { email } = decoded;
+    const RDS = new RDSDataService();
+    const sql = SqlString.format("SELECT * FROM users WHERE email = ?", [
+      email,
+    ]);
+    params.sql = sql;
+
     const res = await RDS.executeStatement(params).promise();
 
     return res?.records?.length === 0 ? false : true;

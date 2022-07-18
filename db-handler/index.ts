@@ -75,5 +75,6 @@ exports.handler = async (
     }
   }
 
+  console.log(response);
   return response;
 };
