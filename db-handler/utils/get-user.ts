@@ -14,7 +14,8 @@ export const getUser = async (
 
   try {
     const { email } = queryStringParameters;
-    var params = {
+
+    const params = {
       TableName: "users",
       Key: {
         email,

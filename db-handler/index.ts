@@ -67,16 +67,19 @@ exports.handler = async (
           console.log("we're in POST method");
           try {
             console.log("we haven't checked the user yet");
-            const user = await checkForUser(event.body, params);
+            const user = await checkForUser(event.body);
+            console.log(user);
+
             console.log("we checked the user");
 
             if (user) {
               response = setAuthCookie(200, event.body);
               console.log("we have an user an set the cookie");
-            } else {
-              response = await createUser(event.body, params);
-              console.log("we created an user and set the cookie");
             }
+            // else {
+            //   response = await createUser(event.body, params);
+            //   console.log("we created an user and set the cookie");
+            // }
           } catch (err) {
             console.log(err);
 
