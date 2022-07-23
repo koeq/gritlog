@@ -35,10 +35,11 @@ exports.handler = async (
     let response: JsonResponse = { body: "", headers: {}, statusCode: 0 };
 
     if (event.path === userPath) {
-      console.log("we're in the auth path");
+      console.log("we're in the user path");
       switch (event.httpMethod) {
         case "GET":
-          response = await getUser(event.queryStringParameters, params);
+          response = await getUser(event.queryStringParameters);
+          console.log(response);
           break;
 
         case "POST":

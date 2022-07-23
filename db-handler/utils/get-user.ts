@@ -1,27 +1,29 @@
 import { APIGatewayProxyEventQueryStringParameters } from "aws-lambda";
-import { RDSDataService } from "aws-sdk";
 import { buildResponse } from "./build-response";
-const SqlString = require("sqlstring");
+import * as AWS from "aws-sdk";
+AWS.config.update({ region: "eu-central-1" });
+
+const ddb = new AWS.DynamoDB.DocumentClient();
 
 export const getUser = async (
-  queryStringParameters: APIGatewayProxyEventQueryStringParameters | null,
-  params: RDSDataService.ExecuteStatementRequest
+  queryStringParameters: APIGatewayProxyEventQueryStringParameters | null
 ) => {
-  if (!queryStringParameters || !queryStringParameters.userID) {
+  if (!queryStringParameters || !queryStringParameters.email) {
     return buildResponse(500, "Missing query parameter");
   }
 
-  const RDS = new RDSDataService();
-  const { userID } = queryStringParameters;
-  const sql = SqlString.format("SELECT * FROM users WHERE userID = ?", [
-    userID,
-  ]);
-  params.sql = sql;
-
   try {
-    return await RDS.executeStatement(params)
-      .promise()
-      .then((response) => buildResponse(200, response));
+    const { email } = queryStringParameters;
+    var params = {
+      TableName: "users",
+      Key: {
+        email,
+      },
+    };
+
+    const result = await ddb.get(params).promise();
+
+    return buildResponse(result.$response.httpResponse.statusCode, result.Item);
   } catch (err) {
     console.log(err);
 

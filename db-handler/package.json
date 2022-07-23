@@ -4,12 +4,10 @@
   "description": "",
   "main": "index.js",
   "dependencies": {
-    "google-auth-library": "^8.1.0",
-    "jwt-decode": "^3.1.2",
-    "sqlstring": "^2.3.3"
+    "aws-sdk": "^2.1181.0",
+    "jwt-decode": "^3.1.2"
   },
   "devDependencies": {
-    "@types/aws-lambda": "^8.10.101",
-    "@types/sqlstring": "^2.3.0"
+    "@types/aws-lambda": "^8.10.101"
   }
 }
