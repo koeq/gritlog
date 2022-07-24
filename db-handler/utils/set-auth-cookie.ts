@@ -1,13 +1,15 @@
 import { buildResponse } from "./build-response";
 
 export const setAuthCookie = (statusCode: number, body: string | null) => {
-  if (!body) {
-    return buildResponse(500, "No body found");
-  }
-
   try {
+    if (!body) {
+      return buildResponse(500, "No body found");
+    }
+
     const jwt = JSON.parse(body);
 
+    // TO DO: CHECK
+    // is SameSite=none safe?
     const cookie = {
       "Set-Cookie": `user=${jwt}; Max-Age=${
         5 * 60

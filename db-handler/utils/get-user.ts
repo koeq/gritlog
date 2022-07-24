@@ -1,27 +1,31 @@
+import { GetItemCommand, GetItemCommandInput } from "@aws-sdk/client-dynamodb";
+import { ddbClient } from "./ddb-client";
 import { APIGatewayProxyEventQueryStringParameters } from "aws-lambda";
-import { RDSDataService } from "aws-sdk";
 import { buildResponse } from "./build-response";
-const SqlString = require("sqlstring");
 
 export const getUser = async (
-  queryStringParameters: APIGatewayProxyEventQueryStringParameters | null,
-  params: RDSDataService.ExecuteStatementRequest
+  queryStringParameters: APIGatewayProxyEventQueryStringParameters | null
 ) => {
-  if (!queryStringParameters || !queryStringParameters.userID) {
-    return buildResponse(500, "Missing query parameter");
-  }
-
-  const RDS = new RDSDataService();
-  const { userID } = queryStringParameters;
-  const sql = SqlString.format("SELECT * FROM users WHERE userID = ?", [
-    userID,
-  ]);
-  params.sql = sql;
-
   try {
-    return await RDS.executeStatement(params)
-      .promise()
-      .then((response) => buildResponse(200, response));
+    if (!queryStringParameters || !queryStringParameters.email) {
+      return buildResponse(500, "Missing query parameter");
+    }
+
+    const { email } = queryStringParameters;
+
+    const params: GetItemCommandInput = {
+      TableName: "users",
+      Key: {
+        email: {
+          S: email,
+        },
+      },
+    };
+
+    const command = new GetItemCommand(params);
+    const result = await ddbClient.send(command);
+
+    return buildResponse(result.$metadata.httpStatusCode || 200, result.Item);
   } catch (err) {
     console.log(err);
 
