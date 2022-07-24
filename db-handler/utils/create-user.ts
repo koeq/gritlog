@@ -1,9 +1,9 @@
-import { GoogleUserData } from "./check-for-user";
-import { buildResponse } from "./build-response";
-import { ddbClient } from "./ddb-client";
-import jwt_decode from "jwt-decode";
-import { setAuthCookie } from "./set-auth-cookie";
 import { PutItemCommand } from "@aws-sdk/client-dynamodb";
+import jwt_decode from "jwt-decode";
+import { buildResponse } from "./build-response";
+import { GoogleUserData } from "./check-for-user";
+import { ddbClient } from "./ddb-client";
+import { setAuthCookie } from "./set-auth-cookie";
 
 export const createUser = async (body: string | null) => {
   try {

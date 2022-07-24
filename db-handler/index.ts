@@ -1,14 +1,14 @@
-import { isUserAuthenticated } from "./utils/is-user-authenticated";
+import { APIGatewayProxyEvent, APIGatewayProxyResult } from "aws-lambda";
 import {
   buildResponse,
-  JsonResponse,
-  getUser,
-  deleteUser,
-  setAuthCookie,
   checkForUser,
   createUser,
+  deleteUser,
+  getUser,
+  JsonResponse,
+  setAuthCookie,
 } from "./utils";
-import { APIGatewayProxyEvent, APIGatewayProxyResult } from "aws-lambda";
+import { isUserAuthenticated } from "./utils/is-user-authenticated";
 
 const userPath = "/user";
 const authPath = "/auth";

@@ -1,7 +1,7 @@
 import { GetItemCommand, GetItemCommandInput } from "@aws-sdk/client-dynamodb";
-import { ddbClient } from "./ddb-client";
 import { APIGatewayProxyEventQueryStringParameters } from "aws-lambda";
 import { buildResponse } from "./build-response";
+import { ddbClient } from "./ddb-client";
 
 export const getUser = async (
   queryStringParameters: APIGatewayProxyEventQueryStringParameters | null

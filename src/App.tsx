@@ -1,12 +1,12 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Header } from "./header";
 import { Input } from "./input";
 import { parse } from "./parser";
+import { SignIn, useSignIn } from "./sign-in";
 import { TrainingTable } from "./training-table";
 import { TrainingsTable } from "./trainings-table";
 import { Mode, Training, Trainings } from "./types";
 import { useLocalStorage } from "./use-local-storage";
-import { SignIn, useSignIn } from "./sign-in";
 
 export const App = () => {
   // SIGN IN

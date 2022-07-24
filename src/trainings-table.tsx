@@ -1,7 +1,6 @@
-import React from "react";
+import "./styles/trainings-table.css";
 import { TrainingTable } from "./training-table";
 import { Trainings } from "./types";
-import "./styles/trainings-table.css";
 
 interface TrainingsTableProps {
   readonly trainings: Trainings | undefined;

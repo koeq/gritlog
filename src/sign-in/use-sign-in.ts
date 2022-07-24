@@ -1,5 +1,5 @@
-import { useEffect, useState } from "react";
 import { CredentialResponse } from "google-one-tap";
+import { useEffect, useState } from "react";
 
 const authUrl = import.meta.env.VITE_AUTH_URL;
 const credentials: {
