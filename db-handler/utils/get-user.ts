@@ -1,30 +1,31 @@
+import { GetItemCommand, GetItemCommandInput } from "@aws-sdk/client-dynamodb";
+import { ddbClient } from "./ddb-client";
 import { APIGatewayProxyEventQueryStringParameters } from "aws-lambda";
 import { buildResponse } from "./build-response";
-import * as AWS from "aws-sdk";
-AWS.config.update({ region: "eu-central-1" });
-
-const ddb = new AWS.DynamoDB.DocumentClient();
 
 export const getUser = async (
   queryStringParameters: APIGatewayProxyEventQueryStringParameters | null
 ) => {
-  if (!queryStringParameters || !queryStringParameters.email) {
-    return buildResponse(500, "Missing query parameter");
-  }
-
   try {
+    if (!queryStringParameters || !queryStringParameters.email) {
+      return buildResponse(500, "Missing query parameter");
+    }
+
     const { email } = queryStringParameters;
 
-    const params = {
+    const params: GetItemCommandInput = {
       TableName: "users",
       Key: {
-        email,
+        email: {
+          S: email,
+        },
       },
     };
 
-    const result = await ddb.get(params).promise();
+    const command = new GetItemCommand(params);
+    const result = await ddbClient.send(command);
 
-    return buildResponse(result.$response.httpResponse.statusCode, result.Item);
+    return buildResponse(result.$metadata.httpStatusCode || 200, result.Item);
   } catch (err) {
     console.log(err);
 

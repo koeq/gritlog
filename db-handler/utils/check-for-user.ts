@@ -1,6 +1,6 @@
-import * as AWS from "aws-sdk";
+import { GetItemCommand, GetItemCommandInput } from "@aws-sdk/client-dynamodb";
+import { ddbClient } from "./ddb-client";
 import jwt_decode from "jwt-decode";
-AWS.config.update({ region: "eu-central-1" });
 
 export interface GoogleUserData {
   iss: string;
@@ -31,18 +31,24 @@ export const checkForUser = async (body: string | null) => {
   try {
     const decoded: GoogleUserData = jwt_decode(body);
     const { email } = decoded;
-    const ddb = new AWS.DynamoDB.DocumentClient();
 
-    const params = {
+    const params: GetItemCommandInput = {
       TableName: "users",
       Key: {
-        email,
+        email: {
+          S: email,
+        },
       },
     };
 
-    const result = await ddb.get(params).promise();
+    const command = new GetItemCommand(params);
+    const result = await ddbClient.send(command);
 
-    return result.Item;
+    if (!result.Item) {
+      return false;
+    }
+
+    return true;
   } catch (err) {
     console.log(err);
 

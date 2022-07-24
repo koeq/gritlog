@@ -1,6 +1,6 @@
+import { isUserAuthenticated } from "./utils/is-user-authenticated";
 import {
   buildResponse,
-  checkAuthentication,
   JsonResponse,
   getUser,
   deleteUser,
@@ -8,12 +8,8 @@ import {
   checkForUser,
   createUser,
 } from "./utils";
-import { RDSDataService } from "aws-sdk";
 import { APIGatewayProxyEvent, APIGatewayProxyResult } from "aws-lambda";
 
-const secretArn = process.env.DBSecretsStoreArn;
-const resourceArn = process.env.DBAuroraClusterArn;
-const database = process.env.DatabaseName;
 const userPath = "/user";
 const authPath = "/auth";
 
@@ -21,34 +17,23 @@ exports.handler = async (
   event: APIGatewayProxyEvent
 ): Promise<APIGatewayProxyResult> => {
   try {
-    if (!secretArn || !resourceArn) {
-      return buildResponse(500, "Missing aws arn");
-    }
-    const params: RDSDataService.ExecuteStatementRequest = {
-      secretArn,
-      resourceArn,
-      database,
-      sql: "",
-    };
-
     console.log(JSON.stringify(event, null, 2));
     let response: JsonResponse = { body: "", headers: {}, statusCode: 0 };
 
     if (event.path === userPath) {
+      if (!isUserAuthenticated(event.headers)) {
+        return buildResponse(401, "not authenticated");
+      }
       console.log("we're in the user path");
       switch (event.httpMethod) {
         case "GET":
+          console.log("we're in the GET method");
           response = await getUser(event.queryStringParameters);
-          console.log(response);
-          break;
-
-        case "POST":
-          // TO DO: CHECK
-          // is this even needed anymore?
           break;
 
         case "DELETE":
-          response = await deleteUser(event.queryStringParameters, params);
+          console.log("we're in the DELETE method");
+          response = await deleteUser(event.queryStringParameters);
           break;
 
         default:
@@ -58,32 +43,26 @@ exports.handler = async (
 
     if (event.path === authPath) {
       console.log("we're in the auth path");
+
       switch (event.httpMethod) {
         case "GET":
-          response = checkAuthentication(event.headers);
+          if (isUserAuthenticated(event.headers)) {
+            response = buildResponse(200, "authenticated");
+          } else {
+            response = buildResponse(401, "not authenticated");
+          }
           break;
 
         case "POST":
           console.log("we're in POST method");
-          try {
-            console.log("we haven't checked the user yet");
-            const user = await checkForUser(event.body);
-            console.log(user);
+          const user = await checkForUser(event.body);
 
-            console.log("we checked the user");
-
-            if (user) {
-              response = setAuthCookie(200, event.body);
-              console.log("we have an user an set the cookie");
-            }
-            // else {
-            //   response = await createUser(event.body, params);
-            //   console.log("we created an user and set the cookie");
-            // }
-          } catch (err) {
-            console.log(err);
-
-            response = buildResponse(500, err);
+          if (user) {
+            console.log("we already have an user an set the cookie");
+            response = setAuthCookie(200, event.body);
+          } else {
+            console.log("we created an user and set the cookie");
+            response = await createUser(event.body);
           }
           break;
 

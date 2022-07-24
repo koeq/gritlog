@@ -1,25 +1,34 @@
+import {
+  DeleteItemCommand,
+  DeleteItemCommandInput,
+} from "@aws-sdk/client-dynamodb";
 import { APIGatewayProxyEventQueryStringParameters } from "aws-lambda";
-import { RDSDataService } from "aws-sdk";
 import { buildResponse } from "./build-response";
-const SqlString = require("sqlstring");
+import { ddbClient } from "./ddb-client";
 
 export const deleteUser = async (
-  queryStringParameters: APIGatewayProxyEventQueryStringParameters | null,
-  params: RDSDataService.ExecuteStatementRequest
+  queryStringParameters: APIGatewayProxyEventQueryStringParameters | null
 ) => {
-  if (!queryStringParameters || !queryStringParameters.userID) {
+  if (!queryStringParameters || !queryStringParameters.email) {
     return buildResponse(500, "Missing query parameter");
   }
 
-  const RDS = new RDSDataService();
-  const { userID } = queryStringParameters;
-  const sql = SqlString.format("DELETE FROM users WHERE userID = ?", [userID]);
-  params.sql = sql;
-
   try {
-    return await RDS.executeStatement(params)
-      .promise()
-      .then(() => buildResponse(200, "Deleted User"));
+    const { email } = queryStringParameters;
+
+    const params: DeleteItemCommandInput = {
+      TableName: "users",
+      Key: {
+        email: {
+          S: email,
+        },
+      },
+    };
+
+    const command = new DeleteItemCommand(params);
+    await ddbClient.send(command);
+
+    return buildResponse(202, "User will be deleted");
   } catch (err) {
     console.log(err);
 
