@@ -71,7 +71,7 @@ export const useSignIn = (
   const [userData, setUserData] = useState<unknown>();
 
   useEffect(() => {
-    const authOrSignIn = async () => {
+    const authenticate = async () => {
       try {
         const isAuthenticated = await checkAuthentication();
 
@@ -103,7 +103,7 @@ export const useSignIn = (
       }
     };
 
-    authOrSignIn();
+    authenticate();
   }, []);
 
   return userData;
