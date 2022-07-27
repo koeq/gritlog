@@ -17,8 +17,7 @@ const headers = {
 
 const handleSignInWithGoogle = async (
   response: CredentialResponse,
-  setSignedIn: React.Dispatch<React.SetStateAction<boolean>>,
-  setUserData: React.Dispatch<unknown>
+  setSignedIn: React.Dispatch<React.SetStateAction<boolean>>
 ) => {
   const requestOptions = {
     ...credentials,
@@ -38,7 +37,6 @@ const handleSignInWithGoogle = async (
     if (res.status === 201 || res.status === 200) {
       setSignedIn(true);
     }
-    setUserData(data);
   } catch (err) {
     console.log(err);
   }
@@ -65,29 +63,26 @@ const checkAuthentication = async () => {
   }
 };
 
-export const useSignIn = (
-  setSignedIn: React.Dispatch<React.SetStateAction<boolean>>
-) => {
-  const [userData, setUserData] = useState<unknown>();
+export const useAuth = () => {
+  const [authed, setAuthed] = useState(false);
 
   useEffect(() => {
-    const authOrSignIn = async () => {
+    const authenticate = async () => {
       try {
         const isAuthenticated = await checkAuthentication();
 
         if (isAuthenticated) {
-          setSignedIn(true);
+          setAuthed(true);
         } else {
           // use google sign in flow
           window.google.accounts.id.initialize({
             client_id: import.meta.env.VITE_DATA_CLIENT_ID,
-            callback: (response) =>
-              handleSignInWithGoogle(response, setSignedIn, setUserData),
+            callback: (response) => handleSignInWithGoogle(response, setAuthed),
           });
 
           // login button
           window.google.accounts.id.renderButton(
-            document.getElementById("signIn")!,
+            document.getElementById("signInWithGoogle")!,
             {
               shape: "rectangular",
               theme: "outline",
@@ -103,8 +98,8 @@ export const useSignIn = (
       }
     };
 
-    authOrSignIn();
+    authenticate();
   }, []);
 
-  return userData;
+  return authed;
 };
