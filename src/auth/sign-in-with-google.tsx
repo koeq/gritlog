@@ -1,4 +1,4 @@
-export const SignIn = (): JSX.Element => {
+export const SignInWithGoogle = (): JSX.Element => {
   return (
     <div
       style={{
@@ -12,7 +12,7 @@ export const SignIn = (): JSX.Element => {
         backdropFilter: "blur(6px)",
       }}
     >
-      <div id="signIn"></div>
+      <div id="signInWithGoogle"></div>
     </div>
   );
 };

@@ -1,11 +1,11 @@
 import { Header } from "../header";
-import { SignIn } from ".";
+import { SignInWithGoogle } from ".";
 
 const UnauthedApp = () => {
   return (
     <div style={{ display: "flex", justifyContent: "center" }}>
       <Header />
-      <SignIn />
+      <SignInWithGoogle />
     </div>
   );
 };
