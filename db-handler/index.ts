@@ -1,4 +1,8 @@
-import { APIGatewayProxyEvent, APIGatewayProxyResult } from "aws-lambda";
+import {
+  APIGatewayProxyEvent,
+  APIGatewayProxyEventHeaders,
+  APIGatewayProxyResult,
+} from "aws-lambda";
 import {
   buildResponse,
   checkForUser,
@@ -10,8 +14,9 @@ import {
 } from "./utils";
 import { isUserAuthenticated } from "./utils/is-user-authenticated";
 
-const userPath = "/user";
 const authPath = "/auth";
+const userPath = "/user";
+const trainingPath = "/training";
 
 exports.handler = async (
   event: APIGatewayProxyEvent
@@ -19,27 +24,6 @@ exports.handler = async (
   try {
     console.log(JSON.stringify(event, null, 2));
     let response: JsonResponse = { body: "", headers: {}, statusCode: 0 };
-
-    if (event.path === userPath) {
-      if (!isUserAuthenticated(event.headers)) {
-        return buildResponse(401, "not authenticated");
-      }
-      console.log("we're in the user path");
-      switch (event.httpMethod) {
-        case "GET":
-          console.log("we're in the GET method");
-          response = await getUser(event.queryStringParameters);
-          break;
-
-        case "DELETE":
-          console.log("we're in the DELETE method");
-          response = await deleteUser(event.queryStringParameters);
-          break;
-
-        default:
-          response = buildResponse(404, "404 not found");
-      }
-    }
 
     if (event.path === authPath) {
       console.log("we're in the auth path");
@@ -72,11 +56,57 @@ exports.handler = async (
       }
     }
 
-    console.log("we return");
+    // COMMENTED OUT FOR DEBUG WITH POSTMAN
+    // if (!isUserAuthenticated(event.headers)) {
+    //   return buildResponse(401, "not authenticated");
+    // }
+
+    if (event.path === userPath) {
+      console.log("we're in the user path");
+      switch (event.httpMethod) {
+        case "GET":
+          console.log("we're in the GET method");
+          response = await getUser(event.queryStringParameters);
+          break;
+
+        case "DELETE":
+          console.log("we're in the DELETE method");
+          response = await deleteUser(event.queryStringParameters);
+          break;
+
+        default:
+          response = buildResponse(404, "404 not found");
+      }
+    }
+
+    if (event.path === trainingPath) {
+      switch (event.httpMethod) {
+        case "GET":
+          response = getAllTrainings(event.headers);
+          break;
+
+        case "POST":
+          break;
+
+        case "PUT":
+          break;
+
+        case "DELETE":
+          break;
+
+        default:
+          response = buildResponse(404, "404 not found");
+      }
+    }
+
     return response;
   } catch (err) {
     console.log(err);
 
     return buildResponse(500, err);
   }
+};
+
+const getAllTrainings = (headers: APIGatewayProxyEventHeaders) => {
+  return buildResponse(200, headers);
 };

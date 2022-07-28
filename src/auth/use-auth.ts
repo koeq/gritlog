@@ -29,7 +29,6 @@ const handleSignInWithGoogle = async (
 
   try {
     const res = await fetch(authUrl, requestOptions);
-    const data = await res.json();
 
     // log in if cookie was set
     // case 201 -> user was created
