@@ -1,8 +1,4 @@
-import {
-  APIGatewayProxyEvent,
-  APIGatewayProxyEventHeaders,
-  APIGatewayProxyResult,
-} from "aws-lambda";
+import { APIGatewayProxyEvent, APIGatewayProxyResult } from "aws-lambda";
 import {
   buildResponse,
   checkForUser,
@@ -13,6 +9,7 @@ import {
   setAuthCookie,
 } from "./utils";
 import { isUserAuthenticated } from "./utils/is-user-authenticated";
+import { getAllTrainings } from "./utils/get-all-trainings";
 
 const authPath = "/auth";
 const userPath = "/user";
@@ -56,13 +53,13 @@ exports.handler = async (
       }
     }
 
-    // COMMENTED OUT FOR DEBUG WITH POSTMAN
-    // if (!isUserAuthenticated(event.headers)) {
-    //   return buildResponse(401, "not authenticated");
-    // }
-
     if (event.path === userPath) {
       console.log("we're in the user path");
+
+      if (!isUserAuthenticated(event.headers)) {
+        return buildResponse(403, "not authenticated");
+      }
+
       switch (event.httpMethod) {
         case "GET":
           console.log("we're in the GET method");
@@ -80,9 +77,17 @@ exports.handler = async (
     }
 
     if (event.path === trainingPath) {
+      console.log("we're in the training path");
+
+      if (!isUserAuthenticated(event.headers)) {
+        return buildResponse(403, "not authenticated");
+      }
+
+      const jwt = event.headers.cookie?.split("=")[1];
+
       switch (event.httpMethod) {
         case "GET":
-          response = getAllTrainings(event.headers);
+          response = await getAllTrainings(jwt);
           break;
 
         case "POST":
@@ -105,8 +110,4 @@ exports.handler = async (
 
     return buildResponse(500, err);
   }
-};
-
-const getAllTrainings = (headers: APIGatewayProxyEventHeaders) => {
-  return buildResponse(200, headers);
 };
