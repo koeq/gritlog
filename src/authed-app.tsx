@@ -5,9 +5,13 @@ import { parse } from "./parser";
 import { TrainingTable } from "./training-table";
 import { TrainingsTable } from "./trainings-table";
 import { Mode, Training, Trainings } from "./types";
+import { getAllTrainings } from "./get-all-trainings";
 import { useLocalStorage } from "./use-local-storage";
+import { fetchOnce } from "./utils";
 
 const AuthedApp = () => {
+  fetchOnce(getAllTrainings);
+
   const [mode, setMode] = useLocalStorage<Mode>("mode", "add");
   const [editId, setEditId] = useLocalStorage<number | null>("editId", null);
   const [id, setId] = useLocalStorage<number>("id", 0);

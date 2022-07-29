@@ -9,9 +9,11 @@ import {
   setAuthCookie,
 } from "./utils";
 import { isUserAuthenticated } from "./utils/is-user-authenticated";
+import { getAllTrainings } from "./utils/get-all-trainings";
 
-const userPath = "/user";
 const authPath = "/auth";
+const userPath = "/user";
+const trainingPath = "/training";
 
 exports.handler = async (
   event: APIGatewayProxyEvent
@@ -19,27 +21,6 @@ exports.handler = async (
   try {
     console.log(JSON.stringify(event, null, 2));
     let response: JsonResponse = { body: "", headers: {}, statusCode: 0 };
-
-    if (event.path === userPath) {
-      if (!isUserAuthenticated(event.headers)) {
-        return buildResponse(401, "not authenticated");
-      }
-      console.log("we're in the user path");
-      switch (event.httpMethod) {
-        case "GET":
-          console.log("we're in the GET method");
-          response = await getUser(event.queryStringParameters);
-          break;
-
-        case "DELETE":
-          console.log("we're in the DELETE method");
-          response = await deleteUser(event.queryStringParameters);
-          break;
-
-        default:
-          response = buildResponse(404, "404 not found");
-      }
-    }
 
     if (event.path === authPath) {
       console.log("we're in the auth path");
@@ -72,7 +53,57 @@ exports.handler = async (
       }
     }
 
-    console.log("we return");
+    if (event.path === userPath) {
+      console.log("we're in the user path");
+
+      if (!isUserAuthenticated(event.headers)) {
+        return buildResponse(403, "not authenticated");
+      }
+
+      switch (event.httpMethod) {
+        case "GET":
+          console.log("we're in the GET method");
+          response = await getUser(event.queryStringParameters);
+          break;
+
+        case "DELETE":
+          console.log("we're in the DELETE method");
+          response = await deleteUser(event.queryStringParameters);
+          break;
+
+        default:
+          response = buildResponse(404, "404 not found");
+      }
+    }
+
+    if (event.path === trainingPath) {
+      console.log("we're in the training path");
+
+      if (!isUserAuthenticated(event.headers)) {
+        return buildResponse(403, "not authenticated");
+      }
+
+      const jwt = event.headers.cookie?.split("=")[1];
+
+      switch (event.httpMethod) {
+        case "GET":
+          response = await getAllTrainings(jwt);
+          break;
+
+        case "POST":
+          break;
+
+        case "PUT":
+          break;
+
+        case "DELETE":
+          break;
+
+        default:
+          response = buildResponse(404, "404 not found");
+      }
+    }
+
     return response;
   } catch (err) {
     console.log(err);
