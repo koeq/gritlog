@@ -7,7 +7,7 @@ export interface Exercise {
 export interface Training {
   readonly date: string;
   // TO DO: this shouldn't be optional
-  readonly id?: number;
+  readonly id: number;
   readonly exercises: Exercise[] | undefined;
 }
 
