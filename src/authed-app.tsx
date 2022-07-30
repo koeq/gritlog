@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useCallback } from "react";
 import { Header } from "./header";
 import { Input } from "./input";
 import { parse } from "./parser";
@@ -10,7 +10,7 @@ import { useLocalStorage } from "./use-local-storage";
 import { fetchOnce } from "./utils";
 
 const AuthedApp = () => {
-  fetchOnce(getAllTrainings);
+  const allTrainings = fetchOnce(getAllTrainings);
 
   const [mode, setMode] = useLocalStorage<Mode>("mode", "add");
   const [editId, setEditId] = useLocalStorage<number | null>("editId", null);

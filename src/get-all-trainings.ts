@@ -1,5 +1,3 @@
-import { useEffect, useRef } from "react";
-
 export const getAllTrainings = async () => {
   const trainingUrl = import.meta.env.VITE_TRAINING_URL;
 
@@ -16,4 +14,5 @@ export const getAllTrainings = async () => {
   const data = await res.json();
 
   console.log(data);
+  return data;
 };

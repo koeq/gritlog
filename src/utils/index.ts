@@ -1,1 +1,1 @@
-export * from "./fetch-once";
+export * from "./once";
