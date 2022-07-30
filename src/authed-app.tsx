@@ -1,4 +1,4 @@
-import React, { useCallback } from "react";
+import React, { useState } from "react";
 import { Header } from "./header";
 import { Input } from "./input";
 import { parse } from "./parser";
@@ -10,19 +10,15 @@ import { useLocalStorage } from "./use-local-storage";
 import { fetchOnce } from "./utils";
 
 const AuthedApp = () => {
-  const allTrainings = fetchOnce(getAllTrainings);
+  const [trainings, setTrainings] = useState<Trainings | undefined>();
+  fetchOnce(() => getAllTrainings(setTrainings));
 
   const [mode, setMode] = useLocalStorage<Mode>("mode", "add");
   const [editId, setEditId] = useLocalStorage<number | null>("editId", null);
-  const [id, setId] = useLocalStorage<number>("id", 0);
+  // const [id, setId] = useLocalStorage<number>("id", 0);
 
   const [currentInput, setCurrentInput] = useLocalStorage<string | undefined>(
     "currentInput",
-    undefined
-  );
-
-  const [trainings, setTrainings] = useLocalStorage<Trainings | undefined>(
-    "trainings",
     undefined
   );
 
@@ -35,21 +31,13 @@ const AuthedApp = () => {
     setCurrentInput(event.currentTarget.value);
   };
 
-  const handleAdd = (editId: number | null = null) => {
+  const handleAdd = () => {
     if (currentTraining.exercises) {
       setTrainings((pastTrainings) => {
-        return {
-          ...pastTrainings,
-          [mode === "edit" ? `${editId}` : id]: currentTraining,
-        };
+        return pastTrainings
+          ? [...pastTrainings, currentTraining]
+          : [currentTraining];
       });
-
-      if (mode === "add") {
-        setId((id) => ++id);
-      } else if (mode === "edit") {
-        setMode("add");
-        setEditId(null);
-      }
 
       setCurrentInput("");
     }

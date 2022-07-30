@@ -1,4 +1,8 @@
-export const getAllTrainings = async () => {
+import { Trainings } from "./types";
+
+export const getAllTrainings = async (
+  setTrainings: React.Dispatch<React.SetStateAction<Trainings | undefined>>
+) => {
   const trainingUrl = import.meta.env.VITE_TRAINING_URL;
 
   const requestOptions: RequestInit = {
@@ -11,8 +15,9 @@ export const getAllTrainings = async () => {
   };
 
   const res = await fetch(trainingUrl, requestOptions);
-  const data = await res.json();
+  const trainings = (await res.json()) as Trainings | undefined;
 
-  console.log(data);
-  return data;
+  if (trainings) {
+    setTrainings(trainings)
+  }
 };
