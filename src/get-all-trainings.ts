@@ -18,6 +18,6 @@ export const getAllTrainings = async (
   const trainings = (await res.json()) as Trainings | undefined;
 
   if (trainings) {
-    setTrainings(trainings)
+    setTrainings(trainings);
   }
 };
