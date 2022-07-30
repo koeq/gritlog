@@ -38,7 +38,7 @@ export const TrainingsTable = ({
               }}
               key={id}
             >
-              <TrainingTable training={trainings[id]} />
+              <TrainingTable training={trainings[parseInt(id)]} />
               <div
                 style={{
                   display: "flex",

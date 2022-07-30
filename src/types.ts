@@ -6,11 +6,11 @@ export interface Exercise {
 
 export interface Training {
   readonly date: string;
+  // TO DO: this shouldn't be optional
+  readonly id?: number;
   readonly exercises: Exercise[] | undefined;
 }
 
-export interface Trainings {
-  [id: string]: Training;
-}
+export type Trainings = Training[];
 
 export type Mode = "add" | "edit";
