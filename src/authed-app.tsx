@@ -84,7 +84,6 @@ const AuthedApp = () => {
     });
   };
 
-  console.log(`nextTrainingId: ${nextTrainingId}`);
   return (
     <>
       <div

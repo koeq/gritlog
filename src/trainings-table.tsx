@@ -26,9 +26,8 @@ export const TrainingsTable = ({
       }}
     >
       {trainings &&
-        Object.keys(trainings)
-          .reverse()
-          .map((id) => (
+        trainings
+          .map(({ id }) => (
             <div
               style={{
                 display: "flex",
@@ -38,7 +37,7 @@ export const TrainingsTable = ({
               }}
               key={id}
             >
-              <TrainingTable training={trainings[parseInt(id)]} />
+              <TrainingTable training={trainings[id]} />
               <div
                 style={{
                   display: "flex",
@@ -48,19 +47,18 @@ export const TrainingsTable = ({
                 <button
                   className="btn-edit"
                   style={{ marginRight: "2px" }}
-                  onClick={() => handleEdit(parseInt(id))}
+                  onClick={() => handleEdit(id)}
                 >
                   edit
                 </button>
-                <button
-                  className="btn-delete"
-                  onClick={() => handleDelete(parseInt(id))}
-                >
+                <button className="btn-delete" onClick={() => handleDelete(id)}>
                   x
                 </button>
               </div>
             </div>
-          ))}
+          ))
+          // TO DO: why does this not work before map?
+          .reverse()}
     </div>
   );
 };
