@@ -1,5 +1,5 @@
 import "./styles/training-table.css";
-import { Training } from "./types";
+import { Training } from "../db-handler/types";
 
 interface TrainingTableProps {
   readonly training: Training | undefined;

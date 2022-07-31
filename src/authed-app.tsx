@@ -4,7 +4,8 @@ import { Input } from "./input";
 import { parse } from "./parser";
 import { TrainingTable } from "./training-table";
 import { TrainingsTable } from "./trainings-table";
-import { Mode, Training, Trainings } from "./types";
+import { Training, Trainings } from "../db-handler/types";
+import { Mode } from "./types";
 import { getAllTrainings } from "./get-all-trainings";
 import { useLocalStorage } from "./use-local-storage";
 import { fetchOnce } from "./utils";
@@ -42,6 +43,7 @@ const AuthedApp = () => {
       });
       setCurrentInput("");
       addTraining(currentTraining);
+      setNextTrainingId((currentId) => ++currentId);
     }
   };
 
@@ -82,6 +84,7 @@ const AuthedApp = () => {
     });
   };
 
+  console.log(`nextTrainingId: ${nextTrainingId}`);
   return (
     <>
       <div

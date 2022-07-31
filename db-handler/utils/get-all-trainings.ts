@@ -13,7 +13,6 @@ export const getAllTrainings = async (jwt: string | undefined) => {
   try {
     const decoded: GoogleUserData = jwt_decode(jwt);
     const { email } = decoded;
-    console.log(email);
 
     const params: QueryCommandInput = {
       TableName: "trainings",

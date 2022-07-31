@@ -1,5 +1,5 @@
 import React from "react";
-import { Mode } from "./types";
+import { Mode } from "../db-handler/types";
 
 interface InputProps {
   readonly handleInputChange: (
