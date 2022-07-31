@@ -1,5 +1,6 @@
 import { APIGatewayProxyEvent, APIGatewayProxyResult } from "aws-lambda";
 import {
+  addTraining,
   buildResponse,
   checkForUser,
   createUser,
@@ -10,6 +11,7 @@ import {
 } from "./utils";
 import { isUserAuthenticated } from "./utils/is-user-authenticated";
 import { getAllTrainings } from "./utils/get-all-trainings";
+import { Training } from "./types";
 
 const authPath = "/auth";
 const userPath = "/user";
@@ -39,11 +41,11 @@ exports.handler = async (
           const user = await checkForUser(event.body);
 
           if (user) {
-            console.log("we already have an user an set the cookie");
             response = setAuthCookie(200, event.body);
+            console.log("we already have an user an set the cookie");
           } else {
-            console.log("we created an user and set the cookie");
             response = await createUser(event.body);
+            console.log("we created an user and set the cookie");
           }
           break;
 
@@ -91,6 +93,7 @@ exports.handler = async (
           break;
 
         case "POST":
+          response = await addTraining(jwt, event.body);
           break;
 
         case "PUT":

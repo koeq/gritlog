@@ -1,3 +1,4 @@
+import { marshall } from "@aws-sdk/util-dynamodb";
 import { PutItemCommand } from "@aws-sdk/client-dynamodb";
 import jwt_decode from "jwt-decode";
 import { buildResponse } from "./build-response";
@@ -12,15 +13,16 @@ export const createUser = async (body: string | null) => {
     }
 
     const decoded: GoogleUserData = jwt_decode(body);
+
     const { email, given_name, family_name } = decoded;
 
     const params = {
       TableName: "users",
-      Item: {
-        email: { S: email },
-        first_name: { S: given_name },
-        surname: { S: family_name },
-      },
+      Item: marshall({
+        email,
+        first_name: given_name || "",
+        surname: family_name || "",
+      }),
     };
 
     const command = new PutItemCommand(params);

@@ -1,4 +1,4 @@
-import { Trainings } from "./types";
+import { Trainings } from "../db-handler/types";
 
 export const getAllTrainings = async (
   setTrainings: React.Dispatch<React.SetStateAction<Trainings | undefined>>,
@@ -19,6 +19,7 @@ export const getAllTrainings = async (
   const trainings = (await res.json()) as Trainings | undefined;
 
   if (trainings) {
+    console.log(trainings);
     setTrainings(trainings);
     const currentId = trainings[trainings.length - 1].id;
     setNextTrainingId(currentId ? currentId + 1 : 0);

@@ -1,4 +1,4 @@
-import { Training } from "./types";
+import { Training } from "../db-handler/types";
 
 export const addTraining = async (training: Training) => {
   const trainingUrl = import.meta.env.VITE_TRAINING_URL;
@@ -14,6 +14,4 @@ export const addTraining = async (training: Training) => {
   };
 
   const res = await fetch(trainingUrl, requestOptions);
-  const data = await res.json();
-  console.log(data);
 };
