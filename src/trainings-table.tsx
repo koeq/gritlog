@@ -27,37 +27,45 @@ export const TrainingsTable = ({
     >
       {trainings &&
         trainings
-          .map(({ id }) => (
-            <div
-              style={{
-                display: "flex",
-                width: "90%",
-                justifyContent: "center",
-                marginBottom: "16px",
-              }}
-              key={id}
-            >
-              <TrainingTable training={trainings[id]} />
+          .map((_, index) => {
+            const training = trainings[index];
+
+            return (
               <div
                 style={{
                   display: "flex",
-                  marginLeft: "6px",
+                  width: "90%",
+                  justifyContent: "center",
+                  marginBottom: "16px",
                 }}
+                key={index}
               >
-                <button
-                  className="btn-edit"
-                  style={{ marginRight: "2px" }}
-                  onClick={() => handleEdit(id)}
+                <TrainingTable training={training} />
+                <div
+                  style={{
+                    display: "flex",
+                    marginLeft: "6px",
+                  }}
                 >
-                  edit
-                </button>
-                <button className="btn-delete" onClick={() => handleDelete(id)}>
-                  x
-                </button>
+                  <button
+                    className="btn-edit"
+                    style={{ marginRight: "2px" }}
+                    onClick={() => handleEdit(training.id)}
+                  >
+                    edit
+                  </button>
+                  <button
+                    className="btn-delete"
+                    onClick={() => handleDelete(training.id)}
+                  >
+                    x
+                  </button>
+                </div>
               </div>
-            </div>
-          ))
-          // TO DO: why does this not work before map?
+            );
+          })
+          // TO DO: CHECK
+          // why does this not work before we map?
           .reverse()}
     </div>
   );
