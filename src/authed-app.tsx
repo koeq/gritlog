@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Header } from "./header";
 import { Input } from "./input";
 import { parse } from "./parser";
@@ -74,14 +74,9 @@ const AuthedApp = () => {
   };
 
   const handleDelete = (id: number) => {
-    if (!trainings) {
-      return;
-    }
-
-    setTrainings(() => {
-      delete trainings[id];
-      return { ...trainings };
-    });
+    setTrainings((pastTrainings) =>
+      pastTrainings?.filter(({ id: pastId }) => pastId !== id)
+    );
   };
 
   return (
