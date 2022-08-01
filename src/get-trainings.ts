@@ -1,6 +1,6 @@
 import { Trainings } from "../db-handler/types";
 
-export const getAllTrainings = async (
+export const getTrainings = async (
   setTrainings: React.Dispatch<React.SetStateAction<Trainings | undefined>>,
   setNextTrainingId: React.Dispatch<React.SetStateAction<number>>
 ) => {

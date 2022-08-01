@@ -6,13 +6,13 @@ import { TrainingTable } from "./training-table";
 import { TrainingsTable } from "./trainings-table";
 import { Training, Trainings } from "../db-handler/types";
 import { Mode } from "./types";
-import { getAllTrainings } from "./get-all-trainings";
+import { getTrainings } from "./get-trainings";
 import { useLocalStorage } from "./use-local-storage";
 import { fetchOnce } from "./utils";
 import { addTraining } from "./add-training";
 
 const AuthedApp = () => {
-  fetchOnce(() => getAllTrainings(setTrainings, setNextTrainingId));
+  fetchOnce(() => getTrainings(setTrainings, setNextTrainingId));
   const [trainings, setTrainings] = useState<Trainings | undefined>();
   const [nextTrainingId, setNextTrainingId] = useState<number>(0);
 
