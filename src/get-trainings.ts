@@ -16,9 +16,9 @@ export const getTrainings = async (
   };
 
   const res = await fetch(trainingUrl, requestOptions);
-  const trainings = (await res.json()) as Trainings | undefined;
+  const trainings = (await res.json()) as Trainings | [];
 
-  if (trainings) {
+  if (trainings.length > 0) {
     setTrainings(trainings);
     const currentId = trainings[trainings.length - 1].id;
     setNextTrainingId(currentId ? currentId + 1 : 0);
