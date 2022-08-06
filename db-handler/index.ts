@@ -8,10 +8,10 @@ import {
   getUser,
   JsonResponse,
   setAuthCookie,
+  isUserAuthenticated,
+  getTrainings,
+  deleteTraining,
 } from "./utils";
-import { isUserAuthenticated } from "./utils/is-user-authenticated";
-import { getAllTrainings } from "./utils/get-all-trainings";
-import { Training } from "./types";
 
 const authPath = "/auth";
 const userPath = "/user";
@@ -89,7 +89,7 @@ exports.handler = async (
 
       switch (event.httpMethod) {
         case "GET":
-          response = await getAllTrainings(jwt);
+          response = await getTrainings(jwt);
           break;
 
         case "POST":
@@ -100,6 +100,7 @@ exports.handler = async (
           break;
 
         case "DELETE":
+          response = await deleteTraining(jwt, event.queryStringParameters);
           break;
 
         default:
@@ -107,6 +108,7 @@ exports.handler = async (
       }
     }
 
+    console.log(response);
     return response;
   } catch (err) {
     console.log(err);

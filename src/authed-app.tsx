@@ -10,6 +10,7 @@ import { getTrainings } from "./get-trainings";
 import { useLocalStorage } from "./use-local-storage";
 import { fetchOnce } from "./utils";
 import { addTraining } from "./add-training";
+import { deleteTraining } from "./delete-training";
 
 const AuthedApp = () => {
   fetchOnce(() => getTrainings(setTrainings, setNextTrainingId));
@@ -77,6 +78,7 @@ const AuthedApp = () => {
     setTrainings((pastTrainings) =>
       pastTrainings?.filter(({ id: pastId }) => pastId !== id)
     );
+    deleteTraining(id);
   };
 
   return (
