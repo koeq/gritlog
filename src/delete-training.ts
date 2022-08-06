@@ -15,9 +15,7 @@ export const deleteTraining = async (id: number) => {
 
     // TO DO: handle the outcome of the response i.e. status code
     // this is necessary for all calls to the api gateway
-    const res = await fetch(url, requestOptions);
-    const data = res.json();
-    console.log(res);
+    await fetch(url, requestOptions);
   } catch (err) {
     console.log(err);
   }

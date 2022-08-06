@@ -11,14 +11,14 @@ import { useLocalStorage } from "./use-local-storage";
 import { fetchOnce } from "./utils";
 import { addTraining } from "./add-training";
 import { deleteTraining } from "./delete-training";
+import { createTrainingInput } from "./create-training-input";
 
 const AuthedApp = () => {
   fetchOnce(() => getTrainings(setTrainings, setNextTrainingId));
   const [trainings, setTrainings] = useState<Trainings | undefined>();
   const [nextTrainingId, setNextTrainingId] = useState<number>(0);
-
-  const [mode, setMode] = useLocalStorage<Mode>("mode", "add");
   const [editId, setEditId] = useLocalStorage<number | null>("editId", null);
+  const [mode, setMode] = useLocalStorage<Mode>("mode", "add");
 
   const [currentInput, setCurrentInput] = useLocalStorage<string | undefined>(
     "currentInput",
@@ -49,27 +49,12 @@ const AuthedApp = () => {
   };
 
   const handleEdit = (id: number) => {
-    if (!trainings) {
+    if (!trainings || !trainings[id]) {
       return;
     }
 
-    let trainingInput: string = "";
-    const exercises = trainings[id].exercises;
-
-    const exercisesInput = exercises
-      ? exercises.map(
-          ({ exerciseName, weight, repetitions }) =>
-            `${exerciseName ? exerciseName : ""} ${weight ? weight : ""} ${
-              repetitions ? repetitions : ""
-            }`
-        )
-      : [];
-
-    exercisesInput.forEach((exercise) => {
-      trainingInput += `${exercise}\n`;
-    });
-
-    setCurrentInput(trainingInput.trim());
+    const trainingInput = createTrainingInput(trainings[id]);
+    setCurrentInput(trainingInput);
     setMode("edit");
     setEditId(id);
   };
