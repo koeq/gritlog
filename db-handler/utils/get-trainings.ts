@@ -5,7 +5,7 @@ import { ddbClient } from "./ddb-client";
 import { marshall, unmarshall } from "@aws-sdk/util-dynamodb";
 import { QueryCommand, QueryCommandInput } from "@aws-sdk/client-dynamodb";
 
-export const getAllTrainings = async (jwt: string | undefined) => {
+export const getTrainings = async (jwt: string | undefined) => {
   if (!jwt) {
     return buildResponse(500, "Error: Can't fetch trainings.");
   }
