@@ -19,7 +19,6 @@ const AuthedApp = () => {
   const [nextTrainingId, setNextTrainingId] = useState<number>(0);
   const [editId, setEditId] = useLocalStorage<number | null>("editId", null);
   const [mode, setMode] = useLocalStorage<Mode>("mode", "add");
-
   const [currentInput, setCurrentInput] = useLocalStorage<string | undefined>(
     "currentInput",
     undefined
@@ -48,7 +47,7 @@ const AuthedApp = () => {
     }
   };
 
-  const handleEdit = (id: number) => {
+  const handleSetEdit = (id: number) => {
     if (!trainings || !trainings[id]) {
       return;
     }
@@ -89,6 +88,8 @@ const AuthedApp = () => {
           setCurrentInput={setCurrentInput}
           editId={editId}
           setEditId={setEditId}
+          currentTraining={currentTraining}
+          setTrainings={setTrainings}
         />
 
         {/* DEBUGG PARSER:  */}
@@ -100,7 +101,7 @@ const AuthedApp = () => {
       {trainings && (
         <TrainingsTable
           trainings={trainings}
-          handleEdit={handleEdit}
+          handleEdit={handleSetEdit}
           handleDelete={handleDelete}
         />
       )}

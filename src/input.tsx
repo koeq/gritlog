@@ -1,4 +1,6 @@
 import React from "react";
+import { Training, Trainings } from "../db-handler/types";
+import { editTraining } from "./edit-training";
 import { Mode } from "./types";
 
 interface InputProps {
@@ -6,7 +8,7 @@ interface InputProps {
     event: React.ChangeEvent<HTMLTextAreaElement>
   ) => void;
   readonly currentInput: string | undefined;
-  readonly handleAdd: (editId: number | null) => void;
+  readonly handleAdd: () => void;
   readonly mode: Mode;
   readonly setMode: React.Dispatch<React.SetStateAction<Mode>>;
   readonly setCurrentInput: React.Dispatch<
@@ -14,6 +16,10 @@ interface InputProps {
   >;
   readonly editId: number | null;
   readonly setEditId: React.Dispatch<React.SetStateAction<number | null>>;
+  readonly currentTraining: Training;
+  readonly setTrainings: React.Dispatch<
+    React.SetStateAction<Trainings | undefined>
+  >;
 }
 
 export const Input = ({
@@ -25,7 +31,9 @@ export const Input = ({
   setCurrentInput,
   editId,
   setEditId,
-}: InputProps): JSX.Element => {
+  currentTraining,
+  setTrainings,
+}: InputProps) => {
   const handleStopEdit = (
     setMode: React.Dispatch<React.SetStateAction<Mode>>,
     setEditId: React.Dispatch<React.SetStateAction<number | null>>
@@ -33,6 +41,27 @@ export const Input = ({
     setMode("add");
     setEditId(null);
     setCurrentInput("");
+  };
+
+  const handleEdit = () => {
+    if (!editId) {
+      return;
+    }
+
+    setTrainings((pastTrainings) => {
+      if (!pastTrainings) {
+        return;
+      }
+
+      const trainings = pastTrainings.slice();
+      trainings[editId] = { ...currentTraining, id: editId };
+      return trainings;
+    });
+
+    editTraining(editId, currentTraining);
+    setCurrentInput("");
+    setMode("add");
+    setEditId(null);
   };
 
   return (
@@ -57,14 +86,14 @@ export const Input = ({
           <button
             style={{ width: "250px" }}
             className={"btn-green"}
-            onClick={() => handleAdd(editId)}
+            onClick={() => handleAdd()}
           >
             add
           </button>
         )}
 
-        {mode === "edit" && (
-          <button className={"btn-blue"} onClick={() => console.log("edit...")}>
+        {mode === "edit" && editId && (
+          <button className={"btn-blue"} onClick={() => handleEdit()}>
             edit
           </button>
         )}
