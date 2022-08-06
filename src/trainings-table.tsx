@@ -48,14 +48,14 @@ export const TrainingsTable = ({
                   }}
                 >
                   <button
-                    className="btn-edit"
+                    className="btn-blue"
                     style={{ marginRight: "2px" }}
                     onClick={() => handleEdit(training.id)}
                   >
                     edit
                   </button>
                   <button
-                    className="btn-delete"
+                    className="btn-red"
                     onClick={() => handleDelete(training.id)}
                   >
                     x

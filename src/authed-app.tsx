@@ -54,6 +54,7 @@ const AuthedApp = () => {
     }
 
     const trainingInput = createTrainingInput(trainings[id]);
+
     setCurrentInput(trainingInput);
     setMode("edit");
     setEditId(id);

@@ -35,14 +35,14 @@ button:hover {
   color: rgba(0, 0, 0, 1);
 }
 
-.btn-delete:hover {
-  background-color: rgba(255, 0, 0, 0.1);
+.btn-green:hover {
+  background-color: rgba(0, 255, 0, 0.08);
 }
 
-.btn-edit:hover {
+.btn-blue:hover {
   background-color: rgba(0, 0, 255, 0.04);
 }
 
-.btn-add:hover {
-  background-color: rgba(0, 255, 0, 0.08);
+.btn-red:hover {
+  background-color: rgba(255, 0, 0, 0.1);
 }

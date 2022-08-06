@@ -1,5 +1,5 @@
 import React from "react";
-import { Mode } from "../db-handler/types";
+import { Mode } from "./types";
 
 interface InputProps {
   readonly handleInputChange: (
@@ -53,16 +53,24 @@ export const Input = ({
       <br />
 
       <div style={{ display: "flex" }}>
-        <button
-          style={mode === "add" ? { width: "250px" } : {}}
-          className={mode === "add" ? "btn-add" : "btn-edit"}
-          onClick={() => handleAdd(editId)}
-        >
-          {mode}
-        </button>
+        {mode === "add" && (
+          <button
+            style={{ width: "250px" }}
+            className={"btn-green"}
+            onClick={() => handleAdd(editId)}
+          >
+            add
+          </button>
+        )}
+
+        {mode === "edit" && (
+          <button className={"btn-blue"} onClick={() => console.log("edit...")}>
+            edit
+          </button>
+        )}
         {mode === "edit" && (
           <button
-            className="btn-delete"
+            className="btn-red"
             onClick={() => handleStopEdit(setMode, setEditId)}
           >
             stop edit
