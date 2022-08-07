@@ -1,10 +1,8 @@
 import { Training } from "./../db-handler/types";
 
-export const editTraining = async (id: number, currentTraining: Training) => {
+export const editTraining = async (currentTraining: Training) => {
   try {
-    const trainingUrl = import.meta.env.VITE_TRAINING_URL;
-    const queryParams = new URLSearchParams(`id=${id}`);
-    const url = `${trainingUrl}?${queryParams}`;
+    const url = import.meta.env.VITE_TRAINING_URL;
 
     const requestOptions: RequestInit = {
       headers: {
@@ -16,8 +14,7 @@ export const editTraining = async (id: number, currentTraining: Training) => {
       body: JSON.stringify(currentTraining),
     };
 
-    const res = await fetch(url, requestOptions);
-    console.log(await res.json());
+    await fetch(url, requestOptions);
   } catch (err) {
     console.log(err);
   }
