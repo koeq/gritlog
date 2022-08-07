@@ -31,13 +31,21 @@ export const parse = (
     // match any number or number of digits seperated by a slash
     const repetitionsMatches = line.match(/\d+\/\d*(\/\d*)*/g) || [];
 
-    weightMatches.forEach((weightMatch, index) => {
-      const weight = weightMatch.replace(/\s/g, "");
+    if (weightMatches.length > 1 || repetitionsMatches.length > 1) {
+      weightMatches.forEach((weightMatch, index) => {
+        const weight = weightMatch.replace(/\s/g, "");
 
-      const repetitions = repetitionsMatches[index]?.trim();
+        const repetitions = repetitionsMatches[index]?.trim();
 
-      training.push({ exerciseName, weight, repetitions });
-    });
+        training.push({ exerciseName, weight, repetitions });
+      });
+    } else {
+      training.push({
+        exerciseName,
+        weight: weightMatches[0] && weightMatches[0].replace(/\s/g, ""),
+        repetitions: repetitionsMatches[0] && repetitionsMatches[0].trim(),
+      });
+    }
   });
 
   return training;

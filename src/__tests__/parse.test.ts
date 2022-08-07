@@ -11,6 +11,7 @@ beforeEach(() => {
   singleLine = "Benchpress 100kg 8/8/8";
   singleLineSpaceBeforeWeight = "Benchpress 100 kg 8/8/8";
   singleLineLbs = "Benchpress 100lbs 8/8/8";
+  exerciseNameOnly = "Benchpress";
   multiLine = "Squats 100kg 8/8/8 \n Benchpress 100kg 8/8/8";
   multiLineNoNewline = "Squats 100kg 8/8/8 Benchpress 100kg 8/8/8";
 });
