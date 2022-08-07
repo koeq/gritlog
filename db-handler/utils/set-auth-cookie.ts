@@ -12,7 +12,7 @@ export const setAuthCookie = (statusCode: number, body: string | null) => {
     // is SameSite=none safe?
     const cookie = {
       "Set-Cookie": `user=${jwt}; Max-Age=${
-        5 * 60
+        15 * 60
       }; Secure; HttpOnly; SameSite=none`,
     };
 

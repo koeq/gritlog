@@ -1,11 +1,10 @@
 import { Training } from "./../types";
-import { marshall, unmarshall } from "@aws-sdk/util-dynamodb";
+import { marshall } from "@aws-sdk/util-dynamodb";
 import { GoogleUserData } from "./check-for-user";
 import jwt_decode from "jwt-decode";
 import { buildResponse } from "./build-response";
 import { ddbClient } from "./ddb-client";
 import {
-  AttributeValue,
   UpdateItemCommand,
   UpdateItemCommandInput,
 } from "@aws-sdk/client-dynamodb";
