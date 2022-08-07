@@ -9,3 +9,4 @@ export * from "./add-training";
 export * from "./is-user-authenticated";
 export * from "./get-trainings";
 export * from "./delete-training";
+export * from "./edit-training";

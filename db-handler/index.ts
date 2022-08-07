@@ -5,6 +5,7 @@ import {
   checkForUser,
   createUser,
   deleteUser,
+  editTraining,
   getUser,
   JsonResponse,
   setAuthCookie,
@@ -97,6 +98,7 @@ exports.handler = async (
           break;
 
         case "PUT":
+          response = await editTraining(jwt, event.body);
           break;
 
         case "DELETE":

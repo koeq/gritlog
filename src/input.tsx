@@ -58,7 +58,7 @@ export const Input = ({
       return trainings;
     });
 
-    editTraining(editId, currentTraining);
+    editTraining({ ...currentTraining, id: editId });
     setCurrentInput("");
     setMode("add");
     setEditId(null);
