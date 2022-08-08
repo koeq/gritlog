@@ -18,38 +18,18 @@ export const TrainingsTable = ({
   }
 
   return (
-    <div
-      style={{
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-      }}
-    >
+    <div className="trainings-table">
       {trainings &&
         trainings
           .map((_, index) => {
             const training = trainings[index];
 
             return (
-              <div
-                style={{
-                  display: "flex",
-                  width: "90%",
-                  justifyContent: "center",
-                  marginBottom: "16px",
-                }}
-                key={index}
-              >
+              <div className="training-with-buttons" key={index}>
                 <TrainingTable training={training} />
-                <div
-                  style={{
-                    display: "flex",
-                    marginLeft: "6px",
-                  }}
-                >
+                <div className="buttons-container">
                   <button
                     className="btn-blue"
-                    style={{ marginRight: "2px" }}
                     onClick={() => handleEdit(training.id)}
                   >
                     edit
@@ -65,7 +45,7 @@ export const TrainingsTable = ({
             );
           })
           // TO DO: CHECK
-          // why does this not work before we map?
+          // why does this not work before map?
           .reverse()}
     </div>
   );

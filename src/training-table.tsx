@@ -16,21 +16,14 @@ export const TrainingTable = ({
     <table>
       <tbody>
         <tr>
-          <th
-            colSpan={3}
-            style={{
-              width: "100px",
-              paddingBottom: "10px",
-              borderBottom: "1px solid #EAEAEA",
-            }}
-          >
+          <th colSpan={3} className="date-header">
             {training.date}
           </th>
         </tr>
         <tr>
-          <th style={{ fontWeight: "400" }}>exercise</th>
-          <th style={{ fontWeight: "400" }}>weight</th>
-          <th style={{ fontWeight: "400" }}>repetitions</th>
+          <th className="label-header">exercise</th>
+          <th className="label-header">weight</th>
+          <th className="label-header">repetitions</th>
         </tr>
 
         {training.exercises &&

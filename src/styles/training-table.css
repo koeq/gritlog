@@ -1,6 +1,6 @@
 table {
   box-shadow: var(--shadow-smallest);
-  width: 350px;
+  width: 300px;
   padding: 8px;
   border: 1px solid rgba(0, 0, 0, 0.1);
   border-radius: 4px;
@@ -8,4 +8,14 @@ table {
 
 th {
   text-align: left;
+}
+
+.date-header {
+  width: 100%;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #eaeaea;
+}
+
+.label-header {
+  font-weight: 400;
 }

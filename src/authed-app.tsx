@@ -12,6 +12,7 @@ import { fetchOnce } from "./utils";
 import { addTraining } from "./add-training";
 import { deleteTraining } from "./delete-training";
 import { createTrainingInput } from "./create-training-input";
+import "../src/styles/authed-app.css";
 
 const AuthedApp = () => {
   fetchOnce(() => getTrainings(setTrainings, setNextTrainingId));
@@ -67,35 +68,24 @@ const AuthedApp = () => {
   };
 
   return (
-    <>
-      <div
-        style={{
-          width: "100%",
-          display: "flex",
-          flexDirection: "column",
-          justifyContent: "center",
-          alignItems: "center",
-        }}
-      >
-        <Header />
-        <br />
-        <Input
-          currentInput={currentInput}
-          handleInputChange={handleInputChange}
-          handleAdd={handleAdd}
-          mode={mode}
-          setMode={setMode}
-          setCurrentInput={setCurrentInput}
-          editId={editId}
-          setEditId={setEditId}
-          currentTraining={currentTraining}
-          setTrainings={setTrainings}
-        />
+    <div className="authed">
+      <Header />
+      <br />
+      <Input
+        currentInput={currentInput}
+        handleInputChange={handleInputChange}
+        handleAdd={handleAdd}
+        mode={mode}
+        setMode={setMode}
+        setCurrentInput={setCurrentInput}
+        editId={editId}
+        setEditId={setEditId}
+        currentTraining={currentTraining}
+        setTrainings={setTrainings}
+      />
 
-        {/* DEBUGG PARSER:  */}
-        <div style={{ margin: "40px 0" }}>
-          <TrainingTable training={currentTraining} />
-        </div>
+      <div className="current-training">
+        <TrainingTable training={currentTraining} />
       </div>
 
       {trainings && (
@@ -105,7 +95,7 @@ const AuthedApp = () => {
           handleDelete={handleDelete}
         />
       )}
-    </>
+    </div>
   );
 };
 

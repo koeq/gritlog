@@ -2,6 +2,7 @@ import React from "react";
 import { Training, Trainings } from "../db-handler/types";
 import { editTraining } from "./edit-training";
 import { Mode } from "./types";
+import "./styles/input.css";
 
 interface InputProps {
   readonly handleInputChange: (
@@ -73,19 +74,13 @@ export const Input = ({
         id="training"
         cols={30}
         rows={10}
-        style={{
-          width: "min(400px, 80%)",
-          border: "1px solid rgba(0, 0, 0, 0.2)",
-          borderRadius: "4px",
-        }}
       ></textarea>
       <br />
 
-      <div style={{ display: "flex" }}>
+      <div className="buttons">
         {mode === "add" && (
           <button
-            style={{ width: "250px" }}
-            className={"btn-green"}
+            className={"btn-green add-button"}
             onClick={() => handleAdd()}
           >
             add
