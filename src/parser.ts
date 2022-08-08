@@ -31,6 +31,7 @@ export const parse = (
     // match any number or number of digits seperated by a slash
     const repetitionsMatches = line.match(/\d+\/\d*(\/\d*)*/g) || [];
 
+    // multiple weights / repetitions
     if (weightMatches.length > 1 || repetitionsMatches.length > 1) {
       weightMatches.forEach((weightMatch, index) => {
         const weight = weightMatch.replace(/\s/g, "");
