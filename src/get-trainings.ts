@@ -1,8 +1,7 @@
 import { Trainings } from "../db-handler/types";
 
 export const getTrainings = async (
-  setTrainings: React.Dispatch<React.SetStateAction<Trainings | undefined>>,
-  setNextTrainingId: React.Dispatch<React.SetStateAction<number>>
+  setTrainings: React.Dispatch<React.SetStateAction<Trainings | undefined>>
 ) => {
   const trainingUrl = import.meta.env.VITE_TRAINING_URL;
 
@@ -20,7 +19,5 @@ export const getTrainings = async (
 
   if (trainings.length > 0) {
     setTrainings(trainings);
-    const currentId = trainings[trainings.length - 1].id;
-    setNextTrainingId(currentId ? currentId + 1 : 0);
   }
 };

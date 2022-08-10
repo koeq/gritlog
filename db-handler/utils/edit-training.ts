@@ -22,8 +22,9 @@ export const editTraining = async (
     const decoded: GoogleUserData = jwt_decode(jwt);
     const { email } = decoded;
 
-    const exercises = training.exercises?.slice();
-    const marshalledExercises = marshall({ exercises })["exercises"];
+    const marshalledExercises = marshall({ exercises: training.exercises })[
+      "exercises"
+    ];
 
     if (!marshalledExercises) {
       return buildResponse(500, "Can't update training.");

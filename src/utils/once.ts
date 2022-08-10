@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 
-export const fetchOnce = <T>(effect: () => Promise<T>) => {
+export const usefetchOnce = <T>(effect: () => Promise<T>) => {
   const [data, setData] = useState<T>();
   const fetched = useRef(false);
 
