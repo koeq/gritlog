@@ -1,17 +1,17 @@
 .trainings-table {
+  width: min(90%, 400px);
   display: flex;
   flex-direction: column;
   align-items: center;
 }
 
 .training-with-buttons {
+  width: 100%;
   display: flex;
-  width: 90%;
   justify-content: center;
   margin-bottom: 16px;
 }
 
 .buttons-container {
   display: flex;
-  margin-left: 6px;
 }
