@@ -13,7 +13,6 @@ import { addTraining } from "./add-training";
 import { deleteTraining } from "./delete-training";
 import { createTrainingInput } from "./create-training-input";
 import "../src/styles/authed-app.css";
-import { DeletionConfirmation } from "./deletion-confirmation";
 
 const AuthedApp = () => {
   usefetchOnce(() => getTrainings(setTrainings));
@@ -95,7 +94,6 @@ const AuthedApp = () => {
           handleDelete={handleDelete}
         />
       )}
-      <DeletionConfirmation />
     </div>
   );
 };
