@@ -31,9 +31,17 @@ exports.handler = async (
       switch (event.httpMethod) {
         case "GET":
           if (isUserAuthenticated(event.headers)) {
-            response = buildResponse(200, "authenticated");
+            response = buildResponse(
+              200,
+              "authenticated",
+              event.headers.origin
+            );
           } else {
-            response = buildResponse(401, "not authenticated");
+            response = buildResponse(
+              401,
+              "not authenticated",
+              event.headers.origin
+            );
           }
           break;
 
@@ -42,17 +50,20 @@ exports.handler = async (
           const user = await checkForUser(event.body);
 
           if (user) {
-            response = setAuthCookie(200, event.body);
+            response = setAuthCookie(200, event);
             console.log("we already have an user an set the cookie");
           } else {
-            response = await createUser(event.body);
+            response = await createUser(event);
             console.log("we created an user and set the cookie");
           }
           break;
 
+        case "OPTIONS":
+          response = buildResponse(200, "", event.headers.origin);
+          break;
         default:
           console.log("we're in default");
-          response = buildResponse(404, "404 not found");
+          response = buildResponse(404, "404 not found", event.headers.origin);
       }
     }
 
@@ -60,53 +71,62 @@ exports.handler = async (
       console.log("we're in the user path");
 
       if (!isUserAuthenticated(event.headers)) {
-        return buildResponse(403, "not authenticated");
+        return buildResponse(403, "not authenticated", event.headers.origin);
       }
 
       switch (event.httpMethod) {
         case "GET":
           console.log("we're in the GET method");
-          response = await getUser(event.queryStringParameters);
+          response = await getUser(event);
           break;
 
         case "DELETE":
           console.log("we're in the DELETE method");
-          response = await deleteUser(event.queryStringParameters);
+          response = await deleteUser(event);
+          break;
+
+        case "OPTIONS":
+          response = buildResponse(200, "", event.headers.origin);
           break;
 
         default:
-          response = buildResponse(404, "404 not found");
+          response = buildResponse(404, "404 not found", event.headers.origin);
       }
     }
 
     if (event.path === trainingPath) {
       console.log("we're in the training path");
 
+      // no authentication needed for the preflight
+      if (event.httpMethod === "OPTIONS") {
+        return buildResponse(200, "", event.headers.origin);
+      }
+
       if (!isUserAuthenticated(event.headers)) {
-        return buildResponse(403, "not authenticated");
+        buildResponse(403, "not authenticated", event.headers.origin);
       }
 
       const jwt = event.headers.cookie?.split("=")[1];
 
       switch (event.httpMethod) {
         case "GET":
-          response = await getTrainings(jwt);
+          response = await getTrainings(jwt, event);
           break;
 
         case "POST":
-          response = await addTraining(jwt, event.body);
+          response = await addTraining(jwt, event);
           break;
 
         case "PUT":
-          response = await editTraining(jwt, event.body);
+          response = await editTraining(jwt, event);
           break;
 
         case "DELETE":
-          response = await deleteTraining(jwt, event.queryStringParameters);
+          response = await deleteTraining(jwt, event);
           break;
 
         default:
-          response = buildResponse(404, "404 not found");
+          response = buildResponse(404, "404 not found", event.headers.origin);
       }
     }
 
@@ -115,6 +135,6 @@ exports.handler = async (
   } catch (err) {
     console.log(err);
 
-    return buildResponse(500, err);
+    return buildResponse(500, err, event.headers.origin);
   }
 };

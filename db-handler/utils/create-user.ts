@@ -5,11 +5,13 @@ import { buildResponse } from "./build-response";
 import { GoogleUserData } from "./check-for-user";
 import { ddbClient } from "./ddb-client";
 import { setAuthCookie } from "./set-auth-cookie";
+import { APIGatewayProxyEvent } from "aws-lambda";
 
-export const createUser = async (body: string | null) => {
+export const createUser = async (event: APIGatewayProxyEvent) => {
+  const { body, headers } = event;
   try {
     if (!body) {
-      return buildResponse(500, "No body found");
+      return buildResponse(500, "No body found", headers.origin);
     }
 
     const decoded: GoogleUserData = jwt_decode(body);
@@ -28,10 +30,10 @@ export const createUser = async (body: string | null) => {
     const command = new PutItemCommand(params);
     await ddbClient.send(command);
 
-    return setAuthCookie(201, body);
+    return setAuthCookie(201, event);
   } catch (err) {
     console.log(`Couldn't create user: ${err}`);
 
-    return buildResponse(500, err);
+    return buildResponse(500, err, headers.origin);
   }
 };

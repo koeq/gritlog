@@ -1,9 +1,14 @@
+import { APIGatewayProxyEvent } from "aws-lambda";
 import { buildResponse } from "./build-response";
 
-export const setAuthCookie = (statusCode: number, body: string | null) => {
+export const setAuthCookie = (
+  statusCode: number,
+  event: APIGatewayProxyEvent
+) => {
+  const { body, headers } = event;
   try {
     if (!body) {
-      return buildResponse(500, "No body found");
+      return buildResponse(500, "No body found", headers.origin);
     }
 
     const jwt = JSON.parse(body);
@@ -16,8 +21,13 @@ export const setAuthCookie = (statusCode: number, body: string | null) => {
       }; Secure; HttpOnly; SameSite=none`,
     };
 
-    return buildResponse(statusCode, "auth cookie was set", cookie);
+    return buildResponse(
+      statusCode,
+      "auth cookie was set",
+      headers.origin,
+      cookie
+    );
   } catch (err) {
-    return buildResponse(500, "Couldn't set auth cookie");
+    return buildResponse(500, "Couldn't set auth cookie", headers.origin);
   }
 };

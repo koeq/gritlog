@@ -5,18 +5,21 @@ import { buildResponse } from "./build-response";
 import { ddbClient } from "./ddb-client";
 import { PutItemCommand } from "@aws-sdk/client-dynamodb";
 import { Training } from "../types";
+import { APIGatewayProxyEvent } from "aws-lambda";
 
 export const addTraining = async (
   jwt: string | undefined,
-  body: string | null
+  event: APIGatewayProxyEvent
 ) => {
+  const { body, headers } = event;
+
   try {
     if (!jwt) {
-      return buildResponse(401, "Not authenticated");
+      return buildResponse(401, "Not authenticated", headers.origin);
     }
 
     if (!body) {
-      return buildResponse(500, "Can't add user.");
+      return buildResponse(500, "Can't add user.", headers.origin);
     }
 
     const training = JSON.parse(body) as Training;
@@ -31,10 +34,10 @@ export const addTraining = async (
     const command = new PutItemCommand(params);
     const res = await ddbClient.send(command);
 
-    return buildResponse(200, res);
+    return buildResponse(200, res, headers.origin);
   } catch (err) {
     console.log(err);
 
-    return buildResponse(500, "Can't add user.");
+    return buildResponse(500, "Can't add user.", headers.origin);
   }
 };

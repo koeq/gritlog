@@ -7,18 +7,23 @@ import {
   DeleteItemCommand,
   DeleteItemCommandInput,
 } from "@aws-sdk/client-dynamodb";
-import { APIGatewayProxyEventQueryStringParameters } from "aws-lambda";
+import {
+  APIGatewayProxyEvent,
+  APIGatewayProxyEventQueryStringParameters,
+} from "aws-lambda";
 
 export const deleteTraining = async (
   jwt: string | undefined,
-  queryParams: APIGatewayProxyEventQueryStringParameters | null
+  event: APIGatewayProxyEvent
 ) => {
+  const { queryStringParameters, headers } = event;
+
   try {
-    if (!jwt || !queryParams?.id) {
-      return buildResponse(500, "Can't delete training.");
+    if (!jwt || !queryStringParameters?.id) {
+      return buildResponse(500, "Can't delete training.", headers.origin);
     }
 
-    const id = JSON.parse(queryParams.id);
+    const id = JSON.parse(queryStringParameters.id);
 
     const decoded: GoogleUserData = jwt_decode(jwt);
     const { email } = decoded;
@@ -31,10 +36,10 @@ export const deleteTraining = async (
     const command = new DeleteItemCommand(params);
     const res = await ddbClient.send(command);
 
-    return buildResponse(200, res);
+    return buildResponse(200, res, headers.origin);
   } catch (err) {
     console.log(err);
 
-    return buildResponse(500, "Can't delete training.");
+    return buildResponse(500, "Can't delete training.", headers.origin);
   }
 };

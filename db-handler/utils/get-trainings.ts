@@ -4,10 +4,16 @@ import { GoogleUserData } from "./check-for-user";
 import { ddbClient } from "./ddb-client";
 import { marshall, unmarshall } from "@aws-sdk/util-dynamodb";
 import { QueryCommand, QueryCommandInput } from "@aws-sdk/client-dynamodb";
+import { APIGatewayProxyEvent } from "aws-lambda";
 
-export const getTrainings = async (jwt: string | undefined) => {
+export const getTrainings = async (
+  jwt: string | undefined,
+  event: APIGatewayProxyEvent
+) => {
+  const { headers } = event;
+
   if (!jwt) {
-    return buildResponse(500, "Error: Can't fetch trainings.");
+    return buildResponse(500, "Error: Can't fetch trainings.", headers.origin);
   }
 
   try {
@@ -29,15 +35,15 @@ export const getTrainings = async (jwt: string | undefined) => {
     const result = await ddbClient.send(command);
 
     if (!result.Items) {
-      return buildResponse(200, "No trainings found.");
+      return buildResponse(200, "No trainings found.", headers.origin);
     }
 
     const items = result.Items.map((item) => unmarshall(item));
 
-    return buildResponse(200, items);
+    return buildResponse(200, items, headers.origin);
   } catch (err) {
     console.log(err);
 
-    return buildResponse(500, "Error: Can't fetch trainings.");
+    return buildResponse(500, "Error: Can't fetch trainings.", headers.origin);
   }
 };

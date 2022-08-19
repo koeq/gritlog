@@ -8,14 +8,17 @@ import {
   UpdateItemCommand,
   UpdateItemCommandInput,
 } from "@aws-sdk/client-dynamodb";
+import { APIGatewayProxyEvent } from "aws-lambda";
 
 export const editTraining = async (
   jwt: string | undefined,
-  body: string | null
+  event: APIGatewayProxyEvent
 ) => {
+  const { body, headers } = event;
+
   try {
     if (!jwt || !body) {
-      return buildResponse(500, "Can't update training.");
+      return buildResponse(500, "Can't update training.", headers.origin);
     }
 
     const training = JSON.parse(body) as Training;
@@ -27,7 +30,7 @@ export const editTraining = async (
     ];
 
     if (!marshalledExercises) {
-      return buildResponse(500, "Can't update training.");
+      return buildResponse(500, "Can't update training.", headers.origin);
     }
 
     const params: UpdateItemCommandInput = {
@@ -43,10 +46,10 @@ export const editTraining = async (
     const command = new UpdateItemCommand(params);
     await ddbClient.send(command);
 
-    return buildResponse(200, "Edited training");
+    return buildResponse(200, "Edited training", headers.origin);
   } catch (err) {
     console.log(err);
 
-    return buildResponse(500, "Can't update training.");
+    return buildResponse(500, "Can't update training.", headers.origin);
   }
 };
