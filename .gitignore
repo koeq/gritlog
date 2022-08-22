@@ -26,3 +26,4 @@ dist-ssr
 # zipped lambda & minified lambda
 **/db-handler/index.js
 *.zip
+**/.env*
