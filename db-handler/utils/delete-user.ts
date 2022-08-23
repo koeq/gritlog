@@ -10,10 +10,10 @@ import { buildResponse } from "./build-response";
 import { ddbClient } from "./ddb-client";
 
 export const deleteUser = async (event: APIGatewayProxyEvent) => {
-  const { queryStringParameters, headers } = event;
+  const { queryStringParameters } = event;
 
   if (!queryStringParameters || !queryStringParameters.email) {
-    return buildResponse(500, "Missing query parameter", headers.origin);
+    return buildResponse(500, "Missing query parameter");
   }
 
   try {
@@ -31,10 +31,10 @@ export const deleteUser = async (event: APIGatewayProxyEvent) => {
     const command = new DeleteItemCommand(params);
     await ddbClient.send(command);
 
-    return buildResponse(202, "User will be deleted", headers.origin);
+    return buildResponse(202, "User will be deleted");
   } catch (err) {
     console.log(err);
 
-    return buildResponse(500, err, headers.origin);
+    return buildResponse(500, err);
   }
 };

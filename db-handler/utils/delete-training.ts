@@ -16,11 +16,11 @@ export const deleteTraining = async (
   jwt: string | undefined,
   event: APIGatewayProxyEvent
 ) => {
-  const { queryStringParameters, headers } = event;
+  const { queryStringParameters } = event;
 
   try {
     if (!jwt || !queryStringParameters?.id) {
-      return buildResponse(500, "Can't delete training.", headers.origin);
+      return buildResponse(500, "Can't delete training.");
     }
 
     const id = JSON.parse(queryStringParameters.id);
@@ -36,10 +36,10 @@ export const deleteTraining = async (
     const command = new DeleteItemCommand(params);
     const res = await ddbClient.send(command);
 
-    return buildResponse(200, res, headers.origin);
+    return buildResponse(200, res);
   } catch (err) {
     console.log(err);
 
-    return buildResponse(500, "Can't delete training.", headers.origin);
+    return buildResponse(500, "Can't delete training.");
   }
 };

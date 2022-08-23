@@ -8,10 +8,10 @@ import { setAuthCookie } from "./set-auth-cookie";
 import { APIGatewayProxyEvent } from "aws-lambda";
 
 export const createUser = async (event: APIGatewayProxyEvent) => {
-  const { body, headers } = event;
+  const { body } = event;
   try {
     if (!body) {
-      return buildResponse(500, "No body found", headers.origin);
+      return buildResponse(500, "No body found");
     }
 
     const decoded: GoogleUserData = jwt_decode(body);
@@ -34,6 +34,6 @@ export const createUser = async (event: APIGatewayProxyEvent) => {
   } catch (err) {
     console.log(`Couldn't create user: ${err}`);
 
-    return buildResponse(500, err, headers.origin);
+    return buildResponse(500, err);
   }
 };

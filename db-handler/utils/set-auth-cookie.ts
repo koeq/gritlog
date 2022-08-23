@@ -5,10 +5,10 @@ export const setAuthCookie = (
   statusCode: number,
   event: APIGatewayProxyEvent
 ) => {
-  const { body, headers } = event;
+  const { body } = event;
   try {
     if (!body) {
-      return buildResponse(500, "No body found", headers.origin);
+      return buildResponse(500, "No body found");
     }
 
     const jwt = JSON.parse(body);
@@ -21,13 +21,8 @@ export const setAuthCookie = (
       }; Secure; HttpOnly; SameSite=none`,
     };
 
-    return buildResponse(
-      statusCode,
-      "auth cookie was set",
-      headers.origin,
-      cookie
-    );
+    return buildResponse(statusCode, "auth cookie was set", cookie);
   } catch (err) {
-    return buildResponse(500, "Couldn't set auth cookie", headers.origin);
+    return buildResponse(500, "Couldn't set auth cookie");
   }
 };

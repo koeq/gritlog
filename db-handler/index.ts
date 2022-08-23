@@ -32,17 +32,9 @@ exports.handler = async (
       switch (event.httpMethod) {
         case "GET":
           if (isUserAuthenticated(event.headers)) {
-            response = buildResponse(
-              200,
-              "authenticated",
-              event.headers.origin
-            );
+            response = buildResponse(200, "authenticated");
           } else {
-            response = buildResponse(
-              401,
-              "not authenticated",
-              event.headers.origin
-            );
+            response = buildResponse(401, "not authenticated");
           }
           break;
 
@@ -59,12 +51,9 @@ exports.handler = async (
           }
           break;
 
-        case "OPTIONS":
-          response = buildResponse(200, "", event.headers.origin);
-          break;
         default:
           console.log("we're in default");
-          response = buildResponse(404, "404 not found", event.headers.origin);
+          response = buildResponse(404, "404 not found");
       }
     }
 
@@ -72,7 +61,7 @@ exports.handler = async (
       console.log("we're in the user path");
 
       if (!isUserAuthenticated(event.headers)) {
-        return buildResponse(403, "not authenticated", event.headers.origin);
+        return buildResponse(403, "not authenticated");
       }
 
       switch (event.httpMethod) {
@@ -87,31 +76,26 @@ exports.handler = async (
           break;
 
         case "OPTIONS":
-          response = buildResponse(200, "", event.headers.origin);
+          response = buildResponse(200, "");
           break;
 
         default:
-          response = buildResponse(404, "404 not found", event.headers.origin);
+          response = buildResponse(404, "404 not found");
       }
     }
 
     if (event.path === trainingPath) {
       console.log("we're in the training path");
 
-      // no authentication needed for the preflight
-      if (event.httpMethod === "OPTIONS") {
-        return buildResponse(200, "", event.headers.origin);
-      }
-
       if (!isUserAuthenticated(event.headers)) {
-        buildResponse(403, "not authenticated", event.headers.origin);
+        buildResponse(403, "not authenticated");
       }
 
       const jwt = event.headers.cookie?.split("=")[1];
 
       switch (event.httpMethod) {
         case "GET":
-          response = await getTrainings(jwt, event);
+          response = await getTrainings(jwt);
           break;
 
         case "POST":
@@ -127,12 +111,12 @@ exports.handler = async (
           break;
 
         default:
-          response = buildResponse(404, "404 not found", event.headers.origin);
+          response = buildResponse(404, "404 not found");
       }
     }
 
     if (event.path === healthPath) {
-      response = buildResponse(200, "lambda ok", event.headers.origin);
+      response = buildResponse(200, "OK");
     }
 
     console.log(response);
@@ -140,6 +124,6 @@ exports.handler = async (
   } catch (err) {
     console.log(err);
 
-    return buildResponse(500, err, event.headers.origin);
+    return buildResponse(500, err);
   }
 };
