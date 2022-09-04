@@ -17,7 +17,7 @@ const headers = {
 
 const handleSignInWithGoogle = async (
   response: CredentialResponse,
-  setSignedIn: React.Dispatch<React.SetStateAction<boolean>>
+  setAuthed: React.Dispatch<React.SetStateAction<boolean>>
 ) => {
   const requestOptions = {
     ...credentials,
@@ -34,7 +34,7 @@ const handleSignInWithGoogle = async (
     // case 201 -> user was created
     // case 200 -> user already existed
     if (res.status === 201 || res.status === 200) {
-      setSignedIn(true);
+      setAuthed(true);
     }
   } catch (err) {
     console.log(err);
@@ -78,6 +78,8 @@ export const useAuth = () => {
             client_id: import.meta.env.VITE_DATA_CLIENT_ID,
             callback: (response) => handleSignInWithGoogle(response, setAuthed),
           });
+          // one tap button
+          window.google.accounts.id.prompt();
 
           // login button
           window.google.accounts.id.renderButton(
@@ -88,9 +90,6 @@ export const useAuth = () => {
               size: "large",
             }
           );
-
-          // one tap button
-          window.google.accounts.id.prompt();
         }
       } catch (err) {
         console.log(err);

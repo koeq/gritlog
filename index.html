@@ -11,9 +11,7 @@
   <body>
     <noscript>You need to enable JavaScript to run this app.</noscript>
     <div id="root"></div>
-    <!-- remove async and defer as google might not be loaded then -->
-    <!-- maybe this has to be changed and managed in the callback -->
-    <script src="https://accounts.google.com/gsi/client"></script>
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
     <script type="module" src="/src/index.tsx"></script>
   </body>
 </html>

@@ -14,10 +14,16 @@ export const getTrainings = async (
     credentials: "include",
   };
 
-  const res = await fetch(trainingUrl, requestOptions);
-  const trainings = (await res.json()) as Trainings | [];
+  try {
+    const res = await fetch(trainingUrl, requestOptions);
+    if (res.status === 200) {
+      const trainings = (await res.json()) as Trainings | [];
 
-  if (trainings.length > 0) {
-    setTrainings(trainings);
+      if (trainings.length > 0) {
+        setTrainings(trainings);
+      }
+    }
+  } catch (error) {
+    console.log(error);
   }
 };
