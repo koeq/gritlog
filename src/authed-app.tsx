@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Header } from "./header";
 import { Input } from "./input";
 import { parse } from "./parser";
@@ -8,14 +8,12 @@ import { Training, Trainings } from "../db-handler/types";
 import { Mode } from "./types";
 import { getTrainings } from "./get-trainings";
 import { useLocalStorage } from "./use-local-storage";
-import { usefetchOnce } from "./utils";
 import { addTraining } from "./add-training";
 import { deleteTraining } from "./delete-training";
 import { createTrainingInput } from "./create-training-input";
 import "../src/styles/authed-app.css";
 
 const AuthedApp = () => {
-  usefetchOnce(() => getTrainings(setTrainings));
   const [trainings, setTrainings] = useState<Trainings | undefined>();
   const [editId, setEditId] = useLocalStorage<number | null>("editId", null);
   const [mode, setMode] = useLocalStorage<Mode>("mode", "add");
@@ -23,6 +21,11 @@ const AuthedApp = () => {
     "currentInput",
     undefined
   );
+
+  useEffect(() => {
+    const fetchOnce = async () => getTrainings(setTrainings);
+    fetchOnce();
+  }, [setTrainings]);
 
   const nextTrainingId = trainings ? trainings[trainings.length - 1].id + 1 : 0;
 
