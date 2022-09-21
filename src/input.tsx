@@ -21,6 +21,7 @@ interface InputProps {
   readonly setTrainings: React.Dispatch<
     React.SetStateAction<Trainings | undefined>
   >;
+  readonly setAuthed: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 export const Input = ({
@@ -34,6 +35,7 @@ export const Input = ({
   setEditId,
   currentTraining,
   setTrainings,
+  setAuthed,
 }: InputProps) => {
   const handleStopEdit = (
     setMode: React.Dispatch<React.SetStateAction<Mode>>,
@@ -59,7 +61,7 @@ export const Input = ({
       return trainings;
     });
 
-    editTraining({ ...currentTraining, id: editId });
+    editTraining({ ...currentTraining, id: editId }, setAuthed);
     setCurrentInput("");
     setMode("add");
     setEditId(null);

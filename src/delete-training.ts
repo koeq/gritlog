@@ -1,4 +1,7 @@
-export const deleteTraining = async (id: number) => {
+export const deleteTraining = async (
+  id: number,
+  setAuthed: React.Dispatch<React.SetStateAction<boolean>>
+) => {
   try {
     const trainingUrl = import.meta.env.VITE_TRAINING_URL;
     const queryParams = new URLSearchParams(`id=${id}`);
@@ -15,7 +18,11 @@ export const deleteTraining = async (id: number) => {
 
     // TO DO: handle the outcome of the response i.e. status code
     // this is necessary for all calls to the api gateway
-    await fetch(url, requestOptions);
+    const res = await fetch(url, requestOptions);
+
+    if (res.status === 401) {
+      setAuthed(false);
+    }
   } catch (err) {
     console.log(err);
   }

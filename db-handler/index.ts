@@ -61,7 +61,7 @@ exports.handler = async (
       console.log("we're in the user path");
 
       if (!isUserAuthenticated(event.headers)) {
-        return buildResponse(403, "not authenticated");
+        return buildResponse(401, "not authenticated");
       }
 
       switch (event.httpMethod) {
@@ -88,7 +88,7 @@ exports.handler = async (
       console.log("we're in the training path");
 
       if (!isUserAuthenticated(event.headers)) {
-        buildResponse(403, "not authenticated");
+        return buildResponse(401, "not authenticated");
       }
 
       const jwt = event.headers.cookie?.split("=")[1];

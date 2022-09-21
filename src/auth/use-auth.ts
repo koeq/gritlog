@@ -30,9 +30,8 @@ const handleSignInWithGoogle = async (
   try {
     const res = await fetch(authUrl, requestOptions);
 
-    // log in if cookie was set
-    // case 201 -> user was created
-    // case 200 -> user already existed
+    /* case 201 -> user was created
+       case 200 -> user already existed */
     if (res.status === 201 || res.status === 200) {
       setAuthed(true);
     }
@@ -62,9 +61,9 @@ const checkAuthentication = async () => {
   }
 };
 
-export const useAuth = () => {
-  const [authed, setAuthed] = useState(false);
-
+export const useAuth = (
+  setAuthed: React.Dispatch<React.SetStateAction<boolean>>
+) => {
   useEffect(() => {
     const authenticate = async () => {
       try {
@@ -98,6 +97,4 @@ export const useAuth = () => {
 
     authenticate();
   }, []);
-
-  return authed;
 };
