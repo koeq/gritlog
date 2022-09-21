@@ -1,9 +1,18 @@
 textarea {
   width: min(400px, 80%);
+  height: 150px;
   border: 1px solid rgba(0, 0, 0, 0.2);
   border-radius: 4px;
+  outline: none;
   padding: 5px 10px;
   font-size: 16px;
+  transition: 0.15s ease-in-out;
+  margin-bottom: 25px;
+}
+
+textarea:focus {
+  width: min(400px, 95%);
+  height: 200px;
 }
 
 .buttons {

@@ -72,10 +72,7 @@ export const Input = ({
         value={currentInput}
         name="training"
         id="training"
-        cols={30}
-        rows={10}
       ></textarea>
-      <br />
 
       <div className="buttons">
         {mode === "add" && (
