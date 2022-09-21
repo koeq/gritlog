@@ -74,7 +74,7 @@ const AuthedApp = () => {
   return (
     <div className="authed">
       <Header />
-      <br />
+
       <Input
         currentInput={currentInput}
         handleInputChange={handleInputChange}
