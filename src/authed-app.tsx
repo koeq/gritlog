@@ -12,6 +12,8 @@ import { addTraining } from "./add-training";
 import { deleteTraining } from "./delete-training";
 import { createTrainingInput } from "./create-training-input";
 import "../src/styles/authed-app.css";
+import { SetAuthedContext } from "./app";
+import { useSafeContext } from "./utils/use-safe-context";
 
 const AuthedApp = () => {
   const [trainings, setTrainings] = useState<Trainings | undefined>();

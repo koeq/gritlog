@@ -1,6 +1,10 @@
 import { Training } from "./../db-handler/types";
+import { SetAuthedContext } from "./app";
+import { useSafeContext } from "./utils/use-safe-context";
 
 export const editTraining = async (currentTraining: Training) => {
+  const setAuthed = useSafeContext(SetAuthedContext, "SetAuthed");
+
   try {
     const url = import.meta.env.VITE_TRAINING_URL;
 
@@ -14,7 +18,11 @@ export const editTraining = async (currentTraining: Training) => {
       body: JSON.stringify(currentTraining),
     };
 
-    await fetch(url, requestOptions);
+    const res = await fetch(url, requestOptions);
+
+    if (res.status === 401) {
+      setAuthed(false);
+    }
   } catch (err) {
     console.log(err);
   }
