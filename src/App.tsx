@@ -1,23 +1,15 @@
-import React, { createContext, Suspense, useState } from "react";
-import { useAuth } from "./auth";
+import React, { Suspense } from "react";
+import { useAuth } from "./context/auth-provider";
 
 const AuthedApp = React.lazy(() => import("./authed-app"));
-const UnauthedApp = React.lazy(() => import("./auth/unauthed-app"));
-
-export const SetAuthedContext = createContext<
-  React.Dispatch<React.SetStateAction<boolean>> | undefined
->(undefined);
+const UnauthedApp = React.lazy(() => import("./unauthed-app"));
 
 export const App = () => {
-  const [authed, setAuthed] = useState(false);
-
-  useAuth(setAuthed);
+  const { authed } = useAuth();
 
   return (
-    <Suspense fallback={<></>}>
-      <SetAuthedContext.Provider value={setAuthed}>
-        {authed ? <AuthedApp /> : <UnauthedApp />}
-      </SetAuthedContext.Provider>
+    <Suspense fallback={<p> ¯\_(ツ)_/¯</p>}>
+      {authed ? <AuthedApp /> : <UnauthedApp />}
     </Suspense>
   );
 };
