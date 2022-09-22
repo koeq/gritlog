@@ -8,7 +8,7 @@ export const App = () => {
   const { authed } = useAuth();
 
   return (
-    <Suspense fallback={<p> ¯\_(ツ)_/¯</p>}>
+    <Suspense fallback={<pre> ¯\_(ツ)_/¯</pre>}>
       {authed ? <AuthedApp /> : <UnauthedApp />}
     </Suspense>
   );

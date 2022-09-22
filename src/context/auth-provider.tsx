@@ -1,51 +1,12 @@
-import { CredentialResponse } from "google-one-tap";
-import React, { createContext, useContext } from "react";
+import { createContext } from "react";
 import { auth } from "../auth";
+import { handleSignInWithGoogle } from "../auth/handle-sign-in-with-google";
 import { useSafeContext } from "../utils/use-safe-context";
-
-const authUrl = import.meta.env.VITE_AUTH_URL;
-const credentials: {
-  credentials: RequestCredentials;
-} = {
-  credentials: "include",
-};
-
-const headers = {
-  headers: {
-    "Content-Type": "application/json",
-    "x-api-key": import.meta.env.VITE_GATEWAY_API_KEY,
-  },
-};
-
-const handleSignInWithGoogle = async (
-  response: CredentialResponse,
-  setAuthed: React.Dispatch<React.SetStateAction<boolean>>
-) => {
-  const requestOptions = {
-    ...credentials,
-    ...headers,
-    method: "POST",
-    // send the JSON web token
-    body: JSON.stringify(response.credential),
-  };
-
-  try {
-    const res = await fetch(authUrl, requestOptions);
-
-    /* case 201 -> user was created
-       case 200 -> user already existed */
-    if (res.status === 201 || res.status === 200) {
-      setAuthed(true);
-    }
-  } catch (err) {
-    console.log(err);
-  }
-};
 
 interface AuthContextTypes {
   authed: boolean;
   logout: () => void;
-  login: () => void;
+  startLoginFlow: () => void;
 }
 
 const AuthContext = createContext<AuthContextTypes | undefined>(undefined);
@@ -55,7 +16,7 @@ export const AuthProvider = (props: any) => {
   const [authed, setAuthed] = auth();
 
   const logout = () => setAuthed(false);
-  const login = () => {
+  const startLoginFlow = () => {
     // use google sign in flow
     window.google.accounts.id.initialize({
       client_id: import.meta.env.VITE_DATA_CLIENT_ID,
@@ -75,7 +36,12 @@ export const AuthProvider = (props: any) => {
     );
   };
 
-  return <AuthContext.Provider value={{ authed, logout, login }} {...props} />;
+  return (
+    <AuthContext.Provider
+      value={{ authed, logout, startLoginFlow }}
+      {...props}
+    />
+  );
 };
 
-export const useAuth = () => useSafeContext(AuthContext, "Auth context");
+export const useAuth = () => useSafeContext(AuthContext, "Auth");

@@ -5,8 +5,8 @@ import { useAuth } from "./context/auth-provider";
 import "./styles/unauthed-app.css";
 
 const UnauthedApp = () => {
-  const { login } = useAuth();
-  useEffect(() => login(), []);
+  const { startLoginFlow } = useAuth();
+  useEffect(() => startLoginFlow(), []);
 
   return (
     <div className="unauthed">
