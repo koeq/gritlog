@@ -47,7 +47,7 @@ export const Input = ({
   };
 
   const handleEdit = () => {
-    if (!editId) {
+    if (!editId && editId !== 0) {
       return;
     }
 
@@ -86,7 +86,7 @@ export const Input = ({
           </button>
         )}
 
-        {mode === "edit" && typeof editId === "number" && (
+        {mode === "edit" && (
           <button className={"btn-blue"} onClick={() => handleEdit()}>
             edit
           </button>
