@@ -1,7 +1,4 @@
-export const deleteTraining = async (
-  id: number,
-  setAuthed: React.Dispatch<React.SetStateAction<boolean>>
-) => {
+export const deleteTraining = async (id: number, logout: () => void) => {
   try {
     const trainingUrl = import.meta.env.VITE_TRAINING_URL;
     const queryParams = new URLSearchParams(`id=${id}`);
@@ -21,7 +18,7 @@ export const deleteTraining = async (
     const res = await fetch(url, requestOptions);
 
     if (res.status === 401) {
-      setAuthed(false);
+      logout();
     }
   } catch (err) {
     console.log(err);

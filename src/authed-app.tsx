@@ -12,8 +12,7 @@ import { addTraining } from "./add-training";
 import { deleteTraining } from "./delete-training";
 import { createTrainingInput } from "./create-training-input";
 import "../src/styles/authed-app.css";
-import { SetAuthedContext } from "./app";
-import { useSafeContext } from "./utils/use-safe-context";
+import { useAuth } from "./context/auth-provider";
 
 const AuthedApp = () => {
   const [trainings, setTrainings] = useState<Trainings | undefined>();
@@ -23,12 +22,13 @@ const AuthedApp = () => {
     "currentInput",
     undefined
   );
+
   useEffect(() => {
     const fetchOnce = async () => getTrainings(setTrainings);
     fetchOnce();
   }, [setTrainings]);
 
-  const setAuthed = useSafeContext(SetAuthedContext, "SetAuthed");
+  const { logout } = useAuth();
   const nextTrainingId = trainings ? trainings[trainings.length - 1].id + 1 : 0;
 
   const currentTraining: Training = {
@@ -49,7 +49,7 @@ const AuthedApp = () => {
           : [currentTraining];
       });
       setCurrentInput("");
-      addTraining(currentTraining, setAuthed);
+      addTraining(currentTraining, logout);
     }
   };
 
@@ -68,7 +68,7 @@ const AuthedApp = () => {
     setTrainings((pastTrainings) =>
       pastTrainings?.filter(({ id: pastId }) => pastId !== id)
     );
-    deleteTraining(id, setAuthed);
+    deleteTraining(id, logout);
   };
 
   return (
@@ -86,7 +86,7 @@ const AuthedApp = () => {
         setEditId={setEditId}
         currentTraining={currentTraining}
         setTrainings={setTrainings}
-        setAuthed={setAuthed}
+        logout={logout}
       />
 
       <div className="current-training">

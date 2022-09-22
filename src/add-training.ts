@@ -1,9 +1,6 @@
 import { Training } from "../db-handler/types";
 
-export const addTraining = async (
-  training: Training,
-  setAuthed: React.Dispatch<React.SetStateAction<boolean>>
-) => {
+export const addTraining = async (training: Training, logout: () => void) => {
   try {
     const trainingUrl = import.meta.env.VITE_TRAINING_URL;
 
@@ -20,7 +17,7 @@ export const addTraining = async (
     const res = await fetch(trainingUrl, requestOptions);
 
     if (res.status === 401) {
-      setAuthed(false);
+      logout();
     }
   } catch (err) {
     console.log(err);
