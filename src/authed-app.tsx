@@ -13,6 +13,7 @@ import { deleteTraining } from "./delete-training";
 import { createTrainingInput } from "./create-training-input";
 import "../src/styles/authed-app.css";
 import { useAuth } from "./context/auth-provider";
+import { LoadingSpinner } from "./loading-spinner";
 
 const AuthedApp = () => {
   const [trainings, setTrainings] = useState<Trainings | undefined>();
@@ -93,12 +94,14 @@ const AuthedApp = () => {
         <TrainingTable training={currentTraining} />
       </div>
 
-      {trainings && (
+      {trainings ? (
         <TrainingsTable
           trainings={trainings}
           handleEdit={handleSetEdit}
           handleDelete={handleDelete}
         />
+      ) : (
+        <LoadingSpinner />
       )}
     </div>
   );
