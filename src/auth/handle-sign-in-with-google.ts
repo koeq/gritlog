@@ -16,7 +16,7 @@ const headers = {
 
 export const handleSignInWithGoogle = async (
   response: CredentialResponse,
-  setAuthed: React.Dispatch<React.SetStateAction<boolean>>
+  setAuthed: React.Dispatch<React.SetStateAction<boolean | undefined>>
 ) => {
   const requestOptions = {
     ...credentials,
