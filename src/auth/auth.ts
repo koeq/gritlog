@@ -36,7 +36,7 @@ const checkAuthentication = async () => {
 };
 
 export const auth = () => {
-  const [authed, setAuthed] = useState(false);
+  const [authed, setAuthed] = useState<boolean | undefined>();
 
   useEffect(() => {
     const authenticate = async () => {
@@ -45,6 +45,8 @@ export const auth = () => {
 
         if (isAuthenticated) {
           setAuthed(true);
+        } else {
+          setAuthed(false);
         }
       } catch (err) {
         console.log(err);
