@@ -29,7 +29,7 @@ export const TrainingsTable = ({
                 <TrainingTable training={training} />
                 <div className="buttons-container">
                   <button
-                    className="btn-blue"
+                    className="btn-blue btn-right"
                     onClick={() => handleEdit(training.id)}
                   >
                     edit
