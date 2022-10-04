@@ -88,7 +88,7 @@ export const Input = ({
 
         {mode === "edit" && (
           <button className={"btn-blue"} onClick={() => handleEdit()}>
-            edit
+            save
           </button>
         )}
         {mode === "edit" && (
@@ -96,7 +96,7 @@ export const Input = ({
             className="btn-red"
             onClick={() => handleStopEdit(setMode, setEditId)}
           >
-            stop edit
+            cancel
           </button>
         )}
       </div>
