@@ -19,9 +19,7 @@ export const getTrainings = async (
     if (res.status === 200) {
       const trainings = (await res.json()) as Trainings | [];
 
-      if (trainings.length > 0) {
-        setTrainings(trainings);
-      }
+      setTrainings(trainings);
     }
   } catch (error) {
     console.log(error);

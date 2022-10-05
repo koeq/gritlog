@@ -30,7 +30,10 @@ const AuthedApp = () => {
   }, [setTrainings]);
 
   const { logout } = useAuth();
-  const nextTrainingId = trainings ? trainings[trainings.length - 1].id + 1 : 0;
+  const nextTrainingId =
+    trainings && trainings.length > 0
+      ? trainings[trainings.length - 1].id + 1
+      : 0;
 
   const currentTraining: Training = {
     date: new Date().toLocaleDateString(),
