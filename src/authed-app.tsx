@@ -58,11 +58,12 @@ const AuthedApp = () => {
   };
 
   const handleSetEdit = (id: number) => {
-    if (!trainings || !trainings[id]) {
+    const training = trainings?.find((training) => training.id === id);
+    if (!training) {
       return;
     }
 
-    const trainingInput = createTrainingInput(trainings[id]);
+    const trainingInput = createTrainingInput(training);
     setCurrentInput(trainingInput);
     setMode("edit");
     setEditId(id);
@@ -74,6 +75,8 @@ const AuthedApp = () => {
     );
     deleteTraining(id, logout);
   };
+
+  console.log(trainings);
 
   return (
     <div className="authed">
