@@ -29,9 +29,11 @@ export const AuthProvider = (props: any) => {
     window.google.accounts.id.renderButton(
       document.getElementById("signInWithGoogle")!,
       {
-        shape: "rectangular",
+        shape: "pill",
         theme: "outline",
         size: "large",
+        logo_alignment: "left",
+        text: "signin_with",
       }
     );
   };
