@@ -34,12 +34,12 @@ export const TrainingsTable = ({
                   >
                     edit
                   </button>
-                  <button
+                  {/* <button
                     className="btn-red"
                     onClick={() => handleDelete(training.id)}
                   >
                     x
-                  </button>
+                  </button> */}
                 </div>
               </div>
             );

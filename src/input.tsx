@@ -22,6 +22,7 @@ interface InputProps {
     React.SetStateAction<Trainings | undefined>
   >;
   readonly logout: () => void;
+  readonly textAreaRef: React.MutableRefObject<HTMLTextAreaElement | null>;
 }
 
 export const Input = ({
@@ -36,6 +37,7 @@ export const Input = ({
   currentTraining,
   setTrainings,
   logout,
+  textAreaRef,
 }: InputProps) => {
   const handleStopEdit = (
     setMode: React.Dispatch<React.SetStateAction<Mode>>,
@@ -74,6 +76,7 @@ export const Input = ({
         value={currentInput}
         name="training"
         id="training"
+        ref={textAreaRef}
       ></textarea>
 
       <div className="buttons">
