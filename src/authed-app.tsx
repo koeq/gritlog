@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Header } from "./header";
 import { Input } from "./input";
 import { parse } from "./parser";
@@ -23,6 +23,8 @@ const AuthedApp = () => {
     "currentInput",
     undefined
   );
+
+  const textAreaRef = useRef<HTMLTextAreaElement | null>(null);
 
   useEffect(() => {
     const fetchOnce = async () => getTrainings(setTrainings);
@@ -67,6 +69,8 @@ const AuthedApp = () => {
     setCurrentInput(trainingInput);
     setMode("edit");
     setEditId(id);
+    textAreaRef.current?.focus();
+    window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
   const handleDelete = (id: number) => {
@@ -92,6 +96,7 @@ const AuthedApp = () => {
         currentTraining={currentTraining}
         setTrainings={setTrainings}
         logout={logout}
+        textAreaRef={textAreaRef}
       />
 
       <div className="current-training">
