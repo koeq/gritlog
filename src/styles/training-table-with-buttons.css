@@ -1,0 +1,12 @@
+.training-with-buttons {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin-bottom: 16px;
+  transition: 0.25s ease-in-out;
+}
+
+/* swipe styles */
+.swiped {
+  transform: translateX(-150px);
+}

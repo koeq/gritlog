@@ -1,6 +1,7 @@
 import { TrainingTable } from "./training-table";
 import { Trainings } from "../db-handler/types";
 import "./styles/trainings.css";
+import { TrainingTableWithButtons } from "./training-table-with-buttons";
 
 interface TrainingsTableProps {
   readonly trainings: Trainings | undefined;
@@ -25,23 +26,12 @@ export const TrainingsTable = ({
             const training = trainings[index];
 
             return (
-              <div className="training-with-buttons" key={index}>
-                <TrainingTable training={training} />
-                <div className="buttons-container">
-                  <button
-                    className="btn-blue btn-right"
-                    onClick={() => handleEdit(training.id)}
-                  >
-                    edit
-                  </button>
-                  <button
-                    className="btn-red"
-                    onClick={() => handleDelete(training.id)}
-                  >
-                    x
-                  </button>
-                </div>
-              </div>
+              <TrainingTableWithButtons
+                training={training}
+                handleEdit={handleEdit}
+                handleDelete={handleDelete}
+                key={index}
+              />
             );
           })
           // TO DO: CHECK
