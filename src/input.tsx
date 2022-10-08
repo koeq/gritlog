@@ -77,6 +77,11 @@ export const Input = ({
         name="training"
         id="training"
         ref={textAreaRef}
+        onKeyDown={(e) => {
+          if (e.key === "Enter" && !e.shiftKey) {
+            handleAdd();
+          }
+        }}
       ></textarea>
 
       <div className="buttons">
