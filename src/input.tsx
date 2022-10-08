@@ -79,6 +79,7 @@ export const Input = ({
         ref={textAreaRef}
         onKeyDown={(e) => {
           if (e.key === "Enter" && !e.shiftKey) {
+            e.preventDefault();
             handleAdd();
           }
         }}
