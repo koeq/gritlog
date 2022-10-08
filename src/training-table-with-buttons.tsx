@@ -10,28 +10,33 @@ interface TrainingTableProps {
   readonly handleDelete: (id: number) => void;
 }
 
+const swipeConfig = {
+  delta: 5,
+  preventScrollOnSwipe: true,
+};
+
 export const TrainingTableWithButtons = ({
   training,
   handleEdit,
   handleDelete,
 }: TrainingTableProps): JSX.Element | null => {
   const tableRef = useRef<HTMLTableElement>();
+  const editRef = useRef<HTMLButtonElement>(null);
+  const deleteRef = useRef<HTMLButtonElement>(null);
 
-  const swipeConfig = {
-    delta: 10,
-    preventScrollOnSwipe: true,
-  };
   const swipeHandlers = useSwipeable({
-    onSwipedLeft: (eventData) => {
-      console.log("User Swipep left!", eventData);
-      if (tableRef.current) {
+    onSwipedLeft: () => {
+      if (tableRef.current && editRef.current && deleteRef.current) {
         tableRef.current.classList.add("swiped");
+        editRef.current.classList.add("action-btn-swiped");
+        deleteRef.current.classList.add("action-btn-swiped");
       }
     },
-    onSwipedRight: (eventData) => {
-      console.log("User Swipep left!", eventData);
-      if (tableRef.current) {
+    onSwipedRight: () => {
+      if (tableRef.current && editRef.current && deleteRef.current) {
         tableRef.current.classList.remove("swiped");
+        editRef.current.classList.remove("action-btn-swiped");
+        deleteRef.current.classList.remove("action-btn-swiped");
       }
     },
     ...swipeConfig,
@@ -53,12 +58,17 @@ export const TrainingTableWithButtons = ({
       <TrainingTable training={training} />
       <div className="buttons-container">
         <button
-          className="btn-blue btn-right"
+          ref={editRef}
+          className="btn-blue btn-right action-btn-default"
           onClick={() => handleEdit(training.id)}
         >
           edit
         </button>
-        <button className="btn-red" onClick={() => handleDelete(training.id)}>
+        <button
+          ref={deleteRef}
+          className="btn-red action-btn-default"
+          onClick={() => handleDelete(training.id)}
+        >
           x
         </button>
       </div>

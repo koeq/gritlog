@@ -6,7 +6,23 @@
   transition: 0.25s ease-in-out;
 }
 
+.buttons-container {
+  display: flex;
+  transition: 0.25s ease-in-out;
+}
+
+.action-btn-default {
+  width: 0px;
+  padding: 0;
+  overflow: hidden;
+  transition: 0.25s ease-in-out;
+}
+
+.action-btn-swiped {
+  width: 60px;
+}
+
 /* swipe styles */
 .swiped {
-  transform: translateX(-150px);
+  transform: translateX(-100px);
 }
