@@ -3,7 +3,7 @@ table {
   box-shadow: var(--shadow-smallest);
   padding: 8px;
   border: 1px solid rgba(0, 0, 0, 0.1);
-  border-radius: 4px 0 0 4px;
+  border-radius: 4px;
 }
 
 th {

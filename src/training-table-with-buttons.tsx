@@ -10,6 +10,11 @@ interface TrainingTableProps {
   readonly handleDelete: (id: number) => void;
 }
 
+const swipeConfig = {
+  delta: 5,
+  preventScrollOnSwipe: true,
+};
+
 export const TrainingTableWithButtons = ({
   training,
   handleEdit,
@@ -17,19 +22,13 @@ export const TrainingTableWithButtons = ({
 }: TrainingTableProps): JSX.Element | null => {
   const tableRef = useRef<HTMLTableElement>();
 
-  const swipeConfig = {
-    delta: 10,
-    preventScrollOnSwipe: true,
-  };
   const swipeHandlers = useSwipeable({
-    onSwipedLeft: (eventData) => {
-      console.log("User Swipep left!", eventData);
+    onSwipedLeft: () => {
       if (tableRef.current) {
         tableRef.current.classList.add("swiped");
       }
     },
-    onSwipedRight: (eventData) => {
-      console.log("User Swipep left!", eventData);
+    onSwipedRight: () => {
       if (tableRef.current) {
         tableRef.current.classList.remove("swiped");
       }
@@ -53,12 +52,15 @@ export const TrainingTableWithButtons = ({
       <TrainingTable training={training} />
       <div className="buttons-container">
         <button
-          className="btn-blue btn-right"
+          className="btn-blue btn-right action-btn-default"
           onClick={() => handleEdit(training.id)}
         >
           edit
         </button>
-        <button className="btn-red" onClick={() => handleDelete(training.id)}>
+        <button
+          className="btn-red action-btn-default"
+          onClick={() => handleDelete(training.id)}
+        >
           x
         </button>
       </div>

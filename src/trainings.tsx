@@ -19,7 +19,7 @@ export const TrainingsTable = ({
   }
 
   return (
-    <div className="trainings-table">
+    <div className="trainings">
       {trainings &&
         trainings
           .map((_, index) => {

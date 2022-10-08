@@ -1,9 +1,25 @@
 .training-with-buttons {
-  width: 100%;
+  width: 99%;
   display: flex;
-  justify-content: center;
+  justify-content: flex-start;
+  position: relative;
   margin-bottom: 16px;
   transition: 0.25s ease-in-out;
+}
+
+.buttons-container {
+  display: flex;
+  height: 100%;
+  position: absolute;
+  right: -100px;
+  transition: 0.25s ease-in-out;
+}
+
+.action-btn-default {
+  width: 50px;
+  transition: 0.25s ease-in-out;
+  border-left: none;
+  box-shadow: none;
 }
 
 /* swipe styles */
