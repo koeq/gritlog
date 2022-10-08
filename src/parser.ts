@@ -4,7 +4,7 @@ import { Exercise } from "../db-handler/types";
 export const parse = (
   currentInput: string | undefined
 ): Exercise[] | undefined => {
-  if (!currentInput) {
+  if (!currentInput?.trim()) {
     return;
   }
 
