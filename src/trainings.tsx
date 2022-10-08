@@ -1,6 +1,6 @@
-import "./styles/trainings-table.css";
 import { TrainingTable } from "./training-table";
 import { Trainings } from "../db-handler/types";
+import "./styles/trainings.css";
 
 interface TrainingsTableProps {
   readonly trainings: Trainings | undefined;
@@ -34,12 +34,12 @@ export const TrainingsTable = ({
                   >
                     edit
                   </button>
-                  {/* <button
+                  <button
                     className="btn-red"
                     onClick={() => handleDelete(training.id)}
                   >
                     x
-                  </button> */}
+                  </button>
                 </div>
               </div>
             );

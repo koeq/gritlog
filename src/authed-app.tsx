@@ -3,7 +3,7 @@ import { Header } from "./header";
 import { Input } from "./input";
 import { parse } from "./parser";
 import { TrainingTable } from "./training-table";
-import { TrainingsTable } from "./trainings-table";
+import { TrainingsTable } from "./trainings";
 import { Training, Trainings } from "../db-handler/types";
 import { Mode } from "./types";
 import { getTrainings } from "./get-trainings";

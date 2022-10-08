@@ -1,19 +1,25 @@
 import "./styles/training-table.css";
 import { Training } from "../db-handler/types";
+import { useSwipeable } from "react-swipeable";
 
 interface TrainingTableProps {
-  readonly training: Training | undefined;
+  readonly training: Training;
 }
 
 export const TrainingTable = ({
   training,
 }: TrainingTableProps): JSX.Element | null => {
-  if (!training) {
-    return null;
-  }
+  const swipeConfig = {
+    delta: 10,
+    preventScrollOnSwipe: true,
+  };
+  const swipeHandlers = useSwipeable({
+    onSwipedLeft: (eventData) => console.log("User Swipep left!", eventData),
+    ...swipeConfig,
+  });
 
   return (
-    <table>
+    <table {...swipeHandlers}>
       <tbody>
         <tr>
           <th colSpan={3} className="date-header">
