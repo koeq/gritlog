@@ -3,6 +3,7 @@ import { Training, Trainings } from "../db-handler/types";
 import { editTraining } from "./edit-training";
 import { Mode } from "./types";
 import "./styles/input.css";
+import { useIsMobile } from "./utils/use-is-mobile";
 
 interface InputProps {
   readonly handleInputChange: (
@@ -39,6 +40,8 @@ export const Input = ({
   logout,
   textAreaRef,
 }: InputProps) => {
+  const isMobile = useIsMobile();
+
   const handleStopEdit = (
     setMode: React.Dispatch<React.SetStateAction<Mode>>,
     setEditId: React.Dispatch<React.SetStateAction<number | null>>
@@ -78,7 +81,7 @@ export const Input = ({
         id="training"
         ref={textAreaRef}
         onKeyDown={(e) => {
-          if (e.key === "Enter" && !e.shiftKey) {
+          if (!isMobile && e.key === "Enter" && !e.shiftKey) {
             e.preventDefault();
             handleAdd();
           }

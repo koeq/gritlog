@@ -22,7 +22,6 @@ export const TrainingTableWithButtons = ({
 }: TrainingTableProps): JSX.Element | null => {
   const tableRef = useRef<HTMLTableElement>();
 
-
   const swipeHandlers = useSwipeable({
     onSwipedLeft: () => {
       if (tableRef.current) {
