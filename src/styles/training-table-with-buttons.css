@@ -7,21 +7,32 @@
   transition: 0.25s ease-in-out;
 }
 
+/* swipe styles */
+.swiped {
+  transform: translateX(-160px);
+}
+
 .buttons-container {
   display: flex;
   height: 100%;
   position: absolute;
-  right: -120px;
+  right: -160px;
   transition: 0.25s ease-in-out;
 }
 
 .action-btn-default {
-  width: 60px;
+  width: 80px;
   border-left: none;
   transition: 0.25s ease-in-out;
 }
 
-/* swipe styles */
-.swiped {
-  transform: translateX(-120px);
+#btn-edit {
+  border-radius: 0;
+  color: #000;
+}
+
+#btn-delete {
+  border-radius: 0 4px 4px 0;
+  background-color: #ea5d5e;
+  color: #fff;
 }

@@ -20,17 +20,17 @@ export const TrainingTableWithButtons = ({
   handleEdit,
   handleDelete,
 }: TrainingTableProps): JSX.Element | null => {
-  const tableRef = useRef<HTMLTableElement>();
+  const trainingWithButtonsRef = useRef<HTMLTableElement>();
 
   const swipeHandlers = useSwipeable({
     onSwipedLeft: () => {
-      if (tableRef.current) {
-        tableRef.current.classList.add("swiped");
+      if (trainingWithButtonsRef.current) {
+        trainingWithButtonsRef.current.classList.add("swiped");
       }
     },
     onSwipedRight: () => {
-      if (tableRef.current) {
-        tableRef.current.classList.remove("swiped");
+      if (trainingWithButtonsRef.current) {
+        trainingWithButtonsRef.current.classList.remove("swiped");
       }
     },
     ...swipeConfig,
@@ -40,7 +40,7 @@ export const TrainingTableWithButtons = ({
     // call useSwipeable ref prop with el
     swipeHandlers.ref(el);
     // set myRef el so you can access it yourself
-    tableRef.current = el;
+    trainingWithButtonsRef.current = el;
   };
 
   return (
@@ -52,12 +52,14 @@ export const TrainingTableWithButtons = ({
       <TrainingTable training={training} />
       <div className="buttons-container">
         <button
-          className="btn-blue btn-right action-btn-default"
+          id="btn-edit"
+          className="btn-blue action-btn-default"
           onClick={() => handleEdit(training.id)}
         >
           edit
         </button>
         <button
+          id="btn-delete"
           className="btn-red action-btn-default"
           onClick={() => handleDelete(training.id)}
         >
