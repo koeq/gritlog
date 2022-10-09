@@ -2,6 +2,8 @@ import { Training } from "../db-handler/types";
 import { useSwipeable } from "react-swipeable";
 import { useRef } from "react";
 import { TrainingTable } from "./training-table";
+import { IoTrashBin } from "react-icons/io5";
+import { MdModeEdit } from "react-icons/md";
 import "./styles/training-table-with-buttons.css";
 
 interface TrainingTableProps {
@@ -56,14 +58,14 @@ export const TrainingTableWithButtons = ({
           className="btn-blue action-btn-default"
           onClick={() => handleEdit(training.id)}
         >
-          edit
+          <MdModeEdit size={20} />
         </button>
         <button
           id="btn-delete"
           className="btn-red action-btn-default"
           onClick={() => handleDelete(training.id)}
         >
-          x
+          <IoTrashBin size={20} />
         </button>
       </div>
     </div>
