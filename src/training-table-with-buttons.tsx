@@ -24,17 +24,21 @@ export const TrainingTableWithButtons = ({
 }: TrainingTableProps): JSX.Element | null => {
   const trainingWithButtonsRef = useRef<HTMLTableElement>();
 
+  const onSwipedLeft = () => {
+    if (trainingWithButtonsRef.current) {
+      trainingWithButtonsRef.current.classList.add("swiped");
+    }
+  };
+
+  const onSwipedRight = () => {
+    if (trainingWithButtonsRef.current) {
+      trainingWithButtonsRef.current.classList.remove("swiped");
+    }
+  };
+
   const swipeHandlers = useSwipeable({
-    onSwipedLeft: () => {
-      if (trainingWithButtonsRef.current) {
-        trainingWithButtonsRef.current.classList.add("swiped");
-      }
-    },
-    onSwipedRight: () => {
-      if (trainingWithButtonsRef.current) {
-        trainingWithButtonsRef.current.classList.remove("swiped");
-      }
-    },
+    onSwipedLeft,
+    onSwipedRight,
     ...swipeConfig,
   });
 
@@ -56,7 +60,10 @@ export const TrainingTableWithButtons = ({
         <button
           id="btn-edit"
           className="btn-blue action-btn-default"
-          onClick={() => handleEdit(training.id)}
+          onClick={() => {
+            handleEdit(training.id);
+            onSwipedRight();
+          }}
         >
           <MdModeEdit size={20} />
         </button>
