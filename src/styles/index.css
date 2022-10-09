@@ -3,19 +3,20 @@
 * {
   padding: 0;
   margin: 0;
-  box-sizing: border-box;
-
-  /* variables */
-  --shadow-smallest: 0px 2px 4px rgba(0, 0, 0, 0.1);
-  --shadow-extra-small: 0px 4px 8px rgba(0, 0, 0, 0.12);
-  --shadow-small: 0 5px 10px rgba(0, 0, 0, 0.12);
-  --shadow-medium: 0 8px 30px rgba(0, 0, 0, 0.12);
-  --shadow-large: 0 30px 60px rgba(0, 0, 0, 0.12);
-  --shadow-hover: 0 30px 60px rgba(0, 0, 0, 0.12);
-
   font-family: "IBM Plex Sans", sans-serif;
   font-weight: 300;
   font-size: 15px;
+}
+
+/* universal box sizing */
+*,
+*:before,
+*:after {
+  box-sizing: inherit;
+}
+
+html {
+  box-sizing: border-box;
 }
 
 #root,
@@ -30,7 +31,6 @@ button {
   color: rgba(0, 0, 0, 0.4);
   padding: 8px 12px;
   border: 1px solid rgba(0, 0, 0, 0.1);
-  box-shadow: var(--shadow-smallest);
   border-radius: 4px;
   cursor: pointer;
 }
