@@ -28,7 +28,8 @@
 
 #btn-edit {
   border-radius: 0;
-  color: #000;
+  background-color: #66a1f8;
+  color: #fff;
 }
 
 #btn-delete {
