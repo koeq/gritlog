@@ -11,17 +11,17 @@
   display: flex;
   height: 100%;
   position: absolute;
-  right: -100px;
+  right: -120px;
   transition: 0.25s ease-in-out;
 }
 
 .action-btn-default {
-  width: 50px;
+  width: 60px;
   border-left: none;
   transition: 0.25s ease-in-out;
 }
 
 /* swipe styles */
 .swiped {
-  transform: translateX(-150px);
+  transform: translateX(-120px);
 }
