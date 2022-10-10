@@ -3,8 +3,8 @@ import { Header } from "./header";
 import { Input } from "./input";
 import { parse } from "./parser";
 import { TrainingTable } from "./training-table";
-import { TrainingsTable } from "./trainings";
-import { Training, Trainings } from "../db-handler/types";
+import { Trainings } from "./trainings";
+import { Training } from "../db-handler/types";
 import { Mode } from "./types";
 import { getTrainings } from "./get-trainings";
 import { useLocalStorage } from "./use-local-storage";
@@ -16,7 +16,7 @@ import { useAuth } from "./context/auth-provider";
 import { LoadingSpinner } from "./loading-spinner";
 
 const AuthedApp = () => {
-  const [trainings, setTrainings] = useState<Trainings | undefined>();
+  const [trainings, setTrainings] = useState<Training[] | undefined>();
   const [editId, setEditId] = useLocalStorage<number | null>("editId", null);
   const [mode, setMode] = useLocalStorage<Mode>("mode", "add");
   const [currentInput, setCurrentInput] = useLocalStorage<string | undefined>(
@@ -104,7 +104,7 @@ const AuthedApp = () => {
       </div>
 
       {trainings ? (
-        <TrainingsTable
+        <Trainings
           trainings={trainings}
           handleEdit={handleSetEdit}
           handleDelete={handleDelete}

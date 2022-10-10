@@ -9,5 +9,3 @@ export interface Training {
   readonly id: number;
   readonly exercises: Exercise[] | undefined;
 }
-
-export type Trainings = Training[];

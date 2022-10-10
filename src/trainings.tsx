@@ -1,19 +1,18 @@
-import { TrainingTable } from "./training-table";
-import { Trainings } from "../db-handler/types";
-import "./styles/trainings.css";
+import { Training } from "../db-handler/types";
 import { TrainingTableWithButtons } from "./training-table-with-buttons";
+import "./styles/trainings.css";
 
-interface TrainingsTableProps {
-  readonly trainings: Trainings | undefined;
+interface TrainingsProps {
+  readonly trainings: Training[] | undefined;
   readonly handleEdit: (id: number) => void;
   readonly handleDelete: (id: number) => void;
 }
 
-export const TrainingsTable = ({
+export const Trainings = ({
   trainings,
   handleEdit,
   handleDelete,
-}: TrainingsTableProps): JSX.Element | null => {
+}: TrainingsProps): JSX.Element | null => {
   if (!trainings) {
     return null;
   }
