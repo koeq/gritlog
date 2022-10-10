@@ -1,7 +1,7 @@
 import React from "react";
 import { Training, Trainings } from "../db-handler/types";
 import { editTraining } from "./edit-training";
-import { Mode } from "./types";
+import { InputMode } from "./types";
 import "./styles/input.css";
 import { useIsMobile } from "./utils/use-is-mobile";
 
@@ -11,8 +11,8 @@ interface InputProps {
   ) => void;
   readonly currentInput: string | undefined;
   readonly handleAdd: () => void;
-  readonly mode: Mode;
-  readonly setMode: React.Dispatch<React.SetStateAction<Mode>>;
+  readonly mode: InputMode;
+  readonly setMode: React.Dispatch<React.SetStateAction<InputMode>>;
   readonly setCurrentInput: React.Dispatch<
     React.SetStateAction<string | undefined>
   >;
@@ -43,7 +43,7 @@ export const Input = ({
   const isMobile = useIsMobile();
 
   const handleStopEdit = (
-    setMode: React.Dispatch<React.SetStateAction<Mode>>,
+    setMode: React.Dispatch<React.SetStateAction<InputMode>>,
     setEditId: React.Dispatch<React.SetStateAction<number | null>>
   ) => {
     setMode("add");

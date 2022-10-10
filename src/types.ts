@@ -1,1 +1,1 @@
-export type Mode = "add" | "edit";
+export type InputMode = "add" | "edit";
