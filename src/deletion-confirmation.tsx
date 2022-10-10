@@ -2,19 +2,41 @@ export const DeletionConfirmation = () => {
   return (
     <div
       style={{
-        width: "80%",
-        height: "150px",
-        position: "absolute",
+        height: "100vh",
+        width: "100vw",
+        position: "fixed",
+        top: 0,
+        left: 0,
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
-        background: "rgba(255,255,255,1)",
-        boxShadow: "var(--shadow-smallest)",
+        zIndex: 99,
+        backdropFilter: "blur(5px)",
       }}
     >
-      <span>Delete training?</span>
-      <button className="btn-green">yes</button>
-      <button className="btn-red">X</button>
+      <div
+        style={{
+          width: "85%",
+          height: "28vh",
+          padding: "16px",
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "center",
+          alignItems: "center",
+          backgroundColor: "#fff",
+          borderRadius: "4px",
+        }}
+      >
+        <p style={{ fontSize: "18px", color: "#000" }}>
+          Do you want to delete your training?
+        </p>
+        <br />
+        <br />
+
+        <button style={{ width: "240px", padding: "16px" }}>yes</button>
+        <br />
+        <button style={{ width: "240px", padding: "16px" }}>no</button>
+      </div>
     </div>
   );
 };
