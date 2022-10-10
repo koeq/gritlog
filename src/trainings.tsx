@@ -1,17 +1,20 @@
 import { Training } from "../db-handler/types";
 import { TrainingTableWithButtons } from "./training-table-with-buttons";
 import "./styles/trainings.css";
+import { Deletion } from "./authed-app";
 
 interface TrainingsProps {
   readonly trainings: Training[] | undefined;
   readonly handleEdit: (id: number) => void;
-  readonly handleDelete: (id: number) => void;
+  readonly setDeletion: (
+    value: Deletion | ((val: Deletion) => Deletion)
+  ) => void;
 }
 
 export const Trainings = ({
   trainings,
   handleEdit,
-  handleDelete,
+  setDeletion,
 }: TrainingsProps): JSX.Element | null => {
   if (!trainings) {
     return null;
@@ -28,7 +31,7 @@ export const Trainings = ({
               <TrainingTableWithButtons
                 training={training}
                 handleEdit={handleEdit}
-                handleDelete={handleDelete}
+                setDeletion={setDeletion}
                 key={index}
               />
             );

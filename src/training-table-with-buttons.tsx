@@ -4,12 +4,15 @@ import { useRef } from "react";
 import { TrainingTable } from "./training-table";
 import { IoTrashBin } from "react-icons/io5";
 import { MdModeEdit } from "react-icons/md";
+import { Deletion } from "./authed-app";
 import "./styles/training-table-with-buttons.css";
 
 interface TrainingTableProps {
   readonly training: Training;
   readonly handleEdit: (id: number) => void;
-  readonly handleDelete: (id: number) => void;
+  readonly setDeletion: (
+    value: Deletion | ((val: Deletion) => Deletion)
+  ) => void;
 }
 
 const swipeConfig = {
@@ -20,7 +23,7 @@ const swipeConfig = {
 export const TrainingTableWithButtons = ({
   training,
   handleEdit,
-  handleDelete,
+  setDeletion,
 }: TrainingTableProps): JSX.Element | null => {
   const trainingWithButtonsRef = useRef<HTMLTableElement>();
 
@@ -70,7 +73,7 @@ export const TrainingTableWithButtons = ({
         <button
           id="btn-delete"
           className="btn-red action-btn-default"
-          onClick={() => handleDelete(training.id)}
+          onClick={() => setDeletion({ deleting: true, id: training.id })}
         >
           <IoTrashBin size={20} />
         </button>

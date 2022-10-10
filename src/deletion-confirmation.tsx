@@ -1,4 +1,22 @@
-export const DeletionConfirmation = () => {
+import { Deletion } from "./authed-app";
+
+interface DeletionConfirmationProps {
+  readonly setDeletion: (
+    value: Deletion | ((val: Deletion) => Deletion)
+  ) => void;
+  readonly handleDelete: (id: number) => void;
+  readonly id: number | undefined;
+}
+
+export const DeletionConfirmation = ({
+  setDeletion,
+  handleDelete,
+  id,
+}: DeletionConfirmationProps) => {
+  if (!id) {
+    return null;
+  }
+
   return (
     <div
       style={{
@@ -12,12 +30,13 @@ export const DeletionConfirmation = () => {
         alignItems: "center",
         zIndex: 99,
         backdropFilter: "blur(5px)",
+        WebkitBackdropFilter: "blur(5px)",
       }}
     >
       <div
         style={{
-          width: "85%",
-          height: "28vh",
+          width: "95%",
+          height: "30vh",
           padding: "16px",
           display: "flex",
           flexDirection: "column",
@@ -33,9 +52,22 @@ export const DeletionConfirmation = () => {
         <br />
         <br />
 
-        <button style={{ width: "240px", padding: "16px" }}>yes</button>
+        <button
+          style={{ width: "240px", padding: "16px" }}
+          onClick={() => {
+            handleDelete(id);
+            setDeletion({ deleting: false, id: undefined });
+          }}
+        >
+          yes
+        </button>
         <br />
-        <button style={{ width: "240px", padding: "16px" }}>no</button>
+        <button
+          style={{ width: "240px", padding: "16px" }}
+          onClick={() => setDeletion({ deleting: false, id: undefined })}
+        >
+          no
+        </button>
       </div>
     </div>
   );

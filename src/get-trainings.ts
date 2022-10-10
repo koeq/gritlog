@@ -1,7 +1,7 @@
-import { Trainings } from "../db-handler/types";
+import { Training } from "../db-handler/types";
 
 export const getTrainings = async (
-  setTrainings: React.Dispatch<React.SetStateAction<Trainings | undefined>>
+  setTrainings: React.Dispatch<React.SetStateAction<Training[] | undefined>>
 ) => {
   const trainingUrl = import.meta.env.VITE_TRAINING_URL;
 
@@ -17,7 +17,7 @@ export const getTrainings = async (
   try {
     const res = await fetch(trainingUrl, requestOptions);
     if (res.status === 200) {
-      const trainings = (await res.json()) as Trainings | [];
+      const trainings = (await res.json()) as Training[] | [];
 
       setTrainings(trainings);
     }

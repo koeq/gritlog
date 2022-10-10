@@ -11,34 +11,46 @@ import { useLocalStorage } from "./use-local-storage";
 import { addTraining } from "./add-training";
 import { deleteTraining } from "./delete-training";
 import { createTrainingInput } from "./create-training-input";
-import "../src/styles/authed-app.css";
 import { useAuth } from "./context/auth-provider";
 import { LoadingSpinner } from "./loading-spinner";
+import { DeletionConfirmation } from "./deletion-confirmation";
+import "../src/styles/authed-app.css";
+
+export interface Deletion {
+  deleting: boolean;
+  id: number | undefined;
+}
 
 const AuthedApp = () => {
   const [trainings, setTrainings] = useState<Training[] | undefined>();
   const [editId, setEditId] = useLocalStorage<number | null>("editId", null);
+  const [deletion, setDeletion] = useLocalStorage<Deletion>("deletion", {
+    deleting: false,
+    id: undefined,
+  });
+
   const [inputMode, setInputMode] = useLocalStorage<InputMode>(
     "inputMode",
     "add"
   );
+
   const [currentInput, setCurrentInput] = useLocalStorage<string | undefined>(
     "currentInput",
     undefined
   );
 
   const textAreaRef = useRef<HTMLTextAreaElement | null>(null);
+  const { logout } = useAuth();
+
+  const nextTrainingId =
+    trainings && trainings.length > 0
+      ? trainings[trainings.length - 1].id + 1
+      : 0;
 
   useEffect(() => {
     const fetchOnce = async () => getTrainings(setTrainings);
     fetchOnce();
   }, [setTrainings]);
-
-  const { logout } = useAuth();
-  const nextTrainingId =
-    trainings && trainings.length > 0
-      ? trainings[trainings.length - 1].id + 1
-      : 0;
 
   const currentTraining: Training = {
     date: new Date().toLocaleDateString(),
@@ -110,10 +122,18 @@ const AuthedApp = () => {
         <Trainings
           trainings={trainings}
           handleEdit={handleSetEdit}
-          handleDelete={handleDelete}
+          setDeletion={setDeletion}
         />
       ) : (
         <LoadingSpinner />
+      )}
+
+      {deletion.deleting && (
+        <DeletionConfirmation
+          setDeletion={setDeletion}
+          handleDelete={handleDelete}
+          id={deletion.id}
+        />
       )}
     </div>
   );
