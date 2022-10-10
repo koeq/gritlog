@@ -1,9 +1,9 @@
 import React from "react";
-import { Training, Trainings } from "../db-handler/types";
+import { Training } from "../db-handler/types";
 import { editTraining } from "./edit-training";
 import { InputMode } from "./types";
-import "./styles/input.css";
 import { useIsMobile } from "./utils/use-is-mobile";
+import "./styles/input.css";
 
 interface InputProps {
   readonly handleInputChange: (
@@ -20,7 +20,7 @@ interface InputProps {
   readonly setEditId: React.Dispatch<React.SetStateAction<number | null>>;
   readonly currentTraining: Training;
   readonly setTrainings: React.Dispatch<
-    React.SetStateAction<Trainings | undefined>
+    React.SetStateAction<Training[] | undefined>
   >;
   readonly logout: () => void;
   readonly textAreaRef: React.MutableRefObject<HTMLTextAreaElement | null>;
