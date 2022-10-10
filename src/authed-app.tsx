@@ -5,7 +5,7 @@ import { parse } from "./parser";
 import { TrainingTable } from "./training-table";
 import { Trainings } from "./trainings";
 import { Training } from "../db-handler/types";
-import { Mode } from "./types";
+import { InputMode } from "./types";
 import { getTrainings } from "./get-trainings";
 import { useLocalStorage } from "./use-local-storage";
 import { addTraining } from "./add-training";
@@ -18,7 +18,10 @@ import { LoadingSpinner } from "./loading-spinner";
 const AuthedApp = () => {
   const [trainings, setTrainings] = useState<Training[] | undefined>();
   const [editId, setEditId] = useLocalStorage<number | null>("editId", null);
-  const [mode, setMode] = useLocalStorage<Mode>("mode", "add");
+  const [inputMode, setInputMode] = useLocalStorage<InputMode>(
+    "inputMode",
+    "add"
+  );
   const [currentInput, setCurrentInput] = useLocalStorage<string | undefined>(
     "currentInput",
     undefined
@@ -67,7 +70,7 @@ const AuthedApp = () => {
 
     const trainingInput = createTrainingInput(training);
     setCurrentInput(trainingInput);
-    setMode("edit");
+    setInputMode("edit");
     setEditId(id);
     textAreaRef.current?.focus();
     window.scrollTo({ top: 0, behavior: "smooth" });
@@ -88,8 +91,8 @@ const AuthedApp = () => {
         currentInput={currentInput}
         handleInputChange={handleInputChange}
         handleAdd={handleAdd}
-        mode={mode}
-        setMode={setMode}
+        mode={inputMode}
+        setMode={setInputMode}
         setCurrentInput={setCurrentInput}
         editId={editId}
         setEditId={setEditId}
