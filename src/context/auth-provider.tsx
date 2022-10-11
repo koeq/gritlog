@@ -14,14 +14,15 @@ const AuthContext = createContext<AuthContextTypes | undefined>(undefined);
 // TO DO: type props correctly
 export const AuthProvider = (props: any) => {
   const [authed, setAuthed] = auth();
-
   const logout = () => setAuthed(false);
+
   const startLoginFlow = () => {
     // use google sign in flow
     window.google.accounts.id.initialize({
       client_id: import.meta.env.VITE_DATA_CLIENT_ID,
       callback: (response) => handleSignInWithGoogle(response, setAuthed),
     });
+
     // one tap button
     window.google.accounts.id.prompt();
 

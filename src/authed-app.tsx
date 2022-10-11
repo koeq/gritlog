@@ -15,6 +15,7 @@ import { useAuth } from "./context/auth-provider";
 import { LoadingSpinner } from "./loading-spinner";
 import { DeletionConfirmation } from "./deletion-confirmation";
 import "../src/styles/authed-app.css";
+import { CurrentTraining } from "./current-training";
 
 export interface Deletion {
   deleting: boolean;
@@ -114,9 +115,7 @@ const AuthedApp = () => {
         textAreaRef={textAreaRef}
       />
 
-      <div className="current-training">
-        <TrainingTable training={currentTraining} />
-      </div>
+      <CurrentTraining currentTraining={currentTraining} />
 
       {trainings ? (
         <Trainings

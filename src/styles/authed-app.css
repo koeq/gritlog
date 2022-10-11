@@ -5,12 +5,3 @@
   justify-content: center;
   align-items: center;
 }
-
-.current-training {
-  width: min(90%, 400px);
-  margin: 40px 0;
-}
-
-.current-training > table {
-  border-radius: 4px;
-}
