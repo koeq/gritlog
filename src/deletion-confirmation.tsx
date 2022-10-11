@@ -14,7 +14,7 @@ export const DeletionConfirmation = ({
   handleDelete,
   id,
 }: DeletionConfirmationProps) => {
-  if (!id) {
+  if (!id && id !== 0) {
     return null;
   }
 
