@@ -4,7 +4,7 @@ import { handleSignInWithGoogle } from "../auth/handle-sign-in-with-google";
 import { useSafeContext } from "../utils/use-safe-context";
 
 interface AuthContextTypes {
-  authed: boolean;
+  authed: boolean | undefined;
   logout: () => void;
   startLoginFlow: () => void;
 }
