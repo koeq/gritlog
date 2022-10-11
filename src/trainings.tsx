@@ -1,7 +1,7 @@
 import { Training } from "../db-handler/types";
 import { TrainingTableWithButtons } from "./training-table-with-buttons";
-import "./styles/trainings.css";
 import { Deletion } from "./authed-app";
+import "./styles/trainings.css";
 
 interface TrainingsProps {
   readonly trainings: Training[] | undefined;

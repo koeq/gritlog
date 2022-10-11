@@ -1,4 +1,5 @@
 import { Deletion } from "./authed-app";
+import "./styles/deletion-confirmation.css";
 
 interface DeletionConfirmationProps {
   readonly setDeletion: (
@@ -18,42 +19,14 @@ export const DeletionConfirmation = ({
   }
 
   return (
-    <div
-      style={{
-        height: "100vh",
-        width: "100vw",
-        position: "fixed",
-        top: 0,
-        left: 0,
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-        zIndex: 99,
-        backdropFilter: "blur(5px)",
-        WebkitBackdropFilter: "blur(5px)",
-      }}
-    >
-      <div
-        style={{
-          width: "95%",
-          height: "30vh",
-          padding: "16px",
-          display: "flex",
-          flexDirection: "column",
-          justifyContent: "center",
-          alignItems: "center",
-          backgroundColor: "#fff",
-          borderRadius: "4px",
-        }}
-      >
-        <p style={{ fontSize: "18px", color: "#000" }}>
-          Do you want to delete your training?
-        </p>
+    <div className="deletion-confirmation-layer">
+      <div className="dialog">
+        <p className="dialog-text">Do you want to delete your training?</p>
         <br />
         <br />
 
         <button
-          style={{ width: "240px", padding: "16px" }}
+          className="dialog-btn"
           onClick={() => {
             handleDelete(id);
             setDeletion({ deleting: false, id: undefined });
@@ -63,7 +36,7 @@ export const DeletionConfirmation = ({
         </button>
         <br />
         <button
-          style={{ width: "240px", padding: "16px" }}
+          className="dialog-btn"
           onClick={() => setDeletion({ deleting: false, id: undefined })}
         >
           no
