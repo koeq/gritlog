@@ -19,7 +19,7 @@ import { CurrentTraining } from "./current-training";
 
 export interface Deletion {
   deleting: boolean;
-  id: number | undefined;
+  id: number | null;
 }
 
 const AuthedApp = () => {
@@ -27,7 +27,7 @@ const AuthedApp = () => {
   const [editId, setEditId] = useLocalStorage<number | null>("editId", null);
   const [deletion, setDeletion] = useLocalStorage<Deletion>("deletion", {
     deleting: false,
-    id: undefined,
+    id: null,
   });
 
   const [inputMode, setInputMode] = useLocalStorage<InputMode>(

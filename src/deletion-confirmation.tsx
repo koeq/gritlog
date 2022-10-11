@@ -6,7 +6,7 @@ interface DeletionConfirmationProps {
     value: Deletion | ((val: Deletion) => Deletion)
   ) => void;
   readonly handleDelete: (id: number) => void;
-  readonly id: number | undefined;
+  readonly id: number | null;
 }
 
 export const DeletionConfirmation = ({
@@ -29,7 +29,7 @@ export const DeletionConfirmation = ({
           className="dialog-btn"
           onClick={() => {
             handleDelete(id);
-            setDeletion({ deleting: false, id: undefined });
+            setDeletion({ deleting: false, id: null });
           }}
         >
           yes
@@ -37,7 +37,7 @@ export const DeletionConfirmation = ({
         <br />
         <button
           className="dialog-btn"
-          onClick={() => setDeletion({ deleting: false, id: undefined })}
+          onClick={() => setDeletion({ deleting: false, id: null })}
         >
           no
         </button>
