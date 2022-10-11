@@ -23,7 +23,7 @@ export interface Deletion {
 }
 
 const AuthedApp = () => {
-  const [trainings, setTrainings] = useState<Training[] | undefined>();
+  const [trainings, setTrainings] = useState<Training[] | []>([]);
   const [editId, setEditId] = useLocalStorage<number | null>("editId", null);
   const [deletion, setDeletion] = useLocalStorage<Deletion>("deletion", {
     deleting: false,
@@ -44,9 +44,7 @@ const AuthedApp = () => {
   const { logout } = useAuth();
 
   const nextTrainingId =
-    trainings && trainings.length > 0
-      ? trainings[trainings.length - 1].id + 1
-      : 0;
+    trainings.length > 0 ? trainings[trainings.length - 1].id + 1 : 0;
 
   useEffect(() => {
     const fetchOnce = async () => getTrainings(setTrainings);

@@ -19,9 +19,7 @@ interface InputProps {
   readonly editId: number | null;
   readonly setEditId: React.Dispatch<React.SetStateAction<number | null>>;
   readonly currentTraining: Training;
-  readonly setTrainings: React.Dispatch<
-    React.SetStateAction<Training[] | undefined>
-  >;
+  readonly setTrainings: React.Dispatch<React.SetStateAction<Training[] | []>>;
   readonly logout: () => void;
   readonly textAreaRef: React.MutableRefObject<HTMLTextAreaElement | null>;
 }
@@ -56,17 +54,18 @@ export const Input = ({
       return;
     }
 
-    setTrainings((pastTrainings) => {
-      if (!pastTrainings) {
-        return;
-      }
+    editTraining({ ...currentTraining, id: editId }, logout);
 
-      const trainings = pastTrainings.slice();
-      trainings[editId] = { ...currentTraining, id: editId };
-      return trainings;
+    setTrainings((pastTrainings) => {
+      return pastTrainings.map((training) => {
+        if (training.id === editId) {
+          return { ...currentTraining, id: editId };
+        }
+
+        return training;
+      });
     });
 
-    editTraining({ ...currentTraining, id: editId }, logout);
     setCurrentInput("");
     setMode("add");
     setEditId(null);

@@ -4,7 +4,7 @@ import { Deletion } from "./authed-app";
 import "./styles/trainings.css";
 
 interface TrainingsProps {
-  readonly trainings: Training[] | undefined;
+  readonly trainings: Training[] | [];
   readonly handleEdit: (id: number) => void;
   readonly setDeletion: (
     value: Deletion | ((val: Deletion) => Deletion)
@@ -16,29 +16,28 @@ export const Trainings = ({
   handleEdit,
   setDeletion,
 }: TrainingsProps): JSX.Element | null => {
-  if (!trainings) {
+  if (trainings.length === 0) {
     return null;
   }
 
   return (
     <div className="trainings">
-      {trainings &&
-        trainings
-          .map((_, index) => {
-            const training = trainings[index];
+      {trainings
+        .map((_, index) => {
+          const training = trainings[index];
 
-            return (
-              <TrainingTableWithButtons
-                training={training}
-                handleEdit={handleEdit}
-                setDeletion={setDeletion}
-                key={index}
-              />
-            );
-          })
-          // TO DO: CHECK
-          // why does this not work before map?
-          .reverse()}
+          return (
+            <TrainingTableWithButtons
+              training={training}
+              handleEdit={handleEdit}
+              setDeletion={setDeletion}
+              key={index}
+            />
+          );
+        })
+        // TO DO: CHECK
+        // why does this not work before map?
+        .reverse()}
     </div>
   );
 };
