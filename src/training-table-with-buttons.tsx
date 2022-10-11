@@ -73,7 +73,10 @@ export const TrainingTableWithButtons = ({
         <button
           id="btn-delete"
           className="btn-red action-btn-default"
-          onClick={() => setDeletion({ deleting: true, id: training.id })}
+          onClick={() => {
+            setDeletion({ deleting: true, id: training.id });
+            onSwipedRight();
+          }}
         >
           <IoTrashBin size={20} />
         </button>
