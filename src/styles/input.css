@@ -19,6 +19,18 @@ textarea:focus {
   display: flex;
 }
 
-.add-button {
-  width: 250px;
+#add {
+  width: 220px;
+  padding: 12px 0;
+}
+
+#save {
+  width: 100px;
+  padding: 12px 0;
+  margin-right: 16px;
+}
+
+#cancel {
+  width: 100px;
+  padding: 12px 0;
 }

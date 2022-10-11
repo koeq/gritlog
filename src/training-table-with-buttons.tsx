@@ -61,8 +61,8 @@ export const TrainingTableWithButtons = ({
       <TrainingTable training={training} />
       <div className="buttons-container">
         <button
-          id="btn-edit"
-          className="btn-blue action-btn-default"
+          id="edit"
+          className="action-btn-default"
           onClick={() => {
             handleEdit(training.id);
             onSwipedRight();
@@ -71,8 +71,8 @@ export const TrainingTableWithButtons = ({
           <MdModeEdit size={20} />
         </button>
         <button
-          id="btn-delete"
-          className="btn-red action-btn-default"
+          id="delete"
+          className="action-btn-default"
           onClick={() => {
             setDeletion({ deleting: true, id: training.id });
             onSwipedRight();

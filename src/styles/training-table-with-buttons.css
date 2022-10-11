@@ -26,13 +26,13 @@
   transition: 0.25s ease-in-out;
 }
 
-#btn-edit {
+#edit {
   border-radius: 0;
   background-color: #66a1f8;
   color: #fff;
 }
 
-#btn-delete {
+#delete {
   border-radius: 0 4px 4px 0;
   background-color: #ea5d5e;
   color: #fff;

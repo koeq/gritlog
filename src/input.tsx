@@ -90,22 +90,19 @@ export const Input = ({
 
       <div className="buttons">
         {mode === "add" && (
-          <button
-            className={"btn-green add-button"}
-            onClick={() => handleAdd()}
-          >
+          <button id="add" onClick={() => handleAdd()}>
             add
           </button>
         )}
 
         {mode === "edit" && (
-          <button className={"btn-blue btn-left"} onClick={() => handleEdit()}>
+          <button id="save" onClick={() => handleEdit()}>
             save
           </button>
         )}
         {mode === "edit" && (
           <button
-            className={"btn-red btn-right"}
+            id="cancel"
             onClick={() => handleStopEdit(setMode, setEditId)}
           >
             cancel

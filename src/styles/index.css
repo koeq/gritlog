@@ -34,34 +34,7 @@ button {
   border-radius: 4px;
   cursor: pointer;
 }
-.btn-blue {
-  border-radius: 0;
-}
-
-.btn-left {
-  border-radius: 4px 0 0 4px;
-}
-.btn-right {
-  border-radius: 0 4px 4px 0;
-  border-left: 0;
-}
 
 button:hover {
   color: rgba(0, 0, 0, 1);
-}
-
-.btn-green {
-  padding: 12px 0;
-}
-
-.btn-green:hover {
-  background-color: rgba(0, 255, 0, 0.08);
-}
-
-.btn-blue:hover {
-  background-color: rgba(0, 0, 255, 0.04);
-}
-
-.btn-red:hover {
-  background-color: rgba(255, 0, 0, 0.1);
 }
