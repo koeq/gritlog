@@ -63,13 +63,15 @@ const AuthedApp = () => {
 
   const handleAdd = () => {
     if (currentTraining.exercises) {
+      addTraining(currentTraining, logout);
+
       setTrainings((pastTrainings) => {
         return pastTrainings
           ? [...pastTrainings, currentTraining]
           : [currentTraining];
       });
+
       setCurrentInput("");
-      addTraining(currentTraining, logout);
     }
   };
 
