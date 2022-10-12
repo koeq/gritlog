@@ -85,20 +85,19 @@ export const Input = ({
       ></textarea>
 
       <div className="buttons">
-        {mode.type === "add" && (
+        {mode.type === "edit" ? (
+          <>
+            <button id="save" onClick={() => handleEdit()}>
+              save
+            </button>
+
+            <button id="cancel" onClick={() => handleStopEdit(setMode)}>
+              cancel
+            </button>
+          </>
+        ) : (
           <button id="add" onClick={() => handleAdd()}>
             add
-          </button>
-        )}
-
-        {mode.type === "edit" && (
-          <button id="save" onClick={() => handleEdit()}>
-            save
-          </button>
-        )}
-        {mode.type === "edit" && (
-          <button id="cancel" onClick={() => handleStopEdit(setMode)}>
-            cancel
           </button>
         )}
       </div>

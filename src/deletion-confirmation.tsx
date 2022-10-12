@@ -1,18 +1,18 @@
-import { Deletion } from "./authed-app";
+import { Mode } from "./types";
 import "./styles/deletion-confirmation.css";
 
 interface DeletionConfirmationProps {
-  readonly setDeletion: (
-    value: Deletion | ((val: Deletion) => Deletion)
-  ) => void;
-  readonly handleDelete: (id: number) => void;
   readonly id: number | null;
+  readonly setMode: (value: Mode | ((val: Mode) => Mode)) => void;
+  readonly handleDelete: (id: number) => void;
+  readonly nextTrainingId: number;
 }
 
 export const DeletionConfirmation = ({
-  setDeletion,
-  handleDelete,
   id,
+  setMode,
+  handleDelete,
+  nextTrainingId,
 }: DeletionConfirmationProps) => {
   if (!id && id !== 0) {
     return null;
@@ -29,7 +29,7 @@ export const DeletionConfirmation = ({
           className="dialog-btn"
           onClick={() => {
             handleDelete(id);
-            setDeletion({ deleting: false, id: null });
+            setMode({ type: "add", id: nextTrainingId });
           }}
         >
           yes
@@ -37,7 +37,7 @@ export const DeletionConfirmation = ({
         <br />
         <button
           className="dialog-btn"
-          onClick={() => setDeletion({ deleting: false, id: null })}
+          onClick={() => setMode({ type: "add", id: nextTrainingId })}
         >
           no
         </button>

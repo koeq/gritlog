@@ -1,20 +1,18 @@
 import { Training } from "../db-handler/types";
 import { TrainingTableWithButtons } from "./training-table-with-buttons";
-import { Deletion } from "./authed-app";
+import { Mode } from "./types";
 import "./styles/trainings.css";
 
 interface TrainingsProps {
   readonly trainings: Training[] | [];
   readonly handleSetEditMode: (id: number) => void;
-  readonly setDeletion: (
-    value: Deletion | ((val: Deletion) => Deletion)
-  ) => void;
+  readonly setMode: (value: Mode | ((val: Mode) => Mode)) => void;
 }
 
 export const Trainings = ({
   trainings,
   handleSetEditMode,
-  setDeletion,
+  setMode,
 }: TrainingsProps): JSX.Element | null => {
   if (trainings.length === 0) {
     return null;
@@ -28,10 +26,10 @@ export const Trainings = ({
 
           return (
             <TrainingTableWithButtons
+              key={index}
+              setMode={setMode}
               training={training}
               handleSetEditMode={handleSetEditMode}
-              setDeletion={setDeletion}
-              key={index}
             />
           );
         })
