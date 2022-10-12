@@ -16,11 +16,6 @@ import { CurrentTraining } from "./current-training";
 import { Mode } from "./types";
 import "../src/styles/authed-app.css";
 
-export interface Deletion {
-  readonly deleting: boolean;
-  readonly id: number | null;
-}
-
 const AuthedApp = () => {
   const [trainings, setTrainings] = useState<Training[] | []>([]);
 
@@ -30,11 +25,6 @@ const AuthedApp = () => {
   const [mode, setMode] = useLocalStorage<Mode>("mode", {
     type: "add",
     id: nextTrainingId,
-  });
-
-  const [deletion, setDeletion] = useLocalStorage<Deletion>("deletion", {
-    deleting: false,
-    id: null,
   });
 
   const [currentInput, setCurrentInput] = useLocalStorage<string | undefined>(
@@ -71,6 +61,10 @@ const AuthedApp = () => {
       });
 
       setCurrentInput("");
+
+      setMode((prev) => {
+        return { ...prev, id: nextTrainingId };
+      });
     }
   };
 
@@ -95,6 +89,11 @@ const AuthedApp = () => {
     deleteTraining(id, logout);
   };
 
+  // TO DO: bring mode.id and nextTrainingsId into sync
+  // console.log(
+  //   `mode: ${JSON.stringify(mode)},  nextTrainingsId: ${nextTrainingId}`
+  // );
+
   return (
     <div className="authed">
       <Header />
@@ -117,19 +116,20 @@ const AuthedApp = () => {
 
       {trainings ? (
         <Trainings
+          setMode={setMode}
           trainings={trainings}
           handleSetEditMode={handleSetEditMode}
-          setDeletion={setDeletion}
         />
       ) : (
         <LoadingSpinner />
       )}
 
-      {deletion.deleting && (
+      {mode.type === "delete" && (
         <DeletionConfirmation
-          setDeletion={setDeletion}
+          id={mode.id}
+          setMode={setMode}
+          nextTrainingId={nextTrainingId}
           handleDelete={handleDelete}
-          id={deletion.id}
         />
       )}
     </div>
