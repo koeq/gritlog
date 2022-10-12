@@ -1,8 +1,8 @@
 import React from "react";
 import { Training } from "../db-handler/types";
 import { editTraining } from "./edit-training";
-import { InputMode } from "./types";
 import { useIsMobile } from "./utils/use-is-mobile";
+import { Mode } from "./types";
 import "./styles/input.css";
 
 interface InputProps {
@@ -11,13 +11,12 @@ interface InputProps {
   ) => void;
   readonly currentInput: string | undefined;
   readonly handleAdd: () => void;
-  readonly mode: InputMode;
-  readonly setMode: React.Dispatch<React.SetStateAction<InputMode>>;
+  readonly mode: Mode;
+  readonly setMode: (value: Mode | ((val: Mode) => Mode)) => void;
   readonly setCurrentInput: React.Dispatch<
     React.SetStateAction<string | undefined>
   >;
-  readonly editId: number | null;
-  readonly setEditId: React.Dispatch<React.SetStateAction<number | null>>;
+  readonly nextTrainingId: number;
   readonly currentTraining: Training;
   readonly setTrainings: React.Dispatch<React.SetStateAction<Training[] | []>>;
   readonly logout: () => void;
@@ -31,8 +30,7 @@ export const Input = ({
   mode,
   setMode,
   setCurrentInput,
-  editId,
-  setEditId,
+  nextTrainingId,
   currentTraining,
   setTrainings,
   logout,
@@ -41,25 +39,25 @@ export const Input = ({
   const isMobile = useIsMobile();
 
   const handleStopEdit = (
-    setMode: React.Dispatch<React.SetStateAction<InputMode>>,
-    setEditId: React.Dispatch<React.SetStateAction<number | null>>
+    setMode: (value: Mode | ((val: Mode) => Mode)) => void
   ) => {
-    setMode("add");
-    setEditId(null);
+    setMode({ type: "add", id: nextTrainingId });
     setCurrentInput("");
   };
 
   const handleEdit = () => {
-    if (!editId && editId !== 0) {
+    const { id } = mode;
+
+    if (!id && id !== 0) {
       return;
     }
 
-    editTraining({ ...currentTraining, id: editId }, logout);
+    editTraining({ ...currentTraining, id }, logout);
 
     setTrainings((pastTrainings) => {
       return pastTrainings.map((training) => {
-        if (training.id === editId) {
-          return { ...currentTraining, id: editId };
+        if (training.id === id) {
+          return { ...currentTraining, id };
         }
 
         return training;
@@ -67,8 +65,7 @@ export const Input = ({
     });
 
     setCurrentInput("");
-    setMode("add");
-    setEditId(null);
+    setMode({ type: "add", id: nextTrainingId });
   };
 
   return (
@@ -88,22 +85,19 @@ export const Input = ({
       ></textarea>
 
       <div className="buttons">
-        {mode === "add" && (
+        {mode.type === "add" && (
           <button id="add" onClick={() => handleAdd()}>
             add
           </button>
         )}
 
-        {mode === "edit" && (
+        {mode.type === "edit" && (
           <button id="save" onClick={() => handleEdit()}>
             save
           </button>
         )}
-        {mode === "edit" && (
-          <button
-            id="cancel"
-            onClick={() => handleStopEdit(setMode, setEditId)}
-          >
+        {mode.type === "edit" && (
+          <button id="cancel" onClick={() => handleStopEdit(setMode)}>
             cancel
           </button>
         )}

@@ -9,7 +9,7 @@ import "./styles/training-table-with-buttons.css";
 
 interface TrainingTableProps {
   readonly training: Training;
-  readonly handleEdit: (id: number) => void;
+  readonly handleSetEditMode: (id: number) => void;
   readonly setDeletion: (
     value: Deletion | ((val: Deletion) => Deletion)
   ) => void;
@@ -22,7 +22,7 @@ const swipeConfig = {
 
 export const TrainingTableWithButtons = ({
   training,
-  handleEdit,
+  handleSetEditMode,
   setDeletion,
 }: TrainingTableProps): JSX.Element | null => {
   const trainingWithButtonsRef = useRef<HTMLTableElement>();
@@ -64,7 +64,7 @@ export const TrainingTableWithButtons = ({
           id="edit"
           className="action-btn-default"
           onClick={() => {
-            handleEdit(training.id);
+            handleSetEditMode(training.id);
             onSwipedRight();
           }}
         >

@@ -2,10 +2,8 @@ import React, { useEffect, useRef, useState } from "react";
 import { Header } from "./header";
 import { Input } from "./input";
 import { parse } from "./parser";
-import { TrainingTable } from "./training-table";
 import { Trainings } from "./trainings";
 import { Training } from "../db-handler/types";
-import { InputMode } from "./types";
 import { getTrainings } from "./get-trainings";
 import { useLocalStorage } from "./use-local-storage";
 import { addTraining } from "./add-training";
@@ -14,26 +12,30 @@ import { createTrainingInput } from "./create-training-input";
 import { useAuth } from "./context/auth-provider";
 import { LoadingSpinner } from "./loading-spinner";
 import { DeletionConfirmation } from "./deletion-confirmation";
-import "../src/styles/authed-app.css";
 import { CurrentTraining } from "./current-training";
+import { Mode } from "./types";
+import "../src/styles/authed-app.css";
 
 export interface Deletion {
-  deleting: boolean;
-  id: number | null;
+  readonly deleting: boolean;
+  readonly id: number | null;
 }
 
 const AuthedApp = () => {
   const [trainings, setTrainings] = useState<Training[] | []>([]);
-  const [editId, setEditId] = useLocalStorage<number | null>("editId", null);
+
+  const nextTrainingId =
+    trainings.length > 0 ? trainings[trainings.length - 1].id + 1 : 0;
+
+  const [mode, setMode] = useLocalStorage<Mode>("mode", {
+    type: "add",
+    id: nextTrainingId,
+  });
+
   const [deletion, setDeletion] = useLocalStorage<Deletion>("deletion", {
     deleting: false,
     id: null,
   });
-
-  const [inputMode, setInputMode] = useLocalStorage<InputMode>(
-    "inputMode",
-    "add"
-  );
 
   const [currentInput, setCurrentInput] = useLocalStorage<string | undefined>(
     "currentInput",
@@ -42,9 +44,6 @@ const AuthedApp = () => {
 
   const textAreaRef = useRef<HTMLTextAreaElement | null>(null);
   const { logout } = useAuth();
-
-  const nextTrainingId =
-    trainings.length > 0 ? trainings[trainings.length - 1].id + 1 : 0;
 
   useEffect(() => {
     const fetchOnce = async () => getTrainings(setTrainings);
@@ -75,16 +74,16 @@ const AuthedApp = () => {
     }
   };
 
-  const handleSetEdit = (id: number) => {
-    const training = trainings?.find((training) => training.id === id);
+  const handleSetEditMode = (id: number) => {
+    const training = trainings.find((training) => training.id === id);
+
     if (!training) {
       return;
     }
 
     const trainingInput = createTrainingInput(training);
     setCurrentInput(trainingInput);
-    setInputMode("edit");
-    setEditId(id);
+    setMode({ type: "edit", id });
     textAreaRef.current?.focus();
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
@@ -104,11 +103,10 @@ const AuthedApp = () => {
         currentInput={currentInput}
         handleInputChange={handleInputChange}
         handleAdd={handleAdd}
-        mode={inputMode}
-        setMode={setInputMode}
+        mode={mode}
+        setMode={setMode}
+        nextTrainingId={nextTrainingId}
         setCurrentInput={setCurrentInput}
-        editId={editId}
-        setEditId={setEditId}
         currentTraining={currentTraining}
         setTrainings={setTrainings}
         logout={logout}
@@ -120,7 +118,7 @@ const AuthedApp = () => {
       {trainings ? (
         <Trainings
           trainings={trainings}
-          handleEdit={handleSetEdit}
+          handleSetEditMode={handleSetEditMode}
           setDeletion={setDeletion}
         />
       ) : (
