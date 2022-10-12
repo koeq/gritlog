@@ -5,7 +5,7 @@ import "./styles/trainings.css";
 
 interface TrainingsProps {
   readonly trainings: Training[] | [];
-  readonly handleEdit: (id: number) => void;
+  readonly handleSetEditMode: (id: number) => void;
   readonly setDeletion: (
     value: Deletion | ((val: Deletion) => Deletion)
   ) => void;
@@ -13,7 +13,7 @@ interface TrainingsProps {
 
 export const Trainings = ({
   trainings,
-  handleEdit,
+  handleSetEditMode,
   setDeletion,
 }: TrainingsProps): JSX.Element | null => {
   if (trainings.length === 0) {
@@ -29,7 +29,7 @@ export const Trainings = ({
           return (
             <TrainingTableWithButtons
               training={training}
-              handleEdit={handleEdit}
+              handleSetEditMode={handleSetEditMode}
               setDeletion={setDeletion}
               key={index}
             />
