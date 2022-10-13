@@ -10,6 +10,7 @@ export const CurrentTraining = ({ currentTraining }: CurrentTrainingProps) => {
   return (
     <div className="current-training">
       <TrainingTable training={currentTraining} />
+      <hr />
     </div>
   );
 };
