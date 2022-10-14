@@ -2,12 +2,3 @@
   width: min(90%, 450px);
   margin: 40px 0 25px 0;
 }
-
-.current-training > table {
-  margin-bottom: 25px;
-}
-
-hr {
-  outline: none;
-  border: 0.5px solid #e5e5e5;
-}

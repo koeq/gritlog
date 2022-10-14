@@ -20,6 +20,7 @@ export const Trainings = ({
 
   return (
     <div className="trainings">
+      <hr />
       {trainings
         .map((_, index) => {
           const training = trainings[index];
