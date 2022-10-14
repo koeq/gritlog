@@ -38,7 +38,7 @@ export const Input = ({
 }: InputProps) => {
   const isMobile = useIsMobile();
 
-  const handleStopEdit = (
+  const handleCancelEdit = (
     setMode: (value: Mode | ((val: Mode) => Mode)) => void
   ) => {
     setMode({ type: "add", id: nextTrainingId });
@@ -91,7 +91,7 @@ export const Input = ({
               save
             </button>
 
-            <button id="cancel" onClick={() => handleStopEdit(setMode)}>
+            <button id="cancel" onClick={() => handleCancelEdit(setMode)}>
               cancel
             </button>
           </>

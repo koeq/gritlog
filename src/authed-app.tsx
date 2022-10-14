@@ -51,21 +51,25 @@ const AuthedApp = () => {
   };
 
   const handleAdd = () => {
-    if (currentTraining.exercises) {
-      addTraining(currentTraining, logout);
-
-      setTrainings((pastTrainings) => {
-        return pastTrainings
-          ? [...pastTrainings, currentTraining]
-          : [currentTraining];
-      });
-
-      setCurrentInput("");
-
-      setMode((prev) => {
-        return { ...prev, id: nextTrainingId };
-      });
+    if (!currentTraining.exercises) {
+      return;
     }
+
+    addTraining(currentTraining, logout);
+    setCurrentInput("");
+
+    setTrainings((pastTrainings) => {
+      const trainings = pastTrainings
+        ? [...pastTrainings, currentTraining]
+        : [currentTraining];
+
+      setMode({
+        type: "add",
+        id: trainings.length > 0 ? trainings[trainings.length - 1].id + 1 : 0,
+      });
+
+      return trainings;
+    });
   };
 
   const handleSetEditMode = (id: number) => {
@@ -83,16 +87,21 @@ const AuthedApp = () => {
   };
 
   const handleDelete = (id: number) => {
-    setTrainings((pastTrainings) =>
-      pastTrainings?.filter(({ id: pastId }) => pastId !== id)
-    );
     deleteTraining(id, logout);
-  };
 
-  // TO DO: bring mode.id and nextTrainingsId into sync
-  // console.log(
-  //   `mode: ${JSON.stringify(mode)},  nextTrainingsId: ${nextTrainingId}`
-  // );
+    setTrainings((pastTrainings) => {
+      const trainings = pastTrainings?.filter(
+        ({ id: pastId }) => pastId !== id
+      );
+
+      setMode({
+        type: "add",
+        id: trainings.length > 0 ? trainings[trainings.length - 1].id + 1 : 0,
+      });
+
+      return trainings;
+    });
+  };
 
   return (
     <div className="authed">

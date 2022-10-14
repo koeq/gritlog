@@ -25,13 +25,7 @@ export const DeletionConfirmation = ({
         <br />
         <br />
 
-        <button
-          className="dialog-btn"
-          onClick={() => {
-            handleDelete(id);
-            setMode({ type: "add", id: nextTrainingId });
-          }}
-        >
+        <button className="dialog-btn" onClick={() => handleDelete(id)}>
           yes
         </button>
         <br />
