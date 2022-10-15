@@ -1,12 +1,11 @@
 import { GetItemCommand, GetItemCommandInput } from "@aws-sdk/client-dynamodb";
-import {
-  APIGatewayProxyEvent,
-  APIGatewayProxyEventQueryStringParameters,
-} from "aws-lambda";
-import { buildResponse } from "./build-response";
+import { APIGatewayProxyEvent } from "aws-lambda";
+import { JsonResponse, buildResponse } from "./build-response";
 import { ddbClient } from "./ddb-client";
 
-export const getUser = async (event: APIGatewayProxyEvent) => {
+export const getUser = async (
+  event: APIGatewayProxyEvent
+): Promise<JsonResponse> => {
   const { queryStringParameters } = event;
   try {
     if (!queryStringParameters || !queryStringParameters.email) {

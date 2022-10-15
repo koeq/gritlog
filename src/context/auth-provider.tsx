@@ -1,19 +1,23 @@
 import { createContext } from "react";
-import { auth } from "../auth";
+import { useAuthed } from "../auth";
 import { handleSignInWithGoogle } from "../auth/handle-sign-in-with-google";
 import { useSafeContext } from "../utils/use-safe-context";
 
-interface AuthContextTypes {
+interface AuthProviderProps {
+  [x: string]: unknown;
+}
+
+interface AuthContext {
   authed: boolean | undefined;
   logout: () => void;
   startLoginFlow: () => void;
 }
 
-const AuthContext = createContext<AuthContextTypes | undefined>(undefined);
+const authContext = createContext<AuthContext | undefined>(undefined);
 
 // TO DO: type props correctly
-export const AuthProvider = (props: any) => {
-  const [authed, setAuthed] = auth();
+export const AuthProvider = (props: AuthProviderProps): JSX.Element => {
+  const [authed, setAuthed] = useAuthed();
   const logout = () => setAuthed(false);
 
   const startLoginFlow = () => {
@@ -27,24 +31,25 @@ export const AuthProvider = (props: any) => {
     window.google.accounts.id.prompt();
 
     // login button
-    window.google.accounts.id.renderButton(
-      document.getElementById("signInWithGoogle")!,
-      {
+    const signInWithGoogleElement = document.getElementById("signInWithGoogle");
+
+    if (signInWithGoogleElement) {
+      window.google.accounts.id.renderButton(signInWithGoogleElement, {
         shape: "pill",
         theme: "outline",
         size: "large",
         logo_alignment: "left",
         text: "signin_with",
-      }
-    );
+      });
+    }
   };
 
   return (
-    <AuthContext.Provider
+    <authContext.Provider
       value={{ authed, logout, startLoginFlow }}
       {...props}
     />
   );
 };
 
-export const useAuth = () => useSafeContext(AuthContext, "Auth");
+export const useAuth = (): AuthContext => useSafeContext(authContext, "Auth");

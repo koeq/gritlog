@@ -23,7 +23,7 @@ export interface GoogleUserData {
   typ: string;
 }
 
-export const checkForUser = async (body: string | null) => {
+export const checkForUser = async (body: string | null): Promise<boolean> => {
   if (!body) {
     return false;
   }

@@ -1,10 +1,10 @@
 import { APIGatewayProxyEvent } from "aws-lambda";
-import { buildResponse } from "./build-response";
+import { JsonResponse, buildResponse } from "./build-response";
 
 export const setAuthCookie = (
   statusCode: number,
   event: APIGatewayProxyEvent
-) => {
+): JsonResponse => {
   const { body } = event;
   try {
     if (!body) {

@@ -1,11 +1,13 @@
+import { QueryCommand, QueryCommandInput } from "@aws-sdk/client-dynamodb";
+import { marshall, unmarshall } from "@aws-sdk/util-dynamodb";
 import jwt_decode from "jwt-decode";
-import { buildResponse } from "./build-response";
+import { JsonResponse, buildResponse } from "./build-response";
 import { GoogleUserData } from "./check-for-user";
 import { ddbClient } from "./ddb-client";
-import { marshall, unmarshall } from "@aws-sdk/util-dynamodb";
-import { QueryCommand, QueryCommandInput } from "@aws-sdk/client-dynamodb";
 
-export const getTrainings = async (jwt: string | undefined) => {
+export const getTrainings = async (
+  jwt: string | undefined
+): Promise<JsonResponse> => {
   if (!jwt) {
     return buildResponse(500, "Error: Can't fetch trainings.");
   }

@@ -1,9 +1,8 @@
-import React from "react";
 import { Training } from "../db-handler/types";
 import { editTraining } from "./edit-training";
-import { useIsMobile } from "./utils/use-is-mobile";
-import { Mode } from "./types";
 import "./styles/input.css";
+import { Mode } from "./types";
+import { useIsMobile } from "./utils/use-is-mobile";
 
 interface InputProps {
   readonly handleInputChange: (
@@ -35,7 +34,7 @@ export const Input = ({
   setTrainings,
   logout,
   textAreaRef,
-}: InputProps) => {
+}: InputProps): JSX.Element => {
   const isMobile = useIsMobile();
 
   const handleCancelEdit = (

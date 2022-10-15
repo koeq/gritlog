@@ -5,7 +5,6 @@ let singleLineSpaceBeforeWeight: string;
 let singleLineLbs: string;
 let exerciseNameOnly: string;
 let multiLine: string;
-let multiLineNoNewline: string;
 
 beforeEach(() => {
   singleLine = "Benchpress 100kg 8/8/8";
@@ -13,7 +12,6 @@ beforeEach(() => {
   singleLineLbs = "Benchpress 100lbs 8/8/8";
   exerciseNameOnly = "Benchpress";
   multiLine = "Squats 100kg 8/8/8 \n Benchpress 100kg 8/8/8";
-  multiLineNoNewline = "Squats 100kg 8/8/8 Benchpress 100kg 8/8/8";
 });
 
 test("No Input", () => {
@@ -72,19 +70,3 @@ test("Multi-line. Format: exercise _kg _/_/_", () => {
     },
   ]);
 });
-
-// this might not be that valuable since newlines simplify the parsing a lot
-// test("Multi-line no newline between. Format: exercise _kg _/_/_", () => {
-//   expect(parse(multiLineNoNewline)).toEqual([
-//     {
-//       exerciseName: "Squats",
-//       weight: "100kg",
-//       repetitions: "8/8/8",
-//     },
-//     {
-//       exerciseName: "Benchpress",
-//       weight: "100kg",
-//       repetitions: "8/8/8",
-//     },
-//   ]);
-// });

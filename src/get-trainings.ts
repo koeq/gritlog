@@ -2,7 +2,7 @@ import { Training } from "../db-handler/types";
 
 export const getTrainings = async (
   setTrainings: React.Dispatch<React.SetStateAction<Training[] | []>>
-) => {
+): Promise<void> => {
   const trainingUrl = import.meta.env.VITE_TRAINING_URL;
 
   const requestOptions: RequestInit = {

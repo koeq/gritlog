@@ -1,23 +1,23 @@
-import React, { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import { Training } from "../db-handler/types";
+import "../src/styles/authed-app.css";
+import { addTraining } from "./add-training";
+import { useAuth } from "./context/auth-provider";
+import { createTrainingInput } from "./create-training-input";
+import { CurrentTraining } from "./current-training";
+import { deleteTraining } from "./delete-training";
+import { DeletionConfirmation } from "./deletion-confirmation";
+import { getTrainings } from "./get-trainings";
 import { Header } from "./header";
 import { Input } from "./input";
+import { LoadingSpinner } from "./loading-spinner";
 import { parse } from "./parser";
 import { Trainings } from "./trainings";
-import { Training } from "../db-handler/types";
-import { getTrainings } from "./get-trainings";
-import { useLocalStorage } from "./use-local-storage";
-import { addTraining } from "./add-training";
-import { deleteTraining } from "./delete-training";
-import { createTrainingInput } from "./create-training-input";
-import { useAuth } from "./context/auth-provider";
-import { LoadingSpinner } from "./loading-spinner";
-import { DeletionConfirmation } from "./deletion-confirmation";
-import { CurrentTraining } from "./current-training";
 import { Mode } from "./types";
-import "../src/styles/authed-app.css";
+import { useLocalStorage } from "./use-local-storage";
 import { getNextTrainingId } from "./utils/use-next-training-id";
 
-const AuthedApp = () => {
+const AuthedApp = (): JSX.Element => {
   const [trainings, setTrainings] = useState<Training[] | []>([]);
 
   const nextTrainingId = getNextTrainingId(trainings);

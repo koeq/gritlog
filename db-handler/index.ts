@@ -1,17 +1,17 @@
 import { APIGatewayProxyEvent, APIGatewayProxyResult } from "aws-lambda";
 import {
+  JsonResponse,
   addTraining,
   buildResponse,
   checkForUser,
   createUser,
+  deleteTraining,
   deleteUser,
   editTraining,
-  getUser,
-  JsonResponse,
-  setAuthCookie,
-  isUserAuthenticated,
   getTrainings,
-  deleteTraining,
+  getUser,
+  isUserAuthenticated,
+  setAuthCookie,
 } from "./utils";
 
 const authPath = "/auth";
@@ -38,7 +38,7 @@ exports.handler = async (
           }
           break;
 
-        case "POST":
+        case "POST": {
           console.log("we're in POST method");
           const user = await checkForUser(event.body);
 
@@ -50,6 +50,7 @@ exports.handler = async (
             console.log("we created an user and set the cookie");
           }
           break;
+        }
 
         default:
           console.log("we're in default");

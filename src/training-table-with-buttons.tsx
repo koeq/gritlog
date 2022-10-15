@@ -1,11 +1,11 @@
-import { Training } from "../db-handler/types";
-import { useSwipeable } from "react-swipeable";
 import { useRef } from "react";
-import { TrainingTable } from "./training-table";
 import { IoTrashBin } from "react-icons/io5";
 import { MdModeEdit } from "react-icons/md";
-import { Mode } from "./types";
+import { useSwipeable } from "react-swipeable";
+import { Training } from "../db-handler/types";
 import "./styles/training-table-with-buttons.css";
+import { TrainingTable } from "./training-table";
+import { Mode } from "./types";
 
 interface TrainingTableProps {
   readonly training: Training;
