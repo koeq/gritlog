@@ -1,4 +1,7 @@
-export const deleteTraining = async (id: number, logout: () => void) => {
+export const deleteTraining = async (
+  id: number,
+  logout: () => void
+): Promise<void> => {
   try {
     const trainingUrl = import.meta.env.VITE_TRAINING_URL;
     const queryParams = new URLSearchParams(`id=${id}`);

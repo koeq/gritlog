@@ -3,7 +3,7 @@ import { Training } from "./../db-handler/types";
 export const editTraining = async (
   currentTraining: Training,
   logout: () => void
-) => {
+): Promise<void> => {
   try {
     const url = import.meta.env.VITE_TRAINING_URL;
 

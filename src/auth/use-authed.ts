@@ -14,7 +14,7 @@ const headers = {
   },
 };
 
-const checkAuthentication = async () => {
+const checkAuthentication = async (): Promise<boolean> => {
   const requestOptions = {
     ...credentials,
     ...headers,
@@ -35,7 +35,10 @@ const checkAuthentication = async () => {
   }
 };
 
-export const auth = () => {
+export const useAuthed = (): readonly [
+  boolean | undefined,
+  React.Dispatch<React.SetStateAction<boolean | undefined>>
+] => {
   const [authed, setAuthed] = useState<boolean | undefined>();
 
   useEffect(() => {

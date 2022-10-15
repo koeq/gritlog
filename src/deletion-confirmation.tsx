@@ -1,5 +1,5 @@
-import { Mode } from "./types";
 import "./styles/deletion-confirmation.css";
+import { Mode } from "./types";
 
 interface DeletionConfirmationProps {
   readonly id: number | null;
@@ -13,7 +13,7 @@ export const DeletionConfirmation = ({
   setMode,
   handleDelete,
   nextTrainingId,
-}: DeletionConfirmationProps) => {
+}: DeletionConfirmationProps): JSX.Element | null => {
   if (!id && id !== 0) {
     return null;
   }

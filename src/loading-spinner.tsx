@@ -1,6 +1,6 @@
 import "./styles/loading-spinner.css";
 
-export const LoadingSpinner = () => {
+export const LoadingSpinner = (): JSX.Element => {
   return (
     <div className="lds-container">
       <div className="lds-ring">

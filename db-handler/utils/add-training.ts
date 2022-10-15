@@ -1,16 +1,16 @@
-import { marshall } from "@aws-sdk/util-dynamodb";
-import { GoogleUserData } from "./check-for-user";
-import jwt_decode from "jwt-decode";
-import { buildResponse } from "./build-response";
-import { ddbClient } from "./ddb-client";
 import { PutItemCommand } from "@aws-sdk/client-dynamodb";
-import { Training } from "../types";
+import { marshall } from "@aws-sdk/util-dynamodb";
 import { APIGatewayProxyEvent } from "aws-lambda";
+import jwt_decode from "jwt-decode";
+import { Training } from "../types";
+import { JsonResponse, buildResponse } from "./build-response";
+import { GoogleUserData } from "./check-for-user";
+import { ddbClient } from "./ddb-client";
 
 export const addTraining = async (
   jwt: string | undefined,
   event: APIGatewayProxyEvent
-) => {
+): Promise<JsonResponse> => {
   const { body } = event;
 
   try {

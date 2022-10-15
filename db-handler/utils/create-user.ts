@@ -1,13 +1,15 @@
-import { marshall } from "@aws-sdk/util-dynamodb";
 import { PutItemCommand } from "@aws-sdk/client-dynamodb";
+import { marshall } from "@aws-sdk/util-dynamodb";
+import { APIGatewayProxyEvent } from "aws-lambda";
 import jwt_decode from "jwt-decode";
-import { buildResponse } from "./build-response";
+import { JsonResponse, buildResponse } from "./build-response";
 import { GoogleUserData } from "./check-for-user";
 import { ddbClient } from "./ddb-client";
 import { setAuthCookie } from "./set-auth-cookie";
-import { APIGatewayProxyEvent } from "aws-lambda";
 
-export const createUser = async (event: APIGatewayProxyEvent) => {
+export const createUser = async (
+  event: APIGatewayProxyEvent
+): Promise<JsonResponse> => {
   const { body } = event;
   try {
     if (!body) {

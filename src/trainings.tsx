@@ -1,7 +1,7 @@
 import { Training } from "../db-handler/types";
+import "./styles/trainings.css";
 import { TrainingTableWithButtons } from "./training-table-with-buttons";
 import { Mode } from "./types";
-import "./styles/trainings.css";
 
 interface TrainingsProps {
   readonly trainings: Training[] | [];

@@ -1,11 +1,11 @@
 import { Training } from "../db-handler/types";
 
-export const createTrainingInput = (training: Training) => {
+export const createTrainingInput = (training: Training): string => {
   if (!training.exercises) {
     return "";
   }
 
-  let trainingInput: string = "";
+  let trainingInput = "";
 
   const exercisesInput = training.exercises.map(
     ({ exerciseName, weight, repetitions }) =>

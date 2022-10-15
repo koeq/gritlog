@@ -1,6 +1,9 @@
 import { Training } from "../db-handler/types";
 
-export const addTraining = async (training: Training, logout: () => void) => {
+export const addTraining = async (
+  training: Training,
+  logout: () => void
+): Promise<void> => {
   try {
     const trainingUrl = import.meta.env.VITE_TRAINING_URL;
 

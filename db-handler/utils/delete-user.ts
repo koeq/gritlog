@@ -2,14 +2,13 @@ import {
   DeleteItemCommand,
   DeleteItemCommandInput,
 } from "@aws-sdk/client-dynamodb";
-import {
-  APIGatewayProxyEvent,
-  APIGatewayProxyEventQueryStringParameters,
-} from "aws-lambda";
-import { buildResponse } from "./build-response";
+import { APIGatewayProxyEvent } from "aws-lambda";
+import { JsonResponse, buildResponse } from "./build-response";
 import { ddbClient } from "./ddb-client";
 
-export const deleteUser = async (event: APIGatewayProxyEvent) => {
+export const deleteUser = async (
+  event: APIGatewayProxyEvent
+): Promise<JsonResponse> => {
   const { queryStringParameters } = event;
 
   if (!queryStringParameters || !queryStringParameters.email) {

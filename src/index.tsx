@@ -1,7 +1,7 @@
-import React from "react";
-import ReactDOM from "react-dom";
+import * as React from "react";
+import * as ReactDOM from "react-dom";
 import { App } from "./app";
-import AppProviders from "./context/app-providers";
+import { AppProviders } from "./context/app-providers";
 import "./styles/index.css";
 
 ReactDOM.render(
