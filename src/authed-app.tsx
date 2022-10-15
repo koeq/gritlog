@@ -15,12 +15,12 @@ import { DeletionConfirmation } from "./deletion-confirmation";
 import { CurrentTraining } from "./current-training";
 import { Mode } from "./types";
 import "../src/styles/authed-app.css";
+import { getNextTrainingId } from "./utils/use-next-training-id";
 
 const AuthedApp = () => {
   const [trainings, setTrainings] = useState<Training[] | []>([]);
 
-  const nextTrainingId =
-    trainings.length > 0 ? trainings[trainings.length - 1].id + 1 : 0;
+  const nextTrainingId = getNextTrainingId(trainings);
 
   const [mode, setMode] = useLocalStorage<Mode>("mode", {
     type: "add",
@@ -42,7 +42,7 @@ const AuthedApp = () => {
 
   const currentTraining: Training = {
     date: new Date().toLocaleDateString(),
-    id: nextTrainingId,
+    id: getNextTrainingId(trainings),
     exercises: parse(currentInput),
   };
 
@@ -65,9 +65,8 @@ const AuthedApp = () => {
 
       setMode({
         type: "add",
-        id: trainings.length > 0 ? trainings[trainings.length - 1].id + 1 : 0,
+        id: getNextTrainingId(trainings),
       });
-
       return trainings;
     });
   };
@@ -96,7 +95,7 @@ const AuthedApp = () => {
 
       setMode({
         type: "add",
-        id: trainings.length > 0 ? trainings[trainings.length - 1].id + 1 : 0,
+        id: getNextTrainingId(trainings),
       });
 
       return trainings;
