@@ -1,7 +1,7 @@
 import { useRef } from "react";
 import { IoTrashBin } from "react-icons/io5";
 import { MdModeEdit } from "react-icons/md";
-import { useSwipeable } from "react-swipeable";
+import { SwipeEventData, useSwipeable } from "react-swipeable";
 import { Training } from "../db-handler/types";
 import "./styles/training-table-with-buttons.css";
 import { TrainingTable } from "./training-table";
@@ -14,7 +14,7 @@ interface TrainingTableProps {
 }
 
 const swipeConfig = {
-  delta: 5,
+  delta: 25,
   preventScrollOnSwipe: true,
 };
 
@@ -25,9 +25,20 @@ export const TrainingTableWithButtons = ({
 }: TrainingTableProps): JSX.Element | null => {
   const trainingWithButtonsRef = useRef<HTMLTableElement>();
 
+  const onSwiping = (swipeEvent: SwipeEventData) => {
+    if (trainingWithButtonsRef.current) {
+      if (swipeEvent.deltaX >= -100 && swipeEvent.deltaX < 0) {
+        trainingWithButtonsRef.current.style.transform = `translateX(${swipeEvent.deltaX}px)`;
+      }
+      if (swipeEvent.deltaX < -100) {
+        trainingWithButtonsRef.current.style.transform = `translateX(-160px)`;
+      }
+    }
+  };
+
   const onSwipedLeft = () => {
     if (trainingWithButtonsRef.current) {
-      trainingWithButtonsRef.current.classList.add("swiped");
+      trainingWithButtonsRef.current.style.transform = `translateX(-160px)`;
     }
   };
 
@@ -39,7 +50,8 @@ export const TrainingTableWithButtons = ({
 
   const swipeHandlers = useSwipeable({
     onSwipedLeft,
-    onSwipedRight,
+    // onSwipedRight,
+    onSwiping,
     ...swipeConfig,
   });
 
