@@ -25,32 +25,58 @@ export const TrainingTableWithButtons = ({
 }: TrainingTableProps): JSX.Element | null => {
   const trainingWithButtonsRef = useRef<HTMLTableElement>();
 
+  const END = 160;
+  let swiped =
+    trainingWithButtonsRef.current?.style.transform === "translateX(-160px)";
+
   const onSwiping = (swipeEvent: SwipeEventData) => {
     if (trainingWithButtonsRef.current) {
-      if (swipeEvent.deltaX >= -100 && swipeEvent.deltaX < 0) {
+      // swipe left
+      if (!swiped && swipeEvent.deltaX < 0 && swipeEvent.deltaX >= -160) {
         trainingWithButtonsRef.current.style.transform = `translateX(${swipeEvent.deltaX}px)`;
       }
-      if (swipeEvent.deltaX < -100) {
-        trainingWithButtonsRef.current.style.transform = `translateX(-160px)`;
+
+      // swipe right
+      if (swiped && swipeEvent.deltaX > 0 && swipeEvent.deltaX <= 160) {
+        trainingWithButtonsRef.current.style.transform = `translateX(${
+          -160 + swipeEvent.deltaX
+        }px)`;
       }
     }
   };
 
-  const onSwipedLeft = () => {
+  const onSwipedLeft = (swipeEvent: SwipeEventData) => {
     if (trainingWithButtonsRef.current) {
-      trainingWithButtonsRef.current.style.transform = `translateX(-160px)`;
+      if (!swiped) {
+        if (swipeEvent.absX >= END / 2) {
+          trainingWithButtonsRef.current.style.transform = `translateX(-${END}px)`;
+          swiped = true;
+        }
+        if (swipeEvent.absX < END / 2) {
+          trainingWithButtonsRef.current.style.transform = `translateX(0px)`;
+          swiped = false;
+        }
+      }
     }
   };
-
-  const onSwipedRight = () => {
+  const onSwipedRight = (swipeEvent: SwipeEventData) => {
     if (trainingWithButtonsRef.current) {
-      trainingWithButtonsRef.current.classList.remove("swiped");
+      if (swiped) {
+        if (swipeEvent.absX >= END / 2) {
+          trainingWithButtonsRef.current.style.transform = `translateX(0px)`;
+          swiped = false;
+        }
+        if (swipeEvent.absX < END / 2) {
+          trainingWithButtonsRef.current.style.transform = `translateX(-${END}px)`;
+          swiped = true;
+        }
+      }
     }
   };
 
   const swipeHandlers = useSwipeable({
     onSwipedLeft,
-    // onSwipedRight,
+    onSwipedRight,
     onSwiping,
     ...swipeConfig,
   });
@@ -75,7 +101,6 @@ export const TrainingTableWithButtons = ({
           className="action-btn-default"
           onClick={() => {
             handleSetEditMode(training.id);
-            onSwipedRight();
           }}
         >
           <MdModeEdit size={20} />
@@ -85,7 +110,6 @@ export const TrainingTableWithButtons = ({
           className="action-btn-default"
           onClick={() => {
             setMode({ type: "delete", id: training.id });
-            onSwipedRight();
           }}
         >
           <IoTrashBin size={20} />
