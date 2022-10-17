@@ -1,7 +1,7 @@
 import { useRef } from "react";
 import { IoTrashBin } from "react-icons/io5";
 import { MdModeEdit } from "react-icons/md";
-import { SwipeEventData, useSwipeable } from "react-swipeable";
+import { SwipeCallback, SwipeEventData, useSwipeable } from "react-swipeable";
 import { Training } from "../db-handler/types";
 import "./styles/training-table-with-buttons.css";
 import { TrainingTable } from "./training-table";
@@ -18,13 +18,13 @@ const swipeConfig = {
   preventScrollOnSwipe: true,
 };
 
-export const TrainingTableWithButtons = ({
-  training,
-  handleSetEditMode,
-  setMode,
-}: TrainingTableProps): JSX.Element | null => {
-  const trainingWithButtonsRef = useRef<HTMLTableElement>();
-
+const createSwipeHandlers = (
+  trainingWithButtonsRef: React.MutableRefObject<HTMLTableElement | undefined>
+): {
+  onSwiping: SwipeCallback;
+  onSwipedLeft: SwipeCallback;
+  onSwipedRight: SwipeCallback;
+} => {
   const END = 160;
   let swiped =
     trainingWithButtonsRef.current?.style.transform === `translateX(-${END}px)`;
@@ -85,10 +85,18 @@ export const TrainingTableWithButtons = ({
     }
   };
 
+  return { onSwiping, onSwipedLeft, onSwipedRight };
+};
+
+export const TrainingTableWithButtons = ({
+  training,
+  handleSetEditMode,
+  setMode,
+}: TrainingTableProps): JSX.Element | null => {
+  const trainingWithButtonsRef = useRef<HTMLTableElement>();
+
   const swipeHandlers = useSwipeable({
-    onSwipedLeft,
-    onSwipedRight,
-    onSwiping,
+    ...createSwipeHandlers(trainingWithButtonsRef),
     ...swipeConfig,
   });
 
