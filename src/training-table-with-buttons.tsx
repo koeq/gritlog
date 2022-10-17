@@ -27,19 +27,33 @@ export const TrainingTableWithButtons = ({
 
   const END = 160;
   let swiped =
-    trainingWithButtonsRef.current?.style.transform === "translateX(-160px)";
+    trainingWithButtonsRef.current?.style.transform === `translateX(-${END}px)`;
+
+  const swipeOpen = () => {
+    if (trainingWithButtonsRef.current) {
+      trainingWithButtonsRef.current.style.transform = `translateX(-${END}px)`;
+      swiped = true;
+    }
+  };
+
+  const swipeClose = () => {
+    if (trainingWithButtonsRef.current) {
+      trainingWithButtonsRef.current.style.transform = `translateX(0px)`;
+      swiped = false;
+    }
+  };
 
   const onSwiping = (swipeEvent: SwipeEventData) => {
     if (trainingWithButtonsRef.current) {
       // swipe left
-      if (!swiped && swipeEvent.deltaX < 0 && swipeEvent.deltaX >= -160) {
+      if (!swiped && swipeEvent.deltaX < 0 && swipeEvent.deltaX >= -END) {
         trainingWithButtonsRef.current.style.transform = `translateX(${swipeEvent.deltaX}px)`;
       }
 
       // swipe right
-      if (swiped && swipeEvent.deltaX > 0 && swipeEvent.deltaX <= 160) {
+      if (swiped && swipeEvent.deltaX > 0 && swipeEvent.deltaX <= END) {
         trainingWithButtonsRef.current.style.transform = `translateX(${
-          -160 + swipeEvent.deltaX
+          -END + swipeEvent.deltaX
         }px)`;
       }
     }
@@ -49,26 +63,23 @@ export const TrainingTableWithButtons = ({
     if (trainingWithButtonsRef.current) {
       if (!swiped) {
         if (swipeEvent.absX >= END / 2) {
-          trainingWithButtonsRef.current.style.transform = `translateX(-${END}px)`;
-          swiped = true;
+          swipeOpen();
         }
         if (swipeEvent.absX < END / 2) {
-          trainingWithButtonsRef.current.style.transform = `translateX(0px)`;
-          swiped = false;
+          swipeClose();
         }
       }
     }
   };
+
   const onSwipedRight = (swipeEvent: SwipeEventData) => {
     if (trainingWithButtonsRef.current) {
       if (swiped) {
         if (swipeEvent.absX >= END / 2) {
-          trainingWithButtonsRef.current.style.transform = `translateX(0px)`;
-          swiped = false;
+          swipeClose();
         }
         if (swipeEvent.absX < END / 2) {
-          trainingWithButtonsRef.current.style.transform = `translateX(-${END}px)`;
-          swiped = true;
+          swipeOpen();
         }
       }
     }
