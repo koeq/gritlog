@@ -14,8 +14,7 @@ interface TrainingTableProps {
 }
 
 const swipeConfig = {
-  delta: 25,
-  preventScrollOnSwipe: true,
+  delta: 40,
 };
 
 const createSwipeHandlers = (
