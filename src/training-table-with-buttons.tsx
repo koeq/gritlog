@@ -19,8 +19,7 @@ const swipeConfig = {
 
 interface SwipeHandlers {
   onSwiping: SwipeCallback;
-  onSwipedLeft: SwipeCallback;
-  onSwipedRight: SwipeCallback;
+  onSwiped: SwipeCallback;
 }
 
 interface SwipeHelpers {
@@ -32,66 +31,68 @@ const createSwipeHandlers = (
   trainingWithButtonsRef: React.MutableRefObject<HTMLTableElement | undefined>
 ): SwipeHandlers & SwipeHelpers => {
   const END = 160;
+
   let swiped =
     trainingWithButtonsRef.current?.style.transform === `translateX(-${END}px)`;
 
   const swipeOpen = () => {
-    if (trainingWithButtonsRef.current) {
-      trainingWithButtonsRef.current.style.transform = `translateX(-${END}px)`;
-      swiped = true;
-    }
+    if (!trainingWithButtonsRef.current) return;
+
+    trainingWithButtonsRef.current.style.transform = `translateX(-${END}px)`;
+    swiped = true;
   };
 
   const swipeClose = () => {
-    if (trainingWithButtonsRef.current) {
-      trainingWithButtonsRef.current.style.transform = `translateX(0px)`;
-      swiped = false;
-    }
+    if (!trainingWithButtonsRef.current) return;
+
+    trainingWithButtonsRef.current.style.transform = `translateX(0px)`;
+    swiped = false;
   };
 
   const onSwiping = (swipeEvent: SwipeEventData) => {
-    if (trainingWithButtonsRef.current) {
-      // swipe left
-      if (!swiped && swipeEvent.deltaX < 0 && swipeEvent.deltaX >= -END) {
-        trainingWithButtonsRef.current.style.transform = `translateX(${swipeEvent.deltaX}px)`;
-      }
+    if (!trainingWithButtonsRef.current) return;
 
-      // swipe right
-      if (swiped && swipeEvent.deltaX > 0 && swipeEvent.deltaX <= END) {
-        trainingWithButtonsRef.current.style.transform = `translateX(${
-          -END + swipeEvent.deltaX
-        }px)`;
-      }
+    // swipe left
+    if (!swiped && swipeEvent.deltaX < 0 && swipeEvent.deltaX >= -END) {
+      trainingWithButtonsRef.current.style.transform = `translateX(${swipeEvent.deltaX}px)`;
+    }
+
+    // swipe right
+    if (swiped && swipeEvent.deltaX > 0 && swipeEvent.deltaX <= END) {
+      trainingWithButtonsRef.current.style.transform = `translateX(${
+        -END + swipeEvent.deltaX
+      }px)`;
     }
   };
 
-  const onSwipedLeft = (swipeEvent: SwipeEventData) => {
-    if (trainingWithButtonsRef.current) {
-      if (!swiped) {
-        if (swipeEvent.absX >= END / 2) {
-          swipeOpen();
-        }
-        if (swipeEvent.absX < END / 2) {
-          swipeClose();
-        }
-      }
+  const onSwiped = (swipeEvent: SwipeEventData) => {
+    if (!trainingWithButtonsRef.current) return;
+
+    const threshold = END / 2;
+
+    if (!swiped && swipeEvent.deltaX <= -threshold) {
+      swipeOpen();
+    }
+
+    if (!swiped && swipeEvent.deltaX >= -threshold) {
+      swipeClose();
+    }
+
+    if (swiped && swipeEvent.deltaX >= threshold) {
+      swipeClose();
+    }
+
+    if (swiped && swipeEvent.deltaX < threshold) {
+      swipeOpen();
     }
   };
 
-  const onSwipedRight = (swipeEvent: SwipeEventData) => {
-    if (trainingWithButtonsRef.current) {
-      if (swiped) {
-        if (swipeEvent.absX >= END / 2) {
-          swipeClose();
-        }
-        if (swipeEvent.absX < END / 2) {
-          swipeOpen();
-        }
-      }
-    }
+  return {
+    onSwiping,
+    onSwiped,
+    swipeOpen,
+    swipeClose,
   };
-
-  return { onSwiping, onSwipedLeft, onSwipedRight, swipeOpen, swipeClose };
 };
 
 export const TrainingTableWithButtons = ({
@@ -101,13 +102,13 @@ export const TrainingTableWithButtons = ({
 }: TrainingTableProps): JSX.Element | null => {
   const trainingWithButtonsRef = useRef<HTMLTableElement>();
 
-  const { onSwipedLeft, onSwipedRight, onSwiping, swipeClose } =
-    createSwipeHandlers(trainingWithButtonsRef);
+  const { onSwiping, swipeClose, onSwiped } = createSwipeHandlers(
+    trainingWithButtonsRef
+  );
 
   const swipeHandlers = useSwipeable({
-    onSwipedLeft,
-    onSwipedRight,
     onSwiping,
+    onSwiped,
     ...swipeConfig,
   });
 
