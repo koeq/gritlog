@@ -17,13 +17,20 @@ const swipeConfig = {
   delta: 40,
 };
 
-const createSwipeHandlers = (
-  trainingWithButtonsRef: React.MutableRefObject<HTMLTableElement | undefined>
-): {
+interface SwipeHandlers {
   onSwiping: SwipeCallback;
   onSwipedLeft: SwipeCallback;
   onSwipedRight: SwipeCallback;
-} => {
+}
+
+interface SwipeHelpers {
+  swipeOpen: () => void;
+  swipeClose: () => void;
+}
+
+const createSwipeHandlers = (
+  trainingWithButtonsRef: React.MutableRefObject<HTMLTableElement | undefined>
+): SwipeHandlers & SwipeHelpers => {
   const END = 160;
   let swiped =
     trainingWithButtonsRef.current?.style.transform === `translateX(-${END}px)`;
@@ -84,7 +91,7 @@ const createSwipeHandlers = (
     }
   };
 
-  return { onSwiping, onSwipedLeft, onSwipedRight };
+  return { onSwiping, onSwipedLeft, onSwipedRight, swipeOpen, swipeClose };
 };
 
 export const TrainingTableWithButtons = ({
@@ -94,8 +101,13 @@ export const TrainingTableWithButtons = ({
 }: TrainingTableProps): JSX.Element | null => {
   const trainingWithButtonsRef = useRef<HTMLTableElement>();
 
+  const { onSwipedLeft, onSwipedRight, onSwiping, swipeClose } =
+    createSwipeHandlers(trainingWithButtonsRef);
+
   const swipeHandlers = useSwipeable({
-    ...createSwipeHandlers(trainingWithButtonsRef),
+    onSwipedLeft,
+    onSwipedRight,
+    onSwiping,
     ...swipeConfig,
   });
 
@@ -119,6 +131,7 @@ export const TrainingTableWithButtons = ({
           className="action-btn-default"
           onClick={() => {
             handleSetEditMode(training.id);
+            swipeClose();
           }}
         >
           <MdModeEdit size={20} />
@@ -128,6 +141,7 @@ export const TrainingTableWithButtons = ({
           className="action-btn-default"
           onClick={() => {
             setMode({ type: "delete", id: training.id });
+            swipeClose();
           }}
         >
           <IoTrashBin size={20} />
