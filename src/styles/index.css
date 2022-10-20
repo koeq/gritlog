@@ -6,6 +6,9 @@
   font-family: "IBM Plex Sans", sans-serif;
   font-weight: 300;
   font-size: 15px;
+
+  /* variables */
+  --shadow-extra-small: 0px 4px 8px rgba(0, 0, 0, 0.12);
 }
 
 /* universal box sizing */
