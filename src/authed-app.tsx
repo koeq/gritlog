@@ -104,7 +104,7 @@ const AuthedApp = (): JSX.Element => {
 
   return (
     <div className="authed">
-      <Header />
+      <Header logout={logout} />
 
       <Input
         currentInput={currentInput}

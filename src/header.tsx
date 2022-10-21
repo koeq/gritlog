@@ -1,5 +1,15 @@
+import { LogoutButton } from "./logout-button";
 import "./styles/header.css";
 
-export const Header = (): JSX.Element => {
-  return <h1 className="header">backslash</h1>;
+interface HeaderProps {
+  logout: () => void;
+}
+
+export const Header = ({ logout }: HeaderProps): JSX.Element => {
+  return (
+    <div className="header">
+      <h1 className="heading">backslash</h1>
+      <LogoutButton logout={logout} />
+    </div>
+  );
 };
