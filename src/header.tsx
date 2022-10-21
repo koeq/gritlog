@@ -1,15 +1,14 @@
-import { LogoutButton } from "./logout-button";
 import "./styles/header.css";
 
 interface HeaderProps {
-  logout: () => void;
+  children?: () => JSX.Element;
 }
 
-export const Header = ({ logout }: HeaderProps): JSX.Element => {
+export const Header = ({ children }: HeaderProps): JSX.Element => {
   return (
     <div className="header">
       <h1 className="heading">backslash</h1>
-      <LogoutButton logout={logout} />
+      {children && children()}
     </div>
   );
 };

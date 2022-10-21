@@ -11,6 +11,7 @@ import { getTrainings } from "./get-trainings";
 import { Header } from "./header";
 import { Input } from "./input";
 import { LoadingSpinner } from "./loading-spinner";
+import { LogoutButton } from "./logout-button";
 import { parse } from "./parser";
 import { Trainings } from "./trainings";
 import { Mode } from "./types";
@@ -104,7 +105,7 @@ const AuthedApp = (): JSX.Element => {
 
   return (
     <div className="authed">
-      <Header logout={logout} />
+      <Header>{() => <LogoutButton logout={logout} />}</Header>
 
       <Input
         currentInput={currentInput}

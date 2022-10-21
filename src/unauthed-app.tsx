@@ -10,7 +10,7 @@ const UnauthedApp = (): JSX.Element => {
 
   return (
     <div className="unauthed">
-      <Header />
+      <Header></Header>
       <SignInWithGoogle />
     </div>
   );
