@@ -7,7 +7,7 @@ interface LogoutButtonProps {
 
 export const LogoutButton = ({ logout }: LogoutButtonProps): JSX.Element => {
   return (
-    <button onClick={() => logout()}>
+    <button className="logout-btn" onClick={() => logout()}>
       <BiLogOut className="logout-icon" />
     </button>
   );
