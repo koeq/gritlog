@@ -8,7 +8,7 @@ interface AddMode {
 interface EditMode {
   readonly type: "edit";
   readonly id: number;
-  readonly trainingInput: string;
+  readonly initialInput: string;
 }
 
 interface DeleteMode {
