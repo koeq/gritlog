@@ -3,7 +3,6 @@ import { Training } from "../db-handler/types";
 import "../src/styles/authed-app.css";
 import { addTraining } from "./add-training";
 import { useAuth } from "./context/auth-provider";
-import { serializeTraining } from "./serialize-training";
 import { CurrentTraining } from "./current-training";
 import { deleteTraining } from "./delete-training";
 import { DeletionConfirmation } from "./deletion-confirmation";
@@ -13,6 +12,7 @@ import { Input } from "./input";
 import { LoadingSpinner } from "./loading-spinner";
 import { LogoutButton } from "./logout-button";
 import { parse } from "./parser";
+import { serializeTraining } from "./serialize-training";
 import { Trainings } from "./trainings";
 import { Mode } from "./types";
 import { useLocalStorage } from "./use-local-storage";
@@ -81,7 +81,7 @@ const AuthedApp = (): JSX.Element => {
 
     const trainingInput = serializeTraining(training);
     setCurrentInput(trainingInput);
-    setMode({ type: "edit", id, trainingInput });
+    setMode({ type: "edit", id, initialInput: trainingInput });
     textAreaRef.current?.focus();
     window.scrollTo({ top: 0, behavior: "smooth" });
   };

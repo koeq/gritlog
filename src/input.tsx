@@ -45,23 +45,24 @@ export const Input = ({
   };
 
   const handleEdit = () => {
-    const { id } = mode;
+    if (mode.type !== "edit") return;
 
-    if (!id && id !== 0) {
-      return;
-    }
+    const { id, initialInput } = mode;
 
-    editTraining({ ...currentTraining, id }, logout);
+    // only edit if training changed
+    if (currentInput?.trim() !== initialInput) {
+      editTraining({ ...currentTraining, id }, logout);
 
-    setTrainings((pastTrainings) => {
-      return pastTrainings.map((training) => {
-        if (training.id === id) {
-          return { ...currentTraining, id };
-        }
+      setTrainings((pastTrainings) => {
+        return pastTrainings.map((training) => {
+          if (training.id === id) {
+            return { ...currentTraining, id };
+          }
 
-        return training;
+          return training;
+        });
       });
-    });
+    }
 
     setCurrentInput("");
     setMode({ type: "add", id: nextTrainingId });
