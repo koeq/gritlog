@@ -1,5 +1,5 @@
 import { createContext } from "react";
-import { useAuthed } from "../auth";
+import { deleteAuthCookie, useAuthed } from "../auth";
 import { handleSignInWithGoogle } from "../auth/handle-sign-in-with-google";
 import { useSafeContext } from "../utils/use-safe-context";
 
@@ -17,7 +17,11 @@ const authContext = createContext<AuthContext | undefined>(undefined);
 
 export const AuthProvider = (props: AuthProviderProps): JSX.Element => {
   const [authed, setAuthed] = useAuthed();
-  const logout = () => setAuthed(false);
+
+  const logout = () => {
+    deleteAuthCookie();
+    setAuthed(false);
+  };
 
   const startLoginFlow = () => {
     // use google sign in flow

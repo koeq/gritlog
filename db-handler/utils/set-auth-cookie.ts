@@ -8,20 +8,20 @@ export const setAuthCookie = (
   const { body } = event;
   try {
     if (!body) {
-      return buildResponse(500, "No body found");
+      return buildResponse(500, "No body found.");
     }
 
     const jwt = JSON.parse(body);
 
-    // TO DO: CHECK
+    // TODO: CHECK
     // is SameSite=none safe?
     // session lasts 3 hours
     const cookie = {
       "Set-Cookie": `user=${jwt}; Max-Age=${10800}; Secure; HttpOnly; SameSite=none`,
     };
 
-    return buildResponse(statusCode, "auth cookie was set", cookie);
+    return buildResponse(statusCode, "Auth cookie was set.", cookie);
   } catch (err) {
-    return buildResponse(500, "Couldn't set auth cookie");
+    return buildResponse(500, "Couldn't set auth cookie.");
   }
 };
