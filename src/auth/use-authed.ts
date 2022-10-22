@@ -14,6 +14,20 @@ const headers = {
   },
 };
 
+export const deleteAuthCookie = async (): Promise<void> => {
+  const requestOptions = {
+    ...credentials,
+    ...headers,
+    method: "DELETE",
+  };
+
+  try {
+    await fetch(authUrl, requestOptions);
+  } catch (err) {
+    console.log(err);
+  }
+};
+
 const checkAuthentication = async (): Promise<boolean> => {
   const requestOptions = {
     ...credentials,

@@ -13,6 +13,7 @@ import {
   isUserAuthenticated,
   setAuthCookie,
 } from "./utils";
+import { deleteAuthCookie } from "./utils/delete-auth-cookie";
 
 const authPath = "/auth";
 const userPath = "/user";
@@ -27,7 +28,7 @@ exports.handler = async (
     let response: JsonResponse = { body: "", headers: {}, statusCode: 0 };
 
     if (event.path === authPath) {
-      console.log("we're in the auth path");
+      console.log("We're in the auth path.");
 
       switch (event.httpMethod) {
         case "GET":
@@ -39,16 +40,23 @@ exports.handler = async (
           break;
 
         case "POST": {
-          console.log("we're in POST method");
+          console.log("We're in the POST method.");
           const user = await checkForUser(event.body);
 
           if (user) {
             response = setAuthCookie(200, event);
-            console.log("we already have an user an set the cookie");
+            console.log("We already have a user. We set the cookie.");
           } else {
             response = await createUser(event);
             console.log("we created an user and set the cookie");
           }
+          break;
+        }
+
+        case "DELETE": {
+          console.log("We're in the DELETE method.");
+          response = deleteAuthCookie(200);
+
           break;
         }
 
