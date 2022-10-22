@@ -7,7 +7,7 @@ export function useSafeContext<T>(
   const contextValue = useContext(context);
 
   if (!contextValue) {
-    throw new Error(`No value for provided for context ${contextName}.`);
+    throw new Error(`No value provided for context ${contextName}.`);
   }
 
   return contextValue;
