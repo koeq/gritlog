@@ -15,7 +15,6 @@ interface AuthContext {
 
 const authContext = createContext<AuthContext | undefined>(undefined);
 
-// TO DO: type props correctly
 export const AuthProvider = (props: AuthProviderProps): JSX.Element => {
   const [authed, setAuthed] = useAuthed();
   const logout = () => setAuthed(false);
@@ -52,4 +51,5 @@ export const AuthProvider = (props: AuthProviderProps): JSX.Element => {
   );
 };
 
-export const useAuth = (): AuthContext => useSafeContext(authContext, "Auth");
+export const useAuth: () => AuthContext = () =>
+  useSafeContext(authContext, "Auth");
