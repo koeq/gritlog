@@ -5,7 +5,7 @@ import { SwipeHandlers, SwipeHelpers } from "./training-table-with-buttons";
 
 interface TrainingTableProps {
   readonly training: Training;
-  readonly swipeActions: SwipeHandlers & SwipeHelpers;
+  readonly swipeActions?: SwipeHandlers & SwipeHelpers;
 }
 
 export const TrainingTable = ({
@@ -13,6 +13,11 @@ export const TrainingTable = ({
   swipeActions,
 }: TrainingTableProps): JSX.Element | null => {
   const isMobile = useIsMobile();
+
+  if (!swipeActions) {
+    return null;
+  }
+
   const { toggleSwipe } = swipeActions || {};
 
   return (
