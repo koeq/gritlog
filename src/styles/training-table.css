@@ -10,6 +10,10 @@ th {
   text-align: left;
 }
 
+.pointer {
+  cursor: pointer;
+}
+
 .date-header {
   width: 100%;
   padding-bottom: 10px;
