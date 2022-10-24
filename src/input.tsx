@@ -1,8 +1,8 @@
 import { Training } from "../db-handler/types";
+import { useIsMobile } from "./context/is-mobile-provider";
 import { editTraining } from "./edit-training";
 import "./styles/input.css";
 import { Mode } from "./types";
-import { useIsMobile } from "./utils/use-is-mobile";
 
 interface InputProps {
   readonly handleInputChange: (

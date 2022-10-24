@@ -1,7 +1,7 @@
 import { Training } from "../db-handler/types";
+import { useIsMobile } from "./context/is-mobile-provider";
 import "./styles/training-table.css";
 import { SwipeHandlers, SwipeHelpers } from "./training-table-with-buttons";
-import { useIsMobile } from "./utils/use-is-mobile";
 
 interface TrainingTableProps {
   readonly training: Training;
