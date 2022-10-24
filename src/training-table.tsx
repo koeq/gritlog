@@ -1,15 +1,25 @@
 import { Training } from "../db-handler/types";
 import "./styles/training-table.css";
+import { SwipeHandlers, SwipeHelpers } from "./training-table-with-buttons";
+import { useIsMobile } from "./utils/use-is-mobile";
 
 interface TrainingTableProps {
   readonly training: Training;
+  readonly swipeActions: SwipeHandlers & SwipeHelpers;
 }
 
 export const TrainingTable = ({
   training,
+  swipeActions,
 }: TrainingTableProps): JSX.Element | null => {
+  const isMobile = useIsMobile();
+  const { toggleSwipe } = swipeActions || {};
+
   return (
-    <table>
+    <table
+      className={!isMobile ? "pointer" : undefined}
+      {...(!isMobile && { onClick: () => toggleSwipe() })}
+    >
       <tbody>
         <tr>
           <th colSpan={3} className="date-header">

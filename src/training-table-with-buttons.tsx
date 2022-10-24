@@ -13,19 +13,18 @@ interface TrainingTableProps {
   readonly setMode: (value: Mode | ((val: Mode) => Mode)) => void;
 }
 
-const swipeConfig = {
-  delta: 40,
-};
-
-interface SwipeHandlers {
+export interface SwipeHandlers {
   onSwiping: SwipeCallback;
   onSwiped: SwipeCallback;
 }
 
-interface SwipeHelpers {
-  swipeOpen: () => void;
-  swipeClose: () => void;
+export interface SwipeHelpers {
+  toggleSwipe: () => void;
 }
+
+const swipeConfig = {
+  delta: 40,
+};
 
 const createSwipeHandlers = (
   trainingWithButtonsRef: React.MutableRefObject<HTMLTableElement | undefined>
@@ -47,6 +46,16 @@ const createSwipeHandlers = (
 
     trainingWithButtonsRef.current.style.transform = `translateX(0px)`;
     swiped = false;
+  };
+
+  const toggleSwipe = () => {
+    if (!trainingWithButtonsRef.current) return;
+
+    if (swiped) {
+      swipeClose();
+    } else {
+      swipeOpen();
+    }
   };
 
   const onSwiping = (swipeEvent: SwipeEventData) => {
@@ -90,8 +99,7 @@ const createSwipeHandlers = (
   return {
     onSwiping,
     onSwiped,
-    swipeOpen,
-    swipeClose,
+    toggleSwipe,
   };
 };
 
@@ -102,9 +110,8 @@ export const TrainingTableWithButtons = ({
 }: TrainingTableProps): JSX.Element | null => {
   const trainingWithButtonsRef = useRef<HTMLTableElement>();
 
-  const { onSwiping, swipeClose, onSwiped } = createSwipeHandlers(
-    trainingWithButtonsRef
-  );
+  const swipeActions = createSwipeHandlers(trainingWithButtonsRef);
+  const { onSwiping, onSwiped, toggleSwipe } = swipeActions;
 
   const swipeHandlers = useSwipeable({
     onSwiping,
@@ -125,14 +132,14 @@ export const TrainingTableWithButtons = ({
       ref={refPassthrough}
       className="training-with-buttons"
     >
-      <TrainingTable training={training} />
+      <TrainingTable training={training} swipeActions={swipeActions} />
       <div className="buttons-container">
         <button
           id="edit"
           className="action-btn-default"
           onClick={() => {
             handleSetEditMode(training.id);
-            swipeClose();
+            toggleSwipe();
           }}
         >
           <MdModeEdit size={20} />
@@ -142,7 +149,7 @@ export const TrainingTableWithButtons = ({
           className="action-btn-default"
           onClick={() => {
             setMode({ type: "delete", id: training.id });
-            swipeClose();
+            toggleSwipe();
           }}
         >
           <IoTrashBin size={20} />
