@@ -9,6 +9,7 @@
 
   /* variables */
   --shadow-extra-small: 0px 4px 8px rgba(0, 0, 0, 0.12);
+  --shadow-smallest: 0 2px 6px rgb(0 0 0 / 5%);
 }
 
 /* universal box sizing */
