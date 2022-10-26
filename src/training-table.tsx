@@ -14,16 +14,12 @@ export const TrainingTable = ({
 }: TrainingTableProps): JSX.Element | null => {
   const isMobile = useIsMobile();
 
-  if (!swipeActions) {
-    return null;
-  }
-
   const { toggleSwipe } = swipeActions || {};
 
   return (
     <table
       className={!isMobile ? "pointer" : undefined}
-      {...(!isMobile && { onClick: () => toggleSwipe() })}
+      {...(!isMobile && toggleSwipe && { onClick: () => toggleSwipe() })}
     >
       <tbody>
         <tr>
