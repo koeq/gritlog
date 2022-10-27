@@ -9,6 +9,9 @@ textarea {
   transition: 0.15s ease-in-out;
   margin-bottom: 25px;
   box-shadow: var(--shadow-smallest);
+  appearance: none;
+  /* this is necessary to enable the box shadow on ios */
+  -webkit-appearance: none;
 }
 
 textarea:focus {
