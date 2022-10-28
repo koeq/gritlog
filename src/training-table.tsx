@@ -28,8 +28,12 @@ export const TrainingTable = ({
           </th>
         </tr>
         <tr>
-          <th className="label-header">exercise</th>
-          <th className="label-header">weight</th>
+          <th style={{ width: "99.5px" }} className="label-header">
+            exercise
+          </th>
+          <th style={{ padding: "0 10px" }} className="label-header">
+            weight
+          </th>
           <th className="label-header">repetitions</th>
         </tr>
 
@@ -37,9 +41,31 @@ export const TrainingTable = ({
           training.exercises.map(
             ({ exerciseName, weight, repetitions }, index) => (
               <tr key={index}>
-                <td>{exerciseName}</td>
-                <td>{weight}</td>
-                <td>{repetitions}</td>
+                <td
+                  style={{
+                    width: "130px",
+                    overflowWrap: "anywhere",
+                  }}
+                >
+                  {exerciseName}
+                </td>
+                <td
+                  style={{
+                    padding: "0 10px",
+                    width: "90px",
+                    overflowWrap: "anywhere",
+                  }}
+                >
+                  {weight}
+                </td>
+                <td
+                  style={{
+                    width: "90px",
+                    overflowWrap: "anywhere",
+                  }}
+                >
+                  {repetitions}
+                </td>
               </tr>
             )
           )}
