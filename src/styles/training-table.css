@@ -23,3 +23,27 @@ th {
 .label-header {
   font-weight: 400;
 }
+
+#exerciseLabel {
+  width: 99.5px;
+}
+
+#weightLabel {
+  padding: 0 10px;
+}
+
+#exercise {
+  width: 130px;
+  overflow-wrap: anywhere;
+}
+
+#weight {
+  padding: 0 10px;
+  width: 90px;
+  overflow-wrap: anywhere;
+}
+
+#repetitions {
+  width: 90px;
+  overflow-wrap: anywhere;
+}
