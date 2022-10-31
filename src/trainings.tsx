@@ -20,7 +20,7 @@ export const Trainings = ({
 
   return (
     <div className="trainings">
-      <hr />
+      <div className="horizontal-rule" />
       {trainings
         .map((_, index) => {
           const training = trainings[index];

@@ -13,15 +13,17 @@
 }
 
 .dialog {
-  width: 95%;
-  height: 30vh;
+  width: min(95%, 350px);
+  height: 250px;
   padding: 16px;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   background-color: #fff;
+  border: 0.5px solid #e5e5e5;
   border-radius: 4px;
+  box-shadow: var(--shadow-smallest);
 }
 
 .dialog-text {
