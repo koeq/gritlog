@@ -2,7 +2,7 @@ table {
   /* this circumvents the collapse of the right border on mobile */
   width: 99.5%;
   padding: 8px;
-  border: 0.5px solid #e5e5e5;
+  border: 1px solid #e5e5e5;
   border-radius: 4px;
 }
 
@@ -17,11 +17,12 @@ th {
 .date-header {
   width: 100%;
   padding-bottom: 10px;
-  border-bottom: 1px solid #eaeaea;
+  border-bottom: 0.5px solid #eaeaea;
 }
 
 .label-header {
   font-weight: 400;
+  padding-top: 10px;
 }
 
 #exerciseLabel {
@@ -29,7 +30,7 @@ th {
 }
 
 #weightLabel {
-  padding: 0 10px;
+  padding: 10px 10px 0 10px;
 }
 
 #exercise {
