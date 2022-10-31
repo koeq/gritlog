@@ -8,6 +8,46 @@ interface TrainingTableProps {
   readonly swipeActions?: SwipeHandlers & SwipeHelpers;
 }
 
+const TableHeaders = (): JSX.Element => {
+  return (
+    <tr>
+      <th id="exerciseLabel" className="label-header">
+        exercise
+      </th>
+      <th id="weightLabel" className="label-header">
+        weight
+      </th>
+      <th className="label-header">repetitions</th>
+    </tr>
+  );
+};
+
+interface TableValueProps {
+  readonly training: Training;
+}
+
+const TableValues = ({ training }: TableValueProps): JSX.Element => {
+  return training.exercises ? (
+    <>
+      {training.exercises.map(
+        ({ exerciseName, weight, repetitions }, index) => (
+          <tr key={index}>
+            <td id="exercise">{exerciseName || "—"}</td>
+            <td id="weight">{weight || "—"}</td>
+            <td id="repetitions">{repetitions || "—"}</td>
+          </tr>
+        )
+      )}
+    </>
+  ) : (
+    <tr>
+      <td id="exercise">—</td>
+      <td id="weight">—</td>
+      <td id="repetitions">—</td>
+    </tr>
+  );
+};
+
 export const TrainingTable = ({
   training,
   swipeActions,
@@ -27,26 +67,9 @@ export const TrainingTable = ({
             {training.date}
           </th>
         </tr>
-        <tr>
-          <th id="exerciseLabel" className="label-header">
-            exercise
-          </th>
-          <th id="weightLabel" className="label-header">
-            weight
-          </th>
-          <th className="label-header">repetitions</th>
-        </tr>
 
-        {training.exercises &&
-          training.exercises.map(
-            ({ exerciseName, weight, repetitions }, index) => (
-              <tr key={index}>
-                <td id="exercise">{exerciseName}</td>
-                <td id="weight">{weight}</td>
-                <td id="repetitions">{repetitions}</td>
-              </tr>
-            )
-          )}
+        <TableHeaders />
+        <TableValues training={training} />
       </tbody>
     </table>
   );
