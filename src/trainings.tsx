@@ -1,4 +1,4 @@
-import { Training } from "../db-handler/types";
+import { Training } from "../lambdas/db-handler/types";
 import "./styles/trainings.css";
 import { TrainingTableWithButtons } from "./training-table-with-buttons";
 import { Mode } from "./types";

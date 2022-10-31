@@ -1,4 +1,4 @@
-import { Training } from "../db-handler/types";
+import { Training } from "../lambdas/db-handler/types";
 import { useIsMobile } from "./context/is-mobile-provider";
 import { editTraining } from "./edit-training";
 import "./styles/input.css";

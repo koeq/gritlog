@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { Training } from "../db-handler/types";
+import { Training } from "../lambdas/db-handler/types";
 import "../src/styles/authed-app.css";
 import { addTraining } from "./add-training";
 import { useAuth } from "./context/auth-provider";
