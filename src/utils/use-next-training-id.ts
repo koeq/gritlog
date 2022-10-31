@@ -1,4 +1,4 @@
-import { Training } from "../../db-handler/types";
+import { Training } from "../../lambdas/db-handler/types";
 
 export const getNextTrainingId = (trainings: Training[]): number => {
   if (trainings.length === 0) {

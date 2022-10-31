@@ -1,4 +1,4 @@
-import { Training } from "../db-handler/types";
+import { Training } from "../lambdas/db-handler/types";
 import "./styles/current-training.css";
 import { TrainingTable } from "./training-table";
 

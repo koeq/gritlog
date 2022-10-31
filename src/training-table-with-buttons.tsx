@@ -2,7 +2,7 @@ import { useRef } from "react";
 import { IoTrashBin } from "react-icons/io5";
 import { MdModeEdit } from "react-icons/md";
 import { SwipeCallback, SwipeEventData, useSwipeable } from "react-swipeable";
-import { Training } from "../db-handler/types";
+import { Training } from "../lambdas/db-handler/types";
 import "./styles/training-table-with-buttons.css";
 import { TrainingTable } from "./training-table";
 import { Mode } from "./types";

@@ -1,4 +1,4 @@
-import { Exercise } from "../db-handler/types";
+import { Exercise } from "../lambdas/db-handler/types";
 
 // INPUT STRUCTURE  -->  Benchpress 90kg 8/8/8 92,2kg 8/8
 export const parse = (
