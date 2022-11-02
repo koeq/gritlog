@@ -16,8 +16,6 @@
     "noEmit": true,
     "jsx": "react-jsx"
   },
-  // TODO: check the next two lines
-  "include": ["src", "lambdas/db-handler"],
-  "exclude": ["lambdas/db-handler"],
+  "include": ["src"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }
