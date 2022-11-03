@@ -10,7 +10,6 @@ import {
 } from "./utils";
 
 const trainingPath = "/training";
-const healthPath = "/health";
 
 exports.handler = async (
   event: APIGatewayProxyEvent
@@ -48,10 +47,6 @@ exports.handler = async (
         default:
           response = buildResponse(404, "404 not found");
       }
-    }
-
-    if (event.path === healthPath) {
-      response = buildResponse(200, "OK");
     }
 
     console.log(response);
