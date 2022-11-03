@@ -3,6 +3,9 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
+    "auth-handler:deploy": "./scripts/auth-handler-deploy.sh",
+    "auth-handler:deploy-dev": "./scripts/auth-handler-deploy-dev.sh",
+    "auth-handler:deploy-prod": "./scripts/auth-handler-deploy-prod.sh",
     "build": "tsc && vite build",
     "cache-flush": "aws cloudfront create-invalidation --distribution-id E13WE8G6L89PC5 --paths '/*'",
     "db-handler:deploy": "./scripts/db-handler-deploy.sh",
