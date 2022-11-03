@@ -1,6 +1,6 @@
 import { GetItemCommand, GetItemCommandInput } from "@aws-sdk/client-dynamodb";
 import jwt_decode from "jwt-decode";
-import { ddbClient } from "../../db-handler/utils/ddb-client";
+import { ddbClient } from "./ddb-client";
 
 export interface GoogleUserData {
   iss: string;

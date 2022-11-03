@@ -2,7 +2,7 @@ export * from "./build-response";
 export * from "./check-for-user";
 export * from "./delete-user";
 export * from "./get-user";
-export * from "../../auth-handler/utils/is-user-authenticated";
+export * from "./is-user-authenticated";
 export * from "./add-training";
 export * from "./get-trainings";
 export * from "./delete-training";
