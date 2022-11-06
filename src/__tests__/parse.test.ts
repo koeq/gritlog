@@ -1,4 +1,4 @@
-import { parse } from "./../parser";
+import { parse } from "../legacy-parser";
 
 let singleLine: string;
 let singleLineSpaceBeforeWeight: string;
