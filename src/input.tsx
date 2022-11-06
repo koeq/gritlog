@@ -17,7 +17,9 @@ interface InputProps {
   >;
   readonly nextTrainingId: number;
   readonly currentTraining: Training;
-  readonly setTrainings: React.Dispatch<React.SetStateAction<Training[] | []>>;
+  readonly setTrainings: React.Dispatch<
+    React.SetStateAction<Training[] | undefined>
+  >;
   readonly logout: () => void;
   readonly textAreaRef: React.MutableRefObject<HTMLTextAreaElement | null>;
 }
@@ -54,7 +56,7 @@ export const Input = ({
       editTraining({ ...currentTraining, id }, logout);
 
       setTrainings((pastTrainings) => {
-        return pastTrainings.map((training) => {
+        return pastTrainings?.map((training) => {
           if (training.id === id) {
             return { ...currentTraining, id };
           }

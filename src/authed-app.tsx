@@ -19,8 +19,7 @@ import { useLocalStorage } from "./use-local-storage";
 import { getNextTrainingId } from "./utils/use-next-training-id";
 
 const AuthedApp = (): JSX.Element => {
-  const [trainings, setTrainings] = useState<Training[] | []>([]);
-
+  const [trainings, setTrainings] = useState<Training[] | undefined>(undefined);
   const nextTrainingId = getNextTrainingId(trainings);
 
   const [mode, setMode] = useLocalStorage<Mode>("mode", {
@@ -73,7 +72,7 @@ const AuthedApp = (): JSX.Element => {
   };
 
   const handleSetEditMode = (id: number) => {
-    const training = trainings.find((training) => training.id === id);
+    const training = trainings?.find((training) => training.id === id);
 
     if (!training) {
       return;
@@ -123,7 +122,7 @@ const AuthedApp = (): JSX.Element => {
 
       <CurrentTraining currentTraining={currentTraining} />
 
-      {trainings && trainings.length > 0 ? (
+      {trainings ? (
         <Trainings
           setMode={setMode}
           trainings={trainings}
