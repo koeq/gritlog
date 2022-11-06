@@ -1,7 +1,9 @@
 import { Training } from "../../lambdas/db-handler/types";
 
-export const getNextTrainingId = (trainings: Training[]): number => {
-  if (trainings.length === 0) {
+export const getNextTrainingId = (
+  trainings: Training[] | undefined
+): number => {
+  if (!trainings || trainings.length === 0) {
     return 0;
   }
 

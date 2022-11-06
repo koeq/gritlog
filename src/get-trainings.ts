@@ -1,7 +1,7 @@
 import { Training } from "../lambdas/db-handler/types";
 
 export const getTrainings = async (
-  setTrainings: React.Dispatch<React.SetStateAction<Training[] | []>>
+  setTrainings: React.Dispatch<React.SetStateAction<Training[] | undefined>>
 ): Promise<void> => {
   const trainingUrl = import.meta.env.VITE_TRAINING_URL;
 
