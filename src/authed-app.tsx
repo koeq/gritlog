@@ -123,7 +123,7 @@ const AuthedApp = (): JSX.Element => {
 
       <CurrentTraining currentTraining={currentTraining} />
 
-      {trainings ? (
+      {trainings && trainings.length > 0 ? (
         <Trainings
           setMode={setMode}
           trainings={trainings}
