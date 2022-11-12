@@ -51,6 +51,8 @@ interface Token {
   readonly line: number;
 }
 
+//-----------------------------------------------------------------------------------------------
+
 export function parse(source: string | undefined) {
   if (source === undefined) {
     return;
@@ -61,8 +63,9 @@ export function parse(source: string | undefined) {
     let start = 0;
     let current = 0;
     const line = 1;
+    let hadError = false;
 
-    function isAtEnd() {
+    function isAtEnd(): boolean {
       return current >= source.length;
     }
 
@@ -72,24 +75,46 @@ export function parse(source: string | undefined) {
       return source.charAt(current++);
     }
 
-    function addToken(type: TokenTypes) {
+    function addToken(type: TokenTypes): void {
       const text = source.substring(start, current);
       tokens.push({ tokenType: type, lexeme: text, literal: {}, line });
     }
 
-    function scanToken() {
+    function scanToken(): void {
       const char = advance();
+
       switch (char) {
         case "@":
           addToken(ASPERAND);
           break;
+
+        case "/":
+          addToken(FORWARD_SLASH);
+          break;
+
         case "*":
           addToken(STAR);
           break;
+
         case "#":
           addToken(HASHTAG);
           break;
+
+        default:
+          error(line, "Unexpected character.");
+          break;
       }
+    }
+
+    // ERROR HANDLING
+
+    function error(line: number, message: string) {
+      report(line, "", message);
+    }
+
+    function report(line: number, where: string, message: string) {
+      console.log(`[line ${line}] Error ${where}: ${message}`);
+      hadError = true;
     }
 
     return {
@@ -115,23 +140,6 @@ export function parse(source: string | undefined) {
   const scanner = Scanner(source);
 
   const tokens: Token[] = scanner.scanTokens(source);
-
-  for (const token of tokens) {
-    console.log(token);
-  }
 }
 
-// EORROR HANDLING
-// let hadError: boolean = false;
-// function error(line: number, message: string) {
-//   report(line, "", message);
-// }
-
-// function report(line: number, where: string, message: string) {
-//   console.log(`[line ${line}] Error ${where}: ${message}`);
-//   hadError = true;
-// }
-
-// if (hadError) {
-//   return;
-// }
+//-----------------------------------------------------------------------------------------------
