@@ -9,9 +9,9 @@ import { DeletionConfirmation } from "./deletion-confirmation";
 import { getTrainings } from "./get-trainings";
 import { Header } from "./header";
 import { Input } from "./input";
-import { parse } from "./legacy-parser";
 import { LoadingSpinner } from "./loading-spinner";
 import { LogoutButton } from "./logout-button";
+import { parse } from "./parser";
 import { serializeTraining } from "./serialize-training";
 import { Trainings } from "./trainings";
 import { Mode } from "./types";
@@ -32,6 +32,8 @@ const AuthedApp = (): JSX.Element => {
     undefined
   );
 
+  parse(currentInput);
+
   const textAreaRef = useRef<HTMLTextAreaElement | null>(null);
   const { logout } = useAuth();
 
@@ -43,7 +45,7 @@ const AuthedApp = (): JSX.Element => {
   const currentTraining: Training = {
     date: new Date().toLocaleDateString(),
     id: getNextTrainingId(trainings),
-    exercises: parse(currentInput),
+    exercises: [],
   };
 
   const handleInputChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
