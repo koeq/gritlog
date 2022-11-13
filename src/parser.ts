@@ -88,6 +88,12 @@ export function parse(source: string | undefined) {
       return source.charAt(current + 1);
     }
 
+    function string(): void {
+      while (isString(peek())) advance();
+
+      addToken("STRING", source.substring(start, current));
+    }
+
     function number(): void {
       while (isDigit(peek())) advance();
 
@@ -102,6 +108,7 @@ export function parse(source: string | undefined) {
       const number = parseFloat(
         source.substring(start, current).replace(",", ".")
       );
+
       addToken("NUMBER", number);
     }
 
@@ -141,16 +148,14 @@ export function parse(source: string | undefined) {
           break;
 
         default:
-          // if (isString(char)) {
-          //   string();
-          // }
-
-          if (isDigit(char)) {
+          if (isString(char)) {
+            string();
+          } else if (isDigit(char)) {
             number();
+          } else {
+            error(line, "Unexpected character.");
+            break;
           }
-
-          error(line, "Unexpected character.");
-          break;
       }
     }
 
