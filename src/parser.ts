@@ -11,46 +11,39 @@ const ASPERAND = "@";
 const FORWARD_SLASH = "/";
 const STAR = "*";
 const HASHTAG = "#";
-// Literals
-let NUMBER: number;
-let STRING: string;
 // Keywords
 const KILOGRAMS = "kg";
 const POUNDS = "lbs";
 // End of file
 const EOF = "EOF";
 
-interface T {
-  // Single-character Tokens
-  readonly ASPERAND: "@";
-  readonly STAR: "*";
-  readonly HASHTAG: "#";
-  readonly FORWARD_SLASH: "/";
-  // Keywords
-  readonly KILOGRAMS: "kg";
-  readonly POUNDS: "lbs";
+type TokenType =
+  // Single sign
+  | "ASPERAND"
+  | "FORWARD_SLASH"
+  | "STAR"
+  | "HASHTAG"
   // Literals
-  readonly STRING: string;
-  readonly NUMBER: number;
+  | "NUMBER"
+  // The token type "STRING" represents one or multiple letters in this context
+  | "STRING"
+  // Keywords
+  | "KILOGRAMS"
+  | "POUNDS"
   // End of file
-  readonly EOF: "EOF";
-}
+  | "EOF";
 
-interface TokenLiterals {
-  NUMBER: number;
-  STRING: string;
-}
-
-type TokenTypes = T[keyof T];
+type Literal = string | number;
 
 interface Token {
-  readonly tokenType: TokenTypes;
+  readonly tokenType: TokenType;
   readonly lexeme: string;
   // TODO: what is the correct type of literal here
-  readonly literal: {};
+  readonly literal: Literal | null;
   readonly line: number;
 }
 
+//------------------------------------------PARSER-----------------------------------------------
 //-----------------------------------------------------------------------------------------------
 
 export function parse(source: string | undefined) {
@@ -62,7 +55,7 @@ export function parse(source: string | undefined) {
     const tokens: Token[] = [];
     let start = 0;
     let current = 0;
-    const line = 1;
+    let line = 1;
     let hadError = false;
 
     function isAtEnd(): boolean {
@@ -70,14 +63,51 @@ export function parse(source: string | undefined) {
     }
 
     function advance(): string {
-      // this passes the value of current into charAt and then increments current by one
-      // this behaviour is very implicit and might lead to bugs
-      return source.charAt(current++);
+      const next = source.charAt(current);
+      current = current + 1;
+
+      return next;
     }
 
-    function addToken(type: TokenTypes): void {
+    function match(expected: string): boolean {
+      if (isAtEnd()) return false;
+      if (source.charAt(current) != expected) return false;
+      current = current + 1;
+
+      return true;
+    }
+
+    function peek() {
+      if (isAtEnd()) return "\0";
+      return source.charAt(current);
+    }
+
+    function peekNext() {
+      if (current + 1 >= source.length) return "\0";
+
+      return source.charAt(current + 1);
+    }
+
+    function number(): void {
+      while (isDigit(peek())) advance();
+
+      // Look for fractional part
+      if ((peek() === "." || peek() === ",") && isDigit(peekNext())) {
+        // consume separator
+        advance();
+        while (isDigit(peek())) advance();
+      }
+
+      // only '.' is a valid decimal separator
+      const number = parseFloat(
+        source.substring(start, current).replace(",", ".")
+      );
+      addToken("NUMBER", number);
+    }
+
+    function addToken(type: TokenType, literal: Literal | null = null): void {
       const text = source.substring(start, current);
-      tokens.push({ tokenType: type, lexeme: text, literal: {}, line });
+      tokens.push({ tokenType: type, lexeme: text, literal, line });
     }
 
     function scanToken(): void {
@@ -85,29 +115,46 @@ export function parse(source: string | undefined) {
 
       switch (char) {
         case "@":
-          addToken(ASPERAND);
+          addToken("ASPERAND");
           break;
 
         case "/":
-          addToken(FORWARD_SLASH);
+          addToken("FORWARD_SLASH");
           break;
 
         case "*":
-          addToken(STAR);
+          addToken("STAR");
           break;
 
         case "#":
-          addToken(HASHTAG);
+          addToken("HASHTAG");
+          break;
+
+        case " ":
+        case "\r":
+        case "\t":
+          // Ignore whitespace.
+          break;
+
+        case "\n":
+          line++;
           break;
 
         default:
+          // if (isString(char)) {
+          //   string();
+          // }
+
+          if (isDigit(char)) {
+            number();
+          }
+
           error(line, "Unexpected character.");
           break;
       }
     }
 
     // ERROR HANDLING
-
     function error(line: number, message: string) {
       report(line, "", message);
     }
@@ -128,7 +175,7 @@ export function parse(source: string | undefined) {
         tokens.push({
           tokenType: "EOF",
           lexeme: "",
-          literal: {},
+          literal: null,
           line,
         });
 
@@ -138,8 +185,22 @@ export function parse(source: string | undefined) {
   };
 
   const scanner = Scanner(source);
-
   const tokens: Token[] = scanner.scanTokens(source);
+  console.log(tokens);
 }
 
 //-----------------------------------------------------------------------------------------------
+//-----------------------------------------------------------------------------------------------
+
+//----------------------------------------HELPERS------------------------------------------------
+function isString(char: string): boolean {
+  const letters = new RegExp(/[a-zA-Z]/);
+
+  return letters.test(char);
+}
+
+function isDigit(char: string): boolean {
+  const numbers = new RegExp(/\d/);
+
+  return numbers.test(char);
+}
