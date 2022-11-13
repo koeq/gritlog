@@ -1,21 +1,8 @@
 export {};
 
 // DEFINITIONS
-
 //  lexeme: are the smallest sequence of substrings of the source which still represent something.
 // tokens: a token is made out of a lexeme and additional data to that lexeme (e.g. token type)
-
-// CONSTANTS
-// Single-character tokens
-const ASPERAND = "@";
-const FORWARD_SLASH = "/";
-const STAR = "*";
-const HASHTAG = "#";
-// Keywords
-const KILOGRAMS = "kg";
-const POUNDS = "lbs";
-// End of file
-const EOF = "EOF";
 
 type TokenType =
   // Single sign
@@ -28,8 +15,7 @@ type TokenType =
   // The token type "STRING" represents one or multiple letters in this context
   | "STRING"
   // Keywords
-  | "KILOGRAMS"
-  | "POUNDS"
+  | "WEIGHT_UNIT"
   // End of file
   | "EOF";
 
@@ -43,10 +29,18 @@ interface Token {
   readonly line: number;
 }
 
+interface Keywords {
+  [k: string]: TokenType;
+}
+const keywords: Keywords = {
+  kg: "WEIGHT_UNIT",
+  lbs: "WEIGHT_UNIT",
+} as const;
+
 //------------------------------------------PARSER-----------------------------------------------
 //-----------------------------------------------------------------------------------------------
 
-export function parse(source: string | undefined) {
+export function parse(source: string | undefined): void {
   if (source === undefined) {
     return;
   }
@@ -90,8 +84,15 @@ export function parse(source: string | undefined) {
 
     function string(): void {
       while (isString(peek())) advance();
+      const string = source.substring(start, current);
 
-      addToken("STRING", source.substring(start, current));
+      // String is a keyword
+      // This makes sure hasOwnProperty is called from the prototype and is not shadowed
+      if (Object.prototype.hasOwnProperty.call(keywords, string)) {
+        addToken(keywords[string], string);
+      } else {
+        addToken("STRING", string);
+      }
     }
 
     function number(): void {
