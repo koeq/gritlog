@@ -1,3 +1,5 @@
+import { Exercise } from "../lambdas/db-handler/types";
+
 export {};
 
 // DEFINITIONS
@@ -7,11 +9,12 @@ export {};
 // GRAMMAR RULES
 // headline      ---> # STRING
 // exercise name ---> STRING
-// weight        ---> "@" NUMBER ("kg" |"lbs")+
+// weight        ---> "@" NUMBER WEIGHT_UNIT+
 // repetitions   ---> NUMBER "/" (NUMBER? | (NUMBER "/" NUMBER)*) | NUMBER*NUMBER
 
 type TokenType =
   // Single sign
+  | "NEWLINE"
   | "ASPERAND"
   | "FORWARD_SLASH"
   | "STAR"
@@ -46,7 +49,7 @@ const keywords: Keywords = {
 //------------------------------------------PARSER-----------------------------------------------
 //-----------------------------------------------------------------------------------------------
 
-export function parse(source: string | undefined): void {
+export function parse(source: string | undefined): Exercise[] | undefined {
   if (source === undefined) {
     return;
   }
@@ -151,6 +154,7 @@ export function parse(source: string | undefined): void {
           break;
 
         case "\n":
+          addToken("NEWLINE");
           line++;
           break;
 
@@ -199,10 +203,21 @@ export function parse(source: string | undefined): void {
   const scanner = Scanner(source);
   const tokens: Token[] = scanner.scanTokens(source);
   console.log(tokens);
+
+  return interpret(tokens);
 }
 
 //-----------------------------------------------------------------------------------------------
 //-----------------------------------------------------------------------------------------------
+
+//----------------------------------------INTERPRETER--------------------------------------------
+const interpret = (tokens: Token[]): Exercise[] => {
+  const training: Exercise[] = [];
+  for (const token of tokens) {
+  }
+
+  return [];
+};
 
 //----------------------------------------HELPERS------------------------------------------------
 function isString(char: string): boolean {
