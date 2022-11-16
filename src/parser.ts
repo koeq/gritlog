@@ -4,6 +4,12 @@ export {};
 //  lexeme: are the smallest sequence of substrings of the source which still represent something.
 // tokens: a token is made out of a lexeme and additional data to that lexeme (e.g. token type)
 
+// GRAMMAR RULES
+// headline      ---> # STRING
+// exercise name ---> STRING
+// weight        ---> "@" NUMBER ("kg" |"lbs")+
+// repetitions   ---> NUMBER "/" (NUMBER? | (NUMBER "/" NUMBER)*) | NUMBER*NUMBER
+
 type TokenType =
   // Single sign
   | "ASPERAND"
