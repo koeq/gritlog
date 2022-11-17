@@ -6,12 +6,6 @@ export {};
 //  lexeme: are the smallest sequence of substrings of the source which still represent something.
 // tokens: a token is made out of a lexeme and additional data to that lexeme (e.g. token type)
 
-// GRAMMAR RULES
-// headline      ---> # STRING
-// exercise name ---> STRING
-// weight        ---> "@" NUMBER WEIGHT_UNIT+
-// repetitions   ---> NUMBER "/" (NUMBER? | (NUMBER "/" NUMBER)*) | NUMBER*NUMBER
-
 type TokenType =
   // Single sign
   | "NEWLINE"
@@ -31,7 +25,7 @@ type TokenType =
 type Literal = string | number;
 
 interface Token {
-  readonly tokenType: TokenType;
+  readonly type: TokenType;
   readonly lexeme: string;
   // TODO: what is the correct type of literal here
   readonly literal: Literal | null;
@@ -124,7 +118,7 @@ export function parse(source: string | undefined): Exercise[] | undefined {
 
     function addToken(type: TokenType, literal: Literal | null = null): void {
       const text = source.substring(start, current);
-      tokens.push({ tokenType: type, lexeme: text, literal, line });
+      tokens.push({ type: type, lexeme: text, literal, line });
     }
 
     function scanToken(): void {
@@ -189,7 +183,7 @@ export function parse(source: string | undefined): Exercise[] | undefined {
         }
 
         tokens.push({
-          tokenType: "EOF",
+          type: "EOF",
           lexeme: "",
           literal: null,
           line,
@@ -211,23 +205,63 @@ export function parse(source: string | undefined): Exercise[] | undefined {
 //-----------------------------------------------------------------------------------------------
 
 //----------------------------------------INTERPRETER--------------------------------------------
+// GRAMMAR RULES
+// headline      ---> # STRING
+// exercise name ---> STRING
+// weight        ---> "@" NUMBER WEIGHT_UNIT+
+// repetitions   ---> NUMBER "/" (NUMBER? | (NUMBER "/" NUMBER)*) | NUMBER*NUMBER
+
+// 1. read all tokens
+// 2. recognize what we are building (headline, exerciseName, weight, repetitions)
+// 3. add to that until a token type which does not fit this construct appears
+
+// TODO: how to solve this ---> @100 5/5 without whitespapce as tokens
+
 const interpret = (tokens: Token[]): Exercise[] => {
   const training: Exercise[] = [];
-  for (const token of tokens) {
-  }
 
-  return [];
+  let currentExercise: Exercise = {
+    exerciseName: null,
+    weight: null,
+    repetitions: null,
+  };
+
+  let current: Token[] | undefined;
+
+  for (const token of tokens) {
+    // Ending condition
+    if (token.type === "NEWLINE") {
+      training.push(currentExercise);
+      current = undefined;
+    }
+  }
+  return training;
 };
 
 //----------------------------------------HELPERS------------------------------------------------
-function isString(char: string): boolean {
+const isString = (char: string): boolean => {
   const letters = new RegExp(/[a-zA-Z]/);
 
   return letters.test(char);
-}
+};
 
-function isDigit(char: string): boolean {
+const isDigit = (char: string): boolean => {
   const numbers = new RegExp(/\d/);
 
   return numbers.test(char);
-}
+};
+
+const isHeadline = (token: Token): boolean =>
+  token.type === "HASHTAG" || token.type === "STRING";
+
+const isExerciseName = (token: Token): boolean => token.type === "STRING";
+
+const isWeight = (token: Token): boolean =>
+  token.type === "ASPERAND" ||
+  token.type === "NUMBER" ||
+  token.type === "WEIGHT_UNIT";
+
+const isRepetition = (token: Token): boolean =>
+  token.type === "NUMBER" ||
+  token.type === "FORWARD_SLASH" ||
+  token.type === "STAR";
