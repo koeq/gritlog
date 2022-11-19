@@ -6,7 +6,6 @@ import { Exercise, Headline } from "../lambdas/db-handler/types";
 
 type TokenType =
   // Single sign
-  | "NEWLINE"
   | "ASPERAND"
   | "FORWARD_SLASH"
   | "STAR"
@@ -17,6 +16,9 @@ type TokenType =
   | "STRING"
   // Keywords
   | "WEIGHT_UNIT"
+  // Newline and Whitespace
+  | "NEWLINE"
+  | "WHITESPACE"
   // End of file
   | "EOF";
 
@@ -38,186 +40,172 @@ const keywords: Keywords = {
   lbs: "WEIGHT_UNIT",
 } as const;
 
-//-----------------------------------------------PARSER--------------------------------------------------
+//-------------------------------------------------Scanner--------------------------------------------------
 
-export function parse(
-  source: string | undefined
-): { headline: Headline; exercises: Exercise[] } | undefined {
-  if (source === undefined) {
-    return;
+const Scanner = (source: string) => {
+  const tokens: Token[] = [];
+  let start = 0;
+  let current = 0;
+  let line = 1;
+  let hadError = false;
+
+  function isAtEnd(): boolean {
+    return current >= source.length;
   }
 
-  const Scanner = (source: string) => {
-    const tokens: Token[] = [];
-    let start = 0;
-    let current = 0;
-    let line = 1;
-    let hadError = false;
+  function advance(): string {
+    const next = source[current];
+    current = current + 1;
 
-    function isAtEnd(): boolean {
-      return current >= source.length;
+    return next;
+  }
+
+  function match(expected: string): boolean {
+    if (isAtEnd()) return false;
+    if (source[current] != expected) return false;
+    current = current + 1;
+
+    return true;
+  }
+
+  function peek() {
+    if (isAtEnd()) return "\0";
+
+    return source[current];
+  }
+
+  function peekNext() {
+    if (current + 1 >= source.length) return "\0";
+
+    return source[current + 1];
+  }
+
+  function string(): void {
+    while (isString(peek())) advance();
+    const string = source.substring(start, current);
+
+    // String is a keyword
+    // This makes sure hasOwnProperty is called from the prototype and is not shadowed
+    if (Object.prototype.hasOwnProperty.call(keywords, string)) {
+      addToken(keywords[string], string);
+    } else {
+      addToken("STRING", string);
     }
+  }
 
-    function advance(): string {
-      const next = source[current];
-      current = current + 1;
+  function number(): void {
+    while (isDigit(peek())) advance();
 
-      return next;
-    }
-
-    function match(expected: string): boolean {
-      if (isAtEnd()) return false;
-      if (source[current] != expected) return false;
-      current = current + 1;
-
-      return true;
-    }
-
-    function peek() {
-      if (isAtEnd()) return "\0";
-      return source[current];
-    }
-
-    function peekNext() {
-      if (current + 1 >= source.length) return "\0";
-
-      return source[current + 1];
-    }
-
-    function string(): void {
-      while (isString(peek())) advance();
-      const string = source.substring(start, current);
-
-      // String is a keyword
-      // This makes sure hasOwnProperty is called from the prototype and is not shadowed
-      if (Object.prototype.hasOwnProperty.call(keywords, string)) {
-        addToken(keywords[string], string);
-      } else {
-        addToken("STRING", string);
-      }
-    }
-
-    function number(): void {
+    // Look for fractional part
+    if ((peek() === "." || peek() === ",") && isDigit(peekNext())) {
+      // consume separator
+      advance();
       while (isDigit(peek())) advance();
-
-      // Look for fractional part
-      if ((peek() === "." || peek() === ",") && isDigit(peekNext())) {
-        // consume separator
-        advance();
-        while (isDigit(peek())) advance();
-      }
-
-      // only '.' is a valid decimal separator
-      const number = parseFloat(
-        source.substring(start, current).replace(",", ".")
-      );
-
-      addToken("NUMBER", number);
     }
 
-    function addToken(type: TokenType, literal: Literal | null = null): void {
-      const text = source.substring(start, current);
-      tokens.push({ type: type, lexeme: text, literal, line });
-    }
+    // only '.' is a valid decimal separator
+    const number = parseFloat(
+      source.substring(start, current).replace(",", ".")
+    );
 
-    function scanToken(): void {
-      const char = advance();
+    addToken("NUMBER", number);
+  }
 
-      switch (char) {
-        case "@":
-          addToken("ASPERAND");
+  function addToken(type: TokenType, literal: Literal | null = null): void {
+    const text = source.substring(start, current);
+    tokens.push({ type: type, lexeme: text, literal, line });
+  }
+
+  function scanToken(): void {
+    const char = advance();
+
+    switch (char) {
+      case "@":
+        addToken("ASPERAND");
+        break;
+
+      case "/":
+        addToken("FORWARD_SLASH");
+        break;
+
+      case "*":
+        addToken("STAR");
+        break;
+
+      case "#":
+        addToken("HASHTAG");
+        break;
+
+      case " ":
+      case "\r":
+      case "\t":
+        addToken("WHITESPACE");
+        break;
+
+      case "\n":
+        addToken("NEWLINE");
+        line++;
+        break;
+
+      default:
+        if (isString(char)) {
+          string();
+        } else if (isDigit(char)) {
+          number();
+        } else {
+          error(line, "Unexpected character.");
           break;
-
-        case "/":
-          addToken("FORWARD_SLASH");
-          break;
-
-        case "*":
-          addToken("STAR");
-          break;
-
-        case "#":
-          addToken("HASHTAG");
-          break;
-
-        case " ":
-        case "\r":
-        case "\t":
-          // Ignore whitespace.
-          break;
-
-        case "\n":
-          addToken("NEWLINE");
-          line++;
-          break;
-
-        default:
-          if (isString(char)) {
-            string();
-          } else if (isDigit(char)) {
-            number();
-          } else {
-            error(line, "Unexpected character.");
-            break;
-          }
-      }
-    }
-
-    // ERROR HANDLING
-    function error(line: number, message: string) {
-      report(line, "", message);
-    }
-
-    function report(line: number, where: string, message: string) {
-      console.log(`[line ${line}] Error ${where}: ${message}`);
-      hadError = true;
-    }
-
-    return {
-      scanTokens(source: string): Token[] {
-        while (!isAtEnd()) {
-          // we start at the beginnign of the lexeme
-          start = current;
-          scanToken();
         }
+    }
+  }
 
-        tokens.push({
-          type: "EOF",
-          lexeme: "",
-          literal: null,
-          line,
-        });
+  // ERROR HANDLING
+  function error(line: number, message: string) {
+    report(line, "", message);
+  }
 
-        return tokens;
-      },
-    };
+  function report(line: number, where: string, message: string) {
+    console.log(`[line ${line}] Error ${where}: ${message}`);
+    hadError = true;
+  }
+
+  return {
+    scanTokens(source: string): Token[] {
+      while (!isAtEnd()) {
+        // we start at the beginnign of the lexeme
+        start = current;
+        scanToken();
+      }
+
+      tokens.push({
+        type: "EOF",
+        lexeme: "",
+        literal: null,
+        line,
+      });
+
+      return tokens;
+    },
   };
-
-  const scanner = Scanner(source);
-  const tokens: Token[] = scanner.scanTokens(source);
-
-  const interpreter = Interpreter(tokens);
-
-  return interpreter.interpret();
-}
+};
 
 //-----------------------------------------------INTERPRETER------------------------------------------------
 // GRAMMAR RULES
 // ---------------------------------------------------------------------------------------------------------
-// headline --------> # ANYTHING
+// Headline --------> # ANYTHING
 // -----------------> A headline is everything from the start of the hashtag to a newline character.
-// exercise name ---> STRING
+// Exercise name ---> STRING
 // -----------------> Every 'normal' string.
-// weight ----------> "@" NUMBER WEIGHT_UNIT+
+// Weight ----------> "@" NUMBER WEIGHT_UNIT+
 // -----------------> A number preceded by a '@' and an optional weight unit.
-// repetitions   ---> NUMBER "/" (NUMBER? | (NUMBER "/" NUMBER)*) | NUMBER*NUMBER
+// Repetitions   ---> NUMBER "/" (NUMBER? | (NUMBER "/" NUMBER)*) | NUMBER*NUMBER
 // -----------------> A number potentially followed by a forward slash or a star followed by another number.
 // ---------------------------------------------------------------------------------------------------------
 
 const Interpreter = (tokens: Token[]) => {
   const exercises: Exercise[] = [];
   // Constructs
-  let headline = "";
+  let headline: string | undefined;
   let exerciseName: string | undefined;
   let weight: string | undefined;
   let repetitions: string | undefined;
@@ -226,23 +214,39 @@ const Interpreter = (tokens: Token[]) => {
   let current = 0;
 
   const isAtEnd = () => {
-    return current >= tokens.length;
+    return tokens[current].type === "EOF";
   };
 
   const advance = () => {
-    const next = tokens[current];
+    const token = tokens[current];
     current = current + 1;
 
-    return next;
+    return token;
   };
 
-  const buildHeadline = () => {
-    let nextToken = advance();
+  const peek = () => {
+    if (isAtEnd()) return;
 
-    while (nextToken.type !== "NEWLINE" && nextToken.type !== "EOF") {
-      headline = headline + " " + nextToken.lexeme;
-      nextToken = advance();
+    return tokens[current];
+  };
+
+  const buildHeadline = (token: Token) => {
+    let headline = "";
+
+    while (token.type !== "NEWLINE") {
+      headline = headline + " " + token.lexeme;
+      const next = peek();
+      if (next) token = advance();
+      else break;
     }
+
+    return (
+      tokens
+        // Remove hashtag
+        .slice(start + 1, current)
+        .map((token) => token.lexeme)
+        .join("")
+    );
   };
 
   const buildExerciseName = () => {};
@@ -255,7 +259,7 @@ const Interpreter = (tokens: Token[]) => {
 
     switch (token.type) {
       case "HASHTAG":
-        buildHeadline();
+        headline = buildHeadline(token);
         break;
 
       case "STRING":
@@ -285,7 +289,23 @@ const Interpreter = (tokens: Token[]) => {
   };
 };
 
-//----------------------------------------HELPERS------------------------------------------------
+//--------------------------------------------------PARSER--------------------------------------------------
+
+export function parse(
+  source: string | undefined
+): { headline: Headline; exercises: Exercise[] } | undefined {
+  if (source === undefined) {
+    return;
+  }
+
+  const scanner = Scanner(source);
+  const tokens: Token[] = scanner.scanTokens(source);
+  const interpreter = Interpreter(tokens);
+
+  return interpreter.interpret();
+}
+
+//-------------------------------------------------HELPERS--------------------------------------------------
 const isString = (char: string): boolean => {
   const letters = new RegExp(/[a-zA-Z]/);
 
