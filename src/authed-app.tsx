@@ -41,8 +41,6 @@ const AuthedApp = (): JSX.Element => {
   }, [setTrainings]);
 
   const { headline, exercises } = parse(currentInput) || {};
-  console.log(headline);
-  // console.log(exercises);
 
   const currentTraining: Training = {
     headline: headline,

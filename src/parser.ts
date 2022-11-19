@@ -1,9 +1,5 @@
 import { Exercise, Headline } from "../lambdas/db-handler/types";
 
-// DEFINITIONS
-//  lexeme: are the smallest sequence of substrings of the source which still represent something.
-// tokens: a token is made out of a lexeme and additional data to that lexeme (e.g. token type)
-
 type TokenType =
   // Single sign
   | "ASPERAND"
@@ -16,9 +12,9 @@ type TokenType =
   | "STRING"
   // Keywords
   | "WEIGHT_UNIT"
-  // Newline and Whitespace
-  | "NEWLINE"
+  // Whitespace & Newline
   | "WHITESPACE"
+  | "NEWLINE"
   // End of file
   | "EOF";
 
@@ -40,9 +36,22 @@ const keywords: Keywords = {
   lbs: "WEIGHT_UNIT",
 } as const;
 
-//-------------------------------------------------Scanner--------------------------------------------------
+interface Scanner {
+  scanTokens(source: string): Token[];
+}
 
-const Scanner = (source: string) => {
+interface Interpreter {
+  interpret(): { headline: string | undefined; exercises: Exercise[] };
+}
+
+//-------------------------------------------------Scanner--------------------------------------------------
+// DEFINITIONS
+// ---------------------------------------------------------------------------------------------------------
+// Lexemes are the smallest sequence of substrings of the source which still represent something.
+// A token is made out of a lexeme and additional data to that lexeme (e.g. token type)
+// ---------------------------------------------------------------------------------------------------------
+
+function Scanner(source: string): Scanner {
   const tokens: Token[] = [];
   let start = 0;
   let current = 0;
@@ -187,7 +196,7 @@ const Scanner = (source: string) => {
       return tokens;
     },
   };
-};
+}
 
 //-----------------------------------------------INTERPRETER------------------------------------------------
 // GRAMMAR RULES
@@ -202,7 +211,7 @@ const Scanner = (source: string) => {
 // -----------------> A number potentially followed by a forward slash or a star followed by another number.
 // ---------------------------------------------------------------------------------------------------------
 
-const Interpreter = (tokens: Token[]) => {
+function Interpreter(tokens: Token[]): Interpreter {
   const exercises: Exercise[] = [];
   // Constructs
   let headline: string | undefined;
@@ -230,26 +239,35 @@ const Interpreter = (tokens: Token[]) => {
     return tokens[current];
   };
 
-  const buildHeadline = (token: Token) => {
-    let headline = "";
+  const build = () =>
+    tokens
+      .slice(start, current)
+      .map((token) => token.lexeme)
+      .join("")
+      .trim();
 
+  const buildHeadline = (token: Token) => {
     while (token.type !== "NEWLINE") {
-      headline = headline + " " + token.lexeme;
       const next = peek();
       if (next) token = advance();
       else break;
     }
 
-    return (
-      tokens
-        // Remove hashtag
-        .slice(start + 1, current)
-        .map((token) => token.lexeme)
-        .join("")
-    );
+    // Ignore Hashtag
+    start = start + 1;
+    return build();
   };
 
-  const buildExerciseName = () => {};
+  const buildExerciseName = (token: Token) => {
+    while (isExerciseName(token)) {
+      const next = peek();
+      if (next && isExerciseName(next)) token = advance();
+      else break;
+    }
+
+    return build();
+  };
+
   const buildWeight = () => {};
   const buildRepetitions = () => {};
 
@@ -263,7 +281,7 @@ const Interpreter = (tokens: Token[]) => {
         break;
 
       case "STRING":
-        buildExerciseName();
+        exerciseName = buildExerciseName(token);
         break;
 
       case "ASPERAND":
@@ -276,6 +294,8 @@ const Interpreter = (tokens: Token[]) => {
       default:
       // TODO: Add error handling.
     }
+
+    console.log(exerciseName);
   };
 
   return {
@@ -287,13 +307,13 @@ const Interpreter = (tokens: Token[]) => {
       return { headline, exercises };
     },
   };
-};
+}
 
 //--------------------------------------------------PARSER--------------------------------------------------
 
 export function parse(
   source: string | undefined
-): { headline: Headline; exercises: Exercise[] } | undefined {
+): { headline: string | undefined; exercises: Exercise[] } | undefined {
   if (source === undefined) {
     return;
   }
@@ -318,12 +338,17 @@ const isDigit = (char: string): boolean => {
   return numbers.test(char);
 };
 
+const isExerciseName = (token: Token) =>
+  token.type === "STRING" || token.type === "WHITESPACE";
+
 const isWeight = (token: Token): boolean =>
   token.type === "ASPERAND" ||
   token.type === "NUMBER" ||
-  token.type === "WEIGHT_UNIT";
+  token.type === "WEIGHT_UNIT" ||
+  token.type === "WHITESPACE";
 
 const isRepetition = (token: Token): boolean =>
   token.type === "NUMBER" ||
   token.type === "FORWARD_SLASH" ||
-  token.type === "STAR";
+  token.type === "STAR" ||
+  token.type === "WHITESPACE";
