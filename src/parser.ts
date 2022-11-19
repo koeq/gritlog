@@ -1,7 +1,5 @@
 import { Exercise } from "../lambdas/db-handler/types";
 
-export {};
-
 // DEFINITIONS
 //  lexeme: are the smallest sequence of substrings of the source which still represent something.
 // tokens: a token is made out of a lexeme and additional data to that lexeme (e.g. token type)
@@ -206,33 +204,50 @@ export function parse(source: string | undefined): Exercise[] | undefined {
 
 //----------------------------------------INTERPRETER--------------------------------------------
 // GRAMMAR RULES
-// headline      ---> # STRING
-// exercise name ---> STRING
-// weight        ---> "@" NUMBER WEIGHT_UNIT+
+// headline      ---> # STRING                ------> a headline is everything from the start of the hashtag to a newline character
+// exercise name ---> STRING                   -----> every 'normal' string
+// weight        ---> "@" NUMBER WEIGHT_UNIT+  -----> a number preceded by a '@' and an optional weight unit
 // repetitions   ---> NUMBER "/" (NUMBER? | (NUMBER "/" NUMBER)*) | NUMBER*NUMBER
+//                                             -----> a number potentially followed by a forward slash or a star followed by another number
+type constructType =
+  | "HEADLINE"
+  | "EXERCISE_NAME"
+  | "WEIGHT"
+  | "REPETITIONS"
+  | "UNKOWN";
 
-// 1. read all tokens
-// 2. recognize what we are building (headline, exerciseName, weight, repetitions)
-// 3. add to that until a token type which does not fit this construct appears
+const getConstructType = (token: Token): constructType => {
+  switch (token.type) {
+    case "HASHTAG":
+      return "HEADLINE";
 
-// TODO: how to solve this ---> @100 5/5 without whitespapce as tokens
+    case "STRING":
+      return "EXERCISE_NAME";
+
+    case "ASPERAND":
+      return "WEIGHT";
+
+    case "NUMBER":
+      return "REPETITIONS";
+    default:
+      return "UNKOWN";
+  }
+};
 
 const interpret = (tokens: Token[]): Exercise[] => {
   const training: Exercise[] = [];
+  let constructType: constructType | undefined = undefined;
 
-  let currentExercise: Exercise = {
+  const currentExercise: Exercise = {
     exerciseName: null,
     weight: null,
     repetitions: null,
   };
 
-  let current: Token[] | undefined;
-
   for (const token of tokens) {
-    // Ending condition
-    if (token.type === "NEWLINE") {
-      training.push(currentExercise);
-      current = undefined;
+    // Check what we're interpreting
+    if (!constructType) {
+      constructType = getConstructType(token);
     }
   }
   return training;
