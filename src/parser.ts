@@ -1,4 +1,4 @@
-import { Exercise } from "../lambdas/db-handler/types";
+import { Exercise, Headline } from "../lambdas/db-handler/types";
 
 // DEFINITIONS
 //  lexeme: are the smallest sequence of substrings of the source which still represent something.
@@ -38,10 +38,11 @@ const keywords: Keywords = {
   lbs: "WEIGHT_UNIT",
 } as const;
 
-//------------------------------------------PARSER-----------------------------------------------
-//-----------------------------------------------------------------------------------------------
+//-----------------------------------------------PARSER--------------------------------------------------
 
-export function parse(source: string | undefined): Exercise[] | undefined {
+export function parse(
+  source: string | undefined
+): { headline: Headline; exercises: Exercise[] } | undefined {
   if (source === undefined) {
     return;
   }
@@ -58,7 +59,7 @@ export function parse(source: string | undefined): Exercise[] | undefined {
     }
 
     function advance(): string {
-      const next = source.charAt(current);
+      const next = source[current];
       current = current + 1;
 
       return next;
@@ -66,7 +67,7 @@ export function parse(source: string | undefined): Exercise[] | undefined {
 
     function match(expected: string): boolean {
       if (isAtEnd()) return false;
-      if (source.charAt(current) != expected) return false;
+      if (source[current] != expected) return false;
       current = current + 1;
 
       return true;
@@ -74,13 +75,13 @@ export function parse(source: string | undefined): Exercise[] | undefined {
 
     function peek() {
       if (isAtEnd()) return "\0";
-      return source.charAt(current);
+      return source[current];
     }
 
     function peekNext() {
       if (current + 1 >= source.length) return "\0";
 
-      return source.charAt(current + 1);
+      return source[current + 1];
     }
 
     function string(): void {
@@ -194,63 +195,94 @@ export function parse(source: string | undefined): Exercise[] | undefined {
 
   const scanner = Scanner(source);
   const tokens: Token[] = scanner.scanTokens(source);
-  console.log(tokens);
 
-  return interpret(tokens);
+  const interpreter = Interpreter(tokens);
+
+  return interpreter.interpret();
 }
 
-//-----------------------------------------------------------------------------------------------
-//-----------------------------------------------------------------------------------------------
-
-//----------------------------------------INTERPRETER--------------------------------------------
+//-----------------------------------------------INTERPRETER------------------------------------------------
 // GRAMMAR RULES
-// headline      ---> # STRING                ------> a headline is everything from the start of the hashtag to a newline character
-// exercise name ---> STRING                   -----> every 'normal' string
-// weight        ---> "@" NUMBER WEIGHT_UNIT+  -----> a number preceded by a '@' and an optional weight unit
+// ---------------------------------------------------------------------------------------------------------
+// headline --------> # ANYTHING
+// -----------------> A headline is everything from the start of the hashtag to a newline character.
+// exercise name ---> STRING
+// -----------------> Every 'normal' string.
+// weight ----------> "@" NUMBER WEIGHT_UNIT+
+// -----------------> A number preceded by a '@' and an optional weight unit.
 // repetitions   ---> NUMBER "/" (NUMBER? | (NUMBER "/" NUMBER)*) | NUMBER*NUMBER
-//                                             -----> a number potentially followed by a forward slash or a star followed by another number
-type constructType =
-  | "HEADLINE"
-  | "EXERCISE_NAME"
-  | "WEIGHT"
-  | "REPETITIONS"
-  | "UNKOWN";
+// -----------------> A number potentially followed by a forward slash or a star followed by another number.
+// ---------------------------------------------------------------------------------------------------------
 
-const getConstructType = (token: Token): constructType => {
-  switch (token.type) {
-    case "HASHTAG":
-      return "HEADLINE";
+const Interpreter = (tokens: Token[]) => {
+  const exercises: Exercise[] = [];
+  // Constructs
+  let headline = "";
+  let exerciseName: string | undefined;
+  let weight: string | undefined;
+  let repetitions: string | undefined;
 
-    case "STRING":
-      return "EXERCISE_NAME";
+  let start = 0;
+  let current = 0;
 
-    case "ASPERAND":
-      return "WEIGHT";
-
-    case "NUMBER":
-      return "REPETITIONS";
-    default:
-      return "UNKOWN";
-  }
-};
-
-const interpret = (tokens: Token[]): Exercise[] => {
-  const training: Exercise[] = [];
-  let constructType: constructType | undefined = undefined;
-
-  const currentExercise: Exercise = {
-    exerciseName: null,
-    weight: null,
-    repetitions: null,
+  const isAtEnd = () => {
+    return current >= tokens.length;
   };
 
-  for (const token of tokens) {
-    // Check what we're interpreting
-    if (!constructType) {
-      constructType = getConstructType(token);
+  const advance = () => {
+    const next = tokens[current];
+    current = current + 1;
+
+    return next;
+  };
+
+  const buildHeadline = () => {
+    let nextToken = advance();
+
+    while (nextToken.type !== "NEWLINE" && nextToken.type !== "EOF") {
+      headline = headline + " " + nextToken.lexeme;
+      nextToken = advance();
     }
-  }
-  return training;
+  };
+
+  const buildExerciseName = () => {};
+  const buildWeight = () => {};
+  const buildRepetitions = () => {};
+
+  const interpreteConstruct = () => {
+    start = current;
+    const token = advance();
+
+    switch (token.type) {
+      case "HASHTAG":
+        buildHeadline();
+        break;
+
+      case "STRING":
+        buildExerciseName();
+        break;
+
+      case "ASPERAND":
+        buildWeight();
+        break;
+
+      case "NUMBER":
+        buildRepetitions();
+        break;
+      default:
+      // TODO: Add error handling.
+    }
+  };
+
+  return {
+    interpret() {
+      while (!isAtEnd()) {
+        interpreteConstruct();
+      }
+
+      return { headline, exercises };
+    },
+  };
 };
 
 //----------------------------------------HELPERS------------------------------------------------
@@ -265,11 +297,6 @@ const isDigit = (char: string): boolean => {
 
   return numbers.test(char);
 };
-
-const isHeadline = (token: Token): boolean =>
-  token.type === "HASHTAG" || token.type === "STRING";
-
-const isExerciseName = (token: Token): boolean => token.type === "STRING";
 
 const isWeight = (token: Token): boolean =>
   token.type === "ASPERAND" ||

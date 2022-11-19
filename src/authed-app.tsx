@@ -32,8 +32,6 @@ const AuthedApp = (): JSX.Element => {
     undefined
   );
 
-  parse(currentInput);
-
   const textAreaRef = useRef<HTMLTextAreaElement | null>(null);
   const { logout } = useAuth();
 
@@ -42,10 +40,15 @@ const AuthedApp = (): JSX.Element => {
     fetchOnce();
   }, [setTrainings]);
 
+  const { headline, exercises } = parse(currentInput) || {};
+  console.log(headline);
+  // console.log(exercises);
+
   const currentTraining: Training = {
+    headline: headline,
     date: new Date().toLocaleDateString(),
     id: getNextTrainingId(trainings),
-    exercises: [],
+    exercises: exercises,
   };
 
   const handleInputChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
