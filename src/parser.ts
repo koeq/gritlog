@@ -29,6 +29,9 @@ interface Token {
 }
 
 interface Keywords {
+  kg: "WEIGHT_UNIT";
+  lbs: "WEIGHT_UNIT";
+  // TODO: this is a bad workaround - fix it!
   [k: string]: TokenType;
 }
 const keywords: Keywords = {
@@ -103,13 +106,13 @@ function Scanner(source: string): Scanner {
   }
 
   function number(): void {
-    while (isDigit(peek())) advance();
+    while (isNumber(peek())) advance();
 
     // Look for fractional part
-    if ((peek() === "." || peek() === ",") && isDigit(peekNext())) {
+    if ((peek() === "." || peek() === ",") && isNumber(peekNext())) {
       // consume separator
       advance();
-      while (isDigit(peek())) advance();
+      while (isNumber(peek())) advance();
     }
 
     // only '.' is a valid decimal separator
@@ -159,7 +162,7 @@ function Scanner(source: string): Scanner {
       default:
         if (isString(char)) {
           string();
-        } else if (isDigit(char)) {
+        } else if (isNumber(char)) {
           number();
         } else {
           error(line, "Unexpected character.");
@@ -268,7 +271,18 @@ function Interpreter(tokens: Token[]): Interpreter {
     return build();
   };
 
-  const buildWeight = () => {};
+  const buildWeight = (token: Token) => {
+    let next = peek();
+    if (next && isNumber(next.lexeme)) token = advance();
+    next = peek();
+    if (next && isWeightUnit(next.lexeme)) token = advance();
+
+    // Ignore Asperand
+    start = start + 1;
+
+    return build();
+  };
+
   const buildRepetitions = () => {};
 
   const interpreteConstruct = () => {
@@ -285,7 +299,7 @@ function Interpreter(tokens: Token[]): Interpreter {
         break;
 
       case "ASPERAND":
-        buildWeight();
+        weight = buildWeight(token);
         break;
 
       case "NUMBER":
@@ -295,7 +309,7 @@ function Interpreter(tokens: Token[]): Interpreter {
       // TODO: Add error handling.
     }
 
-    console.log(exerciseName);
+    console.log(weight);
   };
 
   return {
@@ -332,11 +346,14 @@ const isString = (char: string): boolean => {
   return letters.test(char);
 };
 
-const isDigit = (char: string): boolean => {
+const isNumber = (char: string): boolean => {
   const numbers = new RegExp(/\d/);
 
   return numbers.test(char);
 };
+
+// TODO: make connection to keywords object
+const isWeightUnit = (str: string): boolean => str === "kg" || str === "lbs";
 
 const isExerciseName = (token: Token) =>
   token.type === "STRING" || token.type === "WHITESPACE";
