@@ -5,7 +5,7 @@ export interface Exercise {
   readonly repetitions: string | null;
 }
 
-export type Headline = string | undefined;
+export type Headline = string | null;
 
 export interface Training {
   readonly date: string;

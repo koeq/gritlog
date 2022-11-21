@@ -44,7 +44,7 @@ interface Scanner {
 }
 
 interface Interpreter {
-  interpret(): { headline: string | undefined; exercises: Exercise[] };
+  interpret(): { headline: string | null; exercises: Exercise[] };
 }
 
 //-------------------------------------------------Scanner--------------------------------------------------
@@ -217,10 +217,10 @@ function Scanner(source: string): Scanner {
 function Interpreter(tokens: Token[]): Interpreter {
   const exercises: Exercise[] = [];
   // Constructs
-  let headline: string | undefined;
-  let exerciseName: string | undefined;
-  let weight: string | undefined;
-  let repetitions: string | undefined;
+  let headline: string | null;
+  let exerciseName: string | null;
+  let weight: string | null;
+  let repetitions: string | null;
 
   let start = 0;
   let current = 0;
@@ -283,7 +283,15 @@ function Interpreter(tokens: Token[]): Interpreter {
     return build();
   };
 
-  const buildRepetitions = () => {};
+  const buildRepetitions = (token: Token) => {
+    while (isRepetition(token)) {
+      const next = peek();
+      if (next && isRepetition(next)) token = advance();
+      else break;
+    }
+
+    return build();
+  };
 
   const interpreteConstruct = () => {
     start = current;
@@ -303,13 +311,15 @@ function Interpreter(tokens: Token[]): Interpreter {
         break;
 
       case "NUMBER":
-        buildRepetitions();
+        repetitions = buildRepetitions(token);
         break;
+
+      // Wrong
+      case "NEWLINE":
+        exercises.push({ exerciseName, weight, repetitions });
       default:
       // TODO: Add error handling.
     }
-
-    console.log(weight);
   };
 
   return {
@@ -327,7 +337,7 @@ function Interpreter(tokens: Token[]): Interpreter {
 
 export function parse(
   source: string | undefined
-): { headline: string | undefined; exercises: Exercise[] } | undefined {
+): { headline: string | null; exercises: Exercise[] } | undefined {
   if (source === undefined) {
     return;
   }
@@ -341,7 +351,9 @@ export function parse(
 
 //-------------------------------------------------HELPERS--------------------------------------------------
 const isString = (char: string): boolean => {
-  const letters = new RegExp(/[a-zA-Z]/);
+  // regex letters + umlaute
+  // see https://dev.to/tillsanders/let-s-stop-using-a-za-z-4a0m for details
+  const letters = new RegExp(/[\p{Letter}\p{Mark}]+/gu);
 
   return letters.test(char);
 };
@@ -357,12 +369,6 @@ const isWeightUnit = (str: string): boolean => str === "kg" || str === "lbs";
 
 const isExerciseName = (token: Token) =>
   token.type === "STRING" || token.type === "WHITESPACE";
-
-const isWeight = (token: Token): boolean =>
-  token.type === "ASPERAND" ||
-  token.type === "NUMBER" ||
-  token.type === "WEIGHT_UNIT" ||
-  token.type === "WHITESPACE";
 
 const isRepetition = (token: Token): boolean =>
   token.type === "NUMBER" ||
