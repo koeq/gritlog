@@ -40,7 +40,8 @@ const AuthedApp = (): JSX.Element => {
     fetchOnce();
   }, [setTrainings]);
 
-  const { headline, exercises } = parse(currentInput) || {};
+  const { headline = null, exercises } = parse(currentInput) || {};
+  console.log(exercises);
 
   const currentTraining: Training = {
     headline: headline,
