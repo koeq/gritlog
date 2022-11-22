@@ -1,4 +1,4 @@
-import { Exercise, Headline } from "../lambdas/db-handler/types";
+import { Exercise } from "../lambdas/db-handler/types";
 
 type TokenType =
   // Single sign
@@ -70,14 +70,6 @@ function Scanner(source: string): Scanner {
     current = current + 1;
 
     return next;
-  }
-
-  function match(expected: string): boolean {
-    if (isAtEnd()) return false;
-    if (source[current] != expected) return false;
-    current = current + 1;
-
-    return true;
   }
 
   function peek() {
@@ -182,7 +174,7 @@ function Scanner(source: string): Scanner {
   }
 
   return {
-    scanTokens(source: string): Token[] {
+    scanTokens(): Token[] {
       while (!isAtEnd()) {
         // we start at the beginnign of the lexeme
         start = current;
@@ -216,11 +208,12 @@ function Scanner(source: string): Scanner {
 
 function Interpreter(tokens: Token[]): Interpreter {
   const exercises: Exercise[] = [];
+  let exerciseNumber = -1;
+  let headline: string | null = null;
   // Constructs
-  let headline: string | null;
-  let exerciseName: string | null;
-  let weight: string | null;
-  let repetitions: string | null;
+  let exerciseName: string | null = null;
+  let weight: string | null = null;
+  let repetitions: string | null = null;
 
   let start = 0;
   let current = 0;
@@ -258,7 +251,7 @@ function Interpreter(tokens: Token[]): Interpreter {
 
     // Ignore Hashtag
     start = start + 1;
-    return build();
+    headline = build();
   };
 
   const buildExerciseName = (token: Token) => {
@@ -268,19 +261,33 @@ function Interpreter(tokens: Token[]): Interpreter {
       else break;
     }
 
-    return build();
+    // Reset on new exercise
+    weight = null;
+    repetitions = null;
+    exerciseNumber++;
+    exerciseName = build();
+    exercises[exerciseNumber] = { exerciseName, weight, repetitions };
   };
 
-  const buildWeight = (token: Token) => {
+  const buildWeight = () => {
     let next = peek();
-    if (next && isNumber(next.lexeme)) token = advance();
+    if (next && isNumber(next.lexeme)) advance();
     next = peek();
-    if (next && isWeightUnit(next.lexeme)) token = advance();
+    if (next && isWeightUnit(next.lexeme)) advance();
 
+    // If theres already a weight we want to add the existing exerciseName as a second exercise
+    // e.g. Benchpress @100 8/8 @95 8/8 ---> Benchpress 100 8/8
+    //                                  ---> Benchpress 95 8/8
+    if (weight) {
+      // Reset
+      repetitions = null;
+      exerciseNumber++;
+    }
     // Ignore Asperand
     start = start + 1;
 
-    return build();
+    weight = build();
+    exercises[exerciseNumber] = { exerciseName, weight, repetitions };
   };
 
   const buildRepetitions = (token: Token) => {
@@ -299,24 +306,22 @@ function Interpreter(tokens: Token[]): Interpreter {
 
     switch (token.type) {
       case "HASHTAG":
-        headline = buildHeadline(token);
+        buildHeadline(token);
         break;
 
       case "STRING":
-        exerciseName = buildExerciseName(token);
+        buildExerciseName(token);
         break;
 
       case "ASPERAND":
-        weight = buildWeight(token);
+        buildWeight();
         break;
 
       case "NUMBER":
         repetitions = buildRepetitions(token);
+        exercises[exerciseNumber] = { exerciseName, weight, repetitions };
         break;
 
-      // Wrong
-      case "NEWLINE":
-        exercises.push({ exerciseName, weight, repetitions });
       default:
       // TODO: Add error handling.
     }
@@ -351,7 +356,7 @@ export function parse(
 
 //-------------------------------------------------HELPERS--------------------------------------------------
 const isString = (char: string): boolean => {
-  // regex letters + umlaute
+  // regex letters + special letters like umlaute
   // see https://dev.to/tillsanders/let-s-stop-using-a-za-z-4a0m for details
   const letters = new RegExp(/[\p{Letter}\p{Mark}]+/gu);
 
