@@ -297,7 +297,24 @@ function Interpreter(tokens: Token[]): Interpreter {
       else break;
     }
 
-    return build();
+    repetitions = build();
+    const repChars = repetitions.split("*");
+
+    // Multiplier format ---> Number*Number
+    const isValidMultiplier =
+      isNumber(repChars[0]) &&
+      parseInt(repChars[0]) >= 1 &&
+      parseInt(repChars[0]) <= 100;
+
+    const isValidAmount = isNumber(repChars[1]);
+    const isMultiplierFormat = isValidMultiplier && isValidAmount;
+
+    if (isMultiplierFormat) {
+      repetitions =
+        `${repChars[1]}/`.repeat(parseInt(repChars[0]) - 1) + repChars[1];
+    }
+
+    exercises[exerciseNumber] = { exerciseName, weight, repetitions };
   };
 
   const interpreteConstruct = () => {
@@ -318,12 +335,8 @@ function Interpreter(tokens: Token[]): Interpreter {
         break;
 
       case "NUMBER":
-        repetitions = buildRepetitions(token);
-        exercises[exerciseNumber] = { exerciseName, weight, repetitions };
+        buildRepetitions(token);
         break;
-
-      default:
-      // TODO: Add error handling.
     }
   };
 
