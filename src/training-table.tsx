@@ -62,6 +62,11 @@ export const TrainingTable = ({
       {...(!isMobile && toggleSwipe && { onClick: () => toggleSwipe() })}
     >
       <tbody>
+        {training.headline && (
+          <tr>
+            <th colSpan={3}>{training.headline}</th>
+          </tr>
+        )}
         <tr>
           <th colSpan={3} className="date-header">
             {training.date}
