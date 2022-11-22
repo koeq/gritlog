@@ -8,7 +8,7 @@ export const serializeTraining = (training: Training): string => {
   return training.exercises
     .map(
       ({ exerciseName, weight, repetitions }) =>
-        `${exerciseName || ""} ${weight || ""} ${repetitions || ""}\n`
+        `${exerciseName || ""} @${weight || ""} ${repetitions || ""}\n`
     )
     .join("")
     .trim();
