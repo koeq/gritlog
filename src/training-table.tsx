@@ -27,7 +27,7 @@ interface TableValueProps {
 }
 
 const TableValues = ({ training }: TableValueProps): JSX.Element => {
-  return training.exercises ? (
+  return training.exercises && training.exercises.length > 0 ? (
     <>
       {training.exercises.map(
         ({ exerciseName, weight, repetitions }, index) => (
