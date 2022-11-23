@@ -53,6 +53,7 @@ export const TrainingTable = ({
   swipeActions,
 }: TrainingTableProps): JSX.Element | null => {
   const isMobile = useIsMobile();
+  const { headline } = training;
 
   const { toggleSwipe } = swipeActions || {};
 
@@ -62,13 +63,15 @@ export const TrainingTable = ({
       {...(!isMobile && toggleSwipe && { onClick: () => toggleSwipe() })}
     >
       <tbody>
-        {training.headline && (
+        {headline && (
           <tr>
-            <th colSpan={3}>{training.headline}</th>
+            <th colSpan={3} className="headline">
+              {headline}
+            </th>
           </tr>
         )}
         <tr>
-          <th colSpan={3} className="date-header">
+          <th colSpan={3} className={"date-header"}>
             {training.date}
           </th>
         </tr>

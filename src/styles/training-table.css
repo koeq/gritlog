@@ -14,15 +14,18 @@ th {
   cursor: pointer;
 }
 
-.date-header {
-  width: 100%;
+.headline {
   padding-bottom: 10px;
   border-bottom: 0.5px solid #eaeaea;
 }
 
+.date-header {
+  padding-top: 8px;
+}
+
 .label-header {
   font-weight: 400;
-  padding-top: 10px;
+  padding-top: 18px;
 }
 
 #exerciseLabel {
@@ -30,7 +33,7 @@ th {
 }
 
 #weightLabel {
-  padding: 10px 10px 0 10px;
+  padding-top: 18px;
 }
 
 #exercise {
@@ -39,7 +42,6 @@ th {
 }
 
 #weight {
-  padding: 0 10px;
   width: 90px;
   overflow-wrap: anywhere;
 }

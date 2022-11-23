@@ -251,7 +251,12 @@ function Interpreter(tokens: Token[]): Interpreter {
 
     // Ignore Hashtag
     start = start + 1;
-    headline = build();
+    const tokenizedHeadline = tokens.slice(start, current);
+
+    // only build the headline if some char is not whitespace
+    if (!tokenizedHeadline.every((token) => token.type === "WHITESPACE")) {
+      headline = build();
+    }
   };
 
   const buildExerciseName = (token: Token) => {
