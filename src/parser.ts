@@ -253,7 +253,7 @@ function Interpreter(tokens: Token[]): Interpreter {
     start = start + 1;
     const tokenizedHeadline = tokens.slice(start, current);
 
-    // only build the headline if some char is not whitespace
+    // only build headline if some char is not whitespace
     if (!tokenizedHeadline.every((token) => token.type === "WHITESPACE")) {
       headline = build();
     }

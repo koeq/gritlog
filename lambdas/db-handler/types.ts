@@ -5,11 +5,9 @@ export interface Exercise {
   readonly repetitions: string | null;
 }
 
-export type Headline = string | null;
-
 export interface Training {
   readonly date: string;
   readonly id: number;
-  readonly headline: Headline;
+  readonly headline: string | null;
   readonly exercises: Exercise[] | undefined;
 }
