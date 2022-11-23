@@ -1,15 +1,19 @@
 import { Training } from "../lambdas/db-handler/types";
 
 export const serializeTraining = (training: Training): string => {
-  if (!training.exercises) {
-    return "";
-  }
+  const { headline, exercises } = training;
 
-  return training.exercises
-    .map(
-      ({ exerciseName, weight, repetitions }) =>
-        `${exerciseName || ""} @${weight || ""} ${repetitions || ""}\n`
-    )
-    .join("")
-    .trim();
+  const serializedHeadline = headline ? `# ${headline}\n` : "";
+
+  const serializedeExercises = exercises
+    ? training.exercises
+        ?.map(
+          ({ exerciseName, weight, repetitions }) =>
+            `${exerciseName || ""} @${weight || ""} ${repetitions || ""}\n`
+        )
+        .join("")
+        .trim()
+    : "";
+
+  return serializedHeadline + serializedeExercises;
 };
