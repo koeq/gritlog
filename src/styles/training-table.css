@@ -15,17 +15,17 @@ th {
 }
 
 .headline {
-  padding-bottom: 10px;
+  padding-bottom: 8px;
   border-bottom: 0.5px solid #eaeaea;
 }
 
 .date-header {
-  padding-top: 8px;
+  padding-top: 6px;
 }
 
 .label-header {
   font-weight: 400;
-  padding-top: 18px;
+  padding-top: 16px;
 }
 
 #exerciseLabel {
@@ -33,7 +33,7 @@ th {
 }
 
 #weightLabel {
-  padding-top: 18px;
+  padding-top: 16px;
 }
 
 #exercise {
