@@ -9,7 +9,9 @@ export const serializeTraining = (training: Training): string => {
     ? training.exercises
         ?.map(
           ({ exerciseName, weight, repetitions }) =>
-            `${exerciseName || ""} @${weight || ""} ${repetitions || ""}\n`
+            `${exerciseName || ""} ${weight ? "@" + weight : ""} ${
+              repetitions || ""
+            }\n`
         )
         .join("")
         .trim()
