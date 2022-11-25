@@ -24,7 +24,7 @@ beforeEach(() => {
   };
 });
 
-const multipleExercisesWithHeadlineResult = `# some headline\nBenchpress @100kg 8/8/8\ngBenchpress @100 8 8 8`;
+const multipleExercisesWithHeadlineResult = `# some headline\nBenchpress @100kg 8/8/8\nBenchpress @100 8 8 8`;
 
 test("Multiple exercises with headline.", () =>
   expect(serializeTraining(multipleExercisesWithHeadline)).toBe(
