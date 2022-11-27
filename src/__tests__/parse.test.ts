@@ -59,7 +59,7 @@ const singleLineMinimalResult = {
     {
       exerciseName: "Benchpress",
       repetitions: "8 8 8",
-      weight: "100",
+      weight: "100kg",
     },
   ],
 };
@@ -92,7 +92,7 @@ const multiplicatorResult = {
     {
       exerciseName: "Squats",
       repetitions: "8/8/8",
-      weight: "100",
+      weight: "100kg",
     },
   ],
 };
