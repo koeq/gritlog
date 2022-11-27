@@ -292,6 +292,14 @@ function Interpreter(tokens: Token[]): Interpreter {
     start = start + 1;
 
     weight = build();
+    const hasNumber = /\d/.test(weight);
+    const hasWeightUnit = /kg|lbs/.test(weight);
+
+    // provide default weight unit
+    if (hasNumber && !hasWeightUnit) {
+      weight = weight + "kg";
+    }
+
     exercises[exerciseNumber] = { exerciseName, weight, repetitions };
   };
 
