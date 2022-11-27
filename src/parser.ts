@@ -90,8 +90,8 @@ function Scanner(source: string): Scanner {
 
     // String is a keyword
     // This makes sure hasOwnProperty is called from the prototype and is not shadowed
-    if (Object.prototype.hasOwnProperty.call(keywords, string)) {
-      addToken(keywords[string], string);
+    if (Object.prototype.hasOwnProperty.call(keywords, string.toLowerCase())) {
+      addToken(keywords[string.toLowerCase()], string, true);
     } else {
       addToken("STRING", string);
     }
@@ -115,8 +115,16 @@ function Scanner(source: string): Scanner {
     addToken("NUMBER", number);
   }
 
-  function addToken(type: TokenType, literal: Literal | null = null): void {
-    const text = source.substring(start, current);
+  function addToken(
+    type: TokenType,
+    literal: Literal | null = null,
+    isKeyword?: boolean
+  ): void {
+    // Lowercase keywords for loose matching
+    const text = isKeyword
+      ? source.substring(start, current).toLowerCase()
+      : source.substring(start, current);
+
     tokens.push({ type: type, lexeme: text, literal, line });
   }
 
