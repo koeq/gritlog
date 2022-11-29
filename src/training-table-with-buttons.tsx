@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { IoTrashBin } from "react-icons/io5";
 import { MdModeEdit } from "react-icons/md";
 import { SwipeCallback, SwipeEventData, useSwipeable } from "react-swipeable";
@@ -20,32 +20,34 @@ export interface SwipeHandlers {
 
 export interface SwipeHelpers {
   toggleSwipe: () => void;
+  swiped: boolean;
 }
 
 const swipeConfig = {
   delta: 40,
 };
 
-const createSwipeHandlers = (
+const useSwipeHandlers = (
   trainingWithButtonsRef: React.MutableRefObject<HTMLTableElement | undefined>
 ): SwipeHandlers & SwipeHelpers => {
   const END = 160;
 
-  let swiped =
-    trainingWithButtonsRef.current?.style.transform === `translateX(-${END}px)`;
+  const [swiped, setSwiped] = useState(
+    trainingWithButtonsRef.current?.style.transform === `translateX(-${END}px)`
+  );
 
   const swipeOpen = () => {
     if (!trainingWithButtonsRef.current) return;
 
     trainingWithButtonsRef.current.style.transform = `translateX(-${END}px)`;
-    swiped = true;
+    setSwiped(true);
   };
 
   const swipeClose = () => {
     if (!trainingWithButtonsRef.current) return;
 
     trainingWithButtonsRef.current.style.transform = `translateX(0px)`;
-    swiped = false;
+    setSwiped(false);
   };
 
   const toggleSwipe = () => {
@@ -100,6 +102,7 @@ const createSwipeHandlers = (
     onSwiping,
     onSwiped,
     toggleSwipe,
+    swiped,
   };
 };
 
@@ -110,8 +113,8 @@ export const TrainingTableWithButtons = ({
 }: TrainingTableProps): JSX.Element | null => {
   const trainingWithButtonsRef = useRef<HTMLTableElement>();
 
-  const swipeActions = createSwipeHandlers(trainingWithButtonsRef);
-  const { onSwiping, onSwiped, toggleSwipe } = swipeActions;
+  const swipeActions = useSwipeHandlers(trainingWithButtonsRef);
+  const { onSwiping, onSwiped, toggleSwipe, swiped } = swipeActions;
 
   const swipeHandlers = useSwipeable({
     onSwiping,
@@ -135,6 +138,7 @@ export const TrainingTableWithButtons = ({
       <TrainingTable training={training} swipeActions={swipeActions} />
       <div className="buttons-container">
         <button
+          {...(!swiped && { tabIndex: -1 })}
           id="edit"
           className="action-btn-default"
           onClick={() => {
@@ -145,6 +149,7 @@ export const TrainingTableWithButtons = ({
           <MdModeEdit size={20} />
         </button>
         <button
+          {...(!swiped && { tabIndex: -1 })}
           id="delete"
           className="action-btn-default"
           onClick={() => {

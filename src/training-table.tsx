@@ -48,6 +48,19 @@ const TableValues = ({ training }: TableValueProps): JSX.Element => {
   );
 };
 
+const handleKeyDown = (
+  event: React.KeyboardEvent<HTMLTableElement>,
+  toggleSwipe: (() => void) | undefined
+) => {
+  if (!toggleSwipe) {
+    return;
+  }
+
+  if (event.key === "Enter" && toggleSwipe) {
+    toggleSwipe();
+  }
+};
+
 export const TrainingTable = ({
   training,
   swipeActions,
@@ -59,7 +72,9 @@ export const TrainingTable = ({
 
   return (
     <table
+      tabIndex={0}
       className={!isMobile ? "pointer" : undefined}
+      onKeyDown={(event) => handleKeyDown(event, toggleSwipe)}
       {...(!isMobile && toggleSwipe && { onClick: () => toggleSwipe() })}
     >
       <tbody>
