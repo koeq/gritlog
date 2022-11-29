@@ -2,7 +2,7 @@
 module.exports = {
   root: true,
   parser: "@typescript-eslint/parser",
-  plugins: ["@typescript-eslint", "import", "security", "jsx-a11y"],
+  plugins: ["@typescript-eslint", "import", "security"],
   extends: [
     "eslint:recommended",
     "plugin:react/recommended",
@@ -12,7 +12,7 @@ module.exports = {
     "plugin:import/typescript",
     "plugin:security/recommended",
     "plugin:react-hooks/recommended",
-    "plugin:jsx-a11y/recommended",
+
     // Enables the config from eslint-config-prettier, which turns off some
     // ESLint rules that conflict with Prettier.
     "prettier",
