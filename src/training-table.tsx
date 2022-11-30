@@ -68,12 +68,12 @@ export const TrainingTable = ({
   const isMobile = useIsMobile();
   const { headline } = training;
 
-  const { toggleSwipe } = swipeActions || {};
+  const { toggleSwipe, swiped } = swipeActions || {};
 
   return (
     <table
       tabIndex={0}
-      className={!isMobile ? "pointer" : undefined}
+      className={swiped ? "table-swiped" : ""}
       onKeyDown={(event) => handleKeyDown(event, toggleSwipe)}
       {...(!isMobile && toggleSwipe && { onClick: () => toggleSwipe() })}
     >
