@@ -30,10 +30,12 @@
   border-radius: 0;
   background-color: #66a1f8;
   color: #fff;
+  border: none;
 }
 
 #delete {
   border-radius: 0 4px 4px 0;
   background-color: #ea5d5e;
   color: #fff;
+  border: none;
 }
