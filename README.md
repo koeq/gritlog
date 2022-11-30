@@ -16,6 +16,7 @@ Sign in with your google account.
 <br/>
 Simply type your workout in the input field.
 <br/>
+<br/>
 Use the following format:
 <br/>
 
