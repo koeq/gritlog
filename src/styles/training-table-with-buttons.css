@@ -3,7 +3,7 @@
   display: flex;
   justify-content: flex-start;
   position: relative;
-  margin-bottom: 16px;
+  margin-bottom: 24px;
   transition: 0.15s ease-out;
 }
 

@@ -1,5 +1,5 @@
 .trainings {
-  width: min(90%, 450px);
+  width: min(95%, 450px);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -12,5 +12,5 @@
   margin-right: 5px;
   outline: none;
   border-top: 0.5px solid #e5e5e5;
-  margin-bottom: 25px;
+  margin-bottom: 34px;
 }
