@@ -1,3 +1,4 @@
+import throttle from "lodash.throttle";
 import { useRef, useState } from "react";
 import { IoTrashBin } from "react-icons/io5";
 import { MdModeEdit } from "react-icons/md";
@@ -60,25 +61,34 @@ const useSwipeHandlers = (
     }
   };
 
+  const swipe = throttle(
+    (swipeEvent: SwipeEventData) => {
+      if (!trainingWithButtonsRef?.current) {
+        return;
+      }
+
+      // Swipe left
+      if (!swiped && swipeEvent.deltaX < 0 && swipeEvent.deltaX >= -END) {
+        trainingWithButtonsRef.current.style.transform = `translateX(${swipeEvent.deltaX}px)`;
+      }
+
+      // Swipe right
+      if (swiped && swipeEvent.deltaX > 0 && swipeEvent.deltaX <= END) {
+        trainingWithButtonsRef.current.style.transform = `translateX(${
+          -END + swipeEvent.deltaX
+        }px)`;
+      }
+    },
+    15,
+    { leading: true }
+  );
+
   const onSwiping = (swipeEvent: SwipeEventData) => {
-    if (!trainingWithButtonsRef.current) return;
-
-    // Swipe left
-    if (!swiped && swipeEvent.deltaX < 0 && swipeEvent.deltaX >= -END) {
-      trainingWithButtonsRef.current.style.transform = `translateX(${swipeEvent.deltaX}px)`;
-    }
-
-    // Swipe right
-    if (swiped && swipeEvent.deltaX > 0 && swipeEvent.deltaX <= END) {
-      trainingWithButtonsRef.current.style.transform = `translateX(${
-        -END + swipeEvent.deltaX
-      }px)`;
-    }
+    swipe(swipeEvent);
   };
 
   const onSwiped = (swipeEvent: SwipeEventData) => {
     if (!trainingWithButtonsRef.current) return;
-
     const threshold = END / 2;
 
     if (!swiped && swipeEvent.deltaX <= -threshold) {
