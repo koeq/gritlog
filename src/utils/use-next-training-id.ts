@@ -7,5 +7,5 @@ export const getNextTrainingId = (
     return 0;
   }
 
-  return Math.max(...trainings.map((training) => training.id)) + 1;
+  return trainings.reduce((maxId, { id }) => (id > maxId ? id : maxId), 0) + 1;
 };

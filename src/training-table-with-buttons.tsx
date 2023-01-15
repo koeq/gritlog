@@ -63,12 +63,12 @@ const useSwipeHandlers = (
   const onSwiping = (swipeEvent: SwipeEventData) => {
     if (!trainingWithButtonsRef.current) return;
 
-    // swipe left
+    // Swipe left
     if (!swiped && swipeEvent.deltaX < 0 && swipeEvent.deltaX >= -END) {
       trainingWithButtonsRef.current.style.transform = `translateX(${swipeEvent.deltaX}px)`;
     }
 
-    // swipe right
+    // Swipe right
     if (swiped && swipeEvent.deltaX > 0 && swipeEvent.deltaX <= END) {
       trainingWithButtonsRef.current.style.transform = `translateX(${
         -END + swipeEvent.deltaX
@@ -123,9 +123,9 @@ export const TrainingTableWithButtons = ({
   });
 
   const refPassthrough = (el: HTMLTableElement) => {
-    // call useSwipeable ref prop with el
+    // Call useSwipeable ref prop with el.
     swipeHandlers.ref(el);
-    // set myRef el so you can access it yourself
+    // Set myRef el so we can access it.
     trainingWithButtonsRef.current = el;
   };
 

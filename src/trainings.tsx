@@ -34,8 +34,6 @@ export const Trainings = ({
             />
           );
         })
-        // TODO: CHECK
-        // why does this not work before map?
         .reverse()}
     </div>
   );

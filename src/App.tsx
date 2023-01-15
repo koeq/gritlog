@@ -8,7 +8,7 @@ const UnauthedApp = lazy(() => import("./unauthed-app"));
 export const App = (): JSX.Element => {
   const { authed } = useAuth();
 
-  // we are still waiting for the status of authed
+  // We are still waiting for the status of authed.
   if (typeof authed === "undefined") {
     return <LoadingSpinner />;
   }
