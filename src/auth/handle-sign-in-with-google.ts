@@ -1,6 +1,7 @@
 import { CredentialResponse } from "google-one-tap";
 
 const authUrl = import.meta.env.VITE_AUTH_URL;
+
 const credentials: {
   credentials: RequestCredentials;
 } = {

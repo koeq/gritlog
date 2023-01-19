@@ -30,9 +30,6 @@ export const AuthProvider = (props: AuthProviderProps): JSX.Element => {
       callback: (response) => handleSignInWithGoogle(response, setAuthed),
     });
 
-    // one tap button
-    window.google.accounts.id.prompt();
-
     // login button
     const signInWithGoogleElement = document.getElementById("signInWithGoogle");
 
