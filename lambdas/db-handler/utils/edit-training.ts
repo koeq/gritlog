@@ -22,11 +22,14 @@ export const editTraining = async (
     }
 
     const training = JSON.parse(body) as Training;
-    const decoded: GoogleUserData = jwt_decode(jwt);
-    const { email } = decoded;
+    const { email }: GoogleUserData = jwt_decode(jwt);
 
     const marshalledExercises = marshall({ exercises: training.exercises })[
       "exercises"
+    ];
+
+    const marshalledHeadline = marshall({ headline: training.headline })[
+      "headline"
     ];
 
     if (!marshalledExercises) {
@@ -36,9 +39,11 @@ export const editTraining = async (
     const params: UpdateItemCommandInput = {
       TableName: "trainings",
       Key: marshall({ email, id: training.id }),
-      UpdateExpression: "set exercises = :newExercises",
+      UpdateExpression:
+        "set exercises = :newExercises, headline = :newHeadline",
       ExpressionAttributeValues: {
         ":newExercises": marshalledExercises,
+        ":newHeadline": marshalledHeadline,
       },
       ReturnValues: "UPDATED_NEW",
     };
