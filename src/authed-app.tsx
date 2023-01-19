@@ -43,7 +43,7 @@ const AuthedApp = (): JSX.Element => {
   const { headline = null, exercises } = parse(currentInput) || {};
 
   const currentTraining: Training = {
-    headline: headline,
+    headline,
     date: new Date().toLocaleDateString(),
     id: getNextTrainingId(trainings),
     exercises: exercises,
