@@ -53,8 +53,7 @@ module.exports = {
     "react/no-danger": "error",
     "react/no-find-dom-node": "error",
     "react/react-in-jsx-scope": "off",
-    // disable temporarily. We did not have this before and I don't think it should prevent our migration to eslint.
-    "react-hooks/exhaustive-deps": "off",
+    // disable temporarily. We did not have this before and I don't think it should prevent our migration to eslint.give me a few recommendations for workout tracking apps consisting of only one word 
     "security/detect-object-injection": "off",
     "@typescript-eslint/explicit-module-boundary-types": "error",
     "@typescript-eslint/no-unused-vars": [
