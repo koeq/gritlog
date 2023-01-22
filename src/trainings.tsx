@@ -1,3 +1,4 @@
+import { memo } from "react";
 import { Training } from "../lambdas/db-handler/types";
 import "./styles/trainings.css";
 import { TrainingTableWithButtons } from "./training-table-with-buttons";
@@ -9,7 +10,7 @@ interface TrainingsProps {
   readonly setMode: (value: Mode | ((val: Mode) => Mode)) => void;
 }
 
-export const Trainings = ({
+const Trainings = ({
   trainings,
   handleSetEditMode,
   setMode,
@@ -38,3 +39,5 @@ export const Trainings = ({
     </div>
   );
 };
+
+export const MemoizedTrainings = memo(Trainings);
