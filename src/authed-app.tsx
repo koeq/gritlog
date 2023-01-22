@@ -88,7 +88,15 @@ const AuthedApp = (): JSX.Element => {
       textAreaRef.current?.focus();
       window.scrollTo({ top: 0, behavior: "smooth" });
     },
-    [trainings, setCurrentInput, setMode]
+    // This is needed so Trainings can be memoized. If we pass setCurrentInput to the dependecies array
+    // handleSetEditMode will have a different identity on every render, which will make the MemoizedTrainings also rerender.
+    // The reason for this is that the setter function the useLocalStorage hook returns is getting a new identity if the internal state changes.
+    // This is needed only when the state setter needs to create the new state based on the old one (when a function is being passed).
+    //  Since this is not the case for setCurrentInput it should be safe to omit it from the dependecies array below.
+    // This is hacky and should be solved with a better design.
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [trainings, setMode]
   );
 
   const handleDelete = (id: number) => {
