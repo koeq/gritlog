@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { Training } from "../lambdas/db-handler/types";
 import "../src/styles/authed-app.css";
 import { addTraining } from "./add-training";
@@ -13,7 +13,7 @@ import { LoadingSpinner } from "./loading-spinner";
 import { LogoutButton } from "./logout-button";
 import { parse } from "./parser";
 import { serializeTraining } from "./serialize-training";
-import { Trainings } from "./trainings";
+import { MemoizedTrainings } from "./trainings";
 import { Mode } from "./types";
 import { useLocalStorage } from "./use-local-storage";
 import { getNextTrainingId } from "./utils/use-next-training-id";
@@ -38,7 +38,7 @@ const AuthedApp = (): JSX.Element => {
   useEffect(() => {
     const fetchOnce = async () => getTrainings(setTrainings);
     fetchOnce();
-  }, [setTrainings]);
+  }, []);
 
   const { headline = null, exercises } = parse(currentInput) || {};
 
@@ -74,19 +74,22 @@ const AuthedApp = (): JSX.Element => {
     });
   };
 
-  const handleSetEditMode = (id: number) => {
-    const training = trainings?.find((training) => training.id === id);
+  const handleSetEditMode = useCallback(
+    (id: number) => {
+      const training = trainings?.find((training) => training.id === id);
 
-    if (!training) {
-      return;
-    }
+      if (!training) {
+        return;
+      }
 
-    const trainingInput = serializeTraining(training);
-    setCurrentInput(trainingInput);
-    setMode({ type: "edit", id, initialInput: trainingInput });
-    textAreaRef.current?.focus();
-    window.scrollTo({ top: 0, behavior: "smooth" });
-  };
+      const trainingInput = serializeTraining(training);
+      setCurrentInput(trainingInput);
+      setMode({ type: "edit", id, initialInput: trainingInput });
+      textAreaRef.current?.focus();
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    },
+    [trainings, setCurrentInput, setMode]
+  );
 
   const handleDelete = (id: number) => {
     deleteTraining(id, logout);
@@ -126,7 +129,7 @@ const AuthedApp = (): JSX.Element => {
       <CurrentTraining currentTraining={currentTraining} />
 
       {trainings ? (
-        <Trainings
+        <MemoizedTrainings
           setMode={setMode}
           trainings={trainings}
           handleSetEditMode={handleSetEditMode}

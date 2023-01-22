@@ -6,7 +6,7 @@ import "./styles/unauthed-app.css";
 
 const UnauthedApp = (): JSX.Element => {
   const { startLoginFlow } = useAuth();
-  useEffect(() => startLoginFlow(), []);
+  useEffect(() => startLoginFlow(), [startLoginFlow]);
 
   return (
     <div className="unauthed">
