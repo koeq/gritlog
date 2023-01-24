@@ -89,7 +89,7 @@ export const Input = ({
       <div className="buttons">
         {mode.type === "edit" ? (
           <>
-            <button id="save" onClick={() => handleEdit()}>
+            <button id="save" onClick={handleEdit}>
               save
             </button>
 
@@ -98,7 +98,7 @@ export const Input = ({
             </button>
           </>
         ) : (
-          <button id="add" onClick={() => handleAdd()}>
+          <button id="add" onClick={handleAdd}>
             add
           </button>
         )}
