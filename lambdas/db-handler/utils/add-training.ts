@@ -15,11 +15,11 @@ export const addTraining = async (
 
   try {
     if (!jwt) {
-      return buildResponse(401, "Not authenticated");
+      return buildResponse(401, "not authenticated");
     }
 
     if (!body) {
-      return buildResponse(500, "Can't add user.");
+      return buildResponse(500, "can't add user.");
     }
 
     const training = JSON.parse(body) as Training;
