@@ -1,37 +1,38 @@
-import { useRef, useState } from "react";
+import { useEffect, useState } from "react";
+import { CurrentInput, Mode, currentInput, mode } from "./types";
 
-function retrieveFromLocalStorage<T>(key: string): T | null {
-  try {
-    const item = localStorage.getItem(key);
+export function parseMode(item: unknown): Mode {
+  return mode.parse(item);
+}
 
-    return item && JSON.parse(item);
-  } catch (err) {
-    console.log(err);
-
-    return null;
-  }
+export function parseCurrentInput(item: unknown): CurrentInput {
+  return currentInput.parse(item);
 }
 
 export function useLocalStorage<T>(
   key: string,
-  defaultValue: T
-): readonly [T, (value: T | ((val: T) => T)) => void] {
-  const [storedValue, setStoredValue] = useState<T>(
-    () => retrieveFromLocalStorage(key) || defaultValue
-  );
-
-  const setValueRef = useRef((value: T | ((val: T) => T)) => {
+  defaultValue: T,
+  parse: (x: unknown) => T
+): readonly [T, React.Dispatch<React.SetStateAction<T>>] {
+  const [storedValue, setStoredValue] = useState<T>(() => {
     try {
-      // alllow value to be a function to imitate the useState API
-      const valueToStore =
-        value instanceof Function ? value(storedValue) : value;
+      const item = localStorage.getItem(key);
 
-      setStoredValue(valueToStore);
-      localStorage.setItem(key, JSON.stringify(valueToStore));
+      if (!item) {
+        return defaultValue;
+      }
+
+      return parse(JSON.parse(item));
     } catch (err) {
-      console.log(err);
+      console.error(err);
+
+      return defaultValue;
     }
   });
 
-  return [storedValue, setValueRef.current] as const;
+  useEffect(() => {
+    localStorage.setItem(key, JSON.stringify(storedValue));
+  }, [key, storedValue]);
+
+  return [storedValue, setStoredValue] as const;
 }
