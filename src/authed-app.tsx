@@ -14,22 +14,30 @@ import { LogoutButton } from "./logout-button";
 import { parse } from "./parser";
 import { serializeTraining } from "./serialize-training";
 import { MemoizedTrainings } from "./trainings";
-import { Mode } from "./types";
-import { useLocalStorage } from "./use-local-storage";
+import {
+  parseCurrentInput,
+  parseMode,
+  useLocalStorage,
+} from "./use-local-storage";
 import { getNextTrainingId } from "./utils/use-next-training-id";
 
 const AuthedApp = (): JSX.Element => {
   const [trainings, setTrainings] = useState<Training[] | undefined>(undefined);
   const nextTrainingId = getNextTrainingId(trainings);
 
-  const [mode, setMode] = useLocalStorage<Mode>("mode", {
-    type: "add",
-    id: nextTrainingId,
-  });
+  const [mode, setMode] = useLocalStorage(
+    "mode",
+    {
+      type: "add",
+      id: nextTrainingId,
+    },
+    parseMode
+  );
 
-  const [currentInput, setCurrentInput] = useLocalStorage<string | undefined>(
+  const [currentInput, setCurrentInput] = useLocalStorage(
     "currentInput",
-    undefined
+    "",
+    parseCurrentInput
   );
 
   const textAreaRef = useRef<HTMLTextAreaElement | null>(null);

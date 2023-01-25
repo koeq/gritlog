@@ -8,13 +8,11 @@ interface InputProps {
   readonly handleInputChange: (
     event: React.ChangeEvent<HTMLTextAreaElement>
   ) => void;
-  readonly currentInput: string | undefined;
+  readonly currentInput: string;
   readonly handleAdd: () => void;
   readonly mode: Mode;
   readonly setMode: (value: Mode | ((val: Mode) => Mode)) => void;
-  readonly setCurrentInput: React.Dispatch<
-    React.SetStateAction<string | undefined>
-  >;
+  readonly setCurrentInput: React.Dispatch<React.SetStateAction<string>>;
   readonly nextTrainingId: number;
   readonly currentTraining: Training;
   readonly setTrainings: React.Dispatch<

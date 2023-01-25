@@ -1,17 +1,24 @@
-export type Mode = AddMode | EditMode | DeleteMode;
+import { z } from "zod";
 
-interface AddMode {
-  readonly type: "add";
-  readonly id: number;
-}
+export type Mode = z.infer<typeof mode>;
+export type CurrentInput = z.infer<typeof currentInput>;
 
-interface EditMode {
-  readonly type: "edit";
-  readonly id: number;
-  readonly initialInput: string;
-}
+export const mode = z.discriminatedUnion("type", [
+  z.object({
+    type: z.literal("add"),
+    id: z.number(),
+  }),
 
-interface DeleteMode {
-  readonly type: "delete";
-  readonly id: number;
-}
+  z.object({
+    type: z.literal("edit"),
+    id: z.number(),
+    initialInput: z.string(),
+  }),
+
+  z.object({
+    type: z.literal("delete"),
+    id: z.number(),
+  }),
+]);
+
+export const currentInput = z.string();
