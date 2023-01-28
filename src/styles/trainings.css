@@ -4,6 +4,7 @@
   flex-direction: column;
   align-items: center;
   overflow: hidden;
+  margin-bottom: 75px;
 }
 
 /* this is a div because we can't create a smaller border with a hr tag */
