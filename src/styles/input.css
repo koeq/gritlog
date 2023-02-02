@@ -1,13 +1,13 @@
 textarea {
-  width: min(400px, 85%);
-  height: 60px;
+  width: min(420px, 90%);
+  height: 50px;
   border: 1px solid #e5e5e5;
-  border-radius: 8px;
+  border-radius: 12px;
   outline: none;
-  padding: 5px 10px;
   font-size: 16px;
-  transition: 0.15s ease-in-out;
-  margin-bottom: 25px;
+  transition: 0.2s ease-in-out;
+  margin-bottom: 20px;
+  padding: 5px;
   box-shadow: var(--shadow-smallest);
   appearance: none;
   /* this is necessary to enable the box shadow on ios */
@@ -15,26 +15,30 @@ textarea {
 }
 
 textarea:focus {
-  width: min(400px, 95%);
+  width: min(420px, 90%);
   height: 180px;
 }
 
 .buttons {
   display: flex;
+  background: #fff;
 }
 
 #add {
-  width: 220px;
+  width: 330px;
   padding: 12px 0;
+  border-radius: 25px;
 }
 
 #save {
-  width: 100px;
+  width: 157px;
   padding: 12px 0;
   margin-right: 16px;
+  border-radius: 25px;
 }
 
 #cancel {
-  width: 100px;
+  width: 157px;
   padding: 12px 0;
+  border-radius: 25px;
 }

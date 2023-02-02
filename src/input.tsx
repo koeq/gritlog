@@ -4,6 +4,60 @@ import { editTraining } from "./edit-training";
 import "./styles/input.css";
 import { Mode } from "./types";
 
+type HandleCancelEdit = (
+  setMode: (
+    value:
+      | {
+          type: "add";
+          id: number;
+        }
+      | {
+          type: "edit";
+          id: number;
+          initialInput: string;
+        }
+      | {
+          type: "delete";
+          id: number;
+        }
+      | ((val: Mode) => Mode)
+  ) => void
+) => void;
+
+export function Buttons({
+  mode,
+  handleEdit,
+  setMode,
+  handleAdd,
+  handleCancelEdit,
+}: {
+  readonly handleAdd: () => void;
+  readonly mode: Mode;
+  readonly setMode: (value: Mode | ((val: Mode) => Mode)) => void;
+  readonly handleEdit: () => void;
+  readonly handleCancelEdit: HandleCancelEdit;
+}): JSX.Element {
+  return (
+    <div className="buttons">
+      {mode.type === "edit" ? (
+        <>
+          <button id="save" onClick={handleEdit}>
+            save
+          </button>
+
+          <button id="cancel" onClick={() => handleCancelEdit(setMode)}>
+            cancel
+          </button>
+        </>
+      ) : (
+        <button id="add" onClick={handleAdd}>
+          add
+        </button>
+      )}
+    </div>
+  );
+}
+
 interface InputProps {
   readonly handleInputChange: (
     event: React.ChangeEvent<HTMLTextAreaElement>
@@ -71,6 +125,7 @@ export const Input = ({
   return (
     <>
       <textarea
+        placeholder=" >"
         onChange={handleInputChange}
         value={currentInput}
         name="training"
@@ -94,57 +149,3 @@ export const Input = ({
     </>
   );
 };
-
-type HandleCancelEdit = (
-  setMode: (
-    value:
-      | {
-          type: "add";
-          id: number;
-        }
-      | {
-          type: "edit";
-          id: number;
-          initialInput: string;
-        }
-      | {
-          type: "delete";
-          id: number;
-        }
-      | ((val: Mode) => Mode)
-  ) => void
-) => void;
-
-export function Buttons({
-  mode,
-  handleEdit,
-  setMode,
-  handleAdd,
-  handleCancelEdit,
-}: {
-  readonly handleAdd: () => void;
-  readonly mode: Mode;
-  readonly setMode: (value: Mode | ((val: Mode) => Mode)) => void;
-  readonly handleEdit: () => void;
-  readonly handleCancelEdit: HandleCancelEdit;
-}) {
-  return (
-    <div className="buttons">
-      {mode.type === "edit" ? (
-        <>
-          <button id="save" onClick={handleEdit}>
-            save
-          </button>
-
-          <button id="cancel" onClick={() => handleCancelEdit(setMode)}>
-            cancel
-          </button>
-        </>
-      ) : (
-        <button id="add" onClick={handleAdd}>
-          add
-        </button>
-      )}
-    </div>
-  );
-}

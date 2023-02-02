@@ -1,0 +1,12 @@
+/* The styles are necessary to prevent scrolling of the screen when the  address bar in chrome moves. */
+html {
+  overflow: hidden;
+  width: 100%;
+}
+
+body {
+  height: 100%;
+  width: 100%;
+  position: fixed;
+  overflow-y: scroll;
+}
