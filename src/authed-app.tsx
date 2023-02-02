@@ -4,7 +4,6 @@ import "../src/styles/authed-app.css";
 import { addTraining } from "./add-training";
 import { BottomBar } from "./bottom-bar";
 import { useAuth } from "./context/auth-provider";
-import { CurrentTraining } from "./current-training";
 import { deleteTraining } from "./delete-training";
 import { DeletionConfirmation } from "./deletion-confirmation";
 import { getTrainings } from "./get-trainings";
@@ -120,22 +119,6 @@ const AuthedApp = (): JSX.Element => {
   return (
     <div className="authed">
       <Header>{() => <LogoutButton logout={logout} />}</Header>
-
-      <Input
-        currentInput={currentInput}
-        handleInputChange={handleInputChange}
-        handleAdd={handleAdd}
-        mode={mode}
-        setMode={setMode}
-        nextTrainingId={nextTrainingId}
-        setCurrentInput={setCurrentInput}
-        currentTraining={currentTraining}
-        setTrainings={setTrainings}
-        logout={logout}
-        textAreaRef={textAreaRef}
-      />
-
-      <CurrentTraining currentTraining={currentTraining} />
 
       {trainings ? (
         <MemoizedTrainings

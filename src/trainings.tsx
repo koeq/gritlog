@@ -21,7 +21,6 @@ const Trainings = ({
 
   return (
     <div className="trainings">
-      <div className="horizontal-rule" />
       {trainings
         .map((_, index) => {
           const training = trainings[index];
