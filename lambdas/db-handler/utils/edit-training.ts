@@ -12,10 +12,8 @@ import { ddbClient } from "./ddb-client";
 
 export const editTraining = async (
   jwt: string | undefined,
-  event: APIGatewayProxyEvent
+  body: APIGatewayProxyEvent["body"]
 ): Promise<JsonResponse> => {
-  const { body } = event;
-
   try {
     if (!jwt || !body) {
       return buildResponse(500, "Can't update training.");
@@ -33,7 +31,7 @@ export const editTraining = async (
     ];
 
     if (!marshalledExercises) {
-      return buildResponse(500, "Can't update training.");
+      return buildResponse(500, "Can't update training");
     }
 
     const params: UpdateItemCommandInput = {

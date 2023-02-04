@@ -9,17 +9,15 @@ import { ddbClient } from "./ddb-client";
 
 export const addTraining = async (
   jwt: string | undefined,
-  event: APIGatewayProxyEvent
+  body: APIGatewayProxyEvent["body"]
 ): Promise<JsonResponse> => {
-  const { body } = event;
-
   try {
     if (!jwt) {
-      return buildResponse(401, "not authenticated");
+      return buildResponse(401, "Not authenticated");
     }
 
     if (!body) {
-      return buildResponse(500, "can't add user.");
+      return buildResponse(500, "Can't add user");
     }
 
     const training = JSON.parse(body) as Training;
@@ -38,6 +36,6 @@ export const addTraining = async (
   } catch (err) {
     console.log(err);
 
-    return buildResponse(500, "Can't add user.");
+    return buildResponse(500, "Can't add user");
   }
 };
