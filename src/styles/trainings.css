@@ -4,14 +4,5 @@
   flex-direction: column;
   align-items: center;
   overflow: hidden;
-  margin-bottom: 75px;
-}
-
-/* this is a div because we can't create a smaller border with a hr tag */
-.horizontal-rule {
-  width: 100%;
-  margin-right: 5px;
-  outline: none;
-  border-top: 0.5px solid #e5e5e5;
-  margin-bottom: 34px;
+  margin-bottom: 145px;
 }
