@@ -8,9 +8,8 @@ import { ddbClient } from "./ddb-client";
 import { setAuthCookie } from "./set-auth-cookie";
 
 export const createUser = async (
-  event: APIGatewayProxyEvent
+  body: APIGatewayProxyEvent["body"]
 ): Promise<JsonResponse> => {
-  const { body } = event;
   try {
     if (!body) {
       return buildResponse(500, "No body found");
@@ -30,9 +29,21 @@ export const createUser = async (
     };
 
     const command = new PutItemCommand(params);
-    await ddbClient.send(command);
 
-    return setAuthCookie(201, event);
+    const {
+      $metadata: { httpStatusCode },
+    } = await ddbClient.send(command);
+
+    if (httpStatusCode !== 200) {
+      throw Error(
+        `Unable to create new user. Database replied with ${httpStatusCode}`
+      );
+    }
+
+    const response = setAuthCookie(201, body);
+    response.body = JSON.stringify("Created new user");
+
+    return response;
   } catch (err) {
     console.log(`Couldn't create user: ${err}`);
 

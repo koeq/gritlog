@@ -3,12 +3,11 @@ import { JsonResponse, buildResponse } from "./build-response";
 
 export const setAuthCookie = (
   statusCode: number,
-  event: APIGatewayProxyEvent
+  body: APIGatewayProxyEvent["body"]
 ): JsonResponse => {
-  const { body } = event;
   try {
     if (!body) {
-      return buildResponse(500, "No body found.");
+      return buildResponse(500, "No body found");
     }
 
     const jwt = JSON.parse(body);
@@ -20,8 +19,8 @@ export const setAuthCookie = (
       "Set-Cookie": `user=${jwt}; Max-Age=${10800}; Secure; HttpOnly; SameSite=none`,
     };
 
-    return buildResponse(statusCode, "Auth cookie was set.", cookie);
+    return buildResponse(statusCode, "Auth cookie was set", cookie);
   } catch (err) {
-    return buildResponse(500, "Couldn't set auth cookie.");
+    return buildResponse(500, "Couldn't set auth cookie");
   }
 };

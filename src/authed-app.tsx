@@ -130,15 +130,6 @@ const AuthedApp = (): JSX.Element => {
         <LoadingSpinner />
       )}
 
-      {mode.type === "delete" && (
-        <DeletionConfirmation
-          id={mode.id}
-          setMode={setMode}
-          nextTrainingId={nextTrainingId}
-          handleDelete={handleDelete}
-        />
-      )}
-
       <BottomBar>
         {() => (
           <Input
@@ -156,6 +147,15 @@ const AuthedApp = (): JSX.Element => {
           />
         )}
       </BottomBar>
+
+      {mode.type === "delete" && (
+        <DeletionConfirmation
+          id={mode.id}
+          setMode={setMode}
+          nextTrainingId={nextTrainingId}
+          handleDelete={handleDelete}
+        />
+      )}
     </div>
   );
 };
