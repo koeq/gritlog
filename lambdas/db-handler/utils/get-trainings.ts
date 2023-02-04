@@ -9,7 +9,7 @@ export const getTrainings = async (
   jwt: string | undefined
 ): Promise<JsonResponse> => {
   if (!jwt) {
-    return buildResponse(500, "Error: Can't fetch trainings.");
+    return buildResponse(500, "Error: Can't fetch trainings");
   }
 
   try {

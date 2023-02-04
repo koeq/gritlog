@@ -11,13 +11,11 @@ import { ddbClient } from "./ddb-client";
 
 export const deleteTraining = async (
   jwt: string | undefined,
-  event: APIGatewayProxyEvent
+  queryStringParameters: APIGatewayProxyEvent["queryStringParameters"]
 ): Promise<JsonResponse> => {
-  const { queryStringParameters } = event;
-
   try {
     if (!jwt || !queryStringParameters?.id) {
-      return buildResponse(500, "Can't delete training.");
+      return buildResponse(500, "Can't delete training");
     }
 
     const id = JSON.parse(queryStringParameters.id);
@@ -37,6 +35,6 @@ export const deleteTraining = async (
   } catch (err) {
     console.log(err);
 
-    return buildResponse(500, "Can't delete training.");
+    return buildResponse(500, "Can't delete training");
   }
 };
