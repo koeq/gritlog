@@ -44,8 +44,7 @@ const AuthedApp = (): JSX.Element => {
   const { logout } = useAuth();
 
   useEffect(() => {
-    const fetchOnce = async () => fetchTrainings(setTrainings);
-    fetchOnce();
+    (async () => setTrainings(await fetchTrainings()))();
   }, []);
 
   const { headline = null, exercises } = parse(currentInput) || {};
