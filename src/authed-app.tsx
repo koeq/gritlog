@@ -20,6 +20,7 @@ import {
   useLocalStorage,
 } from "./use-local-storage";
 import { getNextTrainingId } from "./utils/get-next-training-id";
+import { isEmptyTraining } from "./utils/training-has-content";
 
 const AuthedApp = (): JSX.Element => {
   const [trainings, setTrainings] = useState<Training[] | undefined>(undefined);
@@ -61,7 +62,7 @@ const AuthedApp = (): JSX.Element => {
   };
 
   const handleAdd = () => {
-    if (!currentTraining.exercises) {
+    if (isEmptyTraining(currentTraining)) {
       return;
     }
 
@@ -93,7 +94,6 @@ const AuthedApp = (): JSX.Element => {
       setCurrentInput(trainingInput);
       setMode({ type: "edit", id, initialInput: trainingInput });
       textAreaRef.current?.focus();
-      window.scrollTo({ top: 0, behavior: "smooth" });
     },
     [trainings, setMode, setCurrentInput]
   );
