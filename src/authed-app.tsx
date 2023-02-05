@@ -6,7 +6,7 @@ import { BottomBar } from "./bottom-bar";
 import { useAuth } from "./context/auth-provider";
 import { deleteTraining } from "./delete-training";
 import { DeletionConfirmation } from "./deletion-confirmation";
-import { getTrainings } from "./get-trainings";
+import { fetchTrainings } from "./fetch-trainings";
 import { Header } from "./header";
 import { Input } from "./input";
 import { LoadingSpinner } from "./loading-spinner";
@@ -44,7 +44,7 @@ const AuthedApp = (): JSX.Element => {
   const { logout } = useAuth();
 
   useEffect(() => {
-    const fetchOnce = async () => getTrainings(setTrainings);
+    const fetchOnce = async () => fetchTrainings(setTrainings);
     fetchOnce();
   }, []);
 

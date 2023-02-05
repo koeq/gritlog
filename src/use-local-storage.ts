@@ -1,12 +1,13 @@
 import { useEffect, useState } from "react";
-import { CurrentInput, Mode, currentInput, mode } from "./types";
+import { CurrentInputSchema, ModeSchema } from "./schemas";
+import { CurrentInput, Mode } from "./types";
 
 export function parseMode(item: unknown): Mode {
-  return mode.parse(item);
+  return ModeSchema.parse(item);
 }
 
 export function parseCurrentInput(item: unknown): CurrentInput {
-  return currentInput.parse(item);
+  return CurrentInputSchema.parse(item);
 }
 
 export function useLocalStorage<T>(
