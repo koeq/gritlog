@@ -9,6 +9,8 @@ export const getTrainings = async (
   jwt: string | undefined
 ): Promise<JsonResponse> => {
   if (!jwt) {
+    console.debug("Can't fetch trainings - missng jwt token");
+
     return buildResponse(500, "Error: Can't fetch trainings");
   }
 
@@ -30,16 +32,19 @@ export const getTrainings = async (
     const command = new QueryCommand(params);
     const result = await ddbClient.send(command);
 
-    if (!result.Items) {
-      return buildResponse(200, "No trainings found.");
+    if (result.$metadata.httpStatusCode !== 200 || !result.Items) {
+      return buildResponse(
+        500,
+        `Attempt to fetch trainings failed: DB replied with ${result.$metadata.httpStatusCode}`
+      );
     }
 
     const items = result.Items.map((item) => unmarshall(item));
 
     return buildResponse(200, items);
   } catch (err) {
-    console.log(err);
+    console.error(err);
 
-    return buildResponse(500, "Error: Can't fetch trainings.");
+    return buildResponse(500, "Error: Can't fetch trainings");
   }
 };
