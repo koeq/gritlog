@@ -1,6 +1,6 @@
-import { Training } from "../lambdas/db-handler/types";
 import "./styles/current-training.css";
 import { TrainingTable } from "./training-table";
+import { Training } from "./types";
 
 interface CurrentTrainingProps {
   readonly currentTraining: Training;

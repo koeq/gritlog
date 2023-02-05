@@ -1,4 +1,4 @@
-import { Training } from "../lambdas/db-handler/types";
+import { Training } from "./types";
 
 export const serializeTraining = (training: Training): string => {
   const { headline, exercises } = training;

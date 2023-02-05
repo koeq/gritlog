@@ -3,10 +3,9 @@ import { useRef, useState } from "react";
 import { IoTrashBin } from "react-icons/io5";
 import { MdModeEdit } from "react-icons/md";
 import { SwipeCallback, SwipeEventData, useSwipeable } from "react-swipeable";
-import { Training } from "../lambdas/db-handler/types";
 import "./styles/training-table-with-buttons.css";
 import { TrainingTable } from "./training-table";
-import { Mode } from "./types";
+import { Mode, Training } from "./types";
 
 interface TrainingTableProps {
   readonly training: Training;
