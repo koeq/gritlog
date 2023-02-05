@@ -9,5 +9,5 @@ export interface Training {
   readonly date: string;
   readonly id: number;
   readonly headline: string | null;
-  readonly exercises: Exercise[] | undefined;
+  readonly exercises: Exercise[];
 }
