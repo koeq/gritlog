@@ -1,5 +1,5 @@
-import { Training } from "../../lambdas/db-handler/types";
 import { serializeTraining } from "../serialize-training";
+import { Training } from "../types";
 
 let multipleExercisesWithHeadline: Training;
 

@@ -1,4 +1,5 @@
-import { Training } from "../lambdas/db-handler/types";
+import { TrainingSchema } from "./schemas";
+import { Training } from "./types";
 
 export const fetchTrainings = async (): Promise<Training[] | []> => {
   const trainingUrl = import.meta.env.VITE_TRAINING_URL;
@@ -21,7 +22,9 @@ export const fetchTrainings = async (): Promise<Training[] | []> => {
       );
     }
 
-    return (await res.json()) as Training[] | [];
+    const trainings: unknown = await res.json();
+
+    return TrainingSchema.array().parse(trainings);
   } catch (error) {
     console.error(error);
 

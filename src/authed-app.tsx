@@ -1,5 +1,4 @@
 import { useCallback, useEffect, useRef, useState } from "react";
-import { Training } from "../lambdas/db-handler/types";
 import "../src/styles/authed-app.css";
 import { addTraining } from "./add-training";
 import { BottomBar } from "./bottom-bar";
@@ -14,12 +13,13 @@ import { LogoutButton } from "./logout-button";
 import { parse } from "./parser";
 import { serializeTraining } from "./serialize-training";
 import { MemoizedTrainings } from "./trainings";
+import { Training } from "./types";
 import {
   parseCurrentInput,
   parseMode,
   useLocalStorage,
 } from "./use-local-storage";
-import { getNextTrainingId } from "./utils/use-next-training-id";
+import { getNextTrainingId } from "./utils/get-next-training-id";
 
 const AuthedApp = (): JSX.Element => {
   const [trainings, setTrainings] = useState<Training[] | undefined>(undefined);
@@ -47,7 +47,7 @@ const AuthedApp = (): JSX.Element => {
     (async () => setTrainings(await fetchTrainings()))();
   }, []);
 
-  const { headline = null, exercises } = parse(currentInput) || {};
+  const { headline = null, exercises = [] } = parse(currentInput) || {};
 
   const currentTraining: Training = {
     headline,
