@@ -1,10 +1,10 @@
 <section>
-<h1 font-family="san-serif"  align="center"> Backslash </h1>
+<h1 font-family="san-serif"  align="center"> gritlog </h1>
 
   <p align="center">
     Track your workouts online:
     <br />
-    <a href="https://backslash-app.com"><strong>Check out live »</strong></a>
+    <a href="https://gritlog.app"><strong>Check out live »</strong></a>
     <br />
     <br />
     
