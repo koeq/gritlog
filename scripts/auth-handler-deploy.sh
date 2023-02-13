@@ -9,7 +9,7 @@ VERSION=$(aws lambda publish-version --function-name auth-handler --description 
 aws lambda update-alias --function-name auth-handler --name dev --function-version $VERSION
 #PROD
 aws lambda wait function-updated --function-name auth-handler
-aws lambda update-function-configuration --function-name auth-handler --environment Variables={ORIGIN=https://backslash-app.com}
+aws lambda update-function-configuration --function-name auth-handler --environment Variables={ORIGIN=https://gritlog.app}
 aws lambda wait function-updated --function-name auth-handler
 VERSION=$(aws lambda publish-version --function-name auth-handler --description 'prod' --output text --query Version)
 aws lambda update-alias --function-name auth-handler --name prod --function-version $VERSION

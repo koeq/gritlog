@@ -9,7 +9,7 @@ VERSION=$(aws lambda publish-version --function-name db-handler --description 'd
 aws lambda update-alias --function-name db-handler --name dev --function-version $VERSION
 #PROD
 aws lambda wait function-updated --function-name db-handler
-aws lambda update-function-configuration --function-name db-handler --environment Variables={ORIGIN=https://backslash-app.com}
+aws lambda update-function-configuration --function-name db-handler --environment Variables={ORIGIN=https://gritlog.app}
 aws lambda wait function-updated --function-name db-handler
 VERSION=$(aws lambda publish-version --function-name db-handler --description 'prod' --output text --query Version)
 aws lambda update-alias --function-name db-handler --name prod --function-version $VERSION
