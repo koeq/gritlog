@@ -1,22 +1,18 @@
 textarea {
   width: min(420px, 90%);
-  height: 50px;
+  height: 40px;
   border: 1px solid #e5e5e5;
   border-radius: 12px;
   outline: none;
   font-size: 16px;
   transition: 0.2s ease-in-out;
-  margin-bottom: 20px;
-  padding: 5px;
-  box-shadow: var(--shadow-smallest);
-  appearance: none;
-  /* this is necessary to enable the box shadow on ios */
-  -webkit-appearance: none;
+  margin-bottom: 16px;
+  padding: 5px 5px 5px 6px;
 }
 
 textarea:focus {
   width: min(420px, 90%);
-  height: 180px;
+  height: 160px;
 }
 
 .buttons {
@@ -25,20 +21,20 @@ textarea:focus {
 }
 
 #add {
-  width: 330px;
-  padding: 12px 0;
+  width: 280px;
+  padding: 10px 0;
   border-radius: 25px;
 }
 
 #save {
-  width: 157px;
-  padding: 12px 0;
-  margin-right: 16px;
+  width: 125px;
+  padding: 10px 0;
+  margin-right: 30px;
   border-radius: 25px;
 }
 
 #cancel {
-  width: 157px;
-  padding: 12px 0;
+  width: 125px;
+  padding: 10px 0;
   border-radius: 25px;
 }
