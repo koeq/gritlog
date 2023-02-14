@@ -1,6 +1,6 @@
 textarea {
   width: min(420px, 90%);
-  height: 40px;
+  height: 38px;
   border: 1px solid #e5e5e5;
   border-radius: 12px;
   outline: none;
@@ -22,19 +22,19 @@ textarea:focus {
 
 #add {
   width: 280px;
-  padding: 10px 0;
+  padding: 3px 0;
   border-radius: 25px;
 }
 
 #save {
   width: 125px;
-  padding: 10px 0;
+  padding: 3px 0;
   margin-right: 30px;
   border-radius: 25px;
 }
 
 #cancel {
   width: 125px;
-  padding: 10px 0;
+  padding: 3px 0;
   border-radius: 25px;
 }

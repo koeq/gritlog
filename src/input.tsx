@@ -1,3 +1,4 @@
+import { IoAdd, IoCheckmark, IoCloseOutline } from "react-icons/io5";
 import { useIsMobile } from "./context/is-mobile-provider";
 import { editTraining } from "./edit-training";
 import "./styles/input.css";
@@ -41,16 +42,16 @@ export function Buttons({
       {mode.type === "edit" ? (
         <>
           <button id="save" onClick={handleEdit}>
-            save
+            <IoCheckmark size="26px" color="#7C7C7D" />
           </button>
 
           <button id="cancel" onClick={() => handleCancelEdit(setMode)}>
-            cancel
+            <IoCloseOutline size="26px" color="#7C7C7D" />
           </button>
         </>
       ) : (
         <button id="add" onClick={handleAdd}>
-          add
+          <IoAdd size="26px" color="#7C7C7D" />
         </button>
       )}
     </div>
