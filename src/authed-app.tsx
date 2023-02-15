@@ -19,12 +19,13 @@ import {
   parseMode,
   useLocalStorage,
 } from "./use-local-storage";
-import { getNextTrainingId } from "./utils/get-next-training-id";
+import { getLastTrainingId } from "./utils/get-last-training-id";
 import { isEmptyTraining } from "./utils/training-has-content";
 
 const AuthedApp = (): JSX.Element => {
   const [trainings, setTrainings] = useState<Training[] | undefined>(undefined);
-  const nextTrainingId = getNextTrainingId(trainings);
+  const lastTrainingId = getLastTrainingId(trainings);
+  const nextTrainingId = lastTrainingId + 1;
 
   const [mode, setMode] = useLocalStorage(
     "mode",
@@ -53,7 +54,7 @@ const AuthedApp = (): JSX.Element => {
   const currentTraining: Training = {
     headline,
     date: new Date().toLocaleDateString(),
-    id: getNextTrainingId(trainings),
+    id: nextTrainingId,
     exercises: exercises,
   };
 
@@ -76,7 +77,7 @@ const AuthedApp = (): JSX.Element => {
 
       setMode({
         type: "add",
-        id: getNextTrainingId(trainings),
+        id: nextTrainingId,
       });
       return trainings;
     });
@@ -108,7 +109,7 @@ const AuthedApp = (): JSX.Element => {
 
       setMode({
         type: "add",
-        id: getNextTrainingId(trainings),
+        id: nextTrainingId,
       });
 
       return trainings;
@@ -143,6 +144,8 @@ const AuthedApp = (): JSX.Element => {
             setTrainings={setTrainings}
             logout={logout}
             textAreaRef={textAreaRef}
+            lastTrainingId={lastTrainingId}
+            handleSetEditMode={handleSetEditMode}
           />
         )}
       </BottomBar>

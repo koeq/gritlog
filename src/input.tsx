@@ -1,4 +1,4 @@
-import { IoAdd, IoCheckmark, IoCloseOutline } from "react-icons/io5";
+import { IoAdd, IoCheckmark, IoCloseOutline, IoRefresh } from "react-icons/io5";
 import { useIsMobile } from "./context/is-mobile-provider";
 import { editTraining } from "./edit-training";
 import "./styles/input.css";
@@ -30,12 +30,16 @@ export function Buttons({
   setMode,
   handleAdd,
   handleCancelEdit,
+  lastTrainingId,
+  handleSetEditMode,
 }: {
   readonly handleAdd: () => void;
   readonly mode: Mode;
   readonly setMode: (value: Mode | ((val: Mode) => Mode)) => void;
   readonly handleEdit: () => void;
   readonly handleCancelEdit: HandleCancelEdit;
+  readonly lastTrainingId: number;
+  readonly handleSetEditMode: (id: number) => void;
 }): JSX.Element {
   return (
     <div className="buttons">
@@ -50,9 +54,17 @@ export function Buttons({
           </button>
         </>
       ) : (
-        <button id="add" onClick={handleAdd}>
-          <IoAdd size="26px" color="#7C7C7D" />
-        </button>
+        <>
+          <button id="add" onClick={handleAdd}>
+            <IoAdd size="26px" color="#7C7C7D" />
+          </button>
+          <button
+            id="edit-last"
+            onClick={() => handleSetEditMode(lastTrainingId)}
+          >
+            <IoRefresh size="26px" color="#7C7C7D" />
+          </button>
+        </>
       )}
     </div>
   );
@@ -74,6 +86,8 @@ interface InputProps {
   >;
   readonly logout: () => void;
   readonly textAreaRef: React.MutableRefObject<HTMLTextAreaElement | null>;
+  readonly lastTrainingId: number;
+  readonly handleSetEditMode: (id: number) => void;
 }
 
 export const Input = ({
@@ -88,6 +102,8 @@ export const Input = ({
   setTrainings,
   logout,
   textAreaRef,
+  lastTrainingId,
+  handleSetEditMode,
 }: InputProps): JSX.Element => {
   const isMobile = useIsMobile();
 
@@ -145,6 +161,8 @@ export const Input = ({
         handleEdit={handleEdit}
         mode={mode}
         setMode={setMode}
+        handleSetEditMode={handleSetEditMode}
+        lastTrainingId={lastTrainingId}
       ></Buttons>
     </>
   );
