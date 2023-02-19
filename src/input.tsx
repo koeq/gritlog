@@ -39,32 +39,35 @@ export function Buttons({
   readonly handleEdit: () => void;
   readonly handleCancelEdit: HandleCancelEdit;
   readonly lastTrainingId: number | undefined;
-  readonly handleSetEditMode: (id: number) => void;
+  readonly handleSetEditMode: (id: number | undefined) => void;
 }): JSX.Element {
   return (
     <div className="buttons">
       {mode.type === "edit" ? (
         <>
-          <button id="save" onClick={handleEdit}>
+          <button type="button" id="save" onClick={handleEdit}>
             <IoCheckmark size="26px" color="#7C7C7D" />
           </button>
 
-          <button id="cancel" onClick={() => handleCancelEdit(setMode)}>
+          <button
+            type="button"
+            id="cancel"
+            onClick={() => handleCancelEdit(setMode)}
+          >
             <IoCloseOutline size="26px" color="#7C7C7D" />
           </button>
         </>
       ) : (
         <>
-          <button id="add" onClick={handleAdd}>
+          <button type="button" id="add" onClick={handleAdd}>
             <IoAdd size="26px" color="#7C7C7D" />
           </button>
           <button
+            type="button"
             id="edit-last"
-            onClick={
-              lastTrainingId !== undefined
-                ? () => handleSetEditMode(lastTrainingId)
-                : undefined
-            }
+            className={lastTrainingId === undefined ? "btn-off" : undefined}
+            disabled={lastTrainingId === undefined ? true : false}
+            onClick={() => handleSetEditMode(lastTrainingId)}
           >
             <IoRefresh size="26px" color="#7C7C7D" />
           </button>
@@ -91,7 +94,7 @@ interface InputProps {
   readonly logout: () => void;
   readonly textAreaRef: React.MutableRefObject<HTMLTextAreaElement | null>;
   readonly lastTrainingId: number | undefined;
-  readonly handleSetEditMode: (id: number) => void;
+  readonly handleSetEditMode: (id: number | undefined) => void;
 }
 
 export const Input = ({

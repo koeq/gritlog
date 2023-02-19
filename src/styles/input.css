@@ -45,3 +45,7 @@ textarea:focus {
   padding: 3px 0;
   border-radius: 25px;
 }
+
+.btn-off {
+  background-color: rgba(0, 0, 0, 0.04);
+}
