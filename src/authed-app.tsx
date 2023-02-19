@@ -25,7 +25,7 @@ import { isEmptyTraining } from "./utils/training-has-content";
 const AuthedApp = (): JSX.Element => {
   const [trainings, setTrainings] = useState<Training[] | undefined>(undefined);
   const lastTrainingId = getLastTrainingId(trainings);
-  const nextTrainingId = lastTrainingId + 1;
+  const nextTrainingId = lastTrainingId !== undefined ? lastTrainingId + 1 : 0;
 
   const [mode, setMode] = useLocalStorage(
     "mode",
@@ -84,7 +84,11 @@ const AuthedApp = (): JSX.Element => {
   };
 
   const handleSetEditMode = useCallback(
-    (id: number) => {
+    (id: number | undefined) => {
+      if (id === undefined) {
+        return;
+      }
+
       const training = trainings?.find((training) => training.id === id);
 
       if (!training) {

@@ -38,7 +38,7 @@ export function Buttons({
   readonly setMode: (value: Mode | ((val: Mode) => Mode)) => void;
   readonly handleEdit: () => void;
   readonly handleCancelEdit: HandleCancelEdit;
-  readonly lastTrainingId: number;
+  readonly lastTrainingId: number | undefined;
   readonly handleSetEditMode: (id: number) => void;
 }): JSX.Element {
   return (
@@ -60,7 +60,11 @@ export function Buttons({
           </button>
           <button
             id="edit-last"
-            onClick={() => handleSetEditMode(lastTrainingId)}
+            onClick={
+              lastTrainingId !== undefined
+                ? () => handleSetEditMode(lastTrainingId)
+                : undefined
+            }
           >
             <IoRefresh size="26px" color="#7C7C7D" />
           </button>
@@ -86,7 +90,7 @@ interface InputProps {
   >;
   readonly logout: () => void;
   readonly textAreaRef: React.MutableRefObject<HTMLTextAreaElement | null>;
-  readonly lastTrainingId: number;
+  readonly lastTrainingId: number | undefined;
   readonly handleSetEditMode: (id: number) => void;
 }
 
