@@ -24,6 +24,17 @@ type HandleCancelEdit = (
   ) => void
 ) => void;
 
+interface ButtonsProps {
+  readonly handleAdd: () => void;
+  readonly mode: Mode;
+  readonly setMode: (value: Mode | ((val: Mode) => Mode)) => void;
+  readonly handleEdit: () => void;
+  readonly handleCancelEdit: HandleCancelEdit;
+  readonly lastTrainingId: number | undefined;
+  readonly handleSetEditMode: (id: number | undefined) => void;
+  readonly currentInput: string;
+}
+
 export function Buttons({
   mode,
   handleEdit,
@@ -32,15 +43,8 @@ export function Buttons({
   handleCancelEdit,
   lastTrainingId,
   handleSetEditMode,
-}: {
-  readonly handleAdd: () => void;
-  readonly mode: Mode;
-  readonly setMode: (value: Mode | ((val: Mode) => Mode)) => void;
-  readonly handleEdit: () => void;
-  readonly handleCancelEdit: HandleCancelEdit;
-  readonly lastTrainingId: number | undefined;
-  readonly handleSetEditMode: (id: number | undefined) => void;
-}): JSX.Element {
+  currentInput,
+}: ButtonsProps): JSX.Element {
   return (
     <div className="buttons">
       {mode.type === "edit" ? (
@@ -59,7 +63,13 @@ export function Buttons({
         </>
       ) : (
         <>
-          <button type="button" id="add" onClick={handleAdd}>
+          <button
+            type="button"
+            id="add"
+            className={!currentInput ? "btn-off" : undefined}
+            disabled={!currentInput ? true : false}
+            onClick={handleAdd}
+          >
             <IoAdd size="26px" color="#7C7C7D" />
           </button>
           <button
@@ -170,6 +180,7 @@ export const Input = ({
         setMode={setMode}
         handleSetEditMode={handleSetEditMode}
         lastTrainingId={lastTrainingId}
+        currentInput={currentInput}
       ></Buttons>
     </>
   );

@@ -47,5 +47,6 @@ textarea:focus {
 }
 
 .btn-off {
-  background-color: rgba(0, 0, 0, 0.04);
+  background-color: rgba(0, 0, 0, 0.03);
+  border: 1px solid rgba(0, 0, 0, 0.03);
 }
