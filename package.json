@@ -24,12 +24,9 @@
     "tsc:watch": "tsc --watch --noEmit"
   },
   "dependencies": {
-    "@types/lodash.throttle": "^4.1.7",
-    "lodash.throttle": "^4.1.1",
     "react": "^17.0.0",
     "react-dom": "^17.0.0",
     "react-icons": "^4.4.0",
-    "react-swipeable": "^7.0.0",
     "zod": "^3.20.2"
   },
   "devDependencies": {

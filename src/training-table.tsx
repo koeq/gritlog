@@ -1,11 +1,8 @@
-import { useIsMobile } from "./context/is-mobile-provider";
 import "./styles/training-table.css";
-import { SwipeHandlers, SwipeHelpers } from "./training-table-with-buttons";
 import { Training } from "./types";
 
 interface TrainingTableProps {
   readonly training: Training;
-  readonly swipeActions?: SwipeHandlers & SwipeHelpers;
 }
 
 const TableHeaders = (): JSX.Element => {
@@ -48,35 +45,13 @@ const TableValues = ({ training }: TableValueProps): JSX.Element => {
   );
 };
 
-const handleKeyDown = (
-  event: React.KeyboardEvent<HTMLTableElement>,
-  toggleSwipe: (() => void) | undefined
-) => {
-  if (!toggleSwipe) {
-    return;
-  }
-
-  if (event.key === "Enter" && toggleSwipe) {
-    toggleSwipe();
-  }
-};
-
 export const TrainingTable = ({
   training,
-  swipeActions,
 }: TrainingTableProps): JSX.Element | null => {
-  const isMobile = useIsMobile();
   const { headline } = training;
 
-  const { toggleSwipe, swiped } = swipeActions || {};
-
   return (
-    <table
-      tabIndex={0}
-      className={swiped ? "table-swiped" : ""}
-      onKeyDown={(event) => handleKeyDown(event, toggleSwipe)}
-      {...(!isMobile && toggleSwipe && { onClick: () => toggleSwipe() })}
-    >
+    <table tabIndex={0}>
       <tbody>
         {headline && (
           <tr>

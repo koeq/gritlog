@@ -13,11 +13,6 @@ table {
   }
 }
 
-.table-swiped {
-  border-top-right-radius: 0px;
-  border-bottom-right-radius: 0px;
-}
-
 th {
   text-align: left;
 }
