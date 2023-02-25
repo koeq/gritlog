@@ -2,7 +2,7 @@ table {
   /* this is necessary on mobile to prevent border collapsing in table */
   width: calc(100% - 2px);
   padding: 8px 12px;
-  border: 1px solid #e5e5e5;
+  border: 1px solid rgba(0, 0, 0, 0.05);
   border-radius: 4px;
   cursor: pointer;
 }

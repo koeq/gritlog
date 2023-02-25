@@ -1,13 +1,19 @@
-.heading {
-  font-size: 22px;
-  font-weight: 500;
-}
-
 .header {
-  margin: 14px 0 60px 0;
-  padding: 0 8px;
-  width: min(400px, 85%);
+  position: fixed;
+  top: 0;
+  padding: 8px 16px;
+  width: 100%;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  z-index: 1;
+  background: rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.heading {
+  font-size: 20px;
+  font-weight: 500;
 }
