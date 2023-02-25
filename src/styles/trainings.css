@@ -4,5 +4,6 @@
   flex-direction: column;
   align-items: center;
   overflow: hidden;
+  margin-top: 65px;
   margin-bottom: 145px;
 }
