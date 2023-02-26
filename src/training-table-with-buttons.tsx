@@ -12,6 +12,18 @@ interface TrainingTableProps {
   readonly setMode: (value: Mode | ((val: Mode) => Mode)) => void;
 }
 
+const scrollOnClick = (element: HTMLDivElement | null): void => {
+  if (element) {
+    // The single pixel works because of the scroll-snap styles
+    const leftValue = element.scrollLeft === 0 ? 1 : -1;
+
+    element.scrollBy({
+      left: leftValue,
+      behavior: "smooth",
+    });
+  }
+};
+
 export const TrainingTableWithButtons = ({
   training,
   handleSetEditMode,
@@ -20,33 +32,21 @@ export const TrainingTableWithButtons = ({
   const trainingRef = useRef<HTMLDivElement | null>(null);
   const isMobile = useIsMobile();
 
-  const handleDesktopClick = () => {
-    const { current: element } = trainingRef;
-
-    if (element) {
-      // The single pixel works because of the scroll-snap styles
-      const leftValue = element.scrollLeft ? -1 : 1;
-
-      element.scrollBy({
-        left: leftValue,
-        behavior: "smooth",
-      });
-    }
-  };
-
   return (
     <div
       className="training-with-buttons"
       ref={trainingRef}
-      onClick={isMobile ? undefined : handleDesktopClick}
+      onClick={isMobile ? undefined : () => scrollOnClick(trainingRef.current)}
     >
       <TrainingTable training={training} />
       <div className="buttons-container">
         <button
           id="edit"
           className="action-btn-default"
-          onClick={() => {
+          onClick={(e) => {
+            e.stopPropagation();
             handleSetEditMode(training.id);
+            scrollOnClick(trainingRef.current);
           }}
         >
           <MdModeEdit size={20} />
@@ -54,7 +54,9 @@ export const TrainingTableWithButtons = ({
         <button
           id="delete"
           className="action-btn-default"
-          onClick={() => {
+          onClick={(e) => {
+            e.stopPropagation();
+            scrollOnClick(trainingRef.current);
             setMode({ type: "delete", id: training.id });
           }}
         >
