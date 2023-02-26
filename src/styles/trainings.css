@@ -1,9 +1,11 @@
 .trainings {
   width: min(95%, 450px);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  overflow: hidden;
-  margin-top: 65px;
-  margin-bottom: 145px;
+  /* header height */
+  margin-top: 43px;
+  /* bottom bar height */
+  margin-bottom: 114px;
+  padding-top: 24px;
+  /* last training bottom margin is added on this */
+  padding-bottom: 24px;
+  overflow: scroll;
 }

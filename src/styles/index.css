@@ -27,7 +27,6 @@ html {
 html,
 body {
   height: 100%;
-  scroll-behavior: smooth;
 }
 
 button {
@@ -37,8 +36,4 @@ button {
   border: 1px solid #e5e5e5;
   border-radius: 4px;
   cursor: pointer;
-}
-
-button:hover {
-  color: rgba(0, 0, 0, 1);
 }

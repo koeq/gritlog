@@ -4,7 +4,7 @@ import { TrainingTableWithButtons } from "./training-table-with-buttons";
 import { Mode, Training } from "./types";
 
 interface TrainingsProps {
-  readonly trainings: Training[] | [];
+  readonly trainings: Training[];
   readonly handleSetEditMode: (id: number) => void;
   readonly setMode: (value: Mode | ((val: Mode) => Mode)) => void;
 }
