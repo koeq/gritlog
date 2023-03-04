@@ -11,8 +11,7 @@ textarea {
 }
 
 textarea:focus {
-  width: min(420px, 90%);
-  height: 160px;
+  height: 140px;
 }
 
 .buttons {
