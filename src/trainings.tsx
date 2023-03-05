@@ -19,7 +19,7 @@ const Trainings = ({
   }
 
   return (
-    <div className="trainings">
+    <section className="trainings">
       {trainings
         .map((_, index) => {
           const training = trainings[index];
@@ -34,7 +34,7 @@ const Trainings = ({
           );
         })
         .reverse()}
-    </div>
+    </section>
   );
 };
 

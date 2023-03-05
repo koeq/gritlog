@@ -6,9 +6,12 @@ interface HeaderProps {
 
 export const Header = ({ children }: HeaderProps): JSX.Element => {
   return (
-    <div className="header">
-      <h1 className="heading">gl</h1>
-      {children && children()}
-    </div>
+    <nav className="header">
+      <div className="header-container">
+        <h1 className="heading">gl</h1>
+        {children && children()}
+      </div>
+      <hr />
+    </nav>
   );
 };

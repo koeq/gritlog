@@ -58,7 +58,7 @@ export function Buttons({
             id="cancel"
             onClick={() => handleCancelEdit(setMode)}
           >
-            <IoCloseOutline size="26px" color="#7C7C7D" />
+            <IoCloseOutline size="26px" color="#" />
           </button>
         </>
       ) : (
@@ -66,11 +66,13 @@ export function Buttons({
           <button
             type="button"
             id="add"
-            className={!currentInput ? "btn-off" : undefined}
             disabled={!currentInput ? true : false}
             onClick={handleAdd}
           >
-            <IoAdd size="26px" color="#7C7C7D" />
+            <IoAdd
+              className="icon"
+              color={currentInput ? "#f7f8f8" : "#9ea3a9"}
+            />
           </button>
           <button
             type="button"
@@ -79,7 +81,10 @@ export function Buttons({
             disabled={lastTrainingId === undefined ? true : false}
             onClick={() => handleSetEditMode(lastTrainingId)}
           >
-            <IoRefresh size="26px" color="#7C7C7D" />
+            <IoRefresh
+              className="icon"
+              color={lastTrainingId === undefined ? "#f7f8f8" : "#9ea3a9"}
+            />
           </button>
         </>
       )}

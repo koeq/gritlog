@@ -53,21 +53,18 @@ export const TrainingTable = ({
   return (
     <table tabIndex={0}>
       <tbody>
+        <tr>
+          <th className={"date-header border-bottom"} colSpan={3}>
+            {training.date}
+          </th>
+        </tr>
         {headline && (
           <tr>
-            <th colSpan={3} className="border-bottom">
+            <th colSpan={3} id="headline">
               {headline}
             </th>
           </tr>
         )}
-        <tr>
-          <th
-            className={!headline ? "date-header border-bottom" : "date-header"}
-            colSpan={3}
-          >
-            {training.date}
-          </th>
-        </tr>
 
         <TableHeaders />
         <TableValues training={training} />
