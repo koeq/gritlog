@@ -1,5 +1,5 @@
 .training-with-buttons {
-  width: 100%;
+  width: min(450px, 95%);
   display: flex;
   justify-content: flex-start;
   position: relative;

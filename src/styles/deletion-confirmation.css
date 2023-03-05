@@ -13,7 +13,7 @@
 }
 
 .dialog {
-  width: min(95%, 350px);
+  width: min(450px, 95%);
   height: 250px;
   padding: 16px;
   display: flex;

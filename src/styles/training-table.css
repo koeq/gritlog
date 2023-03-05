@@ -1,48 +1,54 @@
 table {
-  /* this is necessary on mobile to prevent border collapsing in table */
-  width: calc(100% - 2px);
+  width: 100%;
   padding: 8px 12px;
-  border: 1px solid rgba(0, 0, 0, 0.05);
-  border-radius: 4px;
+  color: #8a8f98;
+  background: var(--background-gradient);
+  border: 1px solid var(--border);
+  border-radius: 12px;
   cursor: pointer;
 }
 
-@media only screen and (min-width: 560px) {
-  table {
-    width: 100%;
-  }
-}
-
 th {
+  color: #fefefe;
   text-align: left;
 }
 
 .border-bottom {
-  border-bottom: 0.5px solid #eaeaea;
+  border-bottom: 0.5px solid #232323;
   padding-bottom: 8px;
 }
 
 .date-header {
-  padding-top: 6px;
+  color: var(--text-1);
+  font-weight: 400;
 }
 
 .label-header {
+  color: var(--text-2);
   font-weight: 400;
   padding-top: 16px;
   padding-bottom: 6px;
 }
 
+#headline {
+  color: var(--text-2);
+  margin-top: 8px;
+}
+
 #exercise {
+  color: var(--text-3);
   width: 130px;
   overflow-wrap: anywhere;
 }
 
 #weight {
+  color: var(--text-3);
   width: 90px;
   overflow-wrap: anywhere;
 }
 
 #repetitions {
+  color: var(--text-3);
   width: 90px;
   overflow-wrap: anywhere;
 }

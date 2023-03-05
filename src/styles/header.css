@@ -1,19 +1,39 @@
 .header {
   position: fixed;
   top: 0;
-  padding: 8px 18px;
   width: 100%;
   display: flex;
-  justify-content: space-between;
+  flex-direction: column;
+  justify-content: center;
   align-items: center;
   z-index: 1;
-  background: rgba(255, 255, 255, 0.2);
-  backdrop-filter: blur(5px);
-  -webkit-backdrop-filter: blur(5px);
-  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+  background: transparent;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+.header-container {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  padding: 8px 18px;
 }
 
 .heading {
   font-size: 20px;
   font-weight: 500;
+}
+
+hr {
+  display: block;
+  height: 1px;
+  border: none;
+  width: min(450px, 95%);
+  background: var(--border);
+}
+
+@media (min-width: 560px) {
+  hr {
+    width: 100%;
+  }
 }

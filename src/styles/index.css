@@ -1,15 +1,24 @@
 @import url("https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600&display=swap");
 
 * {
+  /* VARIABLES */
+  /* colors */
+  --background: #07050d;
+  --background-gradient: linear-gradient(45deg, #1e1e25, #131315);
+  --border: #1f1f1f;
+  --text-1: #f7f8f8;
+  --text-2: #e8e8e8;
+  --text-3: #9ea3a9;
+  /* box shadwos */
+  --shadow-extra-small: 0px 4px 8px rgba(0, 0, 0, 0.12);
+  --shadow-smallest: 0 2px 6px rgb(0 0 0 / 5%);
+
   padding: 0;
   margin: 0;
   font-family: "IBM Plex Sans", sans-serif;
   font-weight: 300;
   font-size: 15px;
-
-  /* variables */
-  --shadow-extra-small: 0px 4px 8px rgba(0, 0, 0, 0.12);
-  --shadow-smallest: 0 2px 6px rgb(0 0 0 / 5%);
+  color: var(--text-1);
 }
 
 /* universal box sizing */
@@ -23,11 +32,12 @@ html {
   box-sizing: border-box;
 }
 
+body {
+  background: var(--background);
+}
+
 button {
   background: rgba(0, 0, 0, 0);
-  color: rgba(0, 0, 0, 0.4);
-  padding: 8px 12px;
-  border: 1px solid #e5e5e5;
-  border-radius: 4px;
+  border: none;
   cursor: pointer;
 }
