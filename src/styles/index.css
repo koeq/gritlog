@@ -3,9 +3,9 @@
 * {
   /* VARIABLES */
   /* colors */
-  --background: #07050d;
-  --background-gradient: linear-gradient(45deg, #1e1e25, #131315);
-  --border: #1f1f1f;
+  --background: rgb(9, 11, 19);
+  --background-gradient: linear-gradient(45deg, #1a1c24, #15171f);
+  --border: rgb(26, 28, 36);
   --text-1: #f7f8f8;
   --text-2: #e8e8e8;
   --text-3: #9ea3a9;
