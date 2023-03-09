@@ -38,7 +38,7 @@ export const AuthProvider = (props: AuthProviderProps): JSX.Element => {
     if (signInWithGoogleElement) {
       window.google.accounts.id.renderButton(signInWithGoogleElement, {
         shape: "pill",
-        theme: "filled_black",
+        theme: "filled_blue",
         size: "medium",
         logo_alignment: "center",
         type: "standard",
