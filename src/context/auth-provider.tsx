@@ -31,15 +31,18 @@ export const AuthProvider = (props: AuthProviderProps): JSX.Element => {
     });
 
     // login button
-    const signInWithGoogleElement = document.getElementById("signInWithGoogle");
+    const signInWithGoogleElement = document.getElementById(
+      "sign-in-with-google"
+    );
 
     if (signInWithGoogleElement) {
       window.google.accounts.id.renderButton(signInWithGoogleElement, {
         shape: "pill",
-        theme: "outline",
-        size: "large",
-        logo_alignment: "left",
-        text: "signin_with",
+        theme: "filled_black",
+        size: "medium",
+        logo_alignment: "center",
+        type: "standard",
+        text: "continue_with",
       });
     }
   };

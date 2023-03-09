@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { SignInWithGoogle } from "./auth";
+import { Login } from "./auth";
 import { useAuth } from "./context/auth-provider";
 import { Header } from "./header";
 import "./styles/unauthed-app.css";
@@ -11,7 +11,7 @@ const UnauthedApp = (): JSX.Element => {
   return (
     <div className="unauthed">
       <Header />
-      <SignInWithGoogle />
+      <Login />
     </div>
   );
 };
