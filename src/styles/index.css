@@ -9,6 +9,8 @@
   --text-1: #f7f8f8;
   --text-2: #e8e8e8;
   --text-3: #9ea3a9;
+  /* border */
+  --border-radius: 12px;
   /* box shadwos */
   --shadow-extra-small: 0px 4px 8px rgba(0, 0, 0, 0.12);
   --shadow-smallest: 0 2px 6px rgb(0 0 0 / 5%);
