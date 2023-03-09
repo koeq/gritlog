@@ -1,96 +1,16 @@
-import { IoAdd, IoCheckmark, IoCloseOutline, IoRefresh } from "react-icons/io5";
+import { useState } from "react";
+import {
+  IoAdd,
+  IoCheckmark,
+  IoCloseOutline,
+  IoPencil,
+  IoRepeat,
+} from "react-icons/io5";
 import { useIsMobile } from "./context/is-mobile-provider";
 import { editTraining } from "./edit-training";
 import "./styles/input.css";
 import { Mode, Training } from "./types";
-
-type HandleCancelEdit = (
-  setMode: (
-    value:
-      | {
-          type: "add";
-          id: number;
-        }
-      | {
-          type: "edit";
-          id: number;
-          initialInput: string;
-        }
-      | {
-          type: "delete";
-          id: number;
-        }
-      | ((val: Mode) => Mode)
-  ) => void
-) => void;
-
-interface ButtonsProps {
-  readonly handleAdd: () => void;
-  readonly mode: Mode;
-  readonly setMode: (value: Mode | ((val: Mode) => Mode)) => void;
-  readonly handleEdit: () => void;
-  readonly handleCancelEdit: HandleCancelEdit;
-  readonly lastTrainingId: number | undefined;
-  readonly handleSetEditMode: (id: number | undefined) => void;
-  readonly currentInput: string;
-}
-
-export function Buttons({
-  mode,
-  handleEdit,
-  setMode,
-  handleAdd,
-  handleCancelEdit,
-  lastTrainingId,
-  handleSetEditMode,
-  currentInput,
-}: ButtonsProps): JSX.Element {
-  return (
-    <div className="buttons">
-      {mode.type === "edit" ? (
-        <>
-          <button type="button" id="save" onClick={handleEdit}>
-            <IoCheckmark size="26px" color="#7C7C7D" />
-          </button>
-
-          <button
-            type="button"
-            id="cancel"
-            onClick={() => handleCancelEdit(setMode)}
-          >
-            <IoCloseOutline size="26px" color="#" />
-          </button>
-        </>
-      ) : (
-        <>
-          <button
-            type="button"
-            id="add"
-            disabled={!currentInput ? true : false}
-            onClick={handleAdd}
-          >
-            <IoAdd
-              className="icon"
-              color={currentInput ? "#f7f8f8" : "#9ea3a9"}
-            />
-          </button>
-          <button
-            type="button"
-            id="edit-last"
-            className={lastTrainingId === undefined ? "btn-off" : undefined}
-            disabled={lastTrainingId === undefined ? true : false}
-            onClick={() => handleSetEditMode(lastTrainingId)}
-          >
-            <IoRefresh
-              className="icon"
-              color={lastTrainingId === undefined ? "#f7f8f8" : "#9ea3a9"}
-            />
-          </button>
-        </>
-      )}
-    </div>
-  );
-}
+import { isEmptyTraining } from "./utils/training-has-content";
 
 interface InputProps {
   readonly handleInputChange: (
@@ -127,6 +47,7 @@ export const Input = ({
   lastTrainingId,
   handleSetEditMode,
 }: InputProps): JSX.Element => {
+  const [inputOpen, setInputOpen] = useState(false);
   const isMobile = useIsMobile();
 
   const handleCancelEdit = (
@@ -168,6 +89,7 @@ export const Input = ({
         value={currentInput}
         name="training"
         id="training"
+        className={inputOpen ? "open" : "close"}
         ref={textAreaRef}
         onKeyDown={(e) => {
           if (!isMobile && e.key === "Enter" && !e.shiftKey) {
@@ -177,16 +99,86 @@ export const Input = ({
         }}
       ></textarea>
 
-      <Buttons
-        handleAdd={handleAdd}
-        handleCancelEdit={handleCancelEdit}
-        handleEdit={handleEdit}
-        mode={mode}
-        setMode={setMode}
-        handleSetEditMode={handleSetEditMode}
-        lastTrainingId={lastTrainingId}
-        currentInput={currentInput}
-      ></Buttons>
+      <div className="buttons">
+        {mode.type === "edit" ? (
+          <>
+            <button
+              type="button"
+              className="button"
+              onClick={() => {
+                handleEdit();
+                setInputOpen(false);
+              }}
+            >
+              <IoCheckmark size={30} />
+            </button>
+
+            <button
+              type="button"
+              id="cancel"
+              className="button"
+              onClick={() => {
+                handleCancelEdit(setMode);
+                setInputOpen(false);
+              }}
+            >
+              <IoCloseOutline size={30} />
+            </button>
+          </>
+        ) : (
+          <>
+            {inputOpen ? (
+              <>
+                <button
+                  type="button"
+                  className="button"
+                  onClick={() => {
+                    handleAdd();
+                    !isEmptyTraining(currentTraining) && setInputOpen(false);
+                  }}
+                >
+                  <IoAdd size={28} />
+                </button>
+                <button
+                  type="button"
+                  id="cancel"
+                  className="button"
+                  onClick={() => {
+                    setCurrentInput("");
+                    setInputOpen(false);
+                  }}
+                >
+                  <IoCloseOutline size={30} />
+                </button>
+              </>
+            ) : (
+              <>
+                <button
+                  type="button"
+                  className="button"
+                  onClick={() => {
+                    setInputOpen(true);
+                    textAreaRef.current?.focus();
+                  }}
+                >
+                  <IoPencil size={24} />
+                </button>
+                <button
+                  type="button"
+                  id="edit-last"
+                  className="button"
+                  onClick={() => {
+                    handleSetEditMode(lastTrainingId);
+                    setInputOpen(true);
+                  }}
+                >
+                  <IoRepeat size={30} />
+                </button>
+              </>
+            )}
+          </>
+        )}
+      </div>
     </>
   );
 };
