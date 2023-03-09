@@ -23,7 +23,7 @@ export const handleSignInWithGoogle = async (
     ...credentials,
     ...headers,
     method: "POST",
-    // send the JSON web token
+    // send JSON web token
     body: JSON.stringify(response.credential),
   };
 

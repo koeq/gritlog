@@ -1,2 +1,2 @@
-export * from "./sign-in-with-google";
+export * from "./login";
 export * from "./use-authed";

@@ -59,6 +59,7 @@ function Scanner(source: string): Scanner {
   let start = 0;
   let current = 0;
   let line = 1;
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   let hadError = false;
 
   function isAtEnd(): boolean {

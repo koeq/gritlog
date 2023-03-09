@@ -21,10 +21,7 @@ export const DeletionConfirmation = ({
   return (
     <div className="deletion-confirmation-layer">
       <div className="dialog">
-        <p className="dialog-text">Do you want to delete your training?</p>
-        <br />
-        <br />
-
+        <p className="dialog-text">Delete your training?</p>
         <button className="dialog-btn" onClick={() => handleDelete(id)}>
           yes
         </button>
