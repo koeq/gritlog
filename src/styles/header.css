@@ -16,12 +16,14 @@
   display: flex;
   justify-content: space-between;
   width: 100%;
-  padding: 8px 18px;
+  padding: 8px 8px;
 }
 
 .heading {
+  display: flex;
+  align-items: center;
   font-size: 20px;
-  font-weight: 500;
+  font-weight: 400;
 }
 
 hr {
