@@ -39,6 +39,7 @@ export const TrainingTableWithButtons = ({
       onClick={isMobile ? undefined : () => scrollOnClick(trainingRef.current)}
     >
       <TrainingTable training={training} />
+
       <div className="buttons-container">
         <button
           id="edit"

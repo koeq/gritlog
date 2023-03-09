@@ -28,7 +28,7 @@ hr {
   display: block;
   height: 1px;
   border: none;
-  width: min(450px, 95%);
+  width: min(450px, 97%);
   background: var(--border);
 }
 

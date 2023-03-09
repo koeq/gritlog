@@ -4,8 +4,9 @@ table {
   color: #8a8f98;
   background: var(--background-gradient);
   border: 1px solid var(--border);
-  border-radius: 12px;
+  border-radius: var(--border-radius) 0 0 var(--border-radius);
   cursor: pointer;
+  scroll-snap-align: start;
 }
 
 th {
