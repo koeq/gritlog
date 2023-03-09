@@ -1,5 +1,5 @@
 textarea {
-  width: min(420px, 90%);
+  width: min(450px, 94%);
   height: 38px;
   background: var(--background-gradient);
   border: 1px solid var(--border);
@@ -11,38 +11,36 @@ textarea {
   padding: 5px 5px 5px 6px;
 }
 
-textarea:focus {
+.open {
+  margin-top: 20px;
   height: 140px;
+}
+
+.close {
+  height: 1px;
+  padding: 0px;
+  margin: 0;
+  border: none;
+  background: transparent;
 }
 
 .buttons {
   display: flex;
+  align-items: flex-start;
+  margin-top: 10px;
+}
+
+.button {
+  padding: 5px;
+  border-radius: 50%;
 }
 
 #edit-last {
-  width: 125px;
-  padding: 3px 0;
-  border-radius: 25px;
-}
-
-#add {
-  width: 125px;
-  padding: 3px 0;
-  margin-right: 30px;
-  border-radius: 25px;
-}
-
-#save {
-  width: 125px;
-  padding: 3px 0;
-  margin-right: 30px;
-  border-radius: 25px;
+  margin-left: 140px;
 }
 
 #cancel {
-  width: 125px;
-  padding: 3px 0;
-  border-radius: 25px;
+  margin-left: 140px;
 }
 
 .icon {
