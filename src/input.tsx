@@ -30,6 +30,8 @@ interface InputProps {
   readonly textAreaRef: React.MutableRefObject<HTMLTextAreaElement | null>;
   readonly lastTrainingId: number | undefined;
   readonly handleSetEditMode: (id: number | undefined) => void;
+  readonly inputOpen: boolean;
+  readonly setInputOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 export const Input = ({
@@ -46,8 +48,9 @@ export const Input = ({
   textAreaRef,
   lastTrainingId,
   handleSetEditMode,
+  inputOpen,
+  setInputOpen,
 }: InputProps): JSX.Element => {
-  const [inputOpen, setInputOpen] = useState(false);
   const isMobile = useIsMobile();
 
   const handleCancelEdit = (

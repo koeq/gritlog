@@ -26,6 +26,7 @@ const AuthedApp = (): JSX.Element => {
   const [trainings, setTrainings] = useState<Training[] | undefined>(undefined);
   const lastTrainingId = getLastTrainingId(trainings);
   const nextTrainingId = lastTrainingId !== undefined ? lastTrainingId + 1 : 0;
+  const [inputOpen, setInputOpen] = useState(false);
 
   const [mode, setMode] = useLocalStorage(
     "mode",
@@ -98,7 +99,7 @@ const AuthedApp = (): JSX.Element => {
       const trainingInput = serializeTraining(training);
       setCurrentInput(trainingInput);
       setMode({ type: "edit", id, initialInput: trainingInput });
-      textAreaRef.current?.focus();
+      setInputOpen(true);
     },
     [trainings, setMode, setCurrentInput]
   );
@@ -150,6 +151,8 @@ const AuthedApp = (): JSX.Element => {
             textAreaRef={textAreaRef}
             lastTrainingId={lastTrainingId}
             handleSetEditMode={handleSetEditMode}
+            inputOpen={inputOpen}
+            setInputOpen={setInputOpen}
           />
         )}
       </BottomBar>
