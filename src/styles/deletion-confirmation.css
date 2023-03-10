@@ -23,8 +23,8 @@
 
   background: linear-gradient(
     45deg,
-    rgba(26, 28, 36, 0.9),
-    rgba(21, 23, 31, 0.9)
+    rgba(26, 28, 36, 0.95),
+    rgba(21, 23, 31, 0.95)
   );
 
   border: 1px solid var(--border);
@@ -33,13 +33,11 @@
 
 .dialog-text {
   font-size: 20px;
-  margin-bottom: 24px;
+  margin-bottom: 32px;
 }
 
-.dialog-btn {
-  border: 1px solid var(--border);
-  border-radius: 32px;
-  background: rgba(255, 255, 255, 0.01);
-  width: 220px;
-  padding: 16px;
+.button-container {
+  display: flex;
+  justify-content: space-between;
+  width: 120px;
 }

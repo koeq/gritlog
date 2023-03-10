@@ -1,3 +1,4 @@
+import { IoCheckmark, IoCloseOutline } from "react-icons/io5";
 import "./styles/deletion-confirmation.css";
 import { Mode } from "./types";
 
@@ -22,16 +23,14 @@ export const DeletionConfirmation = ({
     <div className="deletion-confirmation-layer">
       <div className="dialog">
         <p className="dialog-text">Delete your training?</p>
-        <button className="dialog-btn" onClick={() => handleDelete(id)}>
-          yes
-        </button>
-        <br />
-        <button
-          className="dialog-btn"
-          onClick={() => setMode({ type: "add", id: nextTrainingId })}
-        >
-          no
-        </button>
+        <div className="button-container">
+          <button onClick={() => handleDelete(id)}>
+            <IoCheckmark size={32} />
+          </button>
+          <button onClick={() => setMode({ type: "add", id: nextTrainingId })}>
+            <IoCloseOutline size={32} />
+          </button>
+        </div>
       </div>
     </div>
   );

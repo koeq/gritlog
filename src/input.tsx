@@ -1,4 +1,3 @@
-import { useState } from "react";
 import {
   IoAdd,
   IoCheckmark,
@@ -113,7 +112,7 @@ export const Input = ({
                 setInputOpen(false);
               }}
             >
-              <IoCheckmark size={30} />
+              <IoCheckmark size={32} />
             </button>
 
             <button
@@ -125,7 +124,7 @@ export const Input = ({
                 setInputOpen(false);
               }}
             >
-              <IoCloseOutline size={30} />
+              <IoCloseOutline size={32} />
             </button>
           </>
         ) : (
