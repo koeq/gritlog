@@ -101,6 +101,7 @@ const AuthedApp = (): JSX.Element => {
       setCurrentInput(trainingInput);
       setMode({ type: "edit", id, initialInput: trainingInput });
       setInputOpen(true);
+      textAreaRef.current?.focus();
     },
     [trainings, setMode, setCurrentInput]
   );
