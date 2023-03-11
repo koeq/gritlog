@@ -93,6 +93,7 @@ export const Input = ({
         id="training"
         className={inputOpen ? "open" : "close"}
         ref={textAreaRef}
+        tabIndex={inputOpen ? undefined : -1}
         onKeyDown={(e) => {
           if (e.key === "Enter" && !e.shiftKey) {
             e.preventDefault();
