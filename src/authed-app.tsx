@@ -70,7 +70,8 @@ const AuthedApp = (): JSX.Element => {
 
     addTraining(currentTraining, logout);
     setCurrentInput("");
-
+    setInputOpen(false);
+    textAreaRef.current?.blur();
     setTrainings((pastTrainings) => {
       const trainings = pastTrainings
         ? [...pastTrainings, currentTraining]

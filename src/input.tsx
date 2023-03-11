@@ -94,8 +94,13 @@ export const Input = ({
         className={inputOpen ? "open" : "close"}
         ref={textAreaRef}
         onKeyDown={(e) => {
-          if (!isMobile && e.key === "Enter" && !e.shiftKey) {
+          if (e.key === "Enter" && !e.shiftKey) {
             e.preventDefault();
+
+            if (isMobile) {
+              return;
+            }
+
             handleAdd();
           }
         }}
@@ -134,12 +139,19 @@ export const Input = ({
                 <button
                   type="button"
                   className="button"
+                  disabled={isEmptyTraining(currentTraining) ? true : false}
                   onClick={() => {
                     handleAdd();
-                    !isEmptyTraining(currentTraining) && setInputOpen(false);
                   }}
                 >
-                  <IoAdd size={28} />
+                  <IoAdd
+                    stroke={
+                      isEmptyTraining(currentTraining)
+                        ? "var(--cta-disabled)"
+                        : "var(--cta)"
+                    }
+                    size={32}
+                  />
                 </button>
                 <button
                   type="button"
@@ -150,7 +162,7 @@ export const Input = ({
                     setInputOpen(false);
                   }}
                 >
-                  <IoCloseOutline size={30} />
+                  <IoCloseOutline stroke="var(--cta)" size={32} />
                 </button>
               </>
             ) : (
@@ -163,18 +175,26 @@ export const Input = ({
                     textAreaRef.current?.focus();
                   }}
                 >
-                  <IoPencil size={24} />
+                  <IoPencil stroke="var(--cta)" size={25} />
                 </button>
                 <button
                   type="button"
                   id="edit-last"
                   className="button"
+                  disabled={lastTrainingId === undefined ? true : false}
                   onClick={() => {
                     handleSetEditMode(lastTrainingId);
                     setInputOpen(true);
                   }}
                 >
-                  <IoRepeat size={30} />
+                  <IoRepeat
+                    stroke={
+                      lastTrainingId === undefined
+                        ? "var(--cta-disabled)"
+                        : "var(--cta)"
+                    }
+                    size={32}
+                  />
                 </button>
               </>
             )}
