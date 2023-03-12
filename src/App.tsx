@@ -1,5 +1,5 @@
 import { Suspense, lazy } from "react";
-import { useAuth } from "./context/auth-provider";
+import { useAuth } from "./context";
 import { LoadingSpinner } from "./loading-spinner";
 
 const AuthedApp = lazy(() => import("./authed-app"));

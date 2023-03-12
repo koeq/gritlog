@@ -2,7 +2,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import "../src/styles/authed-app.css";
 import { addTraining } from "./add-training";
 import { BottomBar } from "./bottom-bar";
-import { useAuth } from "./context/auth-provider";
+import { useAuth } from "./context";
 import { deleteTraining } from "./delete-training";
 import { DeletionConfirmation } from "./deletion-confirmation";
 import { fetchTrainings } from "./fetch-trainings";
@@ -27,6 +27,7 @@ const AuthedApp = (): JSX.Element => {
   const lastTrainingId = getLastTrainingId(trainings);
   const nextTrainingId = lastTrainingId !== undefined ? lastTrainingId + 1 : 0;
   const [inputOpen, setInputOpen] = useState(false);
+  const { logout } = useAuth();
 
   const [mode, setMode] = useLocalStorage(
     "mode",
@@ -44,7 +45,6 @@ const AuthedApp = (): JSX.Element => {
   );
 
   const textAreaRef = useRef<HTMLTextAreaElement | null>(null);
-  const { logout } = useAuth();
 
   useEffect(() => {
     (async () => setTrainings(await fetchTrainings()))();
@@ -125,7 +125,7 @@ const AuthedApp = (): JSX.Element => {
 
   return (
     <div className="authed">
-      <Header>{() => <LogoutButton logout={logout} />}</Header>
+      <Header>{() => <LogoutButton />}</Header>
 
       {trainings ? (
         <MemoizedTrainings
@@ -149,7 +149,6 @@ const AuthedApp = (): JSX.Element => {
             setCurrentInput={setCurrentInput}
             currentTraining={currentTraining}
             setTrainings={setTrainings}
-            logout={logout}
             textAreaRef={textAreaRef}
             lastTrainingId={lastTrainingId}
             handleSetEditMode={handleSetEditMode}

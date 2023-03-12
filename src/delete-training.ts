@@ -16,8 +16,6 @@ export const deleteTraining = async (
       credentials: "include",
     };
 
-    // TO DO: handle the outcome of the response i.e. status code
-    // this is necessary for all calls to the api gateway
     const res = await fetch(url, requestOptions);
 
     if (res.status === 401) {

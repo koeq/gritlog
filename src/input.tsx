@@ -4,7 +4,7 @@ import {
   IoPencil,
   IoRepeat,
 } from "react-icons/io5";
-import { useIsMobile } from "./context/is-mobile-provider";
+import { useAuth, useIsMobile } from "./context";
 import { editTraining } from "./edit-training";
 import "./styles/input.css";
 import { Mode, Training } from "./types";
@@ -24,7 +24,6 @@ interface InputProps {
   readonly setTrainings: React.Dispatch<
     React.SetStateAction<Training[] | undefined>
   >;
-  readonly logout: () => void;
   readonly textAreaRef: React.MutableRefObject<HTMLTextAreaElement | null>;
   readonly lastTrainingId: number | undefined;
   readonly handleSetEditMode: (id: number | undefined) => void;
@@ -42,7 +41,6 @@ export const Input = ({
   nextTrainingId,
   currentTraining,
   setTrainings,
-  logout,
   textAreaRef,
   lastTrainingId,
   handleSetEditMode,
@@ -50,6 +48,7 @@ export const Input = ({
   setInputOpen,
 }: InputProps): JSX.Element => {
   const isMobile = useIsMobile();
+  const { logout } = useAuth();
 
   const handleCancelEdit = () => {
     setMode({ type: "add", id: nextTrainingId });

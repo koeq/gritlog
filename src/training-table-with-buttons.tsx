@@ -1,7 +1,7 @@
 import { useRef } from "react";
 import { IoTrashBin } from "react-icons/io5";
 import { MdModeEdit } from "react-icons/md";
-import { useIsMobile } from "./context/is-mobile-provider";
+import { useIsMobile } from "./context";
 import "./styles/training-table-with-buttons.css";
 import { TrainingTable } from "./training-table";
 import { Mode, Training } from "./types";

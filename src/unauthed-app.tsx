@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { Login } from "./auth";
-import { useAuth } from "./context/auth-provider";
+import { useAuth } from "./context";
 import { Header } from "./header";
 import "./styles/unauthed-app.css";
 
