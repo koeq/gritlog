@@ -95,13 +95,12 @@ export const Input = ({
         ref={textAreaRef}
         tabIndex={inputOpen ? undefined : -1}
         onKeyDown={(e) => {
+          if (isMobile) {
+            return;
+          }
+
           if (e.key === "Enter" && !e.shiftKey) {
             e.preventDefault();
-
-            if (isMobile) {
-              return;
-            }
-
             handleAdd();
           }
         }}
