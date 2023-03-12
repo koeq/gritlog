@@ -1,5 +1,4 @@
 import {
-  IoAdd,
   IoCheckmark,
   IoCloseOutline,
   IoPencil,
@@ -144,7 +143,7 @@ export const Input = ({
                     handleAdd();
                   }}
                 >
-                  <IoAdd
+                  <IoCheckmark
                     stroke={
                       isEmptyTraining(currentTraining)
                         ? "var(--cta-disabled)"
