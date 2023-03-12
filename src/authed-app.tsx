@@ -102,6 +102,12 @@ const AuthedApp = (): JSX.Element => {
         id: nextTrainingId,
       });
 
+      setInputOpen(false);
+
+      if (currentInput) {
+        setCurrentInput("");
+      }
+
       return trainings;
     });
   };
