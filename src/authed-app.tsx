@@ -9,10 +9,9 @@ import { fetchTrainings } from "./fetch-trainings";
 import { Header } from "./header";
 import { Input } from "./input";
 import { LoadingSpinner } from "./loading-spinner";
-import { LogoutButton } from "./logout-button";
 import { parse } from "./parser";
 import { serializeTraining } from "./serialize-training";
-import { MemoizedTrainings } from "./trainings";
+import { Trainings } from "./trainings";
 import { Training } from "./types";
 import {
   parseCurrentInput,
@@ -26,6 +25,7 @@ const AuthedApp = (): JSX.Element => {
   const [trainings, setTrainings] = useState<Training[] | undefined>(undefined);
   const lastTrainingId = getLastTrainingId(trainings);
   const nextTrainingId = lastTrainingId !== undefined ? lastTrainingId + 1 : 0;
+
   const [inputOpen, setInputOpen] = useState(false);
   const { logout } = useAuth();
 
@@ -125,10 +125,10 @@ const AuthedApp = (): JSX.Element => {
 
   return (
     <div className="authed">
-      <Header>{() => <LogoutButton />}</Header>
+      <Header authed />
 
       {trainings ? (
-        <MemoizedTrainings
+        <Trainings
           setMode={setMode}
           trainings={trainings}
           handleSetEditMode={handleSetEditMode}
@@ -138,24 +138,22 @@ const AuthedApp = (): JSX.Element => {
       )}
 
       <BottomBar>
-        {() => (
-          <Input
-            currentInput={currentInput}
-            handleInputChange={handleInputChange}
-            handleAdd={handleAdd}
-            mode={mode}
-            setMode={setMode}
-            nextTrainingId={nextTrainingId}
-            setCurrentInput={setCurrentInput}
-            currentTraining={currentTraining}
-            setTrainings={setTrainings}
-            textAreaRef={textAreaRef}
-            lastTrainingId={lastTrainingId}
-            handleSetEditMode={handleSetEditMode}
-            inputOpen={inputOpen}
-            setInputOpen={setInputOpen}
-          />
-        )}
+        <Input
+          currentInput={currentInput}
+          handleInputChange={handleInputChange}
+          handleAdd={handleAdd}
+          mode={mode}
+          setMode={setMode}
+          nextTrainingId={nextTrainingId}
+          setCurrentInput={setCurrentInput}
+          currentTraining={currentTraining}
+          setTrainings={setTrainings}
+          textAreaRef={textAreaRef}
+          lastTrainingId={lastTrainingId}
+          handleSetEditMode={handleSetEditMode}
+          inputOpen={inputOpen}
+          setInputOpen={setInputOpen}
+        />
       </BottomBar>
 
       {mode.type === "delete" && (

@@ -1,4 +1,3 @@
-import { memo } from "react";
 import "./styles/trainings.css";
 import { TrainingTableWithButtons } from "./training-table-with-buttons";
 import { Mode, Training } from "./types";
@@ -9,7 +8,7 @@ interface TrainingsProps {
   readonly setMode: (value: Mode | ((val: Mode) => Mode)) => void;
 }
 
-const Trainings = ({
+export const Trainings = ({
   trainings,
   handleSetEditMode,
   setMode,
@@ -21,21 +20,15 @@ const Trainings = ({
   return (
     <section className="trainings">
       {trainings
-        .map((_, index) => {
-          const training = trainings[index];
-
-          return (
-            <TrainingTableWithButtons
-              key={index}
-              setMode={setMode}
-              training={training}
-              handleSetEditMode={handleSetEditMode}
-            />
-          );
-        })
+        .map((training) => (
+          <TrainingTableWithButtons
+            key={training.id}
+            setMode={setMode}
+            training={training}
+            handleSetEditMode={handleSetEditMode}
+          />
+        ))
         .reverse()}
     </section>
   );
 };
-
-export const MemoizedTrainings = memo(Trainings);

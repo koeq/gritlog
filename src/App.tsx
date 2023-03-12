@@ -9,7 +9,7 @@ export const App = (): JSX.Element => {
   const { authed } = useAuth();
 
   // We are still waiting for the status of authed.
-  if (typeof authed === "undefined") {
+  if (authed === undefined) {
     return <LoadingSpinner />;
   }
 

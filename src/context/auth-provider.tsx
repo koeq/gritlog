@@ -24,19 +24,17 @@ export const AuthProvider = (props: AuthProviderProps): JSX.Element => {
   };
 
   const startLoginFlow = () => {
-    // use google sign in flow
     window.google.accounts.id.initialize({
       client_id: import.meta.env.VITE_DATA_CLIENT_ID,
       callback: (response) => handleSignInWithGoogle(response, setAuthed),
     });
 
-    // login button
-    const signInWithGoogleElement = document.getElementById(
+    const signInWithGoogleButton = document.getElementById(
       "sign-in-with-google"
     );
 
-    if (signInWithGoogleElement) {
-      window.google.accounts.id.renderButton(signInWithGoogleElement, {
+    if (signInWithGoogleButton) {
+      window.google.accounts.id.renderButton(signInWithGoogleButton, {
         shape: "pill",
         theme: "filled_blue",
         size: "medium",
@@ -56,4 +54,4 @@ export const AuthProvider = (props: AuthProviderProps): JSX.Element => {
 };
 
 export const useAuth: () => AuthContext = () =>
-  useSafeContext(authContext, "Auth");
+  useSafeContext(authContext, "auth");

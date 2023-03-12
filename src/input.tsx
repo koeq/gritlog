@@ -65,7 +65,6 @@ export const Input = ({
 
     // only edit if training changed
     if (currentInput?.trim() !== initialInput) {
-      // CHECK: why do we pass the logout function here
       editTraining({ ...currentTraining, id }, logout);
 
       setTrainings((pastTrainings) => {
