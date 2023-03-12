@@ -1,9 +1,9 @@
 import { z } from "zod";
 
+// Null types can also be undefined because of changed implementation in the past
 export const TrainingSchema = z.object({
   date: z.string(),
   id: z.number(),
-  // null types can also be undefined because of changed implementation in the past
   headline: z.union([z.string(), z.null(), z.undefined()]),
   exercises: z
     .object({
@@ -13,23 +13,3 @@ export const TrainingSchema = z.object({
     })
     .array(),
 });
-
-export const ModeSchema = z.discriminatedUnion("type", [
-  z.object({
-    type: z.literal("add"),
-    id: z.number(),
-  }),
-
-  z.object({
-    type: z.literal("edit"),
-    id: z.number(),
-    initialInput: z.string(),
-  }),
-
-  z.object({
-    type: z.literal("delete"),
-    id: z.number(),
-  }),
-]);
-
-export const CurrentInputSchema = z.string();

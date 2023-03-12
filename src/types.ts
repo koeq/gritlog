@@ -1,6 +1,20 @@
 import { z } from "zod";
-import { CurrentInputSchema, ModeSchema, TrainingSchema } from "./schemas";
+import { TrainingSchema } from "./schemas";
 
 export type Training = z.infer<typeof TrainingSchema>;
-export type Mode = z.infer<typeof ModeSchema>;
-export type CurrentInput = z.infer<typeof CurrentInputSchema>;
+export type CurrentInput = string;
+
+export type Mode =
+  | {
+      id: number;
+      type: "add";
+    }
+  | {
+      id: number;
+      type: "edit";
+      initialInput: string;
+    }
+  | {
+      id: number;
+      type: "delete";
+    };

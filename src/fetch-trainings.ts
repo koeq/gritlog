@@ -22,7 +22,7 @@ export const fetchTrainings = async (): Promise<Training[] | []> => {
       );
     }
 
-    const trainings: unknown = await res.json();
+    const trainings = await res.json();
 
     return TrainingSchema.array().parse(trainings);
   } catch (error) {

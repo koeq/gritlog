@@ -12,12 +12,7 @@ import { LoadingSpinner } from "./loading-spinner";
 import { parse } from "./parser";
 import { serializeTraining } from "./serialize-training";
 import { Trainings } from "./trainings";
-import { Training } from "./types";
-import {
-  parseCurrentInput,
-  parseMode,
-  useLocalStorage,
-} from "./use-local-storage";
+import { Mode, Training } from "./types";
 import { getLastTrainingId } from "./utils/get-last-training-id";
 import { isEmptyTraining } from "./utils/training-has-content";
 
@@ -25,32 +20,20 @@ const AuthedApp = (): JSX.Element => {
   const [trainings, setTrainings] = useState<Training[] | undefined>(undefined);
   const lastTrainingId = getLastTrainingId(trainings);
   const nextTrainingId = lastTrainingId !== undefined ? lastTrainingId + 1 : 0;
-
+  const [currentInput, setCurrentInput] = useState("");
   const [inputOpen, setInputOpen] = useState(false);
-  const { logout } = useAuth();
-
-  const [mode, setMode] = useLocalStorage(
-    "mode",
-    {
-      type: "add",
-      id: nextTrainingId,
-    },
-    parseMode
-  );
-
-  const [currentInput, setCurrentInput] = useLocalStorage(
-    "currentInput",
-    "",
-    parseCurrentInput
-  );
-
   const textAreaRef = useRef<HTMLTextAreaElement | null>(null);
+  const { logout } = useAuth();
+  const { headline = null, exercises = [] } = parse(currentInput) || {};
+
+  const [mode, setMode] = useState<Mode>({
+    type: "add",
+    id: nextTrainingId,
+  });
 
   useEffect(() => {
     (async () => setTrainings(await fetchTrainings()))();
   }, []);
-
-  const { headline = null, exercises = [] } = parse(currentInput) || {};
 
   const currentTraining: Training = {
     headline,
