@@ -51,20 +51,22 @@ export const Input = ({
 }: InputProps): JSX.Element => {
   const isMobile = useIsMobile();
 
-  const handleCancelEdit = (
-    setMode: (value: Mode | ((val: Mode) => Mode)) => void
-  ) => {
+  const handleCancelEdit = () => {
     setMode({ type: "add", id: nextTrainingId });
+    setInputOpen(false);
     setCurrentInput("");
   };
 
   const handleEdit = () => {
-    if (mode.type !== "edit") return;
+    if (mode.type !== "edit") {
+      return;
+    }
 
     const { id, initialInput } = mode;
 
     // only edit if training changed
     if (currentInput?.trim() !== initialInput) {
+      // CHECK: why do we pass the logout function here
       editTraining({ ...currentTraining, id }, logout);
 
       setTrainings((pastTrainings) => {
@@ -79,6 +81,7 @@ export const Input = ({
     }
 
     setCurrentInput("");
+    setInputOpen(false);
     setMode({ type: "add", id: nextTrainingId });
   };
 
@@ -108,14 +111,7 @@ export const Input = ({
       <div className="buttons">
         {mode.type === "edit" ? (
           <>
-            <button
-              type="button"
-              className="button"
-              onClick={() => {
-                handleEdit();
-                setInputOpen(false);
-              }}
-            >
+            <button type="button" className="button" onClick={handleEdit}>
               <IoCheckmark size={32} />
             </button>
 
@@ -123,10 +119,7 @@ export const Input = ({
               type="button"
               id="cancel"
               className="button"
-              onClick={() => {
-                handleCancelEdit(setMode);
-                setInputOpen(false);
-              }}
+              onClick={handleCancelEdit}
             >
               <IoCloseOutline size={32} />
             </button>
@@ -139,9 +132,7 @@ export const Input = ({
                   type="button"
                   className="button"
                   disabled={isEmptyTraining(currentTraining) ? true : false}
-                  onClick={() => {
-                    handleAdd();
-                  }}
+                  onClick={handleAdd}
                 >
                   <IoCheckmark
                     stroke={
@@ -183,7 +174,6 @@ export const Input = ({
                   disabled={lastTrainingId === undefined ? true : false}
                   onClick={() => {
                     handleSetEditMode(lastTrainingId);
-                    setInputOpen(true);
                   }}
                 >
                   <IoRepeat
