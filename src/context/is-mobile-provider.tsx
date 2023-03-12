@@ -20,7 +20,7 @@ export const IsMobileProvider = ({
   }, []);
 
   return (
-    <IsMobileContext.Provider value={width <= 780}>
+    <IsMobileContext.Provider value={width <= 560}>
       {children}
     </IsMobileContext.Provider>
   );
