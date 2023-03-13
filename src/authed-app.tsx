@@ -17,18 +17,19 @@ import { isEmptyTraining } from "./utils/training-has-content";
 
 const AuthedApp = (): JSX.Element => {
   const [trainings, setTrainings] = useState<Training[] | undefined>(undefined);
-  const lastTrainingId = trainings && trainings[trainings.length - 1].id;
-  const nextTrainingId = lastTrainingId === undefined ? 0 : lastTrainingId + 1;
   const [currentInput, setCurrentInput] = useState("");
   const [inputOpen, setInputOpen] = useState(false);
-  const textAreaRef = useRef<HTMLTextAreaElement | null>(null);
-  const { logout } = useAuth();
-  const { headline = null, exercises = [] } = parse(currentInput) || {};
+  const lastTrainingId = trainings && trainings[trainings.length - 1].id;
+  const nextTrainingId = lastTrainingId === undefined ? 0 : lastTrainingId + 1;
 
   const [mode, setMode] = useState<Mode>({
     type: "add",
     id: nextTrainingId,
   });
+
+  const { headline = null, exercises = [] } = parse(currentInput) || {};
+  const textAreaRef = useRef<HTMLTextAreaElement | null>(null);
+  const { logout } = useAuth();
 
   useEffect(() => {
     (async () => setTrainings(await fetchTrainings()))();
@@ -54,15 +55,17 @@ const AuthedApp = (): JSX.Element => {
     setCurrentInput("");
     setInputOpen(false);
     textAreaRef.current?.blur();
+
+    setMode({
+      type: "add",
+      id: nextTrainingId,
+    });
+
     setTrainings((pastTrainings) => {
       const trainings = pastTrainings
         ? [...pastTrainings, currentTraining]
         : [currentTraining];
 
-      setMode({
-        type: "add",
-        id: nextTrainingId,
-      });
       return trainings;
     });
   };
@@ -90,24 +93,16 @@ const AuthedApp = (): JSX.Element => {
 
   const handleDelete = (id: number) => {
     deleteTraining(id, logout);
+    setInputOpen(false);
+    setCurrentInput("");
 
-    setTrainings((pastTrainings) => {
-      const trainings = pastTrainings?.filter(
-        ({ id: pastId }) => pastId !== id
-      );
+    setTrainings((pastTrainings) =>
+      pastTrainings?.filter(({ id: pastId }) => pastId !== id)
+    );
 
-      setMode({
-        type: "add",
-        id: nextTrainingId,
-      });
-
-      setInputOpen(false);
-
-      if (currentInput) {
-        setCurrentInput("");
-      }
-
-      return trainings;
+    setMode({
+      type: "add",
+      id: nextTrainingId,
     });
   };
 
