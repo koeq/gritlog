@@ -11,9 +11,6 @@ import { Mode, Training } from "./types";
 import { isEmptyTraining } from "./utils/training-has-content";
 
 interface InputProps {
-  readonly handleInputChange: (
-    event: React.ChangeEvent<HTMLTextAreaElement>
-  ) => void;
   readonly currentInput: string;
   readonly handleAdd: () => void;
   readonly mode: Mode;
@@ -32,7 +29,6 @@ interface InputProps {
 }
 
 export const Input = ({
-  handleInputChange,
   currentInput,
   handleAdd,
   mode,
@@ -87,7 +83,7 @@ export const Input = ({
     <>
       <textarea
         placeholder=" >"
-        onChange={handleInputChange}
+        onChange={(event) => setCurrentInput(event.currentTarget.value)}
         value={currentInput}
         name="training"
         id="training"
