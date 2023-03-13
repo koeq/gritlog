@@ -13,13 +13,12 @@ import { parse } from "./parser";
 import { serializeTraining } from "./serialize-training";
 import { Trainings } from "./trainings";
 import { Mode, Training } from "./types";
-import { getLastTrainingId } from "./utils/get-last-training-id";
 import { isEmptyTraining } from "./utils/training-has-content";
 
 const AuthedApp = (): JSX.Element => {
   const [trainings, setTrainings] = useState<Training[] | undefined>(undefined);
-  const lastTrainingId = getLastTrainingId(trainings);
-  const nextTrainingId = lastTrainingId !== undefined ? lastTrainingId + 1 : 0;
+  const lastTrainingId = trainings && trainings[trainings.length - 1].id;
+  const nextTrainingId = lastTrainingId === undefined ? 0 : lastTrainingId + 1;
   const [currentInput, setCurrentInput] = useState("");
   const [inputOpen, setInputOpen] = useState(false);
   const textAreaRef = useRef<HTMLTextAreaElement | null>(null);
