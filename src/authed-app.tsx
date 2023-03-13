@@ -42,10 +42,6 @@ const AuthedApp = (): JSX.Element => {
     exercises: exercises,
   };
 
-  const handleInputChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
-    setCurrentInput(event.currentTarget.value);
-  };
-
   const handleAdd = () => {
     if (isEmptyTraining(currentTraining)) {
       return;
@@ -123,7 +119,6 @@ const AuthedApp = (): JSX.Element => {
       <BottomBar>
         <Input
           currentInput={currentInput}
-          handleInputChange={handleInputChange}
           handleAdd={handleAdd}
           mode={mode}
           setMode={setMode}
