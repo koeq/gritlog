@@ -1,4 +1,4 @@
-import { Exercise } from "../lambdas/db-handler/types";
+import { Exercise } from "./types";
 
 type TokenType =
   // Single sign
