@@ -18,6 +18,8 @@ export const Trainings = ({
     return null;
   }
 
+  console.log("render trainings");
+
   return (
     <section className="trainings">
       {trainings
