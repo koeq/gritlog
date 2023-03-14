@@ -11,7 +11,7 @@ import { Input } from "./input";
 import { LoadingSpinner } from "./loading-spinner";
 import { parse } from "./parser";
 import { serializeTraining } from "./serialize-training";
-import { Trainings } from "./trainings";
+import { MemoizedTrainings } from "./trainings";
 import { Mode, Training } from "./types";
 import { isEmptyTraining } from "./utils/training-has-content";
 
@@ -107,7 +107,7 @@ const AuthedApp = (): JSX.Element => {
       <Header authed />
 
       {trainings ? (
-        <Trainings
+        <MemoizedTrainings
           setMode={setMode}
           trainings={trainings}
           handleSetEditMode={handleSetEditMode}

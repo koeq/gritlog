@@ -1,3 +1,4 @@
+import { memo } from "react";
 import "./styles/trainings.css";
 import { TrainingTableWithButtons } from "./training-table-with-buttons";
 import { Mode, Training } from "./types";
@@ -32,3 +33,5 @@ export const Trainings = ({
     </section>
   );
 };
+
+export const MemoizedTrainings = memo(Trainings);
