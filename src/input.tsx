@@ -6,50 +6,39 @@ import {
 } from "react-icons/io5";
 import { useAuth, useIsMobile } from "./context";
 import { editTraining } from "./edit-training";
+import { Action } from "./state-reducer";
 import "./styles/input.css";
 import { Mode, Training } from "./types";
 import { isEmptyTraining } from "./utils/training-has-content";
 
 interface InputProps {
+  readonly dispatch: React.Dispatch<Action>;
   readonly currentInput: string;
-  readonly handleAdd: () => void;
+  readonly handleAdd: (currentTraining: Training) => void;
   readonly mode: Mode;
-  readonly setMode: (value: Mode | ((val: Mode) => Mode)) => void;
-  readonly setCurrentInput: React.Dispatch<React.SetStateAction<string>>;
-  readonly nextTrainingId: number;
   readonly currentTraining: Training;
-  readonly setTrainings: React.Dispatch<
-    React.SetStateAction<Training[] | undefined>
-  >;
   readonly textAreaRef: React.MutableRefObject<HTMLTextAreaElement | null>;
   readonly lastTrainingId: number | undefined;
   readonly handleSetEditMode: (id: number | undefined) => void;
   readonly inputOpen: boolean;
-  readonly setInputOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 export const Input = ({
+  dispatch,
   currentInput,
   handleAdd,
   mode,
-  setMode,
-  setCurrentInput,
-  nextTrainingId,
   currentTraining,
-  setTrainings,
   textAreaRef,
   lastTrainingId,
   handleSetEditMode,
   inputOpen,
-  setInputOpen,
 }: InputProps): JSX.Element => {
   const isMobile = useIsMobile();
   const { logout } = useAuth();
 
   const handleCancelEdit = () => {
-    setMode({ type: "add", id: nextTrainingId });
-    setInputOpen(false);
-    setCurrentInput("");
+    dispatch({ type: "cancel-edit" });
   };
 
   const handleEdit = () => {
@@ -59,31 +48,25 @@ export const Input = ({
 
     const { id, initialInput } = mode;
 
-    // only edit if training changed
-    if (currentInput?.trim() !== initialInput) {
-      editTraining({ ...currentTraining, id }, logout);
-
-      setTrainings((pastTrainings) => {
-        return pastTrainings?.map((training) => {
-          if (training.id === id) {
-            return { ...currentTraining, id };
-          }
-
-          return training;
-        });
-      });
+    // Only edit if training changed
+    if (currentInput?.trim() === initialInput) {
+      return;
     }
 
-    setCurrentInput("");
-    setInputOpen(false);
-    setMode({ type: "add", id: nextTrainingId });
+    editTraining({ ...currentTraining, id }, logout);
+    dispatch({ type: "edit", currentTraining, mode });
   };
 
   return (
     <>
       <textarea
         placeholder=" >"
-        onChange={(event) => setCurrentInput(event.currentTarget.value)}
+        onChange={(event) =>
+          dispatch({
+            type: "set-input",
+            currentInput: event.currentTarget.value,
+          })
+        }
         value={currentInput}
         name="training"
         id="training"
@@ -97,7 +80,7 @@ export const Input = ({
 
           if (e.key === "Enter" && !e.shiftKey) {
             e.preventDefault();
-            handleAdd();
+            handleAdd(currentTraining);
           }
         }}
       ></textarea>
@@ -126,7 +109,7 @@ export const Input = ({
                   type="button"
                   className="button"
                   disabled={isEmptyTraining(currentTraining) ? true : false}
-                  onClick={handleAdd}
+                  onClick={() => handleAdd(currentTraining)}
                 >
                   <IoCheckmark
                     stroke={
@@ -142,8 +125,7 @@ export const Input = ({
                   id="cancel"
                   className="button"
                   onClick={() => {
-                    setCurrentInput("");
-                    setInputOpen(false);
+                    dispatch({ type: "cancel-add" });
                   }}
                 >
                   <IoCloseOutline stroke="var(--cta)" size={32} />
@@ -155,7 +137,7 @@ export const Input = ({
                   type="button"
                   className="button"
                   onClick={() => {
-                    setInputOpen(true);
+                    dispatch({ type: "open-input" });
                     textAreaRef.current?.focus();
                   }}
                 >
