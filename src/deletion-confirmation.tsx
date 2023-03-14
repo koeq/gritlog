@@ -1,17 +1,17 @@
 import { IoCheckmark, IoCloseOutline } from "react-icons/io5";
+import { Action } from "./state-reducer";
 import "./styles/deletion-confirmation.css";
-import { Mode } from "./types";
 
 interface DeletionConfirmationProps {
   readonly id: number | null;
-  readonly setMode: (value: Mode | ((val: Mode) => Mode)) => void;
+  readonly dispatch: React.Dispatch<Action>;
   readonly handleDelete: (id: number) => void;
   readonly nextTrainingId: number;
 }
 
 export const DeletionConfirmation = ({
   id,
-  setMode,
+  dispatch,
   handleDelete,
   nextTrainingId,
 }: DeletionConfirmationProps): JSX.Element | null => {
@@ -27,7 +27,14 @@ export const DeletionConfirmation = ({
           <button onClick={() => handleDelete(id)}>
             <IoCheckmark size={32} />
           </button>
-          <button onClick={() => setMode({ type: "add", id: nextTrainingId })}>
+          <button
+            onClick={() =>
+              dispatch({
+                type: "set-mode",
+                mode: { type: "add", id: nextTrainingId },
+              })
+            }
+          >
             <IoCloseOutline size={32} />
           </button>
         </div>

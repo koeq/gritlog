@@ -2,14 +2,15 @@ import { useRef } from "react";
 import { IoTrashBin } from "react-icons/io5";
 import { MdModeEdit } from "react-icons/md";
 import { useIsMobile } from "./context";
+import { Action } from "./state-reducer";
 import "./styles/training-table-with-buttons.css";
 import { TrainingTable } from "./training-table";
-import { Mode, Training } from "./types";
+import { Training } from "./types";
 
 interface TrainingTableProps {
   readonly training: Training;
   readonly handleSetEditMode: (id: number) => void;
-  readonly setMode: (value: Mode | ((val: Mode) => Mode)) => void;
+  readonly dispatch: React.Dispatch<Action>;
 }
 
 const scrollOnClick = (element: HTMLDivElement | null): void => {
@@ -27,7 +28,7 @@ const scrollOnClick = (element: HTMLDivElement | null): void => {
 export const TrainingTableWithButtons = ({
   training,
   handleSetEditMode,
-  setMode,
+  dispatch,
 }: TrainingTableProps): JSX.Element | null => {
   const trainingRef = useRef<HTMLDivElement | null>(null);
   const isMobile = useIsMobile();
@@ -58,7 +59,10 @@ export const TrainingTableWithButtons = ({
           onClick={(e) => {
             e.stopPropagation();
             scrollOnClick(trainingRef.current);
-            setMode({ type: "delete", id: training.id });
+            dispatch({
+              type: "set-mode",
+              mode: { type: "delete", id: training.id },
+            });
           }}
         >
           <IoTrashBin size={20} />

@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useReducer, useRef } from "react";
 import "../src/styles/authed-app.css";
 import { addTraining } from "./add-training";
 import { BottomBar } from "./bottom-bar";
@@ -11,28 +11,24 @@ import { Input } from "./input";
 import { LoadingSpinner } from "./loading-spinner";
 import { parse } from "./parser";
 import { serializeTraining } from "./serialize-training";
+import { initialState, reducer } from "./state-reducer";
 import { MemoizedTrainings } from "./trainings";
-import { Mode, Training } from "./types";
+import { Training } from "./types";
 import { isEmptyTraining } from "./utils/training-has-content";
 
 const AuthedApp = (): JSX.Element => {
-  const [trainings, setTrainings] = useState<Training[] | undefined>(undefined);
-  const [currentInput, setCurrentInput] = useState("");
-  const [inputOpen, setInputOpen] = useState(false);
+  const [topLevelState, dispatch] = useReducer(reducer, initialState);
+  const { trainings, currentInput, inputOpen, mode } = topLevelState;
   const lastTrainingId = trainings && trainings[trainings.length - 1].id;
   const nextTrainingId = lastTrainingId === undefined ? 0 : lastTrainingId + 1;
-
-  const [mode, setMode] = useState<Mode>({
-    type: "add",
-    id: nextTrainingId,
-  });
-
+  //TODO: should probably be memoized
   const { headline = null, exercises = [] } = parse(currentInput) || {};
   const textAreaRef = useRef<HTMLTextAreaElement | null>(null);
   const { logout } = useAuth();
 
   useEffect(() => {
-    (async () => setTrainings(await fetchTrainings()))();
+    (async () =>
+      dispatch({ type: "set-training", trainings: await fetchTrainings() }))();
   }, []);
 
   const currentTraining: Training = {
@@ -42,28 +38,14 @@ const AuthedApp = (): JSX.Element => {
     exercises: exercises,
   };
 
-  const handleAdd = () => {
+  const handleAdd = (currentTraining: Training) => {
     if (isEmptyTraining(currentTraining)) {
       return;
     }
 
     addTraining(currentTraining, logout);
-    setCurrentInput("");
-    setInputOpen(false);
+    dispatch({ type: "add", currentTraining });
     textAreaRef.current?.blur();
-
-    setMode({
-      type: "add",
-      id: nextTrainingId,
-    });
-
-    setTrainings((pastTrainings) => {
-      const trainings = pastTrainings
-        ? [...pastTrainings, currentTraining]
-        : [currentTraining];
-
-      return trainings;
-    });
   };
 
   const handleSetEditMode = useCallback(
@@ -78,28 +60,20 @@ const AuthedApp = (): JSX.Element => {
         return;
       }
 
-      const trainingInput = serializeTraining(training);
-      setCurrentInput(trainingInput);
-      setMode({ type: "edit", id, initialInput: trainingInput });
-      setInputOpen(true);
+      dispatch({
+        type: "set-edit-mode",
+        id,
+        serializedTraining: serializeTraining(training),
+      });
+
       textAreaRef.current?.focus();
     },
-    [trainings, setMode, setCurrentInput]
+    [trainings, textAreaRef, dispatch]
   );
 
   const handleDelete = (id: number) => {
     deleteTraining(id, logout);
-    setInputOpen(false);
-    setCurrentInput("");
-
-    setTrainings((pastTrainings) =>
-      pastTrainings?.filter(({ id: pastId }) => pastId !== id)
-    );
-
-    setMode({
-      type: "add",
-      id: nextTrainingId,
-    });
+    dispatch({ type: "delete", id });
   };
 
   return (
@@ -108,7 +82,7 @@ const AuthedApp = (): JSX.Element => {
 
       {trainings ? (
         <MemoizedTrainings
-          setMode={setMode}
+          dispatch={dispatch}
           trainings={trainings}
           handleSetEditMode={handleSetEditMode}
         />
@@ -118,26 +92,22 @@ const AuthedApp = (): JSX.Element => {
 
       <BottomBar>
         <Input
+          dispatch={dispatch}
           currentInput={currentInput}
           handleAdd={handleAdd}
           mode={mode}
-          setMode={setMode}
-          nextTrainingId={nextTrainingId}
-          setCurrentInput={setCurrentInput}
           currentTraining={currentTraining}
-          setTrainings={setTrainings}
           textAreaRef={textAreaRef}
           lastTrainingId={lastTrainingId}
           handleSetEditMode={handleSetEditMode}
           inputOpen={inputOpen}
-          setInputOpen={setInputOpen}
         />
       </BottomBar>
 
       {mode.type === "delete" && (
         <DeletionConfirmation
           id={mode.id}
-          setMode={setMode}
+          dispatch={dispatch}
           nextTrainingId={nextTrainingId}
           handleDelete={handleDelete}
         />

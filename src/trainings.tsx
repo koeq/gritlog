@@ -1,24 +1,23 @@
 import { memo } from "react";
+import { Action } from "./state-reducer";
 import "./styles/trainings.css";
 import { TrainingTableWithButtons } from "./training-table-with-buttons";
-import { Mode, Training } from "./types";
+import { Training } from "./types";
 
 interface TrainingsProps {
   readonly trainings: Training[];
   readonly handleSetEditMode: (id: number) => void;
-  readonly setMode: (value: Mode | ((val: Mode) => Mode)) => void;
+  readonly dispatch: React.Dispatch<Action>;
 }
 
 export const Trainings = ({
   trainings,
   handleSetEditMode,
-  setMode,
+  dispatch,
 }: TrainingsProps): JSX.Element | null => {
   if (trainings.length === 0) {
     return null;
   }
-
-  console.log("render trainings");
 
   return (
     <section className="trainings">
@@ -26,7 +25,7 @@ export const Trainings = ({
         .map((training) => (
           <TrainingTableWithButtons
             key={training.id}
-            setMode={setMode}
+            dispatch={dispatch}
             training={training}
             handleSetEditMode={handleSetEditMode}
           />
