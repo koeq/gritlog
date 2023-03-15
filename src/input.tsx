@@ -1,45 +1,75 @@
+import { Dispatch } from "react";
 import {
   IoCheckmark,
   IoCloseOutline,
   IoPencil,
   IoRepeat,
 } from "react-icons/io5";
+import { addTraining } from "./add-training";
+import { HandleSetEditModeParams } from "./authed-app";
 import { useAuth, useIsMobile } from "./context";
 import { editTraining } from "./edit-training";
 import { Action } from "./state-reducer";
 import "./styles/input.css";
 import { Mode, Training } from "./types";
-import { isEmptyTraining } from "./utils/training-has-content";
+import { isEmptyTraining } from "./utils/is-empty-training";
 
 interface InputProps {
   readonly dispatch: React.Dispatch<Action>;
   readonly currentInput: string;
-  readonly handleAdd: (currentTraining: Training) => void;
   readonly mode: Mode;
   readonly currentTraining: Training;
   readonly textAreaRef: React.MutableRefObject<HTMLTextAreaElement | null>;
   readonly lastTrainingId: number | undefined;
-  readonly handleSetEditMode: (id: number | undefined) => void;
   readonly inputOpen: boolean;
+  readonly trainings: Training[] | undefined;
+  readonly handleSetEditMode: ({
+    id,
+    trainings,
+    dispatch,
+    textAreaRef,
+  }: HandleSetEditModeParams) => void;
 }
+
+interface HandleAddParams {
+  logout: () => void;
+  dispatch: Dispatch<Action>;
+  textAreaRef: React.MutableRefObject<HTMLTextAreaElement | null>;
+  currentTraining: Training;
+}
+
+const handleAdd = ({
+  currentTraining,
+  logout,
+  dispatch,
+  textAreaRef,
+}: HandleAddParams) => {
+  if (isEmptyTraining(currentTraining)) {
+    return;
+  }
+
+  addTraining(currentTraining, logout);
+  dispatch({ type: "add", currentTraining });
+  textAreaRef.current?.blur();
+};
+
+const handleCancelEdit = (dispatch: Dispatch<Action>) => {
+  dispatch({ type: "cancel-edit" });
+};
 
 export const Input = ({
   dispatch,
   currentInput,
-  handleAdd,
   mode,
   currentTraining,
   textAreaRef,
   lastTrainingId,
   handleSetEditMode,
   inputOpen,
+  trainings,
 }: InputProps): JSX.Element => {
   const isMobile = useIsMobile();
   const { logout } = useAuth();
-
-  const handleCancelEdit = () => {
-    dispatch({ type: "cancel-edit" });
-  };
 
   const handleEdit = () => {
     if (mode.type !== "edit") {
@@ -80,7 +110,7 @@ export const Input = ({
 
           if (e.key === "Enter" && !e.shiftKey) {
             e.preventDefault();
-            handleAdd(currentTraining);
+            handleAdd({ currentTraining, dispatch, logout, textAreaRef });
           }
         }}
       ></textarea>
@@ -96,7 +126,7 @@ export const Input = ({
               type="button"
               id="cancel"
               className="button"
-              onClick={handleCancelEdit}
+              onClick={() => handleCancelEdit(dispatch)}
             >
               <IoCloseOutline size={32} />
             </button>
@@ -109,7 +139,14 @@ export const Input = ({
                   type="button"
                   className="button"
                   disabled={isEmptyTraining(currentTraining) ? true : false}
-                  onClick={() => handleAdd(currentTraining)}
+                  onClick={() =>
+                    handleAdd({
+                      currentTraining,
+                      dispatch,
+                      logout,
+                      textAreaRef,
+                    })
+                  }
                 >
                   <IoCheckmark
                     stroke={
@@ -149,7 +186,12 @@ export const Input = ({
                   className="button"
                   disabled={lastTrainingId === undefined ? true : false}
                   onClick={() => {
-                    handleSetEditMode(lastTrainingId);
+                    handleSetEditMode({
+                      id: lastTrainingId,
+                      trainings,
+                      dispatch,
+                      textAreaRef,
+                    });
                   }}
                 >
                   <IoRepeat

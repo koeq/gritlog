@@ -1,9 +1,6 @@
-import { useCallback, useEffect, useReducer, useRef } from "react";
+import { Dispatch, useEffect, useReducer, useRef } from "react";
 import "../src/styles/authed-app.css";
-import { addTraining } from "./add-training";
 import { BottomBar } from "./bottom-bar";
-import { useAuth } from "./context";
-import { deleteTraining } from "./delete-training";
 import { DeletionConfirmation } from "./deletion-confirmation";
 import { fetchTrainings } from "./fetch-trainings";
 import { Header } from "./header";
@@ -11,20 +8,50 @@ import { Input } from "./input";
 import { LoadingSpinner } from "./loading-spinner";
 import { parse } from "./parser";
 import { serializeTraining } from "./serialize-training";
-import { initialState, reducer } from "./state-reducer";
+import { Action, initialState, reducer } from "./state-reducer";
 import { MemoizedTrainings } from "./trainings";
 import { Training } from "./types";
-import { isEmptyTraining } from "./utils/training-has-content";
+
+export interface HandleSetEditModeParams {
+  id: number | undefined;
+  trainings: Training[] | undefined;
+  dispatch: Dispatch<Action>;
+  textAreaRef: React.MutableRefObject<HTMLTextAreaElement | null>;
+}
+
+const handleSetEditMode = ({
+  id,
+  trainings,
+  dispatch,
+  textAreaRef,
+}: HandleSetEditModeParams) => {
+  if (id === undefined) {
+    return;
+  }
+
+  const training = trainings?.find((training) => training.id === id);
+
+  if (!training) {
+    return;
+  }
+
+  dispatch({
+    type: "set-edit-mode",
+    id,
+    serializedTraining: serializeTraining(training),
+  });
+
+  textAreaRef.current?.focus();
+};
 
 const AuthedApp = (): JSX.Element => {
   const [topLevelState, dispatch] = useReducer(reducer, initialState);
   const { trainings, currentInput, inputOpen, mode } = topLevelState;
   const lastTrainingId = trainings && trainings[trainings.length - 1].id;
   const nextTrainingId = lastTrainingId === undefined ? 0 : lastTrainingId + 1;
-  //TODO: should probably be memoized
+  // TODO: should probably be memoized
   const { headline = null, exercises = [] } = parse(currentInput) || {};
   const textAreaRef = useRef<HTMLTextAreaElement | null>(null);
-  const { logout } = useAuth();
 
   useEffect(() => {
     (async () =>
@@ -38,44 +65,6 @@ const AuthedApp = (): JSX.Element => {
     exercises: exercises,
   };
 
-  const handleAdd = (currentTraining: Training) => {
-    if (isEmptyTraining(currentTraining)) {
-      return;
-    }
-
-    addTraining(currentTraining, logout);
-    dispatch({ type: "add", currentTraining });
-    textAreaRef.current?.blur();
-  };
-
-  const handleSetEditMode = useCallback(
-    (id: number | undefined) => {
-      if (id === undefined) {
-        return;
-      }
-
-      const training = trainings?.find((training) => training.id === id);
-
-      if (!training) {
-        return;
-      }
-
-      dispatch({
-        type: "set-edit-mode",
-        id,
-        serializedTraining: serializeTraining(training),
-      });
-
-      textAreaRef.current?.focus();
-    },
-    [trainings, textAreaRef, dispatch]
-  );
-
-  const handleDelete = (id: number) => {
-    deleteTraining(id, logout);
-    dispatch({ type: "delete", id });
-  };
-
   return (
     <div className="authed">
       <Header authed />
@@ -84,6 +73,7 @@ const AuthedApp = (): JSX.Element => {
         <MemoizedTrainings
           dispatch={dispatch}
           trainings={trainings}
+          textAreaRef={textAreaRef}
           handleSetEditMode={handleSetEditMode}
         />
       ) : (
@@ -94,13 +84,13 @@ const AuthedApp = (): JSX.Element => {
         <Input
           dispatch={dispatch}
           currentInput={currentInput}
-          handleAdd={handleAdd}
           mode={mode}
           currentTraining={currentTraining}
           textAreaRef={textAreaRef}
           lastTrainingId={lastTrainingId}
           handleSetEditMode={handleSetEditMode}
           inputOpen={inputOpen}
+          trainings={trainings}
         />
       </BottomBar>
 
@@ -109,7 +99,6 @@ const AuthedApp = (): JSX.Element => {
           id={mode.id}
           dispatch={dispatch}
           nextTrainingId={nextTrainingId}
-          handleDelete={handleDelete}
         />
       )}
     </div>
