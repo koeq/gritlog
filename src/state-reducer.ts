@@ -7,66 +7,17 @@ type TopLevelState = {
   mode: Mode;
 };
 
-type Add = {
-  type: "add";
-  currentTraining: Training;
-};
-
-type Edit = {
-  type: "edit";
-  mode: EditMode;
-  currentTraining: Training;
-};
-
-type Delete = {
-  type: "delete";
-  id: number;
-};
-
-type SetTraining = {
-  type: "set-training";
-  trainings: Training[];
-};
-
-type CancelAdd = {
-  type: "cancel-add";
-};
-
-type CancelEdit = {
-  type: "cancel-edit";
-};
-
-type SetEditMode = {
-  type: "set-edit-mode";
-  id: number;
-  serializedTraining: string;
-};
-
-type SetMode = {
-  type: "set-mode";
-  mode: Mode;
-};
-
-type SetInput = {
-  type: "set-input";
-  currentInput: string;
-};
-
-type OpenInput = {
-  type: "open-input";
-};
-
 export type Action =
-  | Add
-  | Edit
-  | Delete
-  | SetTraining
-  | CancelAdd
-  | CancelEdit
-  | SetEditMode
-  | SetMode
-  | SetInput
-  | OpenInput;
+  | { type: "add"; currentTraining: Training }
+  | { type: "edit"; mode: EditMode; currentTraining: Training }
+  | { type: "delete"; id: number }
+  | { type: "set-training"; trainings: Training[] }
+  | { type: "cancel-add" }
+  | { type: "cancel-edit" }
+  | { type: "set-edit-mode"; id: number; serializedTraining: string }
+  | { type: "set-mode"; mode: Mode }
+  | { type: "set-input"; currentInput: string }
+  | { type: "open-input" };
 
 export function reducer(state: TopLevelState, action: Action): TopLevelState {
   const { trainings } = state;
