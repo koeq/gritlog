@@ -60,7 +60,7 @@ export const TrainingTableWithButtons = ({
             e.stopPropagation();
             scrollOnClick(trainingRef.current);
             dispatch({
-              type: "set-mode",
+              type: "set-delete-mode",
               mode: { type: "delete", id: training.id },
             });
           }}

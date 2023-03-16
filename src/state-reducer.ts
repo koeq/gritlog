@@ -1,4 +1,4 @@
-import { EditMode, Mode, Training } from "./types";
+import { DeleteMode, EditMode, Mode, Training } from "./types";
 
 type TopLevelState = {
   trainings: Training[] | undefined;
@@ -15,6 +15,7 @@ export type Action =
   | { type: "cancel-add" }
   | { type: "cancel-edit" }
   | { type: "set-edit-mode"; id: number; serializedTraining: string }
+  | { type: "set-delete-mode"; mode: DeleteMode }
   | { type: "set-mode"; mode: Mode }
   | { type: "set-input"; currentInput: string }
   | { type: "open-input" };
@@ -65,8 +66,6 @@ export function reducer(state: TopLevelState, action: Action): TopLevelState {
 
       return {
         ...state,
-        inputOpen: false,
-        currentInput: "",
         trainings: trainings?.filter(({ id: pastId }) => pastId !== id),
 
         mode: {
@@ -110,6 +109,17 @@ export function reducer(state: TopLevelState, action: Action): TopLevelState {
         currentInput: serializedTraining,
         inputOpen: true,
         mode: { type: "edit", id, initialInput: serializedTraining },
+      };
+    }
+
+    case "set-delete-mode": {
+      const { mode } = action;
+
+      return {
+        ...state,
+        mode,
+        currentInput: "",
+        inputOpen: false,
       };
     }
 
