@@ -130,7 +130,8 @@ export function reducer(state: TopLevelState, action: Action): TopLevelState {
     }
 
     default: {
-      throw Error("Unknown action: " + JSON.stringify(action));
+      const never: never = action;
+      throw Error("Unknown action: " + JSON.stringify(never));
     }
   }
 }
