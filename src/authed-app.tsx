@@ -47,7 +47,10 @@ const handleSetEditMode = ({
 const AuthedApp = (): JSX.Element => {
   const [topLevelState, dispatch] = useReducer(reducer, initialState);
   const { trainings, currentInput, inputOpen, mode } = topLevelState;
-  const lastTrainingId = trainings && trainings[trainings.length - 1].id;
+
+  const lastTrainingId =
+    trainings?.length && trainings[trainings.length - 1].id;
+
   const nextTrainingId = lastTrainingId === undefined ? 0 : lastTrainingId + 1;
   // TODO: should probably be memoized
   const { headline = null, exercises = [] } = parse(currentInput) || {};

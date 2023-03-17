@@ -1,6 +1,6 @@
 import { DeleteMode, EditMode, Mode, Training } from "./types";
 
-type TopLevelState = {
+export type TopLevelState = {
   trainings: Training[] | undefined;
   currentInput: string;
   inputOpen: boolean;
@@ -23,7 +23,7 @@ export type Action =
 export function reducer(state: TopLevelState, action: Action): TopLevelState {
   const { trainings } = state;
 
-  const nextTrainingsId = trainings
+  const nextTrainingsId = trainings?.length
     ? trainings[trainings.length - 1].id + 1
     : 0;
 
