@@ -52,9 +52,10 @@ const AuthedApp = (): JSX.Element => {
   const { headline = null, exercises = [] } =
     useMemo(() => parse(currentInput), [currentInput]) || {};
 
-  const nextTrainingsId = trainings?.length
-    ? trainings[trainings.length - 1].id + 1
-    : 0;
+  const nextTrainingsId =
+    trainings && trainings?.length > 0
+      ? trainings[trainings.length - 1].id + 1
+      : 0;
 
   useEffect(() => {
     (async () =>

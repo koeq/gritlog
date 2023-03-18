@@ -100,12 +100,14 @@ export const Input = ({
   const { logout } = useAuth();
 
   const lastTrainingId =
-    trainings?.length && trainings[trainings.length - 1].id;
+    trainings && trainings.length > 0
+      ? trainings[trainings.length - 1].id
+      : undefined;
 
   return (
     <>
       <textarea
-        placeholder=" >"
+        placeholder=">"
         onChange={(event) =>
           dispatch({
             type: "set-input",
