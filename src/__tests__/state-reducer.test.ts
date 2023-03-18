@@ -13,7 +13,7 @@ describe("Mutate global state", () => {
     };
   });
 
-  const currentTraining: Training = {
+  const someTraining: Training = {
     date: "someDate",
     id: 0,
     exercises: [
@@ -21,11 +21,58 @@ describe("Mutate global state", () => {
     ],
   };
 
-  it("Add a training", () => {
-    const newState = reducer(state, { type: "add", currentTraining });
+  it("Add training", () => {
+    const newState = reducer(state, {
+      type: "add",
+      currentTraining: someTraining,
+    });
 
     expect(newState).toStrictEqual({
-      trainings: [currentTraining],
+      trainings: [someTraining],
+      inputOpen: false,
+      mode: { type: "add" },
+      currentInput: "",
+    });
+  });
+
+  it("Edit training", () => {
+    state = {
+      ...state,
+      trainings: [someTraining],
+    };
+
+    const currentTraining: Training = {
+      ...someTraining,
+      exercises: [{ ...someTraining.exercises[0], exerciseName: "Squats" }],
+    };
+
+    const newState = reducer(state, {
+      type: "edit",
+      mode: { type: "edit", id: 0, initialInput: "someInitialInput" },
+      currentTraining,
+    });
+
+    expect(newState).toStrictEqual({
+      trainings: [{ ...currentTraining }],
+      inputOpen: false,
+      mode: { type: "add" },
+      currentInput: "",
+    });
+  });
+
+  it("Delete training", () => {
+    state = {
+      ...state,
+      trainings: [someTraining],
+    };
+
+    const newState = reducer(state, {
+      type: "delete",
+      id: someTraining.id,
+    });
+
+    expect(newState).toStrictEqual({
+      trainings: [],
       inputOpen: false,
       mode: { type: "add" },
       currentInput: "",
