@@ -6,7 +6,6 @@ export type Exercise = Training["exercises"][number];
 export type CurrentInput = string;
 
 export type AddMode = {
-  id: number;
   type: "add";
 };
 

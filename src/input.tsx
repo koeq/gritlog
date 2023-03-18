@@ -20,7 +20,6 @@ interface InputProps {
   readonly mode: Mode;
   readonly currentTraining: Training;
   readonly textAreaRef: React.MutableRefObject<HTMLTextAreaElement | null>;
-  readonly lastTrainingId: number | undefined;
   readonly inputOpen: boolean;
   readonly trainings: Training[] | undefined;
   readonly handleSetEditMode: ({
@@ -63,13 +62,15 @@ export const Input = ({
   mode,
   currentTraining,
   textAreaRef,
-  lastTrainingId,
   handleSetEditMode,
   inputOpen,
   trainings,
 }: InputProps): JSX.Element => {
   const isMobile = useIsMobile();
   const { logout } = useAuth();
+
+  const lastTrainingId =
+    trainings?.length && trainings[trainings.length - 1].id;
 
   const handleEdit = () => {
     if (mode.type !== "edit") {

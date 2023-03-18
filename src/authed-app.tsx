@@ -48,10 +48,10 @@ const AuthedApp = (): JSX.Element => {
   const [topLevelState, dispatch] = useReducer(reducer, initialState);
   const { trainings, currentInput, inputOpen, mode } = topLevelState;
 
-  const lastTrainingId =
-    trainings?.length && trainings[trainings.length - 1].id;
+  const nextTrainingsId = trainings?.length
+    ? trainings[trainings.length - 1].id + 1
+    : 0;
 
-  const nextTrainingId = lastTrainingId === undefined ? 0 : lastTrainingId + 1;
   // TODO: should probably be memoized
   const { headline = null, exercises = [] } = parse(currentInput) || {};
   const textAreaRef = useRef<HTMLTextAreaElement | null>(null);
@@ -64,7 +64,7 @@ const AuthedApp = (): JSX.Element => {
   const currentTraining: Training = {
     headline,
     date: new Date().toLocaleDateString(),
-    id: nextTrainingId,
+    id: nextTrainingsId,
     exercises: exercises,
   };
 
@@ -90,7 +90,6 @@ const AuthedApp = (): JSX.Element => {
           mode={mode}
           currentTraining={currentTraining}
           textAreaRef={textAreaRef}
-          lastTrainingId={lastTrainingId}
           handleSetEditMode={handleSetEditMode}
           inputOpen={inputOpen}
           trainings={trainings}
@@ -98,11 +97,7 @@ const AuthedApp = (): JSX.Element => {
       </BottomBar>
 
       {mode.type === "delete" && (
-        <DeletionConfirmation
-          id={mode.id}
-          dispatch={dispatch}
-          nextTrainingId={nextTrainingId}
-        />
+        <DeletionConfirmation id={mode.id} dispatch={dispatch} />
       )}
     </div>
   );
