@@ -37,6 +37,14 @@ interface HandleAddParams {
   currentTraining: Training;
 }
 
+interface HandleEditParams {
+  mode: Mode;
+  currentInput: string;
+  dispatch: Dispatch<Action>;
+  currentTraining: Training;
+  logout: () => void;
+}
+
 const handleAdd = ({
   currentTraining,
   logout,
@@ -50,6 +58,28 @@ const handleAdd = ({
   addTraining(currentTraining, logout);
   dispatch({ type: "add", currentTraining });
   textAreaRef.current?.blur();
+};
+
+const handleEdit = ({
+  mode,
+  currentInput,
+  currentTraining,
+  dispatch,
+  logout,
+}: HandleEditParams) => {
+  if (mode.type !== "edit") {
+    return;
+  }
+
+  const { id, initialInput } = mode;
+
+  // Only edit if training changed
+  if (currentInput?.trim() === initialInput) {
+    return;
+  }
+
+  editTraining({ ...currentTraining, id }, logout);
+  dispatch({ type: "edit", currentTraining, mode });
 };
 
 const handleCancelEdit = (dispatch: Dispatch<Action>) => {
@@ -71,22 +101,6 @@ export const Input = ({
 
   const lastTrainingId =
     trainings?.length && trainings[trainings.length - 1].id;
-
-  const handleEdit = () => {
-    if (mode.type !== "edit") {
-      return;
-    }
-
-    const { id, initialInput } = mode;
-
-    // Only edit if training changed
-    if (currentInput?.trim() === initialInput) {
-      return;
-    }
-
-    editTraining({ ...currentTraining, id }, logout);
-    dispatch({ type: "edit", currentTraining, mode });
-  };
 
   return (
     <>
@@ -119,7 +133,19 @@ export const Input = ({
       <div className="buttons">
         {mode.type === "edit" ? (
           <>
-            <button type="button" className="button" onClick={handleEdit}>
+            <button
+              type="button"
+              className="button"
+              onClick={() =>
+                handleEdit({
+                  mode,
+                  currentInput,
+                  currentTraining,
+                  dispatch,
+                  logout,
+                })
+              }
+            >
               <IoCheckmark size={32} />
             </button>
 
