@@ -23,10 +23,6 @@ export type Action =
 export function reducer(state: TopLevelState, action: Action): TopLevelState {
   const { trainings } = state;
 
-  const nextTrainingsId = trainings?.length
-    ? trainings[trainings.length - 1].id + 1
-    : 0;
-
   switch (action.type) {
     case "add": {
       const { currentTraining } = action;
@@ -35,7 +31,7 @@ export function reducer(state: TopLevelState, action: Action): TopLevelState {
         ...state,
         currentInput: "",
         inputOpen: false,
-        mode: { type: "add", id: nextTrainingsId },
+        mode: { type: "add" },
 
         trainings: trainings
           ? [...trainings, currentTraining]
@@ -53,7 +49,7 @@ export function reducer(state: TopLevelState, action: Action): TopLevelState {
         ...state,
         currentInput: "",
         inputOpen: false,
-        mode: { type: "add", id: nextTrainingsId },
+        mode: { type: "add" },
 
         trainings: trainings?.map((training) =>
           training.id === id ? { ...currentTraining, id } : training
@@ -70,7 +66,6 @@ export function reducer(state: TopLevelState, action: Action): TopLevelState {
 
         mode: {
           type: "add",
-          id: nextTrainingsId,
         },
       };
     }
@@ -97,7 +92,7 @@ export function reducer(state: TopLevelState, action: Action): TopLevelState {
         ...state,
         inputOpen: false,
         currentInput: "",
-        mode: { type: "add", id: nextTrainingsId },
+        mode: { type: "add" },
       };
     }
 
@@ -150,5 +145,5 @@ export const initialState: TopLevelState = {
   trainings: undefined,
   currentInput: "",
   inputOpen: false,
-  mode: { type: "add", id: -1 },
+  mode: { type: "add" },
 };

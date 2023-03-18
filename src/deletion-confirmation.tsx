@@ -7,7 +7,6 @@ import "./styles/deletion-confirmation.css";
 
 interface DeletionConfirmationProps {
   readonly id: number | null;
-  readonly nextTrainingId: number;
   readonly dispatch: React.Dispatch<Action>;
 }
 
@@ -23,7 +22,6 @@ const handleDelete = (
 export const DeletionConfirmation = ({
   id,
   dispatch,
-  nextTrainingId,
 }: DeletionConfirmationProps): JSX.Element | null => {
   const { logout } = useAuth();
 
@@ -43,7 +41,7 @@ export const DeletionConfirmation = ({
             onClick={() =>
               dispatch({
                 type: "set-mode",
-                mode: { type: "add", id: nextTrainingId },
+                mode: { type: "add" },
               })
             }
           >
