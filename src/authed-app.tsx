@@ -1,4 +1,4 @@
-import { Dispatch, useEffect, useReducer, useRef } from "react";
+import { Dispatch, useEffect, useMemo, useReducer, useRef } from "react";
 import "../src/styles/authed-app.css";
 import { BottomBar } from "./bottom-bar";
 import { DeletionConfirmation } from "./deletion-confirmation";
@@ -47,14 +47,14 @@ const handleSetEditMode = ({
 const AuthedApp = (): JSX.Element => {
   const [topLevelState, dispatch] = useReducer(reducer, initialState);
   const { trainings, currentInput, inputOpen, mode } = topLevelState;
+  const textAreaRef = useRef<HTMLTextAreaElement | null>(null);
+
+  const { headline = null, exercises = [] } =
+    useMemo(() => parse(currentInput), [currentInput]) || {};
 
   const nextTrainingsId = trainings?.length
     ? trainings[trainings.length - 1].id + 1
     : 0;
-
-  // TODO: should probably be memoized
-  const { headline = null, exercises = [] } = parse(currentInput) || {};
-  const textAreaRef = useRef<HTMLTextAreaElement | null>(null);
 
   useEffect(() => {
     (async () =>
