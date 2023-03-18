@@ -78,4 +78,96 @@ describe("Mutate global state", () => {
       currentInput: "",
     });
   });
+
+  it("Set trainings", () => {
+    const newState = reducer(state, {
+      type: "set-trainings",
+      trainings: [someTraining],
+    });
+
+    expect(newState).toStrictEqual({
+      ...state,
+      trainings: [someTraining],
+    });
+  });
+
+  it("Cancel add", () => {
+    state = {
+      ...state,
+      inputOpen: true,
+      currentInput: "some input",
+    };
+
+    const newState = reducer(state, {
+      type: "cancel-add",
+    });
+
+    expect(newState).toStrictEqual({
+      ...state,
+      inputOpen: false,
+      currentInput: "",
+    });
+  });
+
+  it("Cancel edit", () => {
+    state = {
+      ...state,
+      inputOpen: true,
+      currentInput: "some input",
+      mode: { type: "edit", id: 1000, initialInput: "some input" },
+    };
+
+    const newState = reducer(state, {
+      type: "cancel-edit",
+    });
+
+    expect(newState).toStrictEqual({
+      ...state,
+      inputOpen: false,
+      currentInput: "",
+      mode: { type: "add" },
+    });
+  });
+
+  it("Set edit mode", () => {
+    const newState = reducer(state, {
+      type: "set-edit-mode",
+      id: 1000,
+      serializedTraining: "some serialized training",
+    });
+
+    expect(newState).toStrictEqual({
+      ...state,
+      inputOpen: true,
+      currentInput: "some serialized training",
+      mode: {
+        type: "edit",
+        id: 1000,
+        initialInput: "some serialized training",
+      },
+    });
+  });
+
+  it("Set delete mode", () => {
+    state = {
+      ...state,
+      inputOpen: true,
+      currentInput: "some input",
+    };
+
+    const newState = reducer(state, {
+      type: "set-delete-mode",
+      id: 1000,
+    });
+
+    expect(newState).toStrictEqual({
+      ...state,
+      inputOpen: false,
+      currentInput: "",
+      mode: {
+        type: "delete",
+        id: 1000,
+      },
+    });
+  });
 });
