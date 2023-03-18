@@ -61,7 +61,7 @@ export const TrainingTableWithButtons = ({
             scrollOnClick(trainingRef.current);
             dispatch({
               type: "set-delete-mode",
-              mode: { type: "delete", id: training.id },
+              id: training.id,
             });
           }}
         >
