@@ -20,7 +20,7 @@
     "preview": "vite preview",
     "sort-package-jsons": "sort-package-json package.json src/*/package.json",
     "start": "vite",
-    "test": "jest",
+    "test": "jest --verbose",
     "tsc:watch": "tsc --watch --noEmit"
   },
   "dependencies": {
