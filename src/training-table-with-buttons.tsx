@@ -15,8 +15,8 @@ interface TrainingTableProps {
 
 const scrollOnClick = (element: HTMLDivElement | null): void => {
   if (element) {
-    // The single pixel works because of the scroll-snap styles
-    const leftValue = element.scrollLeft === 0 ? 1 : -1;
+    // Left value doesn't have to match exactly because of scroll snap.
+    const leftValue = element.scrollLeft === 0 ? 160 : -160;
 
     element.scrollBy({
       left: leftValue,
