@@ -7,7 +7,6 @@
     "auth-handler:deploy-dev": "./scripts/auth-handler-deploy-dev.sh",
     "auth-handler:deploy-prod": "./scripts/auth-handler-deploy-prod.sh",
     "build": "tsc && vite build",
-    "flush-cache": "aws cloudfront create-invalidation --distribution-id E3BA1RLD3CDYF1 --paths '/*'",
     "db-handler:deploy": "./scripts/db-handler-deploy.sh",
     "db-handler:deploy-dev": "./scripts/db-handler-deploy-dev.sh",
     "db-handler:deploy-prod": "./scripts/db-handler-deploy-prod.sh",
@@ -15,6 +14,7 @@
     "deploy:flush": "npm run deploy && npm run flush-cache",
     "dev": "npm run start & npm run tsc:watch",
     "fix": "npm run format && npm run sort-package-jsons && npm run lint:fix",
+    "flush-cache": "aws cloudfront create-invalidation --distribution-id E3BA1RLD3CDYF1 --paths '/*'",
     "format": "prettier --write '**/*.{ts,tsx,md,json,jsx,css}'",
     "lint:fix": "eslint --fix .",
     "preview": "vite preview",
@@ -54,6 +54,7 @@
     "ts-jest": "^28.0.5",
     "ts-node": "^10.8.1",
     "typescript": "^4.6.3",
-    "vite": "^4.0.0"
+    "vite": "^4.0.0",
+    "vite-plugin-pwa": "^0.14.4"
   }
 }
