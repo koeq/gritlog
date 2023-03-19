@@ -7,12 +7,12 @@
     "auth-handler:deploy-dev": "./scripts/auth-handler-deploy-dev.sh",
     "auth-handler:deploy-prod": "./scripts/auth-handler-deploy-prod.sh",
     "build": "tsc && vite build",
-    "cache-flush": "aws cloudfront create-invalidation --distribution-id E3BA1RLD3CDYF1 --paths '/*'",
+    "flush-cache": "aws cloudfront create-invalidation --distribution-id E3BA1RLD3CDYF1 --paths '/*'",
     "db-handler:deploy": "./scripts/db-handler-deploy.sh",
     "db-handler:deploy-dev": "./scripts/db-handler-deploy-dev.sh",
     "db-handler:deploy-prod": "./scripts/db-handler-deploy-prod.sh",
     "deploy": "tsc && vite build && aws s3 cp ./dist/ s3://gritlog.app/ --recursive",
-    "deploy:flush": "npm run deploy && npm run cache-flush",
+    "deploy:flush": "npm run deploy && npm run flush-cache",
     "dev": "npm run start & npm run tsc:watch",
     "fix": "npm run format && npm run sort-package-jsons && npm run lint:fix",
     "format": "prettier --write '**/*.{ts,tsx,md,json,jsx,css}'",
@@ -54,6 +54,6 @@
     "ts-jest": "^28.0.5",
     "ts-node": "^10.8.1",
     "typescript": "^4.6.3",
-    "vite": "^2.9.9"
+    "vite": "^4.0.0"
   }
 }
