@@ -14,7 +14,7 @@ textarea {
 
 .open {
   margin-top: 20px;
-  height: 140px;
+  height: 40px;
 }
 
 .close {
@@ -23,27 +23,4 @@ textarea {
   margin: 0;
   border: none;
   background: transparent;
-}
-
-.buttons {
-  display: flex;
-  align-items: flex-start;
-  margin-top: 10px;
-}
-
-.button {
-  padding: 5px;
-  border-radius: 50%;
-}
-
-#edit-last {
-  margin-left: 140px;
-}
-
-#cancel {
-  margin-left: 140px;
-}
-
-.icon {
-  font-size: 26px;
 }

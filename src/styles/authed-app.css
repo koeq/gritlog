@@ -6,3 +6,17 @@
   align-items: center;
   background-color: var(--background);
 }
+
+.btn-round {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 50px;
+  width: 50px;
+  background: rgba(72, 76, 89, 0.9);
+  border-radius: 50%;
+}
+
+.top {
+  margin-bottom: 16px;
+}
