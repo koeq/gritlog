@@ -16,12 +16,32 @@ export default defineConfig({
         theme_color: "#090B13",
         icons: [
           {
-            src: "icons/flash_192.png",
+            src: "icons/152.png",
+            sizes: "152x152",
+            type: "image/png",
+          },
+          {
+            src: "icons/167.png",
+            sizes: "167x167",
+            type: "image/png",
+          },
+          {
+            src: "icons/apple-touch-icon.png",
+            sizes: "180x180",
+            type: "image/png",
+          },
+          {
+            src: "icons/192.png",
             sizes: "192x192",
             type: "image/png",
           },
           {
-            src: "icons/flash_512.png",
+            src: "icons/256.png",
+            sizes: "256x256",
+            type: "image/png",
+          },
+          {
+            src: "icons/512.png",
             sizes: "512x512",
             type: "image/png",
           },
