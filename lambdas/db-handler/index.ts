@@ -8,11 +8,12 @@ import {
   isUserAuthenticated,
 } from "./utils";
 
-exports.handler = async (
+export const handler = async (
   event: APIGatewayProxyEvent
 ): Promise<APIGatewayProxyResult> => {
   try {
-    if (!isUserAuthenticated(event.headers)) {
+    const isAuthenticated = isUserAuthenticated(event.headers);
+    if (!isAuthenticated) {
       return buildResponse(401, "Not authenticated");
     }
 
@@ -24,26 +25,29 @@ exports.handler = async (
     } = event;
 
     const jwt = cookie?.split("=")[1];
+    let result: APIGatewayProxyResult;
 
     switch (httpMethod) {
       case "GET":
-        return await getTrainings(jwt);
-
+        result = await getTrainings(jwt);
+        break;
       case "POST":
-        return await addTraining(jwt, body);
-
+        result = await addTraining(jwt, body);
+        break;
       case "PUT":
-        return await editTraining(jwt, body);
-
+        result = await editTraining(jwt, body);
+        break;
       case "DELETE":
-        return await deleteTraining(jwt, queryStringParameters);
-
+        result = await deleteTraining(jwt, queryStringParameters);
+        break;
       default:
-        return buildResponse(404, "404 not found");
+        result = buildResponse(404, "404 not found");
     }
-  } catch (err) {
-    console.log(err);
 
-    return buildResponse(500, err);
+    return result;
+  } catch (error) {
+    console.error(error);
+
+    return buildResponse(500, error);
   }
 };
