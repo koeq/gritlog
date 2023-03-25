@@ -10,7 +10,7 @@
   scrollbar-width: none;
 }
 
-::-webkit-scrollbar {
+.training-with-buttons::-webkit-scrollbar {
   display: none;
 }
 
