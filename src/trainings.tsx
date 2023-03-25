@@ -29,7 +29,7 @@ export const Trainings = ({
   }
 
   return (
-    <section className="trainings">
+    <main className="trainings">
       {trainings
         .map((training) => (
           <TrainingTableWithButtons
@@ -47,7 +47,7 @@ export const Trainings = ({
           />
         ))
         .reverse()}
-    </section>
+    </main>
   );
 };
 
