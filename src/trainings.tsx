@@ -30,23 +30,25 @@ export const Trainings = ({
 
   return (
     <main className="trainings">
-      {trainings
-        .map((training) => (
-          <TrainingTableWithButtons
-            key={training.id}
-            dispatch={dispatch}
-            training={training}
-            handleSetEditMode={() =>
-              handleSetEditMode({
-                id: training.id,
-                trainings,
-                dispatch,
-                textAreaRef,
-              })
-            }
-          />
-        ))
-        .reverse()}
+      <section>
+        {trainings
+          .map((training) => (
+            <TrainingTableWithButtons
+              key={training.id}
+              dispatch={dispatch}
+              training={training}
+              handleSetEditMode={() =>
+                handleSetEditMode({
+                  id: training.id,
+                  trainings,
+                  dispatch,
+                  textAreaRef,
+                })
+              }
+            />
+          ))
+          .reverse()}
+      </section>
     </main>
   );
 };

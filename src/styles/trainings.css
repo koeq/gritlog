@@ -1,14 +1,21 @@
 .trainings {
   width: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-
-  /* header height */
-  margin-top: 43px;
-  /* bottom bar height */
-  margin-bottom: 114px;
+  position: fixed;
+  top: var(--header-height);
+  bottom: var(--bottom-bar-height);
+  overflow-y: scroll;
   padding-top: 24px;
   /* last training bottom margin is added on this */
   padding-bottom: 24px;
+}
+
+section {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+section > * {
+  margin-bottom: 24px;
 }
