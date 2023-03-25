@@ -2,7 +2,6 @@
   width: min(450px, 97%);
   display: flex;
   position: relative;
-  margin-bottom: 24px;
   border-radius: var(--border-radius);
   transition: 0.15s ease-out;
   scroll-snap-type: x mandatory;

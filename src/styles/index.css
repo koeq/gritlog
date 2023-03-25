@@ -16,6 +16,10 @@
   /* box shadwos */
   --shadow-extra-small: 0px 4px 8px rgba(0, 0, 0, 0.12);
   --shadow-smallest: 0 2px 6px rgb(0 0 0 / 5%);
+  /* spacings */
+  --header-height: 43px;
+  /* closed heigth */
+  --bottom-bar-height: 83px;
 
   padding: 0;
   margin: 0;
