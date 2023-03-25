@@ -8,14 +8,14 @@ interface HeaderProps {
 
 export const Header = ({ authed }: HeaderProps): JSX.Element => {
   return (
-    <nav className="header">
-      <div className="header-container">
+    <header className="header">
+      <nav className="header-container">
         <h1 className="heading">
           gritlog <BsFillLightningChargeFill size="20" />
         </h1>
         {authed && <LogoutButton />}
-      </div>
+      </nav>
       <hr />
-    </nav>
+    </header>
   );
 };
