@@ -7,9 +7,9 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 99;
-  backdrop-filter: blur(6px);
-  -webkit-backdrop-filter: blur(6px);
+  z-index: 1;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
 }
 
 .dialog {
