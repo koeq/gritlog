@@ -1,12 +1,11 @@
 .trainings {
   width: 100%;
   position: fixed;
-  top: var(--header-height);
-  bottom: var(--bottom-bar-height);
+  top: 0;
+  bottom: 0;
+  padding-top: calc(var(--header-height) + 18px);
+  padding-bottom: var(--bottom-bar-height);
   overflow-y: scroll;
-  padding-top: 24px;
-  /* last training bottom margin is added on this */
-  padding-bottom: 24px;
 }
 
 section {
