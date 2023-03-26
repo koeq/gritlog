@@ -1,6 +1,7 @@
 import { Dispatch, useEffect, useMemo, useReducer, useRef } from "react";
 import "../src/styles/authed-app.css";
 import { BottomBar } from "./bottom-bar";
+import { Buttons } from "./buttons";
 import { DeletionConfirmation } from "./deletion-confirmation";
 import { fetchTrainings } from "./fetch-trainings";
 import { Header } from "./header";
@@ -74,7 +75,6 @@ const AuthedApp = (): JSX.Element => {
   return (
     <div className="authed">
       <Header authed />
-
       {trainings ? (
         <MemoizedTrainings
           dispatch={dispatch}
@@ -86,16 +86,22 @@ const AuthedApp = (): JSX.Element => {
         <LoadingSpinner />
       )}
 
-      <BottomBar>
+      <Buttons
+        dispatch={dispatch}
+        trainings={trainings}
+        inputOpen={inputOpen}
+        textAreaRef={textAreaRef}
+        handleSetEditMode={handleSetEditMode}
+      />
+
+      <BottomBar inputOpen={inputOpen}>
         <Input
           dispatch={dispatch}
           currentInput={currentInput}
           mode={mode}
           currentTraining={currentTraining}
           textAreaRef={textAreaRef}
-          handleSetEditMode={handleSetEditMode}
           inputOpen={inputOpen}
-          trainings={trainings}
         />
       </BottomBar>
 
