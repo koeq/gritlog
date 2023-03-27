@@ -7,7 +7,7 @@ export const LogoutButton = (): JSX.Element => {
 
   return (
     <button className="logout-btn" onClick={() => logout()}>
-      <BiLogOut className="logout-icon" />
+      <BiLogOut className="logout-icon" color="#fff" />
     </button>
   );
 };
