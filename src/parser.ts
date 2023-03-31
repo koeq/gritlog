@@ -54,7 +54,7 @@ interface Interpreter {
 // A token is made out of a lexeme and additional data to that lexeme (e.g. token type)
 // ---------------------------------------------------------------------------------------------------------
 
-function Scanner(source: string): Scanner {
+function createScanner(source: string): Scanner {
   const tokens: Token[] = [];
   let start = 0;
   let current = 0;
@@ -74,13 +74,17 @@ function Scanner(source: string): Scanner {
   }
 
   function peek() {
-    if (isAtEnd()) return "\0";
+    if (isAtEnd()) {
+      return "\0";
+    }
 
     return source[current];
   }
 
   function peekNext() {
-    if (current + 1 >= source.length) return "\0";
+    if (current + 1 >= source.length) {
+      return "\0";
+    }
 
     return source[current + 1];
   }
@@ -90,7 +94,7 @@ function Scanner(source: string): Scanner {
     const string = source.substring(start, current);
 
     // String is a keyword
-    // This makes sure hasOwnProperty is called from the prototype and is not shadowed
+    // Makes sure hasOwnProperty is called from the prototype and is not shadowed
     if (Object.prototype.hasOwnProperty.call(keywords, string.toLowerCase())) {
       addToken(keywords[string.toLowerCase()], string, true);
     } else {
@@ -215,7 +219,7 @@ function Scanner(source: string): Scanner {
 // -----------------> A number potentially followed by a forward slash or a star followed by another number.
 // ---------------------------------------------------------------------------------------------------------
 
-function Interpreter(tokens: Token[]): Interpreter {
+function createInterpreter(tokens: Token[]): Interpreter {
   const exercises: Exercise[] = [];
   let exerciseNumber = -1;
   let headline: string | null = null;
@@ -239,7 +243,9 @@ function Interpreter(tokens: Token[]): Interpreter {
   };
 
   const peek = () => {
-    if (isAtEnd()) return;
+    if (isAtEnd()) {
+      return;
+    }
 
     return tokens[current];
   };
@@ -254,16 +260,20 @@ function Interpreter(tokens: Token[]): Interpreter {
   const buildHeadline = (token: Token) => {
     while (token.type !== "NEWLINE") {
       const next = peek();
-      if (next) token = advance();
-      else break;
+
+      if (next) {
+        token = advance();
+      } else {
+        break;
+      }
     }
 
     // Ignore Hashtag
     start = start + 1;
     const tokenizedHeadline = tokens.slice(start, current);
 
-    // only build headline if some char is not whitespace
-    if (!tokenizedHeadline.every((token) => token.type === "WHITESPACE")) {
+    // Only build headline if some char is not whitespace
+    if (tokenizedHeadline.some((token) => token.type !== "WHITESPACE")) {
       headline = build();
     }
   };
@@ -271,8 +281,12 @@ function Interpreter(tokens: Token[]): Interpreter {
   const buildExerciseName = (token: Token) => {
     while (isExerciseName(token)) {
       const next = peek();
-      if (next && isExerciseName(next)) token = advance();
-      else break;
+
+      if (next && isExerciseName(next)) {
+        token = advance();
+      } else {
+        break;
+      }
     }
 
     // Reset on new exercise
@@ -285,9 +299,16 @@ function Interpreter(tokens: Token[]): Interpreter {
 
   const buildWeight = () => {
     let next = peek();
-    if (next && isNumber(next.lexeme)) advance();
+
+    if (next && isNumber(next.lexeme)) {
+      advance();
+    }
+
     next = peek();
-    if (next && isWeightUnit(next.lexeme)) advance();
+
+    if (next && isWeightUnit(next.lexeme)) {
+      advance();
+    }
 
     // If theres already a weight we want to add the existing exerciseName as a second exercise
     // e.g. Benchpress @100 8/8 @95 8/8 ---> Benchpress 100 8/8
@@ -304,7 +325,7 @@ function Interpreter(tokens: Token[]): Interpreter {
     const hasNumber = /\d/.test(weight);
     const hasWeightUnit = /kg|lbs/.test(weight);
 
-    // provide default weight unit
+    // Provide default weight unit
     if (hasNumber && !hasWeightUnit) {
       weight = weight + "kg";
     }
@@ -315,8 +336,12 @@ function Interpreter(tokens: Token[]): Interpreter {
   const buildRepetitions = (token: Token) => {
     while (isRepetition(token)) {
       const next = peek();
-      if (next && isRepetition(next)) token = advance();
-      else break;
+
+      if (next && isRepetition(next)) {
+        token = advance();
+      } else {
+        break;
+      }
     }
 
     repetitions = build();
@@ -382,9 +407,9 @@ export function parse(
     return;
   }
 
-  const scanner = Scanner(source);
+  const scanner = createScanner(source);
   const tokens: Token[] = scanner.scanTokens(source);
-  const interpreter = Interpreter(tokens);
+  const interpreter = createInterpreter(tokens);
 
   return interpreter.interpret();
 }
