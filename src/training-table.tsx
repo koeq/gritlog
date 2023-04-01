@@ -1,16 +1,19 @@
 import "./styles/training-table.css";
-import { Training } from "./types";
+import { Exercise, Training } from "./types";
 
 interface TrainingTableProps {
   readonly training: Training;
+  readonly percentageChanges: Record<string, number> | null;
 }
 
 interface TableValueProps {
   readonly training: Training;
+  readonly percentageChanges: Record<string, number> | null;
 }
 
 export const TrainingTable = ({
   training,
+  percentageChanges,
 }: TrainingTableProps): JSX.Element | null => {
   const { headline } = training;
 
@@ -31,7 +34,10 @@ export const TrainingTable = ({
         )}
 
         <TableHeaders />
-        <TableValues training={training} />
+        <TableValues
+          training={training}
+          percentageChanges={percentageChanges}
+        />
       </tbody>
     </table>
   );
@@ -51,27 +57,43 @@ const TableHeaders = (): JSX.Element => {
   );
 };
 
-const TableValues = ({ training }: TableValueProps): JSX.Element => {
+const TableValues = ({
+  training,
+  percentageChanges,
+}: TableValueProps): JSX.Element => {
   const { exercises } = training;
 
-  return exercises?.length > 0 ? (
-    <>
-      {exercises.map(({ exerciseName, weight, repetitions }, index) => {
-        return (
-          <tr key={index}>
-            <td id="exercise">{exerciseName || "—"}</td>
-            <td id="weight">{weight || "—"}</td>
-            <td id="repetitions">{parseReps(repetitions) || "—"}</td>
-          </tr>
-        );
-      })}
-    </>
-  ) : (
+  const renderExerciseRow = (exercise: Exercise, index: number) => {
+    const { exerciseName, weight, repetitions } = exercise;
+
+    const percentageChange =
+      percentageChanges && exerciseName
+        ? percentageChanges?.[exerciseName]?.toFixed(2)
+        : "";
+
+    return (
+      <tr key={index}>
+        <td id="exercise">{exerciseName || "—"}</td>
+        <td id="weight">{weight ?? "—"}</td>
+        <td id="repetitions">{parseReps(repetitions) ?? "—"}</td>
+        {percentageChanges && <td id="change">{percentageChange}</td>}
+      </tr>
+    );
+  };
+
+  const renderEmptyRow = () => (
     <tr>
       <td id="exercise">—</td>
       <td id="weight">—</td>
       <td id="repetitions">—</td>
+      <td id="change">—</td>
     </tr>
+  );
+
+  return (
+    <>
+      {exercises?.length ? exercises.map(renderExerciseRow) : renderEmptyRow()}
+    </>
   );
 };
 

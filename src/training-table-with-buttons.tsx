@@ -9,8 +9,9 @@ import { Training } from "./types";
 
 interface TrainingTableProps {
   readonly training: Training;
-  readonly handleSetEditMode: (id: number) => void;
   readonly dispatch: React.Dispatch<Action>;
+  readonly handleSetEditMode: (id: number) => void;
+  readonly percentageChanges: Record<string, number> | null;
 }
 
 const scrollOnClick = (element: HTMLDivElement | null): void => {
@@ -27,8 +28,9 @@ const scrollOnClick = (element: HTMLDivElement | null): void => {
 
 export const TrainingTableWithButtons = ({
   training,
-  handleSetEditMode,
   dispatch,
+  handleSetEditMode,
+  percentageChanges,
 }: TrainingTableProps): JSX.Element | null => {
   const trainingRef = useRef<HTMLDivElement | null>(null);
   const isMobile = useIsMobile();
@@ -39,7 +41,10 @@ export const TrainingTableWithButtons = ({
       ref={trainingRef}
       onClick={isMobile ? undefined : () => scrollOnClick(trainingRef.current)}
     >
-      <TrainingTable training={training} />
+      <TrainingTable
+        training={training}
+        percentageChanges={percentageChanges}
+      />
 
       <div className="buttons-container">
         <button
