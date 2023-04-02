@@ -57,6 +57,17 @@ th {
   overflow-wrap: anywhere;
 }
 
+.zero {
+  color: #9ea3a9;
+}
+.positive {
+  color: #71aced;
+}
+
+.negative {
+  color: #ff6b6a;
+}
+
 #change {
   text-align: right;
   width: 50px;
