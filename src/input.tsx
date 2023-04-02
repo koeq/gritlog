@@ -46,7 +46,7 @@ export const Input = ({
   return (
     <>
       <textarea
-        placeholder="Squats 80kg 8/8/8"
+        placeholder="Squats @80kg 8/8/8"
         onChange={(event) =>
           dispatch({
             type: "set-input",

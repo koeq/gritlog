@@ -1,9 +1,9 @@
 textarea {
-  width: min(450px, 94%);
+  width: min(450px, 93%);
   height: 120px;
   background: var(--background-gradient);
   border: 1px solid var(--border);
-  border-radius: 12px;
+  border-radius: 10px;
   outline: none;
   font-size: 16px;
   margin-top: 20px;
