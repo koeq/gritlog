@@ -1,5 +1,6 @@
 import { memo } from "react";
 import { HandleSetEditModeParams } from "./authed-app";
+import { getLatestPercentageChanges } from "./get-latest-percentage-change";
 import { Action } from "./state-reducer";
 import "./styles/trainings.css";
 import { TrainingTableWithButtons } from "./training-table-with-buttons";
@@ -9,7 +10,6 @@ interface TrainingsProps {
   readonly trainings: Training[];
   readonly dispatch: React.Dispatch<Action>;
   textAreaRef: React.MutableRefObject<HTMLTextAreaElement | null>;
-
   readonly handleSetEditMode: ({
     id,
     trainings,
@@ -17,84 +17,6 @@ interface TrainingsProps {
     textAreaRef,
   }: HandleSetEditModeParams) => void;
 }
-
-const parseWeight = (weight: string | null | undefined) => {
-  const match = weight?.match(/\d+/);
-
-  return match ? parseInt(match[0]) : 0;
-};
-
-const parseReps = (reps: string | null | undefined) => {
-  const summedReps = reps
-    ?.split("/")
-    .map((rep) => parseInt(rep))
-    .reduce((acc, rep) => acc + rep);
-
-  return summedReps || 0;
-};
-
-const getWorkPerExercise = (training: Training) =>
-  training.exercises.reduce(
-    (acc: Record<string, number>, { exerciseName, weight, repetitions }) => {
-      const doneWork = parseWeight(weight) * parseReps(repetitions);
-
-      if (!exerciseName) {
-        return acc;
-      }
-
-      if (Object.prototype.hasOwnProperty.call(acc, exerciseName)) {
-        acc[exerciseName] += doneWork;
-      } else {
-        acc[exerciseName] = doneWork;
-      }
-
-      return acc;
-    },
-    {}
-  );
-
-const getLatestPercentageChanges = (
-  latestTraining: Training,
-  trainings: Training[]
-) => {
-  const percentageChanges: Record<string, number> = {
-    trainingId: latestTraining.id,
-  };
-
-  if (trainings.length < 2) {
-    percentageChanges;
-  }
-
-  const exerciseWorkMap = getWorkPerExercise(latestTraining);
-
-  for (const [exercise, work] of Object.entries(exerciseWorkMap)) {
-    if (work === 0) {
-      continue;
-    }
-
-    for (let i = trainings.length - 2; i >= 0; i--) {
-      const prevExerciseWorkMap = getWorkPerExercise(trainings[i]);
-
-      if (
-        !Object.prototype.hasOwnProperty.call(prevExerciseWorkMap, exercise)
-      ) {
-        continue;
-      }
-
-      const prevWork = prevExerciseWorkMap[exercise];
-
-      if (prevWork === 0) {
-        break;
-      }
-
-      const percentageChange = (work / prevWork - 1) * 100;
-      percentageChanges[exercise] = percentageChange;
-      break;
-    }
-  }
-
-  return percentageChanges;
-};
 
 export const Trainings = ({
   dispatch,
