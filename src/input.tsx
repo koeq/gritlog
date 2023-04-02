@@ -32,47 +32,6 @@ interface HandleEditParams {
   logout: () => void;
 }
 
-const handleAdd = ({
-  currentTraining,
-  logout,
-  dispatch,
-  textAreaRef,
-}: HandleAddParams) => {
-  if (isEmptyTraining(currentTraining)) {
-    return;
-  }
-
-  addTraining(currentTraining, logout);
-  dispatch({ type: "add", currentTraining });
-  textAreaRef.current?.blur();
-};
-
-const handleEdit = ({
-  mode,
-  currentInput,
-  currentTraining,
-  dispatch,
-  logout,
-}: HandleEditParams) => {
-  if (mode.type !== "edit") {
-    return;
-  }
-
-  const { id, initialInput } = mode;
-
-  // Only edit if training changed
-  if (currentInput?.trim() === initialInput) {
-    return;
-  }
-
-  editTraining({ ...currentTraining, id }, logout);
-  dispatch({ type: "edit", currentTraining, mode });
-};
-
-const handleCancelEdit = (dispatch: Dispatch<Action>) => {
-  dispatch({ type: "cancel-edit" });
-};
-
 export const Input = ({
   dispatch,
   currentInput,
@@ -87,7 +46,7 @@ export const Input = ({
   return (
     <>
       <textarea
-        placeholder=">"
+        placeholder="Squats 80kg 8/8/8"
         onChange={(event) =>
           dispatch({
             type: "set-input",
@@ -179,4 +138,45 @@ export const Input = ({
       </div>
     </>
   );
+};
+
+const handleAdd = ({
+  currentTraining,
+  logout,
+  dispatch,
+  textAreaRef,
+}: HandleAddParams) => {
+  if (isEmptyTraining(currentTraining)) {
+    return;
+  }
+
+  addTraining(currentTraining, logout);
+  dispatch({ type: "add", currentTraining });
+  textAreaRef.current?.blur();
+};
+
+const handleEdit = ({
+  mode,
+  currentInput,
+  currentTraining,
+  dispatch,
+  logout,
+}: HandleEditParams) => {
+  if (mode.type !== "edit") {
+    return;
+  }
+
+  const { id, initialInput } = mode;
+
+  // Only edit if training changed
+  if (currentInput?.trim() === initialInput) {
+    return;
+  }
+
+  editTraining({ ...currentTraining, id }, logout);
+  dispatch({ type: "edit", currentTraining, mode });
+};
+
+const handleCancelEdit = (dispatch: Dispatch<Action>) => {
+  dispatch({ type: "cancel-edit" });
 };
