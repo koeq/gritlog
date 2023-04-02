@@ -63,56 +63,52 @@ const TableValues = ({
 }: TableValueProps): JSX.Element => {
   const { exercises } = training;
 
-  const renderExerciseRow = (exercise: Exercise, index: number) => {
-    const { exerciseName, weight, repetitions } = exercise;
-
-    const percentageChange =
-      exerciseName && percentageChanges?.[exerciseName]
-        ? percentageChanges?.[exerciseName]
-        : 0;
-
-    const sign =
-      percentageChange === 0 ? "" : percentageChange > 0 ? "↑ " : "↓ ";
-
-    return (
-      <tr key={index}>
-        <td id="exercise">{exerciseName || "—"}</td>
-        <td id="weight">{weight ?? "—"}</td>
-        <td id="repetitions">{parseReps(repetitions) ?? "—"}</td>
-        {percentageChanges && (
-          <td
-            id="change"
-            // TODO: convert into classes and apply conditionally
-            style={{
-              color:
-                percentageChange === 0
-                  ? "#9EA3A9"
-                  : percentageChange > 0
-                  ? "#71ACED"
-                  : "#FF6B6A",
-            }}
-          >
-            {sign}
-            {Math.abs(percentageChange).toFixed(2)}
-          </td>
-        )}
-      </tr>
-    );
-  };
-
-  const renderEmptyRow = () => (
-    <tr>
-      <td id="exercise">—</td>
-      <td id="weight">—</td>
-      <td id="repetitions">—</td>
-      <td id="change"></td>
-    </tr>
-  );
-
   return (
     <>
-      {exercises?.length ? exercises.map(renderExerciseRow) : renderEmptyRow()}
+      {exercises?.length
+        ? exercises.map((exercise, index) =>
+            renderExerciseRow(exercise, percentageChanges, index)
+          )
+        : renderEmptyRow()}
     </>
+  );
+};
+
+const renderExerciseRow = (
+  exercise: Exercise,
+  percentageChanges: Record<string, number> | null,
+  index: number
+) => {
+  const { exerciseName, weight, repetitions } = exercise;
+
+  const percentageChange =
+    exerciseName && percentageChanges?.[exerciseName]
+      ? percentageChanges?.[exerciseName]
+      : 0;
+
+  const sign = percentageChange === 0 ? "" : percentageChange > 0 ? "↑ " : "↓ ";
+
+  return (
+    <tr key={index}>
+      <td id="exercise">{exerciseName || "—"}</td>
+      <td id="weight">{weight ?? "—"}</td>
+      <td id="repetitions">{parseReps(repetitions) ?? "—"}</td>
+      {percentageChanges && (
+        <td
+          id="change"
+          className={
+            percentageChange === 0
+              ? "zero"
+              : percentageChange > 0
+              ? "positive"
+              : "negative"
+          }
+        >
+          {sign}
+          {Math.abs(percentageChange).toFixed(2)}
+        </td>
+      )}
+    </tr>
   );
 };
 
@@ -130,3 +126,12 @@ const parseReps = (repetitions: string | null | undefined) => {
 
   return repetitions;
 };
+
+const renderEmptyRow = () => (
+  <tr>
+    <td id="exercise">—</td>
+    <td id="weight">—</td>
+    <td id="repetitions">—</td>
+    <td id="change"></td>
+  </tr>
+);
