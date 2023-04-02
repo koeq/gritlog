@@ -67,16 +67,35 @@ const TableValues = ({
     const { exerciseName, weight, repetitions } = exercise;
 
     const percentageChange =
-      percentageChanges && exerciseName
-        ? percentageChanges?.[exerciseName]?.toFixed(2)
-        : "";
+      exerciseName && percentageChanges?.[exerciseName]
+        ? percentageChanges?.[exerciseName]
+        : 0;
+
+    const sign =
+      percentageChange === 0 ? "" : percentageChange > 0 ? "↑ " : "↓ ";
 
     return (
       <tr key={index}>
         <td id="exercise">{exerciseName || "—"}</td>
         <td id="weight">{weight ?? "—"}</td>
         <td id="repetitions">{parseReps(repetitions) ?? "—"}</td>
-        {percentageChanges && <td id="change">{percentageChange}</td>}
+        {percentageChanges && (
+          <td
+            id="change"
+            // TODO: convert into classes and apply conditionally
+            style={{
+              color:
+                percentageChange === 0
+                  ? "#9EA3A9"
+                  : percentageChange > 0
+                  ? "#71ACED"
+                  : "#FF6B6A",
+            }}
+          >
+            {sign}
+            {Math.abs(percentageChange).toFixed(2)}
+          </td>
+        )}
       </tr>
     );
   };
@@ -86,7 +105,7 @@ const TableValues = ({
       <td id="exercise">—</td>
       <td id="weight">—</td>
       <td id="repetitions">—</td>
-      <td id="change">—</td>
+      <td id="change"></td>
     </tr>
   );
 

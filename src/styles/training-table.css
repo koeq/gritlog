@@ -20,8 +20,8 @@ th {
 }
 
 .date-header {
-  color: var(--text-2);
-  font-weight: 200;
+  color: var(--text-1);
+  font-weight: 400;
 }
 
 .label-header {
@@ -38,27 +38,26 @@ th {
 
 #exercise {
   color: var(--text-3);
-  width: 55px;
+  width: 90px;
   padding-right: 8px;
   overflow-wrap: anywhere;
 }
 
 #weight {
   color: var(--text-3);
-  width: 30px;
+  width: 60px;
   padding-right: 8px;
   overflow-wrap: anywhere;
 }
 
 #repetitions {
   color: var(--text-3);
-  width: 60px;
+  width: 100px;
   padding-right: 8px;
   overflow-wrap: anywhere;
 }
 
 #change {
-  color: var(--text-3);
-  width: 25px;
-  overflow-wrap: anywhere;
+  text-align: right;
+  width: 50px;
 }
