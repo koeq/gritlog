@@ -21,18 +21,13 @@ export const TrainingTable = ({
     <table tabIndex={0}>
       <tbody>
         <tr>
-          <th className={"date-header border-bottom"} colSpan={3}>
+          <th id="headline" className={"border-bottom"} colSpan={2}>
+            {headline && <span id="headline">{headline}</span>}
+          </th>
+          <th className={"date-header border-bottom"} colSpan={2}>
             {training.date}
           </th>
         </tr>
-        {headline && (
-          <tr>
-            <th colSpan={3} id="headline">
-              {headline}
-            </th>
-          </tr>
-        )}
-
         <TableHeaders />
         <TableValues
           training={training}
