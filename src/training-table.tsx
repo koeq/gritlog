@@ -42,12 +42,14 @@ const TableHeaders = (): JSX.Element => {
   return (
     <tr>
       <th id="exerciseLabel" className="label-header">
-        exercise
+        <h3>exercise</h3>
       </th>
       <th id="weightLabel" className="label-header">
-        weight
+        <h3>weight</h3>
       </th>
-      <th className="label-header">reps</th>
+      <th className="label-header">
+        <h3>reps</h3>
+      </th>
     </tr>
   );
 };

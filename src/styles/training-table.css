@@ -33,6 +33,15 @@ th {
   padding-bottom: 6px;
 }
 
+h3 {
+  padding: 1px 6px;
+  /* hack to get around the space above the text */
+  padding-bottom: 3px;
+  width: fit-content;
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 4px;
+}
+
 #headline {
   color: var(--text-2);
   text-align: left;
