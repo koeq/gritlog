@@ -105,7 +105,7 @@ const renderExerciseRow = (
           }
         >
           {sign}
-          {Math.abs(percentageChange).toFixed(2)}
+          {Math.abs(percentageChange).toFixed(0)}%
         </td>
       )}
     </tr>
