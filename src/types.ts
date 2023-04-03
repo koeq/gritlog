@@ -13,6 +13,7 @@ export type EditMode = {
   id: number;
   type: "edit";
   initialInput: string;
+  date: string;
 };
 
 export type DeleteMode = {

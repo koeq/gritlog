@@ -14,7 +14,12 @@ export type Action =
   | { type: "set-trainings"; trainings: Training[] }
   | { type: "cancel-add" }
   | { type: "cancel-edit" }
-  | { type: "set-edit-mode"; id: number; serializedTraining: string }
+  | {
+      type: "set-edit-mode";
+      id: number;
+      serializedTraining: string;
+      date: string;
+    }
   | { type: "set-delete-mode"; id: number }
   | { type: "set-mode"; mode: Mode }
   | { type: "set-input"; currentInput: string }
@@ -97,13 +102,13 @@ export function reducer(state: TopLevelState, action: Action): TopLevelState {
     }
 
     case "set-edit-mode": {
-      const { id, serializedTraining } = action;
+      const { id, serializedTraining, date } = action;
 
       return {
         ...state,
         currentInput: serializedTraining,
         inputOpen: true,
-        mode: { type: "edit", id, initialInput: serializedTraining },
+        mode: { type: "edit", id, initialInput: serializedTraining, date },
       };
     }
 
