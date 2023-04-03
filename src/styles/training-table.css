@@ -17,11 +17,13 @@ th {
 .border-bottom {
   border-bottom: 0.5px solid #232323;
   padding-bottom: 8px;
+  text-align: right;
 }
 
 .date-header {
   color: var(--text-1);
   font-weight: 400;
+  text-align: right;
 }
 
 .label-header {
@@ -33,7 +35,7 @@ th {
 
 #headline {
   color: var(--text-2);
-  margin-top: 8px;
+  text-align: left;
 }
 
 #exercise {
