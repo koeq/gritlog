@@ -48,7 +48,12 @@ describe("Mutate global state", () => {
 
     const newState = reducer(state, {
       type: "edit",
-      mode: { type: "edit", id: 0, initialInput: "someInitialInput" },
+      mode: {
+        type: "edit",
+        id: 0,
+        initialInput: "someInitialInput",
+        date: "some date",
+      },
       currentTraining,
     });
 
@@ -114,7 +119,12 @@ describe("Mutate global state", () => {
       ...state,
       inputOpen: true,
       currentInput: "some input",
-      mode: { type: "edit", id: 1000, initialInput: "some input" },
+      mode: {
+        type: "edit",
+        id: 1000,
+        initialInput: "some input",
+        date: "some date",
+      },
     };
 
     const newState = reducer(state, {
@@ -134,6 +144,7 @@ describe("Mutate global state", () => {
       type: "set-edit-mode",
       id: 1000,
       serializedTraining: "some serialized training",
+      date: "some date",
     });
 
     expect(newState).toStrictEqual({
@@ -144,6 +155,7 @@ describe("Mutate global state", () => {
         type: "edit",
         id: 1000,
         initialInput: "some serialized training",
+        date: "some date",
       },
     });
   });

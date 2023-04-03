@@ -166,15 +166,19 @@ const handleEdit = ({
     return;
   }
 
-  const { id, initialInput } = mode;
+  const { id, initialInput, date } = mode;
 
   // Only edit if training changed
   if (currentInput?.trim() === initialInput) {
     return;
   }
 
-  editTraining({ ...currentTraining, id }, logout);
-  dispatch({ type: "edit", currentTraining, mode });
+  editTraining({ ...currentTraining, id, date }, logout);
+  dispatch({
+    type: "edit",
+    currentTraining: { ...currentTraining, date },
+    mode,
+  });
 };
 
 const handleCancelEdit = (dispatch: Dispatch<Action>) => {

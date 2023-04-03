@@ -40,6 +40,7 @@ const handleSetEditMode = ({
     type: "set-edit-mode",
     id,
     serializedTraining: serializeTraining(training),
+    date: training.date,
   });
 
   textAreaRef.current?.focus();
