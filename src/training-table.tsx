@@ -82,7 +82,7 @@ const renderExerciseRow = (
     ? percentageChanges?.[exerciseName] ?? null
     : null;
 
-  const sign = percentageChange ? (percentageChange > 0 ? "↑ " : "↓ ") : "";
+  const sign = percentageChange ? (percentageChange > 0 ? "↑" : "↓") : "";
 
   return (
     <tr key={index}>
