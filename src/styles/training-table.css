@@ -22,7 +22,6 @@ th {
 
 .date-header {
   color: var(--text-1);
-  font-weight: 400;
   text-align: right;
 }
 
@@ -64,7 +63,6 @@ h3 {
 #repetitions {
   color: var(--text-3);
   width: 100px;
-  padding-right: 8px;
   overflow-wrap: anywhere;
 }
 
@@ -72,14 +70,14 @@ h3 {
   color: #9ea3a9;
 }
 .positive {
-  color: #71aced;
+  color: #346775;
 }
 
 .negative {
-  color: #ff6b6a;
+  color: #895564;
 }
 
 #change {
   text-align: right;
-  width: 50px;
+  width: 30px;
 }
