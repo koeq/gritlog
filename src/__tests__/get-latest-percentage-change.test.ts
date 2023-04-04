@@ -99,4 +99,39 @@ describe("Calculate percentage change compared to the last time the exercises we
       squat: 100,
     });
   });
+
+  test("Should handle missing weight or reps on the latest training and the training to compare against", () => {
+    const latestTraining: Training = {
+      date: "2023-04-02",
+      id: 2,
+      exercises: [
+        { exerciseName: "squat", weight: null, repetitions: "10" },
+        { exerciseName: "bench press", weight: "80kg", repetitions: null },
+        { exerciseName: "row", weight: "90kg", repetitions: "10" },
+        { exerciseName: "pull ups", weight: "10kg", repetitions: "10" },
+        { exerciseName: "chin ups", weight: "", repetitions: "10" },
+      ],
+    };
+
+    const trainings: Training[] = [
+      {
+        date: "2023-04-01",
+        id: 1,
+        exercises: [
+          { exerciseName: "squat", weight: "80kg", repetitions: "5" },
+          { exerciseName: "bench press", weight: "80kg", repetitions: "10" },
+          { exerciseName: "row", weight: null, repetitions: "10" },
+          { exerciseName: "pull ups", weight: "10kg", repetitions: null },
+          { exerciseName: "chin ups", weight: "10kg", repetitions: "10" },
+        ],
+      },
+      latestTraining,
+    ];
+
+    const result = getLatestPercentageChanges(latestTraining, trainings);
+
+    expect(result).toEqual({
+      trainingId: 2,
+    });
+  });
 });

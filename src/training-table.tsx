@@ -78,19 +78,18 @@ const renderExerciseRow = (
 ) => {
   const { exerciseName, weight, repetitions } = exercise;
 
-  const percentageChange =
-    exerciseName && percentageChanges?.[exerciseName]
-      ? percentageChanges?.[exerciseName]
-      : 0;
+  const percentageChange = exerciseName
+    ? percentageChanges?.[exerciseName] ?? null
+    : null;
 
-  const sign = percentageChange === 0 ? "" : percentageChange > 0 ? "↑ " : "↓ ";
+  const sign = percentageChange ? (percentageChange > 0 ? "↑ " : "↓ ") : "";
 
   return (
     <tr key={index}>
       <td id="exercise">{exerciseName || "—"}</td>
       <td id="weight">{weight ?? "—"}</td>
       <td id="repetitions">{parseReps(repetitions) ?? "—"}</td>
-      {percentageChanges && (
+      {percentageChange !== null && percentageChange !== undefined ? (
         <td
           id="change"
           className={
@@ -104,7 +103,7 @@ const renderExerciseRow = (
           {sign}
           {Math.abs(percentageChange).toFixed(0)}%
         </td>
-      )}
+      ) : null}
     </tr>
   );
 };

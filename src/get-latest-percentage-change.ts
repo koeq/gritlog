@@ -45,41 +45,52 @@ export const getLatestPercentageChanges = (
 
 const getWorkPerExercise = (training: Training): Record<string, number> =>
   training.exercises.reduce(
-    (acc: Record<string, number>, { exerciseName, weight, repetitions }) => {
-      const doneWork = parseWeight(weight) * parseReps(repetitions);
-
+    (
+      acc: Record<string, number>,
+      { exerciseName, weight, repetitions: reps }
+    ) => {
       if (!exerciseName) {
         return acc;
       }
+      const parsedWeight = weight ? parseWeight(weight) : null;
+      const parsedReps = reps ? parseReps(reps) : null;
 
-      if (Object.prototype.hasOwnProperty.call(acc, exerciseName)) {
-        acc[exerciseName] += doneWork;
-      } else {
-        acc[exerciseName] = doneWork;
+      if (parsedWeight === null || parsedReps === null) {
+        return acc;
       }
+
+      const doneWork = parsedWeight * parsedReps;
+
+      acc[exerciseName] = Object.prototype.hasOwnProperty.call(
+        acc,
+        exerciseName
+      )
+        ? acc[exerciseName] + doneWork
+        : doneWork;
 
       return acc;
     },
     {}
   );
 
-const DEFAULT_VALUE = 0;
-const MINIMUM_VALUE = 1;
+const ZERO_WEIGHT_VALUE = 1;
 // TODO: This logic only makes sense as long as you don't consider bodyweight exercises.
 // For a progression like --- Pull ups @0 5*5 -> Pull ups @10 5*% to make sense we need
 // a value for the bodyweight to make sense.
-const parseWeight = (weight: string | null | undefined): number => {
-  const match = weight?.match(/\d+/);
-  const parsed = match ? parseInt(match[0]) : DEFAULT_VALUE;
+const parseWeight = (weight: string): number | null => {
+  const match = weight.match(/\d+/);
+  const parsed = match ? parseInt(match[0]) : null;
 
-  return parsed === 0 ? MINIMUM_VALUE : parsed;
+  return parsed === 0 ? ZERO_WEIGHT_VALUE : parsed;
 };
 
-const parseReps = (reps: string | null | undefined): number => {
-  const summedReps = reps
-    ?.split("/")
+const parseReps = (reps: string): number | null => {
+  const parsedReps = reps
+    .split("/")
     .map((rep) => parseInt(rep))
-    .reduce((acc, rep) => acc + rep);
+    .filter((rep) => !isNaN(rep));
 
-  return summedReps || 0;
+  const summedReps = parsedReps.reduce((acc, rep) => acc + rep, 0);
+
+  return summedReps || null;
 };

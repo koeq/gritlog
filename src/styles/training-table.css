@@ -30,11 +30,11 @@ th {
   color: var(--text-2);
   font-weight: 400;
   padding-top: 16px;
-  padding-bottom: 6px;
+  padding-bottom: 8px;
 }
 
 h3 {
-  padding: 1px 6px;
+  padding: 0px 6px;
   /* hack to get around the space above the text */
   padding-bottom: 3px;
   width: fit-content;
