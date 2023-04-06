@@ -29,7 +29,7 @@ th {
   color: var(--text-2);
   font-weight: 400;
   padding-top: 16px;
-  padding-bottom: 8px;
+  padding-bottom: 10px;
 }
 
 h3 {
@@ -37,13 +37,22 @@ h3 {
   /* hack to get around the space above the text */
   padding-bottom: 3px;
   width: fit-content;
-  background: rgba(255, 255, 255, 0.15);
+  background: rgba(255, 255, 255, 0.2);
   border-radius: 4px;
 }
 
 #headline {
   color: var(--text-2);
   text-align: left;
+}
+
+.td {
+  padding: 6px 0;
+  border-bottom: 0.5px solid #494d5a;
+}
+
+.last-td {
+  padding: 6px 0;
 }
 
 #exercise {
