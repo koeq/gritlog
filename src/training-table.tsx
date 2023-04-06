@@ -1,3 +1,4 @@
+import React from "react";
 import "./styles/training-table.css";
 import { Exercise, Training } from "./types";
 
@@ -99,36 +100,34 @@ const renderExerciseRow = ({
   const tdClassName = isLastIndex ? "last-td" : "td";
 
   return (
-    <>
-      <tr key={index}>
-        <td className={tdClassName} id="exercise">
-          {exerciseName || "—"}
+    <tr key={index}>
+      <td className={tdClassName} id="exercise">
+        {exerciseName ?? "—"}
+      </td>
+      <td className={tdClassName} id="weight">
+        {weight ?? "—"}
+      </td>
+      <td className={tdClassName} id="repetitions">
+        {parseReps(repetitions) ?? "—"}
+      </td>
+      {percentageChange !== null && percentageChange !== undefined ? (
+        <td
+          id="change"
+          className={
+            percentageChange === 0
+              ? `zero ${tdClassName}`
+              : percentageChange > 0
+              ? `positive ${tdClassName}`
+              : `negative ${tdClassName}`
+          }
+        >
+          {sign}
+          {Math.abs(percentageChange).toFixed(0)}%
         </td>
-        <td className={tdClassName} id="weight">
-          {weight ?? "—"}
-        </td>
-        <td className={tdClassName} id="repetitions">
-          {parseReps(repetitions) ?? "—"}
-        </td>
-        {percentageChange !== null && percentageChange !== undefined ? (
-          <td
-            id="change"
-            className={
-              percentageChange === 0
-                ? `zero ${tdClassName}`
-                : percentageChange > 0
-                ? `positive ${tdClassName}`
-                : `negative ${tdClassName}`
-            }
-          >
-            {sign}
-            {Math.abs(percentageChange).toFixed(0)}%
-          </td>
-        ) : (
-          <td className={tdClassName} id="change" />
-        )}
-      </tr>
-    </>
+      ) : (
+        <td className={tdClassName} id="change" />
+      )}
+    </tr>
   );
 };
 
