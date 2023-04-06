@@ -18,7 +18,7 @@ export const TrainingTable = ({
   const { headline } = training;
 
   return (
-    <table tabIndex={0}>
+    <table style={{ borderSpacing: 0 }} tabIndex={0}>
       <tbody>
         <tr>
           <th id="headline" className={"border-bottom"} colSpan={2}>
@@ -62,20 +62,33 @@ const TableValues = ({
 
   return (
     <>
-      {exercises?.length
+      {exercises.length
         ? exercises.map((exercise, index) =>
-            renderExerciseRow(exercise, percentageChanges, index)
+            renderExerciseRow({
+              exercise,
+              percentageChanges,
+              index,
+              isLastIndex: index === exercises.length - 1,
+            })
           )
         : renderEmptyRow()}
     </>
   );
 };
 
-const renderExerciseRow = (
-  exercise: Exercise,
-  percentageChanges: Record<string, number> | null,
-  index: number
-) => {
+interface RenderExerciseRow {
+  index: number;
+  exercise: Exercise;
+  isLastIndex: boolean;
+  percentageChanges: Record<string, number> | null;
+}
+
+const renderExerciseRow = ({
+  index,
+  exercise,
+  isLastIndex,
+  percentageChanges,
+}: RenderExerciseRow) => {
   const { exerciseName, weight, repetitions } = exercise;
 
   const percentageChange = exerciseName
@@ -83,28 +96,39 @@ const renderExerciseRow = (
     : null;
 
   const sign = percentageChange ? (percentageChange > 0 ? "↑" : "↓") : "";
+  const tdClassName = isLastIndex ? "last-td" : "td";
 
   return (
-    <tr key={index}>
-      <td id="exercise">{exerciseName || "—"}</td>
-      <td id="weight">{weight ?? "—"}</td>
-      <td id="repetitions">{parseReps(repetitions) ?? "—"}</td>
-      {percentageChange !== null && percentageChange !== undefined ? (
-        <td
-          id="change"
-          className={
-            percentageChange === 0
-              ? "zero"
-              : percentageChange > 0
-              ? "positive"
-              : "negative"
-          }
-        >
-          {sign}
-          {Math.abs(percentageChange).toFixed(0)}%
+    <>
+      <tr key={index}>
+        <td className={tdClassName} id="exercise">
+          {exerciseName || "—"}
         </td>
-      ) : null}
-    </tr>
+        <td className={tdClassName} id="weight">
+          {weight ?? "—"}
+        </td>
+        <td className={tdClassName} id="repetitions">
+          {parseReps(repetitions) ?? "—"}
+        </td>
+        {percentageChange !== null && percentageChange !== undefined ? (
+          <td
+            id="change"
+            className={
+              percentageChange === 0
+                ? `zero ${tdClassName}`
+                : percentageChange > 0
+                ? `positive ${tdClassName}`
+                : `negative ${tdClassName}`
+            }
+          >
+            {sign}
+            {Math.abs(percentageChange).toFixed(0)}%
+          </td>
+        ) : (
+          <td className={tdClassName} id="change" />
+        )}
+      </tr>
+    </>
   );
 };
 
