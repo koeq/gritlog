@@ -8,6 +8,7 @@ let singleLineWithHeadline: string;
 let singleLineLbs: string;
 let multiLine: string;
 let multiplicator: string;
+let exerciseNameWithHyphen: string;
 
 beforeEach(() => {
   singleLine = "Benchpress @100kg 8/8/8";
@@ -18,6 +19,7 @@ beforeEach(() => {
   singleLineLbs = "Benchpress @100lbs 8/8/8";
   multiLine = "Squats @100kg 8/8/8 \n Benchpress @100kg 8/8/8";
   multiplicator = "Squats @100 3*8";
+  exerciseNameWithHyphen = "T-Bar Row @50kg 3*8";
 });
 
 const singleLineResult = {
@@ -97,6 +99,17 @@ const multiplicatorResult = {
   ],
 };
 
+const exerciseNameWithHyphenResult = {
+  headline: null,
+  exercises: [
+    {
+      exerciseName: "T-Bar Row",
+      weight: "50kg",
+      repetitions: "8/8/8",
+    },
+  ],
+};
+
 test("No Input", () => {
   expect(parse(undefined)).toBe(undefined);
 });
@@ -145,4 +158,8 @@ test("Multi-line. Format: exercise @_kg _/_/_", () => {
 
 test("Multiplicator. Format: exercise @_kg _*_", () => {
   expect(parse(multiplicator)).toEqual(multiplicatorResult);
+});
+
+test("Exercise name with hyphen", () => {
+  expect(parse(exerciseNameWithHyphen)).toEqual(exerciseNameWithHyphenResult);
 });
