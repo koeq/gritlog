@@ -10,6 +10,7 @@ type TokenType =
   | "NUMBER"
   // The token type "STRING" represents one or multiple letters in this context
   | "STRING"
+  | "HYPHEN"
   // Keywords
   | "WEIGHT_UNIT"
   // Whitespace & Newline
@@ -151,6 +152,10 @@ function createScanner(source: string): Scanner {
 
       case "#":
         addToken("HASHTAG");
+        break;
+
+      case "-":
+        addToken("HYPHEN");
         break;
 
       case " ":
@@ -373,6 +378,7 @@ function createInterpreter(tokens: Token[]): Interpreter {
         buildHeadline(token);
         break;
 
+      case "HYPHEN":
       case "STRING":
         buildExerciseName(token);
         break;
@@ -433,7 +439,9 @@ const isNumber = (char: string): boolean => {
 const isWeightUnit = (str: string): boolean => str === "kg" || str === "lbs";
 
 const isExerciseName = (token: Token) =>
-  token.type === "STRING" || token.type === "WHITESPACE";
+  token.type === "STRING" ||
+  token.type === "HYPHEN" ||
+  token.type === "WHITESPACE";
 
 const isRepetition = (token: Token): boolean =>
   token.type === "NUMBER" ||
