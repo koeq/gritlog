@@ -1,4 +1,3 @@
-import React from "react";
 import "./styles/training-table.css";
 import { Exercise, Training } from "./types";
 
