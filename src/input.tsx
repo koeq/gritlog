@@ -17,6 +17,18 @@ interface InputProps {
   readonly inputOpen: boolean;
 }
 
+interface AddButtonsProps {
+  disabled: boolean;
+  add: React.MouseEventHandler<HTMLButtonElement> | undefined;
+  cancel: React.MouseEventHandler<HTMLButtonElement> | undefined;
+}
+
+interface EditButtonsProps {
+  disabled: boolean;
+  edit: React.MouseEventHandler<HTMLButtonElement> | undefined;
+  cancel: React.MouseEventHandler<HTMLButtonElement> | undefined;
+}
+
 interface HandleAddParams {
   logout: () => void;
   dispatch: Dispatch<Action>;
@@ -69,82 +81,68 @@ export const Input = ({
           }
         }}
       ></textarea>
-
       <div className="bottom-bar-btns">
         {mode.type === "edit" ? (
-          <>
-            <button
-              type="button"
-              className="button"
-              disabled={currentInput?.trim() === mode.initialInput}
-              onClick={() =>
-                handleEdit({
-                  mode,
-                  currentTraining,
-                  dispatch,
-                  logout,
-                })
-              }
-            >
-              <IoCheckmark
-                stroke={
-                  currentInput?.trim() === mode.initialInput
-                    ? "var(--cta-disabled)"
-                    : "var(--cta)"
-                }
-                size={28}
-              />
-            </button>
-
-            <button
-              type="button"
-              id="cancel"
-              className="button"
-              onClick={() => handleCancelEdit(dispatch)}
-            >
-              <IoCloseOutline size={28} />
-            </button>
-          </>
+          <EditButtons
+            disabled={currentInput?.trim() === mode.initialInput}
+            edit={() =>
+              handleEdit({
+                mode,
+                currentTraining,
+                dispatch,
+                logout,
+              })
+            }
+            cancel={() => handleCancelEdit(dispatch)}
+          />
         ) : (
-          <>
-            <button
-              type="button"
-              className="button"
-              disabled={isEmptyTraining(currentTraining) ? true : false}
-              onClick={() =>
-                handleAdd({
-                  currentTraining,
-                  dispatch,
-                  logout,
-                  textAreaRef,
-                })
-              }
-            >
-              <IoCheckmark
-                stroke={
-                  isEmptyTraining(currentTraining)
-                    ? "var(--cta-disabled)"
-                    : "var(--cta)"
-                }
-                size={28}
-              />
-            </button>
-            <button
-              type="button"
-              id="cancel"
-              className="button"
-              onClick={() => {
-                dispatch({ type: "cancel-add" });
-              }}
-            >
-              <IoCloseOutline stroke="var(--cta)" size={28} />
-            </button>
-          </>
+          <AddButtons
+            disabled={isEmptyTraining(currentTraining) ? true : false}
+            add={() =>
+              handleAdd({
+                currentTraining,
+                dispatch,
+                logout,
+                textAreaRef,
+              })
+            }
+            cancel={() => {
+              dispatch({ type: "cancel-add" });
+            }}
+          />
         )}
       </div>
     </>
   );
 };
+
+const AddButtons = ({ disabled, add, cancel }: AddButtonsProps) => (
+  <>
+    <button type="button" className="button" disabled={disabled} onClick={add}>
+      <IoCheckmark
+        stroke={disabled ? "var(--cta-disabled)" : "var(--cta)"}
+        size={28}
+      />
+    </button>
+    <button type="button" id="cancel" className="button" onClick={cancel}>
+      <IoCloseOutline stroke="var(--cta)" size={28} />
+    </button>
+  </>
+);
+
+const EditButtons = ({ disabled, edit, cancel }: EditButtonsProps) => (
+  <>
+    <button type="button" className="button" disabled={disabled} onClick={edit}>
+      <IoCheckmark
+        stroke={disabled ? "var(--cta-disabled)" : "var(--cta)"}
+        size={28}
+      />
+    </button>
+    <button type="button" id="cancel" className="button" onClick={cancel}>
+      <IoCloseOutline size={28} />
+    </button>
+  </>
+);
 
 const handleAdd = ({
   currentTraining,
