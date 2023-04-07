@@ -26,7 +26,6 @@ interface HandleAddParams {
 
 interface HandleEditParams {
   mode: Mode;
-  currentInput: string;
   dispatch: Dispatch<Action>;
   currentTraining: Training;
   logout: () => void;
@@ -77,17 +76,24 @@ export const Input = ({
             <button
               type="button"
               className="button"
+              disabled={currentInput?.trim() === mode.initialInput}
               onClick={() =>
                 handleEdit({
                   mode,
-                  currentInput,
                   currentTraining,
                   dispatch,
                   logout,
                 })
               }
             >
-              <IoCheckmark size={28} />
+              <IoCheckmark
+                stroke={
+                  currentInput?.trim() === mode.initialInput
+                    ? "var(--cta-disabled)"
+                    : "var(--cta)"
+                }
+                size={28}
+              />
             </button>
 
             <button
@@ -157,7 +163,6 @@ const handleAdd = ({
 
 const handleEdit = ({
   mode,
-  currentInput,
   currentTraining,
   dispatch,
   logout,
@@ -166,12 +171,7 @@ const handleEdit = ({
     return;
   }
 
-  const { id, initialInput, date } = mode;
-
-  // Only edit if training changed
-  if (currentInput?.trim() === initialInput) {
-    return;
-  }
+  const { id, date } = mode;
 
   editTraining({ ...currentTraining, id, date }, logout);
   dispatch({
