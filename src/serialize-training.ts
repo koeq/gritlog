@@ -5,7 +5,7 @@ export const serializeTraining = (training: Training): string => {
 
   const serializedHeadline = headline ? `# ${headline}\n` : "";
 
-  const serializedeExercises = exercises
+  const serializedExercises = exercises
     ? training.exercises
         ?.map(
           ({ exerciseName, weight, repetitions }) =>
@@ -17,5 +17,5 @@ export const serializeTraining = (training: Training): string => {
         .trim()
     : "";
 
-  return serializedHeadline + serializedeExercises;
+  return serializedHeadline + serializedExercises;
 };
