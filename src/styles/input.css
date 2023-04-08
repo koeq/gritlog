@@ -1,8 +1,9 @@
 textarea {
+  position: relative;
   width: min(450px, 93%);
   height: 120px;
-  background: var(--background-gradient);
-  border: 1px solid var(--border);
+  background: #1a1b24;
+  border: none;
   border-radius: 10px;
   outline: none;
   font-size: 16px;
@@ -13,21 +14,15 @@ textarea {
 
 .bottom-bar-btns {
   display: flex;
-  align-items: flex-start;
-  margin-top: 10px;
+  justify-content: flex-end;
+  width: min(450px, 93%);
+  position: absolute;
+  bottom: 17px;
 }
 
 .button {
   border-radius: 50%;
-  padding: 12px;
-}
-
-#edit-last {
-  margin-left: 140px;
-}
-
-#cancel {
-  margin-left: 140px;
+  padding: 10px;
 }
 
 .icon {
