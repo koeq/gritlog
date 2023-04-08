@@ -14,9 +14,9 @@ export const setAuthCookie = (
 
     // TODO: CHECK
     // is SameSite=none safe?
-    // session lasts 3 hours
+    // session lasts 7 days
     const cookie = {
-      "Set-Cookie": `user=${jwt}; Max-Age=${10800}; Secure; HttpOnly; SameSite=none`,
+      "Set-Cookie": `user=${jwt}; Max-Age=${604800}; Secure; HttpOnly; SameSite=none`,
     };
 
     return buildResponse(statusCode, "Auth cookie was set", cookie);
