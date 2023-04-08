@@ -1,6 +1,6 @@
 export interface JsonResponse {
   statusCode: number;
-  headers?: {
+  headers: {
     "Content-Type"?: string;
     "Access-Control-Allow-Origin"?: string;
     "Access-Control-Allow-Methods"?: string;
@@ -23,7 +23,6 @@ export const buildResponse = (
     statusCode: statusCode,
     headers: {
       "Content-Type": "application/json",
-      "Access-Control-Allow-Origin": process.env.ORIGIN,
       "Access-Control-Allow-Methods": "OPTIONS,POST,GET, PUT, DELETE",
       "Access-Control-Allow-Headers": "Content-Type, Authorization, x-api-key",
       "Access-Control-Allow-Credentials": "true",

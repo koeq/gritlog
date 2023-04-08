@@ -12,6 +12,7 @@
     "db-handler:deploy-prod": "./scripts/db-handler-deploy-prod.sh",
     "deploy": "tsc && vite build && aws s3 cp ./dist/ s3://gritlog.app/ --recursive",
     "deploy:flush": "npm run deploy && npm run flush-cache",
+    "deploy:stage": "tsc && vite build && aws s3 cp ./dist/ s3://stage.gritlog.app/ --recursive",
     "dev": "npm run start & npm run tsc:watch",
     "fix": "npm run format && npm run sort-package-jsons && npm run lint:fix",
     "flush-cache": "aws cloudfront create-invalidation --distribution-id E3BA1RLD3CDYF1 --paths '/*'",
