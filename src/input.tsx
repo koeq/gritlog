@@ -81,6 +81,7 @@ export const Input = ({
           }
         }}
       ></textarea>
+
       <div className="bottom-bar-btns">
         {mode.type === "edit" ? (
           <EditButtons
@@ -121,11 +122,11 @@ const AddButtons = ({ disabled, add, cancel }: AddButtonsProps) => (
     <button type="button" className="button" disabled={disabled} onClick={add}>
       <IoCheckmark
         stroke={disabled ? "var(--cta-disabled)" : "var(--cta)"}
-        size={28}
+        size={30}
       />
     </button>
-    <button type="button" id="cancel" className="button" onClick={cancel}>
-      <IoCloseOutline stroke="var(--cta)" size={28} />
+    <button type="button" className="button" onClick={cancel}>
+      <IoCloseOutline stroke="var(--cta)" size={30} />
     </button>
   </>
 );
@@ -135,11 +136,11 @@ const EditButtons = ({ disabled, edit, cancel }: EditButtonsProps) => (
     <button type="button" className="button" disabled={disabled} onClick={edit}>
       <IoCheckmark
         stroke={disabled ? "var(--cta-disabled)" : "var(--cta)"}
-        size={28}
+        size={30}
       />
     </button>
-    <button type="button" id="cancel" className="button" onClick={cancel}>
-      <IoCloseOutline size={28} />
+    <button type="button" className="button" onClick={cancel}>
+      <IoCloseOutline size={30} />
     </button>
   </>
 );
