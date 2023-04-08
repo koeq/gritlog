@@ -7,6 +7,7 @@
     "auth-handler:deploy-dev": "./scripts/auth-handler-deploy-dev.sh",
     "auth-handler:deploy-prod": "./scripts/auth-handler-deploy-prod.sh",
     "build": "tsc && vite build",
+    "cors-handler:deploy": "./scripts/cors-handler-deploy.sh",
     "db-handler:deploy": "./scripts/db-handler-deploy.sh",
     "db-handler:deploy-dev": "./scripts/db-handler-deploy-dev.sh",
     "db-handler:deploy-prod": "./scripts/db-handler-deploy-prod.sh",
