@@ -57,6 +57,7 @@ export const Input = ({
   return (
     <div className="input-wrapper">
       <textarea
+        autoComplete="on"
         placeholder="Squats @80kg 8/8/8"
         onChange={(event) =>
           dispatch({
