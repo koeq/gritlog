@@ -55,7 +55,7 @@ export const Input = ({
   const { logout } = useAuth();
 
   return (
-    <>
+    <div className="input-wrapper">
       <textarea
         placeholder="Squats @80kg 8/8/8"
         onChange={(event) =>
@@ -113,7 +113,7 @@ export const Input = ({
           />
         )}
       </div>
-    </>
+    </div>
   );
 };
 
