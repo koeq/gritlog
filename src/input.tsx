@@ -1,5 +1,9 @@
 import { Dispatch } from "react";
-import { IoCheckmark, IoCloseOutline } from "react-icons/io5";
+import {
+  IoCheckmark,
+  IoCloseOutline,
+  IoInformationCircleOutline,
+} from "react-icons/io5";
 import { addTraining } from "./add-training";
 import { useAuth, useIsMobile } from "./context";
 import { editTraining } from "./edit-training";
@@ -15,6 +19,7 @@ interface InputProps {
   readonly currentTraining: Training;
   readonly textAreaRef: React.MutableRefObject<HTMLTextAreaElement | null>;
   readonly inputOpen: boolean;
+  readonly setShowInfo: Dispatch<React.SetStateAction<boolean>>;
 }
 
 interface AddButtonsProps {
@@ -50,71 +55,82 @@ export const Input = ({
   currentTraining,
   textAreaRef,
   inputOpen,
+  setShowInfo,
 }: InputProps): JSX.Element => {
   const isMobile = useIsMobile();
   const { logout } = useAuth();
 
   return (
-    <div className="input-wrapper">
-      <textarea
-        autoComplete="on"
-        placeholder="Squats @80kg 8/8/8"
-        onChange={(event) =>
-          dispatch({
-            type: "set-input",
-            currentInput: event.currentTarget.value,
-          })
-        }
-        value={currentInput}
-        name="training"
-        id="training"
-        className={inputOpen ? "open" : "close"}
-        ref={textAreaRef}
-        tabIndex={inputOpen ? undefined : -1}
-        onKeyDown={(e) => {
-          if (isMobile) {
-            return;
+    <>
+      <div className="input-wrapper">
+        <textarea
+          autoComplete="on"
+          placeholder="Squats @80kg 8/8/8"
+          onChange={(event) =>
+            dispatch({
+              type: "set-input",
+              currentInput: event.currentTarget.value,
+            })
           }
-
-          if (e.key === "Enter" && !e.shiftKey) {
-            e.preventDefault();
-            handleAdd({ currentTraining, dispatch, logout, textAreaRef });
-          }
-        }}
-      ></textarea>
-
-      <div className="bottom-bar-btns">
-        {mode.type === "edit" ? (
-          <EditButtons
-            disabled={currentInput?.trim() === mode.initialInput}
-            edit={() =>
-              handleEdit({
-                mode,
-                currentTraining,
-                dispatch,
-                logout,
-              })
+          value={currentInput}
+          name="training"
+          id="training"
+          className={inputOpen ? "open" : "close"}
+          ref={textAreaRef}
+          tabIndex={inputOpen ? undefined : -1}
+          onKeyDown={(e) => {
+            if (isMobile) {
+              return;
             }
-            cancel={() => handleCancelEdit(dispatch)}
-          />
-        ) : (
-          <AddButtons
-            disabled={isEmptyTraining(currentTraining) ? true : false}
-            add={() =>
-              handleAdd({
-                currentTraining,
-                dispatch,
-                logout,
-                textAreaRef,
-              })
+
+            if (e.key === "Enter" && !e.shiftKey) {
+              e.preventDefault();
+              handleAdd({ currentTraining, dispatch, logout, textAreaRef });
             }
-            cancel={() => {
-              dispatch({ type: "cancel-add" });
-            }}
-          />
-        )}
+          }}
+        ></textarea>
+        <div className="info-btn">
+          <button
+            type="button"
+            className="button"
+            onClick={() => setShowInfo(true)}
+          >
+            <IoInformationCircleOutline size={16} />
+          </button>
+        </div>
+        <div className="bottom-bar-btns">
+          {mode.type === "edit" ? (
+            <EditButtons
+              disabled={currentInput?.trim() === mode.initialInput}
+              edit={() =>
+                handleEdit({
+                  mode,
+                  currentTraining,
+                  dispatch,
+                  logout,
+                })
+              }
+              cancel={() => handleCancelEdit(dispatch)}
+            />
+          ) : (
+            <AddButtons
+              disabled={isEmptyTraining(currentTraining) ? true : false}
+              add={() =>
+                handleAdd({
+                  currentTraining,
+                  dispatch,
+                  logout,
+                  textAreaRef,
+                })
+              }
+              cancel={() => {
+                dispatch({ type: "cancel-add" });
+              }}
+            />
+          )}
+        </div>
       </div>
-    </div>
+    </>
   );
 };
 
