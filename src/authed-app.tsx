@@ -1,9 +1,17 @@
-import { Dispatch, useEffect, useMemo, useReducer, useRef } from "react";
+import {
+  Dispatch,
+  useEffect,
+  useMemo,
+  useReducer,
+  useRef,
+  useState,
+} from "react";
 import "../src/styles/authed-app.css";
 import { BottomBar } from "./bottom-bar";
 import { Buttons } from "./buttons";
 import { DeletionConfirmation } from "./deletion-confirmation";
 import { fetchTrainings } from "./fetch-trainings";
+import { FormatInfo } from "./format-info";
 import { Header } from "./header";
 import { Input } from "./input";
 import { LoadingSpinner } from "./loading-spinner";
@@ -50,6 +58,7 @@ const AuthedApp = (): JSX.Element => {
   const [topLevelState, dispatch] = useReducer(reducer, initialState);
   const { trainings, currentInput, inputOpen, mode } = topLevelState;
   const textAreaRef = useRef<HTMLTextAreaElement | null>(null);
+  const [showInfo, setShowInfo] = useState(false);
 
   const { headline = null, exercises = [] } =
     useMemo(() => parse(currentInput), [currentInput]) || {};
@@ -103,8 +112,11 @@ const AuthedApp = (): JSX.Element => {
           currentTraining={currentTraining}
           textAreaRef={textAreaRef}
           inputOpen={inputOpen}
+          setShowInfo={setShowInfo}
         />
       </BottomBar>
+
+      {showInfo && <FormatInfo setShowInfo={setShowInfo} />}
 
       {mode.type === "delete" && (
         <DeletionConfirmation id={mode.id} dispatch={dispatch} />

@@ -1,0 +1,91 @@
+.layer {
+  height: 100vh;
+  width: 100vw;
+  position: fixed;
+  top: 0;
+  left: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1;
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+}
+
+.training-format-explanation {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  bottom: 10%;
+}
+
+.format-container {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.format-box {
+  background: var(--background-gradient);
+  border: 1px solid grey;
+  border-radius: 12px;
+  padding: 8px 16px;
+  display: inline;
+}
+
+.training-info {
+  font-size: 20px;
+  letter-spacing: 2px;
+}
+
+.description {
+  text-align: center;
+  font-size: 14px;
+  color: var(--text-3);
+}
+
+.exercise-label {
+  margin-bottom: 10px;
+}
+
+.exercise-name-explanation {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  position: absolute;
+  bottom: 58px;
+  left: 0;
+}
+
+.reps-explanation {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  position: absolute;
+  bottom: 48px;
+  left: 130px;
+}
+
+.weight-explanation {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  position: absolute;
+  top: 58px;
+  left: 32px;
+  width: 150px;
+}
+
+.extra-set-explanation {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  position: absolute;
+  top: 58px;
+  left: 200px;
+}
+
+.margin-top {
+  margin-top: 10px;
+}
