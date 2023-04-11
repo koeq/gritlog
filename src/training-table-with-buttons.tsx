@@ -15,15 +15,17 @@ interface TrainingTableProps {
 }
 
 const scrollOnClick = (element: HTMLDivElement | null): void => {
-  if (element) {
-    // Left value doesn't have to match exactly because of scroll snap.
-    const leftValue = element.scrollLeft === 0 ? 160 : -160;
-
-    element.scrollBy({
-      left: leftValue,
-      behavior: "smooth",
-    });
+  if (!element) {
+    return;
   }
+
+  // Left value doesn't have to match exactly because of scroll snap.
+  const leftValue = element.scrollLeft === 0 ? 160 : -160;
+
+  element.scrollBy({
+    left: leftValue,
+    behavior: "smooth",
+  });
 };
 
 export const TrainingTableWithButtons = ({

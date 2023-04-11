@@ -33,7 +33,6 @@
   background: #346775;
   color: #fff;
   border: none;
-  scroll-snap-align: start;
 }
 
 #delete {
@@ -41,5 +40,5 @@
   background: #774b59;
   color: #fff;
   border: none;
-  scroll-snap-align: start;
+  scroll-snap-align: end;
 }
