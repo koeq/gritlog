@@ -15,6 +15,7 @@ describe("Mutate global state", () => {
 
   const someTraining: Training = {
     date: "someDate",
+    headline: null,
     id: 0,
     exercises: [
       { exerciseName: "Benchpress", repetitions: "8/8/8", weight: "100.5kg" },
