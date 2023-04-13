@@ -5,24 +5,7 @@ import {
 } from "aws-lambda";
 
 const DOMAIN_WHITELIST = ["https://gritlog.app", "https://stage.gritlog.app"];
-
 const LOCALHOST_REGEX = /^http:\/\/localhost(:\d{1,5})?$/;
-
-const isOriginAllowed = (inputOrigin: string | undefined): boolean => {
-  return (
-    !!inputOrigin &&
-    (DOMAIN_WHITELIST.includes(inputOrigin) ||
-      LOCALHOST_REGEX.test(inputOrigin))
-  );
-};
-
-const getHeaders = (origin: string) => ({
-  "Access-Control-Allow-Origin": origin,
-  "Access-Control-Allow-Headers":
-    "Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token",
-  "Access-Control-Allow-Methods": "PUT, POST, OPTIONS, GET, DELETE",
-  "Access-Control-Allow-Credentials": "true",
-});
 
 export const handler: APIGatewayProxyHandler = async (
   event: APIGatewayProxyEvent
@@ -51,3 +34,19 @@ export const handler: APIGatewayProxyHandler = async (
     }),
   };
 };
+
+const isOriginAllowed = (inputOrigin: string | undefined): boolean => {
+  return (
+    !!inputOrigin &&
+    (DOMAIN_WHITELIST.includes(inputOrigin) ||
+      LOCALHOST_REGEX.test(inputOrigin))
+  );
+};
+
+const getHeaders = (origin: string) => ({
+  "Access-Control-Allow-Origin": origin,
+  "Access-Control-Allow-Headers":
+    "Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token",
+  "Access-Control-Allow-Methods": "PUT, POST, OPTIONS, GET, DELETE",
+  "Access-Control-Allow-Credentials": "true",
+});
