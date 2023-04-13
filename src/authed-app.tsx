@@ -9,7 +9,9 @@ import {
 import "../src/styles/authed-app.css";
 import { BottomBar } from "./bottom-bar";
 import { Buttons } from "./buttons";
+import { useAuth } from "./context";
 import { DeletionConfirmation } from "./deletion-confirmation";
+import { editTraining } from "./edit-training";
 import { fetchTrainings } from "./fetch-trainings";
 import { FormatInfo } from "./format-info";
 import { Header } from "./header";
@@ -28,30 +30,36 @@ export interface HandleSetEditModeParams {
   textAreaRef: React.MutableRefObject<HTMLTextAreaElement | null>;
 }
 
-const handleSetEditMode = ({
-  id,
-  trainings,
-  dispatch,
-  textAreaRef,
-}: HandleSetEditModeParams) => {
-  if (id === undefined) {
-    return;
+const parseDates = (trainings: Training[], logout: () => void) => {
+  for (const training of trainings) {
+    const splittedDate = training.date.includes(".")
+      ? training.date.split(".")
+      : training.date.split("/");
+
+    // format is already updated
+    if (splittedDate.length !== 3) {
+      continue;
+    }
+
+    const parsedDate = `${splittedDate[1]}/${splittedDate[0]}/${splittedDate[2]}`;
+    const newDateFormat = new Date(parsedDate).toString();
+
+    console.log(training.id, newDateFormat);
+
+    setTimeout(
+      () =>
+        editTraining(
+          {
+            ...training,
+            date: newDateFormat,
+            headline:
+              training.headline === undefined ? null : training.headline,
+          },
+          logout
+        ),
+      1000 * training.id + 1
+    );
   }
-
-  const training = trainings?.find((training) => training.id === id);
-
-  if (!training) {
-    return;
-  }
-
-  dispatch({
-    type: "set-edit-mode",
-    id,
-    serializedTraining: serializeTraining(training),
-    date: training.date,
-  });
-
-  textAreaRef.current?.focus();
 };
 
 const AuthedApp = (): JSX.Element => {
@@ -59,6 +67,7 @@ const AuthedApp = (): JSX.Element => {
   const { trainings, currentInput, inputOpen, mode } = topLevelState;
   const textAreaRef = useRef<HTMLTextAreaElement | null>(null);
   const [showInfo, setShowInfo] = useState(false);
+  const { logout } = useAuth();
 
   const { headline = null, exercises = [] } =
     useMemo(() => parse(currentInput), [currentInput]) || {};
@@ -71,13 +80,15 @@ const AuthedApp = (): JSX.Element => {
   useEffect(() => {
     (async () => {
       const fetchedTrainings = await fetchTrainings();
+      parseDates(fetchedTrainings, logout);
       dispatch({ type: "set-trainings", trainings: fetchedTrainings });
     })();
   }, []);
 
   const currentTraining: Training = {
     headline,
-    date: new Date().toLocaleDateString(),
+    // stringify date until DB type has changed
+    date: new Date().toString(),
     id: nextTrainingsId,
     exercises: exercises,
   };
@@ -123,6 +134,32 @@ const AuthedApp = (): JSX.Element => {
       )}
     </div>
   );
+};
+
+const handleSetEditMode = ({
+  id,
+  trainings,
+  dispatch,
+  textAreaRef,
+}: HandleSetEditModeParams) => {
+  if (id === undefined) {
+    return;
+  }
+
+  const training = trainings?.find((training) => training.id === id);
+
+  if (!training) {
+    return;
+  }
+
+  dispatch({
+    type: "set-edit-mode",
+    id,
+    serializedTraining: serializeTraining(training),
+    date: training.date,
+  });
+
+  textAreaRef.current?.focus();
 };
 
 export default AuthedApp;

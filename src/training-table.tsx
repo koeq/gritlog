@@ -15,7 +15,7 @@ export const TrainingTable = ({
   training,
   percentageChanges,
 }: TrainingTableProps): JSX.Element | null => {
-  const { headline } = training;
+  const { headline, date } = training;
 
   return (
     <table style={{ borderSpacing: 0 }} tabIndex={0}>
@@ -25,7 +25,7 @@ export const TrainingTable = ({
             {headline && <span id="headline">{headline}</span>}
           </th>
           <th className={"date-header border-bottom"} colSpan={2}>
-            {training.date}
+            {new Date(date).toDateString()}
           </th>
         </tr>
         <TableHeaders />

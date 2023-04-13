@@ -30,18 +30,21 @@ export const editTraining = async (
       "headline"
     ];
 
-    if (!marshalledExercises) {
-      return buildResponse(500, "Can't update training");
-    }
+    const marshalledDate = marshall({ date: training.date })["date"];
 
     const params: UpdateItemCommandInput = {
       TableName: "trainings",
       Key: marshall({ email, id: training.id }),
       UpdateExpression:
-        "set exercises = :newExercises, headline = :newHeadline",
+        "set exercises = :newExercises, headline = :newHeadline, #date_attr = :newDate",
+      // Date is a reserved keyword within dynamoDB and need to be mapped
+      ExpressionAttributeNames: {
+        "#date_attr": "date",
+      },
       ExpressionAttributeValues: {
         ":newExercises": marshalledExercises,
         ":newHeadline": marshalledHeadline,
+        ":newDate": marshalledDate,
       },
       ReturnValues: "UPDATED_NEW",
     };
