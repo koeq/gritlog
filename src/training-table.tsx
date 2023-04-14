@@ -1,3 +1,4 @@
+import { createDateFormat } from "./group-training-by-weeks";
 import "./styles/training-table.css";
 import { Exercise, Training } from "./types";
 
@@ -25,7 +26,7 @@ export const TrainingTable = ({
             {headline && <span id="headline">{headline}</span>}
           </th>
           <th className={"date-header border-bottom"} colSpan={2}>
-            {new Date(date).toDateString()}
+            {createDateFormat(new Date(date))}
           </th>
         </tr>
         <TableHeaders />

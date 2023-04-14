@@ -30,6 +30,7 @@ export interface HandleSetEditModeParams {
   textAreaRef: React.MutableRefObject<HTMLTextAreaElement | null>;
 }
 
+// TODO: Remove once dates are transformed for all users
 const parseDates = (trainings: Training[], logout: () => void) => {
   for (const training of trainings) {
     const splittedDate = training.date.includes(".")
@@ -87,7 +88,6 @@ const AuthedApp = (): JSX.Element => {
 
   const currentTraining: Training = {
     headline,
-    // stringify date until DB type has changed
     date: new Date().toString(),
     id: nextTrainingsId,
     exercises: exercises,
