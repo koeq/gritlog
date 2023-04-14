@@ -15,8 +15,8 @@
 .header-container {
   display: flex;
   justify-content: space-between;
-  width: 100%;
-  padding: 8px 8px;
+  width: min(450px, 97%);
+  padding: 8px 0px;
 }
 
 .heading {
@@ -37,5 +37,10 @@ hr {
 @media (min-width: 560px) {
   hr {
     width: 100%;
+  }
+
+  .header-container {
+    width: 100%;
+    padding: 8px 8px;
   }
 }
