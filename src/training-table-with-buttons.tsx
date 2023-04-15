@@ -1,6 +1,5 @@
 import { useRef } from "react";
-import { IoTrashBin } from "react-icons/io5";
-import { MdModeEdit } from "react-icons/md";
+import { IoPencilSharp, IoTrashBin } from "react-icons/io5";
 import { useIsMobile } from "./context";
 import { Action } from "./state-reducer";
 import "./styles/training-table-with-buttons.css";
@@ -58,7 +57,7 @@ export const TrainingTableWithButtons = ({
             scrollOnClick(trainingRef.current);
           }}
         >
-          <MdModeEdit size={20} />
+          <IoPencilSharp size={22} />
         </button>
         <button
           id="delete"
@@ -72,7 +71,7 @@ export const TrainingTableWithButtons = ({
             });
           }}
         >
-          <IoTrashBin size={20} />
+          <IoTrashBin size={22} />
         </button>
       </div>
     </div>

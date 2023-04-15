@@ -1,5 +1,6 @@
 import { Dispatch } from "react";
-import { IoAdd, IoRepeat } from "react-icons/io5";
+import { IoMdAdd } from "react-icons/io";
+import { IoPencilSharp } from "react-icons/io5";
 import "../src/styles/buttons.css";
 import { HandleSetEditModeParams } from "./authed-app";
 import { Action } from "./state-reducer";
@@ -42,9 +43,9 @@ export const Buttons = ({
             textAreaRef.current?.focus();
           }}
         >
-          <IoAdd
+          <IoMdAdd
             stroke={inputOpen ? "var(--cta-disabled)" : "var(--cta)"}
-            size={28}
+            size={24}
           />
         </button>
         <button
@@ -60,13 +61,13 @@ export const Buttons = ({
             });
           }}
         >
-          <IoRepeat
+          <IoPencilSharp
             stroke={
               lastTrainingId === undefined
                 ? "var(--cta-disabled)"
                 : "var(--cta)"
             }
-            size={28}
+            size={19}
           />
         </button>
       </>
