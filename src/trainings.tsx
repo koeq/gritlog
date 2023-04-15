@@ -1,5 +1,6 @@
 import { Fragment, memo, useMemo } from "react";
 import { HandleSetEditModeParams } from "./authed-app";
+import { Calendar } from "./calendar";
 import { getLatestPercentageChanges } from "./get-latest-percentage-change";
 import {
   createDateFormat,
@@ -50,10 +51,11 @@ export const Trainings = ({
         {groupedTrainings.map(({ startDate, endDate, trainings }, index) => {
           return (
             <Fragment key={startDate.toString()}>
-              <div style={{ width: "min(450px, 97%)" }}>
-                <span>{`${createDateFormat(startDate)} — ${createDateFormat(
-                  endDate
-                )}`}</span>
+              <div className="date-range">
+                <Calendar />
+                <span className="date-range-text">{`${createDateFormat(
+                  startDate
+                )} — ${createDateFormat(endDate)}`}</span>
               </div>
               {trainings.map((training) => {
                 return (
@@ -77,8 +79,15 @@ export const Trainings = ({
                   />
                 );
               })}
+
               {index !== groupedTrainings.length - 1 && (
-                <hr style={{ width: "min(450px, 97%)" }} />
+                <hr
+                  style={{
+                    width: "min(450px, 97%)",
+                    marginTop: "26px",
+                    marginBottom: "14px",
+                  }}
+                />
               )}
             </Fragment>
           );

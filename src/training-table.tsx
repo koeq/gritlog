@@ -1,3 +1,4 @@
+import { Calendar } from "./calendar";
 import { createDateFormat } from "./group-training-by-weeks";
 import "./styles/training-table.css";
 import { Exercise, Training } from "./types";
@@ -19,14 +20,17 @@ export const TrainingTable = ({
   const { headline, date } = training;
 
   return (
-    <table style={{ borderSpacing: 0 }} tabIndex={0}>
+    <table tabIndex={0}>
       <tbody>
         <tr>
-          <th id="headline" className={"border-bottom"} colSpan={2}>
+          <th id="headline" className={"th-spacing"} colSpan={2}>
             {headline && <span id="headline">{headline}</span>}
           </th>
-          <th className={"date-header border-bottom"} colSpan={2}>
-            {createDateFormat(new Date(date))}
+          <th className={"date-header th-spacing"} colSpan={2}>
+            <div className="date">
+              <Calendar />
+              {createDateFormat(new Date(date))}
+            </div>
           </th>
         </tr>
         <TableHeaders />
