@@ -1,4 +1,4 @@
-import { Dispatch } from "react";
+import { Dispatch, useEffect } from "react";
 import {
   IoCheckmark,
   IoCloseOutline,
@@ -60,42 +60,57 @@ export const Input = ({
   const isMobile = useIsMobile();
   const { logout } = useAuth();
 
+  useEffect(() => {
+    if (textAreaRef.current) {
+      autoGrow(textAreaRef.current);
+    }
+  }, [currentInput]);
+
+  const autoGrow = (element: HTMLTextAreaElement) => {
+    const minHeight = 90;
+    // Reset height
+    element.style.height = `${minHeight}px`;
+    element.style.height = `${element.scrollHeight}px`;
+  };
+
   return (
     <>
       <div className="input-wrapper">
-        <textarea
-          autoComplete="on"
-          placeholder="Squats @80kg 8/8/8"
-          onChange={(event) =>
-            dispatch({
-              type: "set-input",
-              currentInput: event.currentTarget.value,
-            })
-          }
-          value={currentInput}
-          name="training"
-          id="training"
-          className={inputOpen ? "open" : "close"}
-          ref={textAreaRef}
-          tabIndex={inputOpen ? undefined : -1}
-          onKeyDown={(e) => {
-            if (isMobile) {
-              return;
+        <div className="grow-wrap">
+          <textarea
+            autoComplete="on"
+            placeholder="Squats @80kg 8/8/8"
+            onChange={(event) =>
+              dispatch({
+                type: "set-input",
+                currentInput: event.currentTarget.value,
+              })
             }
+            value={currentInput}
+            name="training"
+            id="training"
+            className={inputOpen ? "open" : "close"}
+            ref={textAreaRef}
+            tabIndex={inputOpen ? undefined : -1}
+            onKeyDown={(e) => {
+              if (isMobile) {
+                return;
+              }
 
-            if (e.key === "Enter" && !e.shiftKey) {
-              e.preventDefault();
-              handleAdd({ currentTraining, dispatch, logout, textAreaRef });
-            }
-          }}
-        ></textarea>
+              if (e.key === "Enter" && !e.shiftKey) {
+                e.preventDefault();
+                handleAdd({ currentTraining, dispatch, logout, textAreaRef });
+              }
+            }}
+          ></textarea>
+        </div>
         <div className="info-btn">
           <button
             type="button"
             className="button"
             onClick={() => setShowInfo(true)}
           >
-            <IoInformationCircleOutline size={16} />
+            <IoInformationCircleOutline size={17} />
           </button>
         </div>
         <div className="bottom-bar-btns">
@@ -139,11 +154,11 @@ const AddButtons = ({ disabled, add, cancel }: AddButtonsProps) => (
     <button type="button" className="button" disabled={disabled} onClick={add}>
       <IoCheckmark
         stroke={disabled ? "var(--cta-disabled)" : "var(--cta)"}
-        size={30}
+        size={28}
       />
     </button>
     <button type="button" className="button" onClick={cancel}>
-      <IoCloseOutline stroke="var(--cta)" size={30} />
+      <IoCloseOutline stroke="var(--cta)" size={28} />
     </button>
   </>
 );
@@ -153,11 +168,11 @@ const EditButtons = ({ disabled, edit, cancel }: EditButtonsProps) => (
     <button type="button" className="button" disabled={disabled} onClick={edit}>
       <IoCheckmark
         stroke={disabled ? "var(--cta-disabled)" : "var(--cta)"}
-        size={30}
+        size={28}
       />
     </button>
     <button type="button" className="button" onClick={cancel}>
-      <IoCloseOutline size={30} />
+      <IoCloseOutline size={28} />
     </button>
   </>
 );
