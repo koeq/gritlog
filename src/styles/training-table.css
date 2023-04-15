@@ -7,6 +7,7 @@ table {
   border-radius: var(--border-radius) 0 0 var(--border-radius);
   cursor: pointer;
   scroll-snap-align: start;
+  border-spacing: 0;
 }
 
 th {
@@ -14,10 +15,15 @@ th {
   text-align: left;
 }
 
-.border-bottom {
-  border-bottom: 0.5px solid #232323;
-  padding-bottom: 8px;
-  text-align: right;
+.date {
+  font-size: var(--font-size-date);
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+.th-spacing {
+  padding-bottom: 16px;
 }
 
 .date-header {
@@ -37,7 +43,7 @@ h3 {
   /* hack to get around the space above the text */
   padding-bottom: 3px;
   width: fit-content;
-  background: rgba(255, 255, 255, 0.2);
+  background: rgba(255, 255, 255, 0.1);
   border-radius: 4px;
 }
 

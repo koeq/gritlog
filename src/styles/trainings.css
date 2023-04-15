@@ -8,6 +8,17 @@
   overflow-y: scroll;
 }
 
+.date-range {
+  display: flex;
+  align-items: center;
+  width: min(450px, 97%);
+  margin-bottom: 14px;
+}
+
+.date-range-text {
+  font-size: var(--font-size-date);
+}
+
 section {
   width: 100%;
   display: flex;
@@ -16,5 +27,5 @@ section {
 }
 
 section > * {
-  margin-bottom: 24px;
+  margin-bottom: 26px;
 }
