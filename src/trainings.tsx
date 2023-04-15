@@ -81,13 +81,7 @@ export const Trainings = ({
               })}
 
               {index !== groupedTrainings.length - 1 && (
-                <hr
-                  style={{
-                    width: "min(450px, 97%)",
-                    marginTop: "26px",
-                    marginBottom: "14px",
-                  }}
-                />
+                <hr className="training-group-separator" />
               )}
             </Fragment>
           );
