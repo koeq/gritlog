@@ -104,15 +104,6 @@ export const Input = ({
             }}
           ></textarea>
         </div>
-        <div className="info-btn">
-          <button
-            type="button"
-            className="button"
-            onClick={() => setShowInfo(true)}
-          >
-            <IoInformationCircleOutline size={17} />
-          </button>
-        </div>
         <div className="bottom-bar-btns">
           {mode.type === "edit" ? (
             <EditButtons
@@ -143,6 +134,15 @@ export const Input = ({
               }}
             />
           )}
+        </div>
+        <div className="info-btn">
+          <button
+            type="button"
+            className="button"
+            onClick={() => setShowInfo(true)}
+          >
+            <IoInformationCircleOutline size={17} />
+          </button>
         </div>
       </div>
     </>
