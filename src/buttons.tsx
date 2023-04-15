@@ -32,7 +32,7 @@ export const Buttons = ({
       : undefined;
 
   return (
-    <div className="btns">
+    <div className={inputOpen ? "btns btns-input-open" : "btns"}>
       <>
         <button
           className="btn-round top"
