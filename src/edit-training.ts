@@ -6,7 +6,6 @@ export const editTraining = async (
 ): Promise<void> => {
   try {
     const url = import.meta.env.VITE_TRAINING_URL;
-    console.log(currentTraining);
 
     const requestOptions: RequestInit = {
       headers: {

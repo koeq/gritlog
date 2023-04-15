@@ -32,7 +32,6 @@ export const groupTrainingsByWeek = (
     groupedTrainings.get(groupKey)?.trainings.push(training);
   }
 
-  console.log(groupedTrainings);
   return [...groupedTrainings.values()];
 };
 

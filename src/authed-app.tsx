@@ -9,9 +9,7 @@ import {
 import "../src/styles/authed-app.css";
 import { BottomBar } from "./bottom-bar";
 import { Buttons } from "./buttons";
-import { useAuth } from "./context";
 import { DeletionConfirmation } from "./deletion-confirmation";
-import { editTraining } from "./edit-training";
 import { fetchTrainings } from "./fetch-trainings";
 import { FormatInfo } from "./format-info";
 import { Header } from "./header";
@@ -30,45 +28,11 @@ export interface HandleSetEditModeParams {
   textAreaRef: React.MutableRefObject<HTMLTextAreaElement | null>;
 }
 
-// TODO: Remove once dates are transformed for all users
-const parseDates = (trainings: Training[], logout: () => void) => {
-  for (const training of trainings) {
-    const splittedDate = training.date.includes(".")
-      ? training.date.split(".")
-      : training.date.split("/");
-
-    // format is already updated
-    if (splittedDate.length !== 3) {
-      continue;
-    }
-
-    const parsedDate = `${splittedDate[1]}/${splittedDate[0]}/${splittedDate[2]}`;
-    const newDateFormat = new Date(parsedDate).toString();
-
-    console.log(training.id, newDateFormat);
-
-    setTimeout(
-      () =>
-        editTraining(
-          {
-            ...training,
-            date: newDateFormat,
-            headline:
-              training.headline === undefined ? null : training.headline,
-          },
-          logout
-        ),
-      1000 * training.id + 1
-    );
-  }
-};
-
 const AuthedApp = (): JSX.Element => {
   const [topLevelState, dispatch] = useReducer(reducer, initialState);
   const { trainings, currentInput, inputOpen, mode } = topLevelState;
   const textAreaRef = useRef<HTMLTextAreaElement | null>(null);
   const [showInfo, setShowInfo] = useState(false);
-  const { logout } = useAuth();
 
   const { headline = null, exercises = [] } =
     useMemo(() => parse(currentInput), [currentInput]) || {};
@@ -81,7 +45,6 @@ const AuthedApp = (): JSX.Element => {
   useEffect(() => {
     (async () => {
       const fetchedTrainings = await fetchTrainings();
-      parseDates(fetchedTrainings, logout);
       dispatch({ type: "set-trainings", trainings: fetchedTrainings });
     })();
   }, []);
