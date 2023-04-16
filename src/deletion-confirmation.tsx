@@ -34,7 +34,10 @@ export const DeletionConfirmation = ({
       <div className="dialog">
         <p className="dialog-text">Delete your training?</p>
         <div className="button-container">
-          <button onClick={() => handleDelete(id, dispatch, logout)}>
+          <button
+            onClick={() => handleDelete(id, dispatch, logout)}
+            className="circle-hover-active-large"
+          >
             <IoCheckmark size={32} />
           </button>
           <button
@@ -44,6 +47,7 @@ export const DeletionConfirmation = ({
                 mode: { type: "add" },
               })
             }
+            className="circle-hover-active-large"
           >
             <IoCloseOutline size={32} />
           </button>

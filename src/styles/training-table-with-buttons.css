@@ -25,7 +25,6 @@
 .action-btn-default {
   width: 80px;
   border-left: none;
-  transition: 0.25s ease-in-out;
 }
 
 #edit {
