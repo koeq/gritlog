@@ -15,18 +15,18 @@ export const handler = async (
   event: APIGatewayProxyEvent
 ): Promise<APIGatewayProxyResult> => {
   const { body, httpMethod, headers, queryStringParameters } = event;
-  let origin: string;
+  const origin = headers.origin;
 
-  if (isOriginAllowed(headers.origin)) {
-    origin = headers.origin || "";
-  } else {
-    return createErrorResponse(headers.origin);
+  if (origin === undefined || !isOriginAllowed(origin)) {
+    return createCorsErrorResponse(origin);
   }
 
   try {
     const isAuthenticated = isUserAuthenticated(headers);
     if (!isAuthenticated) {
-      return buildResponse(401, "Not authenticated");
+      const errorResponse = buildResponse(401, "Not authenticated");
+
+      return appendCorsHeaders(errorResponse, origin);
     }
 
     const { cookie } = headers;
@@ -59,17 +59,15 @@ export const handler = async (
   }
 };
 
-const isOriginAllowed = (
-  inputOrigin: string | undefined
-): string | boolean | undefined => {
-  return (
-    inputOrigin &&
-    (DOMAIN_WHITELIST.includes(inputOrigin) ||
-      LOCALHOST_REGEX.test(inputOrigin))
-  );
+const isOriginAllowed = (origin: string | undefined): boolean => {
+  if (origin === undefined) {
+    return false;
+  }
+
+  return DOMAIN_WHITELIST.includes(origin) || LOCALHOST_REGEX.test(origin);
 };
 
-const createErrorResponse = (origin: string | undefined) => {
+const createCorsErrorResponse = (origin: string | undefined) => {
   return {
     statusCode: 403,
     body: JSON.stringify({
