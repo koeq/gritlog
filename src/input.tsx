@@ -22,16 +22,11 @@ interface InputProps {
   readonly setShowInfo: Dispatch<React.SetStateAction<boolean>>;
 }
 
-interface AddButtonsProps {
+interface ButtonsProps {
+  mode: Mode;
   disabled: boolean;
-  add: React.MouseEventHandler<HTMLButtonElement> | undefined;
-  cancel: React.MouseEventHandler<HTMLButtonElement> | undefined;
-}
-
-interface EditButtonsProps {
-  disabled: boolean;
-  edit: React.MouseEventHandler<HTMLButtonElement> | undefined;
-  cancel: React.MouseEventHandler<HTMLButtonElement> | undefined;
+  action: (() => void) | undefined;
+  cancel: (() => void) | undefined;
 }
 
 interface HandleAddParams {
@@ -73,6 +68,17 @@ export const Input = ({
     element.style.height = `${element.scrollHeight}px`;
   };
 
+  const actionHandler = handleAction(
+    mode,
+    currentTraining,
+    dispatch,
+    logout,
+    textAreaRef
+  );
+
+  const disabled = isDisabled(mode, currentTraining, currentInput);
+  const cancelHandler = handleCancel(mode, dispatch);
+
   return (
     <>
       <div className="input-wrapper">
@@ -105,40 +111,17 @@ export const Input = ({
           ></textarea>
         </div>
         <div className="bottom-bar-btns">
-          {mode.type === "edit" ? (
-            <EditButtons
-              disabled={currentInput?.trim() === mode.initialInput}
-              edit={() =>
-                handleEdit({
-                  mode,
-                  currentTraining,
-                  dispatch,
-                  logout,
-                })
-              }
-              cancel={() => handleCancelEdit(dispatch)}
-            />
-          ) : (
-            <AddButtons
-              disabled={isEmptyTraining(currentTraining) ? true : false}
-              add={() =>
-                handleAdd({
-                  currentTraining,
-                  dispatch,
-                  logout,
-                  textAreaRef,
-                })
-              }
-              cancel={() => {
-                dispatch({ type: "cancel-add" });
-              }}
-            />
-          )}
+          <Buttons
+            mode={mode}
+            disabled={disabled}
+            action={actionHandler}
+            cancel={cancelHandler}
+          />
         </div>
         <div className="info-btn">
           <button
             type="button"
-            className="button"
+            className="button circle-hover-active"
             onClick={() => setShowInfo(true)}
           >
             <IoInformationCircleOutline size={17} />
@@ -149,33 +132,59 @@ export const Input = ({
   );
 };
 
-const AddButtons = ({ disabled, add, cancel }: AddButtonsProps) => (
+const Buttons = ({ disabled, action, cancel }: ButtonsProps) => (
   <>
-    <button type="button" className="button" disabled={disabled} onClick={add}>
+    <button
+      type="button"
+      className={disabled ? "button" : "button circle-hover-active"}
+      disabled={disabled}
+      onClick={action}
+    >
       <IoCheckmark
         stroke={disabled ? "var(--cta-disabled)" : "var(--cta)"}
         size={28}
       />
     </button>
-    <button type="button" className="button" onClick={cancel}>
+    <button
+      type="button"
+      className="button circle-hover-active"
+      onClick={cancel}
+    >
       <IoCloseOutline stroke="var(--cta)" size={28} />
     </button>
   </>
 );
 
-const EditButtons = ({ disabled, edit, cancel }: EditButtonsProps) => (
-  <>
-    <button type="button" className="button" disabled={disabled} onClick={edit}>
-      <IoCheckmark
-        stroke={disabled ? "var(--cta-disabled)" : "var(--cta)"}
-        size={28}
-      />
-    </button>
-    <button type="button" className="button" onClick={cancel}>
-      <IoCloseOutline size={28} />
-    </button>
-  </>
-);
+const isDisabled = (
+  mode: Mode,
+  currentTraining: Training,
+  currentInput: string
+) =>
+  mode.type === "add"
+    ? isEmptyTraining(currentTraining)
+    : mode.type === "edit"
+    ? currentInput?.trim() === mode.initialInput
+    : false;
+
+const handleAction = (
+  mode: Mode,
+  currentTraining: Training,
+  dispatch: React.Dispatch<Action>,
+  logout: () => void,
+  textAreaRef: React.MutableRefObject<HTMLTextAreaElement | null>
+) =>
+  mode.type === "add"
+    ? () => handleAdd({ currentTraining, dispatch, logout, textAreaRef })
+    : mode.type === "edit"
+    ? () => handleEdit({ mode, currentTraining, dispatch, logout })
+    : undefined;
+
+const handleCancel = (mode: Mode, dispatch: React.Dispatch<Action>) =>
+  mode.type === "add"
+    ? () => dispatch({ type: "cancel-add" })
+    : mode.type === "edit"
+    ? () => handleCancelEdit(dispatch)
+    : undefined;
 
 const handleAdd = ({
   currentTraining,

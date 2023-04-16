@@ -50,7 +50,7 @@ export const TrainingTableWithButtons = ({
       <div className="buttons-container">
         <button
           id="edit"
-          className="action-btn-default"
+          className="action-btn-default hover-active"
           onClick={(e) => {
             e.stopPropagation();
             handleSetEditMode(training.id);
@@ -61,7 +61,7 @@ export const TrainingTableWithButtons = ({
         </button>
         <button
           id="delete"
-          className="action-btn-default"
+          className="action-btn-default hover-active"
           onClick={(e) => {
             e.stopPropagation();
             scrollOnClick(trainingRef.current);

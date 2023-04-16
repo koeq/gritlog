@@ -35,7 +35,7 @@ export const Buttons = ({
     <div className={inputOpen ? "btns btns-input-open" : "btns"}>
       <>
         <button
-          className="btn-round top"
+          className="btn-round top hover-active"
           disabled={inputOpen}
           type="button"
           onClick={() => {
@@ -49,7 +49,7 @@ export const Buttons = ({
           />
         </button>
         <button
-          className="btn-round"
+          className="btn-round hover-active"
           type="button"
           disabled={lastTrainingId === undefined || inputOpen ? true : false}
           onClick={() => {
