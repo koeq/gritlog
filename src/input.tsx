@@ -59,7 +59,7 @@ export const Input = ({
     if (textAreaRef.current) {
       autoGrow(textAreaRef.current);
     }
-  }, [currentInput]);
+  }, [currentInput, textAreaRef]);
 
   const autoGrow = (element: HTMLTextAreaElement) => {
     const minHeight = 95;

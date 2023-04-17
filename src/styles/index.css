@@ -1,5 +1,13 @@
 @import url("https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600&display=swap");
 
+@font-face {
+  font-family: "Mona Sans";
+  src: url("Mona-Sans.woff2") format("woff2 supports variations"),
+    url("Mona-Sans.woff2") format("woff2-variations");
+  font-weight: 200 900;
+  font-stretch: 75% 125%;
+}
+
 * {
   /* VARIABLES */
   /* font sizes */
@@ -25,7 +33,7 @@
 
   padding: 0;
   margin: 0;
-  font-family: "IBM Plex Sans", sans-serif;
+  font-family: "Mona Sans", sans-serif;
   font-weight: 300;
   font-size: 16px;
   color: var(--text-1);
