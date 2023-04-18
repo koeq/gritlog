@@ -82,34 +82,33 @@ export const Input = ({
   return (
     <>
       <div className="input-wrapper">
-        <div className="grow-wrap">
-          <textarea
-            autoComplete="on"
-            placeholder="Squats @80kg 8/8/8"
-            onChange={(event) =>
-              dispatch({
-                type: "set-input",
-                currentInput: event.currentTarget.value,
-              })
+        <textarea
+          autoComplete="on"
+          placeholder="Squats @80kg 8/8/8"
+          onChange={(event) =>
+            dispatch({
+              type: "set-input",
+              currentInput: event.currentTarget.value,
+            })
+          }
+          value={currentInput}
+          name="training"
+          id="training"
+          className={inputOpen ? "open" : "close"}
+          ref={textAreaRef}
+          tabIndex={inputOpen ? undefined : -1}
+          onKeyDown={(e) => {
+            if (isMobile) {
+              return;
             }
-            value={currentInput}
-            name="training"
-            id="training"
-            className={inputOpen ? "open" : "close"}
-            ref={textAreaRef}
-            tabIndex={inputOpen ? undefined : -1}
-            onKeyDown={(e) => {
-              if (isMobile) {
-                return;
-              }
 
-              if (e.key === "Enter" && !e.shiftKey) {
-                e.preventDefault();
-                handleAdd({ currentTraining, dispatch, logout, textAreaRef });
-              }
-            }}
-          ></textarea>
-        </div>
+            if (e.key === "Enter" && !e.shiftKey) {
+              e.preventDefault();
+              handleAdd({ currentTraining, dispatch, logout, textAreaRef });
+            }
+          }}
+        ></textarea>
+
         <div className="bottom-bar-btns">
           <Buttons
             mode={mode}
