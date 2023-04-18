@@ -29,15 +29,13 @@
 
 #edit {
   border-radius: 0;
-  background: #346775;
-  color: #fff;
-  border: none;
+  background-color: var(--background-gradient);
+  border-left: 0.5px solid #494d5a;
+  border-right: 0.5px solid #494d5a;
 }
 
 #delete {
+  background-color: var(--background-gradient);
   border-radius: 0 var(--border-radius) var(--border-radius) 0;
-  background: #774b59;
-  color: #fff;
-  border: none;
   scroll-snap-align: end;
 }
