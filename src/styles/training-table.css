@@ -1,6 +1,6 @@
 table {
   width: 100%;
-  padding: 8px 8px;
+  padding: 10px 10px;
   color: #8a8f98;
   background: var(--background-gradient);
   border: 1px solid var(--border);
@@ -85,11 +85,11 @@ h3 {
   color: #9ea3a9;
 }
 .positive {
-  color: #346775;
+  color: #518593;
 }
 
 .negative {
-  color: #895564;
+  color: #B95952;
 }
 
 #change {

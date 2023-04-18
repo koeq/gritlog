@@ -57,7 +57,7 @@ export const TrainingTableWithButtons = ({
             scrollOnClick(trainingRef.current);
           }}
         >
-          <IoPencilSharp size={22} />
+          <IoPencilSharp fill="#5080BE" size={22} />
         </button>
         <button
           id="delete"
@@ -71,7 +71,7 @@ export const TrainingTableWithButtons = ({
             });
           }}
         >
-          <IoTrashBin size={22} />
+          <IoTrashBin fill="#B95952" size={22} />
         </button>
       </div>
     </div>
