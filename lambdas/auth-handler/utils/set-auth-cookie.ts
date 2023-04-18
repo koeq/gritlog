@@ -13,8 +13,7 @@ export const setAuthCookie = (
     const jwt = JSON.parse(body);
 
     // TODO: CHECK
-    // is SameSite=none safe?
-    // session lasts 7 days
+    // Is SameSite=none safe?
     const cookie = {
       "Set-Cookie": `user=${jwt}; Max-Age=${604800}; Secure; HttpOnly; SameSite=none`,
     };
