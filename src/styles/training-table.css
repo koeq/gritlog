@@ -40,8 +40,6 @@ th {
 
 h3 {
   padding: 0px 6px;
-  /* hack to get around the space above the text */
-  padding-bottom: 3px;
   width: fit-content;
   background: rgba(255, 255, 255, 0.1);
   border-radius: 4px;
@@ -89,7 +87,7 @@ h3 {
 }
 
 .negative {
-  color: #B95952;
+  color: #b95952;
 }
 
 #change {
