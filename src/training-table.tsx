@@ -68,14 +68,18 @@ const TableValues = ({
   return (
     <>
       {exercises.length
-        ? exercises.map((exercise, index) =>
-            renderExerciseRow({
+        ? exercises.map((exercise, index) => {
+            const weightChange =
+              exercise.exerciseName === exercises[index - 1]?.exerciseName;
+
+            return renderExerciseRow({
               exercise,
               percentageChanges,
               index,
               isLastIndex: index === exercises.length - 1,
-            })
-          )
+              weightChange,
+            });
+          })
         : renderEmptyRow()}
     </>
   );
@@ -86,6 +90,7 @@ interface RenderExerciseRow {
   exercise: Exercise;
   isLastIndex: boolean;
   percentageChanges: Record<string, number> | null;
+  weightChange: boolean;
 }
 
 const renderExerciseRow = ({
@@ -93,6 +98,7 @@ const renderExerciseRow = ({
   exercise,
   isLastIndex,
   percentageChanges,
+  weightChange,
 }: RenderExerciseRow) => {
   const { exerciseName, weight, repetitions } = exercise;
 
@@ -106,7 +112,7 @@ const renderExerciseRow = ({
   return (
     <tr key={index}>
       <td className={tdClassName} id="exercise">
-        {exerciseName ?? "—"}
+        {weightChange ? "" : exerciseName ?? "—"}
       </td>
       <td className={tdClassName} id="weight">
         {weight ?? "—"}

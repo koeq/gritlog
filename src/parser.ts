@@ -325,7 +325,6 @@ function createInterpreter(tokens: Token[]): Interpreter {
     }
     // Ignore Asperand
     start = start + 1;
-
     weight = build();
     const hasNumber = /\d/.test(weight);
     const hasWeightUnit = /kg|lbs/.test(weight);
