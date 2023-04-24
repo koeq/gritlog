@@ -57,7 +57,7 @@ export const TrainingTableWithButtons = ({
             scrollOnClick(trainingRef.current);
           }}
         >
-          <IoPencilSharp size={22} />
+          <IoPencilSharp strokeWidth={7} size={24} />
         </button>
         <button
           id="delete"
