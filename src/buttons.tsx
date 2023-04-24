@@ -46,6 +46,7 @@ export const Buttons = ({
           <IoMdAdd
             stroke={inputOpen ? "var(--cta-disabled)" : "var(--cta)"}
             size={24}
+            strokeWidth={7}
           />
         </button>
         <button
@@ -68,6 +69,7 @@ export const Buttons = ({
                 : "var(--cta)"
             }
             size={19}
+            strokeWidth={7}
           />
         </button>
       </>
