@@ -23,10 +23,10 @@ export const TrainingTable = ({
     <table tabIndex={0}>
       <tbody>
         <tr>
-          <th id="headline" className={"th-spacing"} colSpan={2}>
-            {headline && <span id="headline">{headline}</span>}
+          <th className={"th-spacing headline"} colSpan={3}>
+            {headline && <span>{headline}</span>}
           </th>
-          <th className={"date-header th-spacing"} colSpan={2}>
+          <th className={"date-header th-spacing"} colSpan={1}>
             <div className="date">
               <Calendar />
               {createDateFormat(new Date(date))}
