@@ -12,15 +12,16 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  width: min(350px, 85%);
-  height: 30%;
+  width: min(330px, 85%);
+  height: 40%;
   border-radius: var(--border-radius);
   border: 1px solid var(--border);
   background: var(--background-gradient);
 }
 
 h2 {
-  font-size: 22px;
+  font-size: 26px;
   font-weight: 400;
-  margin-bottom: 35px;
+  margin-top: 50px;
+  margin-bottom: 60px;
 }
