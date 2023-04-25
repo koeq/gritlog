@@ -1,5 +1,6 @@
 import { Suspense, lazy } from "react";
 import { useAuth } from "./context";
+import { Header } from "./header";
 import { LoadingSpinner } from "./loading-spinner";
 
 const AuthedApp = lazy(() => import("./authed-app"));
@@ -15,6 +16,7 @@ export const App = (): JSX.Element => {
 
   return (
     <Suspense fallback={<LoadingSpinner />}>
+      <Header authed={authed} />
       {authed ? <AuthedApp /> : <UnauthedApp />}
     </Suspense>
   );

@@ -12,7 +12,6 @@ import { Buttons } from "./buttons";
 import { DeletionConfirmation } from "./deletion-confirmation";
 import { fetchTrainings } from "./fetch-trainings";
 import { FormatInfo } from "./format-info";
-import { Header } from "./header";
 import { Input } from "./input";
 import { LoadingSpinner } from "./loading-spinner";
 import { parse } from "./parser";
@@ -58,7 +57,6 @@ const AuthedApp = (): JSX.Element => {
 
   return (
     <div className="authed">
-      <Header authed />
       {trainings ? (
         <MemoizedTrainings
           dispatch={dispatch}
