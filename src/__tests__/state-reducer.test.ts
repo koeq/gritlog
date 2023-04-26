@@ -1,3 +1,4 @@
+import { serializeTraining } from "../serialize-training";
 import { TopLevelState, reducer } from "../state-reducer";
 import { Training } from "../types";
 
@@ -63,6 +64,25 @@ describe("Mutate global state", () => {
       inputOpen: false,
       mode: { type: "add" },
       currentInput: "",
+    });
+  });
+
+  it("Repeat training", () => {
+    state = {
+      ...state,
+      trainings: [someTraining],
+    };
+
+    const newState = reducer(state, {
+      type: "repeat",
+      currentInput: serializeTraining(someTraining),
+    });
+
+    expect(newState).toStrictEqual({
+      ...state,
+      inputOpen: true,
+      mode: { type: "add" },
+      currentInput: newState.currentInput,
     });
   });
 

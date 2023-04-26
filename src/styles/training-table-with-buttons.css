@@ -17,25 +17,29 @@
   display: flex;
   height: 100%;
   position: absolute;
-  /* offset by one pixel because mobile browser issues */
-  right: -160px;
+  right: -225px;
   transition: 0.25s ease-in-out;
 }
 
 .action-btn-default {
-  width: 80px;
+  width: 75px;
   border-left: none;
+  background-color: var(--background-gradient);
 }
 
 #edit {
   border-radius: 0;
-  background-color: var(--background-gradient);
+  border-left: 0.5px solid #494d5a;
+  border-right: 0.5px solid #494d5a;
+}
+
+#repeat {
+  border-radius: 0;
   border-left: 0.5px solid #494d5a;
   border-right: 0.5px solid #494d5a;
 }
 
 #delete {
-  background-color: var(--background-gradient);
   border-radius: 0 var(--border-radius) var(--border-radius) 0;
   scroll-snap-align: end;
 }
