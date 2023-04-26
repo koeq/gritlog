@@ -10,6 +10,7 @@ export type TopLevelState = {
 export type Action =
   | { type: "add"; currentTraining: Training }
   | { type: "edit"; mode: EditMode; currentTraining: Training }
+  | { type: "repeat"; currentInput: string }
   | { type: "delete"; id: number }
   | { type: "set-trainings"; trainings: Training[] }
   | { type: "cancel-add" }
@@ -59,6 +60,17 @@ export function reducer(state: TopLevelState, action: Action): TopLevelState {
         trainings: trainings?.map((training) =>
           training.id === id ? { ...currentTraining, id } : training
         ),
+      };
+    }
+
+    case "repeat": {
+      const { currentInput } = action;
+
+      return {
+        ...state,
+        currentInput,
+        inputOpen: true,
+        mode: { type: "add" },
       };
     }
 

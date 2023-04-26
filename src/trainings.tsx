@@ -1,4 +1,4 @@
-import { Fragment, memo, useMemo } from "react";
+import { Dispatch, Fragment, memo, useMemo } from "react";
 import { HandleSetEditModeParams } from "./authed-app";
 import { Calendar } from "./calendar";
 import { getLatestPercentageChanges } from "./get-latest-percentage-change";
@@ -6,6 +6,7 @@ import {
   createDateFormat,
   groupTrainingsByWeek,
 } from "./group-training-by-weeks";
+import { serializeTraining } from "./serialize-training";
 import { Action } from "./state-reducer";
 import "./styles/trainings.css";
 import { TrainingTableWithButtons } from "./training-table-with-buttons";
@@ -21,6 +22,13 @@ interface TrainingsProps {
     dispatch,
     textAreaRef,
   }: HandleSetEditModeParams) => void;
+}
+
+interface HandleRepeatParams {
+  id: number;
+  trainings: Training[];
+  dispatch: Dispatch<Action>;
+  textAreaRef: React.MutableRefObject<HTMLTextAreaElement | null>;
 }
 
 export const Trainings = ({
@@ -76,6 +84,14 @@ export const Trainings = ({
                         textAreaRef,
                       })
                     }
+                    handleRepeat={() =>
+                      handleRepeat({
+                        id: training.id,
+                        trainings,
+                        dispatch,
+                        textAreaRef,
+                      })
+                    }
                   />
                 );
               })}
@@ -92,3 +108,19 @@ export const Trainings = ({
 };
 
 export const MemoizedTrainings = memo(Trainings);
+
+const handleRepeat = ({
+  id,
+  trainings,
+  dispatch,
+  textAreaRef,
+}: HandleRepeatParams) => {
+  const training = trainings.find((training) => training.id === id);
+
+  if (!training) {
+    return;
+  }
+
+  dispatch({ type: "repeat", currentInput: serializeTraining(training) });
+  textAreaRef.current?.focus();
+};

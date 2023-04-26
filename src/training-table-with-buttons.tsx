@@ -1,5 +1,5 @@
 import { useRef } from "react";
-import { IoPencilSharp, IoTrashBin } from "react-icons/io5";
+import { IoPencilSharp, IoRepeat, IoTrashBin } from "react-icons/io5";
 import { useIsMobile } from "./context";
 import { Action } from "./state-reducer";
 import "./styles/training-table-with-buttons.css";
@@ -9,7 +9,8 @@ import { Training } from "./types";
 interface TrainingTableProps {
   readonly training: Training;
   readonly dispatch: React.Dispatch<Action>;
-  readonly handleSetEditMode: (id: number) => void;
+  readonly handleSetEditMode: () => void;
+  readonly handleRepeat: () => void;
   readonly percentageChanges: Record<string, number> | null;
 }
 
@@ -30,6 +31,7 @@ const scrollOnClick = (element: HTMLDivElement | null): void => {
 export const TrainingTableWithButtons = ({
   training,
   dispatch,
+  handleRepeat,
   handleSetEditMode,
   percentageChanges,
 }: TrainingTableProps): JSX.Element | null => {
@@ -53,11 +55,22 @@ export const TrainingTableWithButtons = ({
           className="action-btn-default hover-active"
           onClick={(e) => {
             e.stopPropagation();
-            handleSetEditMode(training.id);
+            handleSetEditMode();
             scrollOnClick(trainingRef.current);
           }}
         >
           <IoPencilSharp size={24} />
+        </button>
+        <button
+          id="repeat"
+          className="action-btn-default hover-active"
+          onClick={(e) => {
+            e.stopPropagation();
+            handleRepeat();
+            scrollOnClick(trainingRef.current);
+          }}
+        >
+          <IoRepeat size={24} />
         </button>
         <button
           id="delete"
