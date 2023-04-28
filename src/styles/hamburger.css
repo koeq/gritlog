@@ -1,0 +1,28 @@
+.hamburger {
+  display: inline-flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  background-color: transparent;
+  border: none;
+  width: 40px;
+  height: 24px;
+  padding: 0;
+}
+
+.bar {
+  width: 25px;
+  height: 1.5px;
+  background-color: #fff;
+  margin: 3.5px 0;
+  transition: 0.4s;
+}
+
+.hamburger.active .bar1 {
+  transform: translateY(4.25px) rotate(-45deg);
+}
+
+.hamburger.active .bar2 {
+  transform: translateY(-4.25px) rotate(45deg);
+}
