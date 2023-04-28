@@ -1,4 +1,4 @@
-import { Dispatch, useEffect } from "react";
+import { Dispatch, useLayoutEffect } from "react";
 import {
   IoCheckmark,
   IoCloseOutline,
@@ -55,7 +55,7 @@ export const Input = ({
   const isMobile = useIsMobile();
   const { logout } = useAuth();
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (textAreaRef.current) {
       autoGrow(textAreaRef.current);
     }
