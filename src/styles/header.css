@@ -56,6 +56,9 @@ hr {
   position: fixed;
   top: var(--header-height);
   left: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   width: 100%;
   background: var(--background);
   overflow: hidden;
@@ -65,14 +68,22 @@ hr {
 }
 
 .menu ul {
+  flex-direction: column;
+  display: flex;
+  align-items: center;
   list-style: none;
-  padding: 0;
-  margin: 0;
+  margin-top: 35vh;
+  width: min(450px, 97%);
 }
 
 .menu li {
   text-align: center;
   padding: 20px 0;
+  text-decoration: none;
+}
+
+.menu li a {
+  text-decoration: none;
 }
 
 .menu li button {
@@ -80,8 +91,8 @@ hr {
   align-items: center;
 }
 
-.list-item-text {
-  font-size: 30px;
+.menu-list-item-text {
+  font-size: 28px;
   font-weight: 500;
 }
 
@@ -96,15 +107,8 @@ hr {
   font-weight: 500;
   color: #fff;
   text-decoration: none;
-  margin-top: 300px;
 }
 
-.logout-container *:not(:last-child) {
-  margin-right: 12px;
-}
-
-.list {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+.social {
+  margin-top: 35vh;
 }
