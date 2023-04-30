@@ -72,7 +72,7 @@ hr {
   display: flex;
   align-items: center;
   list-style: none;
-  margin-top: 35vh;
+  margin-top: 30vh;
   width: min(450px, 97%);
 }
 
@@ -110,5 +110,5 @@ hr {
 }
 
 .social {
-  margin-top: 35vh;
+  margin-top: 39vh;
 }
