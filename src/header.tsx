@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import { BiLogOut } from "react-icons/bi";
 import { IoLogoGithub } from "react-icons/io5";
 import { useAuth } from "./context";
 import { Hamburger } from "./hamburger";
