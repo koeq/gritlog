@@ -7,40 +7,28 @@ import { TrainingTable } from "./training-table";
 import { Training } from "./types";
 
 interface TrainingTableProps {
+  readonly editing: boolean;
   readonly training: Training;
   readonly dispatch: React.Dispatch<Action>;
-  readonly handleSetEditMode: () => void;
   readonly handleRepeat: () => void;
+  readonly handleSetEditMode: () => void;
   readonly percentageChanges: Record<string, number> | null;
 }
 
-const scrollOnClick = (element: HTMLDivElement | null): void => {
-  if (!element) {
-    return;
-  }
-
-  // Left value doesn't have to match exactly because of scroll snap.
-  const leftValue = element.scrollLeft === 0 ? 160 : -160;
-
-  element.scrollBy({
-    left: leftValue,
-    behavior: "smooth",
-  });
-};
-
 export const TrainingTableWithButtons = ({
+  editing,
   training,
   dispatch,
   handleRepeat,
   handleSetEditMode,
   percentageChanges,
 }: TrainingTableProps): JSX.Element | null => {
-  const trainingRef = useRef<HTMLDivElement | null>(null);
   const isMobile = useIsMobile();
+  const trainingRef = useRef<HTMLDivElement | null>(null);
 
   return (
     <div
-      className="training-with-buttons"
+      className={`training-with-buttons ${editing ? "editing" : ""}`}
       ref={trainingRef}
       onClick={isMobile ? undefined : () => scrollOnClick(trainingRef.current)}
     >
@@ -89,4 +77,18 @@ export const TrainingTableWithButtons = ({
       </div>
     </div>
   );
+};
+
+const scrollOnClick = (element: HTMLDivElement | null): void => {
+  if (!element) {
+    return;
+  }
+
+  // Left value doesn't have to match exactly because of scroll snap.
+  const leftValue = element.scrollLeft === 0 ? 160 : -160;
+
+  element.scrollBy({
+    left: leftValue,
+    behavior: "smooth",
+  });
 };

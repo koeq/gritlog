@@ -8,12 +8,12 @@ import {
 } from "react";
 import "../src/styles/authed-app.css";
 import { BottomBar } from "./bottom-bar";
-import { Buttons } from "./buttons";
 import { DeletionConfirmation } from "./deletion-confirmation";
 import { fetchTrainings } from "./fetch-trainings";
 import { FormatInfo } from "./format-info";
 import { Input } from "./input";
 import { LoadingSpinner } from "./loading-spinner";
+import { Buttons } from "./main-ctas";
 import { parse } from "./parser";
 import { serializeTraining } from "./serialize-training";
 import { Action, initialState, reducer } from "./state-reducer";
@@ -59,6 +59,7 @@ const AuthedApp = (): JSX.Element => {
     <div className="authed">
       {trainings ? (
         <MemoizedTrainings
+          mode={mode}
           dispatch={dispatch}
           trainings={trainings}
           textAreaRef={textAreaRef}

@@ -1,7 +1,7 @@
 import { Dispatch } from "react";
 import { IoMdAdd } from "react-icons/io";
 import { IoPencilSharp } from "react-icons/io5";
-import "../src/styles/buttons.css";
+import "../src/styles/main-ctas.css";
 import { HandleSetEditModeParams } from "./authed-app";
 import { Action } from "./state-reducer";
 import { Training } from "./types";
