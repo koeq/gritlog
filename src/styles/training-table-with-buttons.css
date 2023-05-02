@@ -45,5 +45,5 @@
 }
 
 .editing {
-  border: 1px solid var(--highlight);
+  border: 1px dashed var(--highlight);
 }

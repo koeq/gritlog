@@ -84,8 +84,8 @@ const scrollOnClick = (element: HTMLDivElement | null): void => {
     return;
   }
 
-  // Left value doesn't have to match exactly because of scroll snap.
-  const leftValue = element.scrollLeft === 0 ? 160 : -160;
+  const elementWidth = element.clientWidth;
+  const leftValue = element.scrollLeft === 0 ? elementWidth : -elementWidth;
 
   element.scrollBy({
     left: leftValue,
