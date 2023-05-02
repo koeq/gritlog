@@ -20,7 +20,7 @@
   align-items: center;
   height: 50px;
   width: 50px;
-  background: #3673f5;
+  background: var(--highlight);
   border-radius: 50%;
 }
 

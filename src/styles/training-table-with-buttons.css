@@ -43,3 +43,7 @@
   border-radius: 0 var(--border-radius) var(--border-radius) 0;
   scroll-snap-align: end;
 }
+
+.editing {
+  outline: 1px dashed var(--highlight);
+}

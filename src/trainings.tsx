@@ -10,21 +10,23 @@ import { serializeTraining } from "./serialize-training";
 import { Action } from "./state-reducer";
 import "./styles/trainings.css";
 import { TrainingTableWithButtons } from "./training-table-with-buttons";
-import { Training } from "./types";
+import { Mode, Training } from "./types";
 
 interface TrainingsProps {
   readonly trainings: Training[];
   readonly dispatch: React.Dispatch<Action>;
-  textAreaRef: React.MutableRefObject<HTMLTextAreaElement | null>;
+  readonly textAreaRef: React.MutableRefObject<HTMLTextAreaElement | null>;
   readonly handleSetEditMode: ({
     id,
     trainings,
     dispatch,
     textAreaRef,
   }: HandleSetEditModeParams) => void;
+  readonly mode: Mode;
 }
 
 export const Trainings = ({
+  mode,
   dispatch,
   trainings,
   textAreaRef,
@@ -64,6 +66,7 @@ export const Trainings = ({
                     key={training.id}
                     dispatch={dispatch}
                     training={training}
+                    editing={mode.type === "edit" && mode.id === training.id}
                     percentageChanges={
                       training.id === percentageChanges?.trainingId
                         ? percentageChanges
