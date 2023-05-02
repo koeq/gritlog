@@ -24,13 +24,6 @@ interface TrainingsProps {
   }: HandleSetEditModeParams) => void;
 }
 
-interface HandleRepeatParams {
-  id: number;
-  trainings: Training[];
-  dispatch: Dispatch<Action>;
-  textAreaRef: React.MutableRefObject<HTMLTextAreaElement | null>;
-}
-
 export const Trainings = ({
   dispatch,
   trainings,
@@ -108,6 +101,13 @@ export const Trainings = ({
 };
 
 export const MemoizedTrainings = memo(Trainings);
+
+interface HandleRepeatParams {
+  id: number;
+  trainings: Training[];
+  dispatch: Dispatch<Action>;
+  textAreaRef: React.MutableRefObject<HTMLTextAreaElement | null>;
+}
 
 const handleRepeat = ({
   id,
