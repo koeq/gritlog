@@ -85,7 +85,7 @@ const TableValues = ({
   );
 };
 
-interface RenderExerciseRow {
+interface RenderExerciseRowParams {
   index: number;
   exercise: Exercise;
   isLastIndex: boolean;
@@ -99,7 +99,7 @@ const renderExerciseRow = ({
   isLastIndex,
   percentageChanges,
   weightChange,
-}: RenderExerciseRow) => {
+}: RenderExerciseRowParams) => {
   const { exerciseName, weight, repetitions } = exercise;
 
   const percentageChange = exerciseName
@@ -120,7 +120,7 @@ const renderExerciseRow = ({
       <td className={tdClassName} id="repetitions">
         {parseReps(repetitions) ?? "—"}
       </td>
-      {percentageChange !== null && percentageChange !== undefined ? (
+      {percentageChange !== null && !weightChange ? (
         <td
           id="change"
           className={
