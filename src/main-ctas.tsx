@@ -50,7 +50,9 @@ export const Buttons = ({
           />
         </button>
         <button
-          className="btn-round hover-active"
+          className={`btn-round hover-active ${
+            trainings && lastTrainingId === undefined ? "btn-disabled" : ""
+          }`}
           type="button"
           disabled={lastTrainingId === undefined || inputOpen ? true : false}
           onClick={() => {
@@ -62,15 +64,7 @@ export const Buttons = ({
             });
           }}
         >
-          <IoPencilSharp
-            stroke={
-              lastTrainingId === undefined
-                ? "var(--cta-disabled)"
-                : "var(--cta)"
-            }
-            size={19}
-            strokeWidth={10}
-          />
+          <IoPencilSharp strokeWidth={3} size={19} />
         </button>
       </>
     </div>
