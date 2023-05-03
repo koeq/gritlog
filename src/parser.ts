@@ -60,8 +60,9 @@ function createScanner(source: string): Scanner {
   let start = 0;
   let current = 0;
   let line = 1;
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+
   let hadError = false;
+  hadError;
 
   function isAtEnd(): boolean {
     return current >= source.length;
@@ -69,6 +70,11 @@ function createScanner(source: string): Scanner {
 
   function advance(): string {
     const next = source[current];
+
+    if (next === undefined) {
+      throw new Error("Can't advance: next char undefined.");
+    }
+
     current = current + 1;
 
     return next;
@@ -79,25 +85,40 @@ function createScanner(source: string): Scanner {
       return "\0";
     }
 
-    return source[current];
+    const nextSource = source[current];
+
+    if (nextSource === undefined) {
+      throw new Error("Can't peek: next char is undefined");
+    }
+
+    return nextSource;
   }
 
   function peekNext() {
-    if (current + 1 >= source.length) {
+    const next = source[current + 1];
+
+    if (next === undefined) {
       return "\0";
     }
 
-    return source[current + 1];
+    return next;
   }
 
   function string(): void {
-    while (isString(peek())) advance();
+    while (isString(peek())) {
+      advance();
+    }
+
     const string = source.substring(start, current);
+    const keyword = keywords[string.toLowerCase()];
 
     // String is a keyword
     // Makes sure hasOwnProperty is called from the prototype and is not shadowed
-    if (Object.prototype.hasOwnProperty.call(keywords, string.toLowerCase())) {
-      addToken(keywords[string.toLowerCase()], string, true);
+    if (
+      Object.prototype.hasOwnProperty.call(keywords, string.toLowerCase()) &&
+      keyword
+    ) {
+      addToken(keyword, string, true);
     } else {
       addToken("STRING", string);
     }
@@ -237,12 +258,16 @@ function createInterpreter(tokens: Token[]): Interpreter {
   let current = 0;
 
   const isAtEnd = () => {
-    return tokens[current].type === "EOF";
+    return tokens[current]?.type === "EOF";
   };
 
   const advance = () => {
     const token = tokens[current];
     current = current + 1;
+
+    if (token === undefined) {
+      throw new Error("Cannot parse: Next token is undefined.");
+    }
 
     return token;
   };
@@ -353,14 +378,15 @@ function createInterpreter(tokens: Token[]): Interpreter {
 
     // Multiplier format ---> Number*Number
     const isValidMultiplier =
+      repChars[0] !== undefined &&
       isNumber(repChars[0]) &&
       parseInt(repChars[0]) >= 1 &&
       parseInt(repChars[0]) <= 100;
 
-    const isValidAmount = isNumber(repChars[1]);
+    const isValidAmount = repChars[1] !== undefined && isNumber(repChars[1]);
     const isMultiplierFormat = isValidMultiplier && isValidAmount;
 
-    if (isMultiplierFormat) {
+    if (isMultiplierFormat && repChars[0] !== undefined) {
       repetitions =
         `${repChars[1]}/`.repeat(parseInt(repChars[0]) - 1) + repChars[1];
     }
@@ -420,7 +446,11 @@ export function parse(
 }
 
 //-------------------------------------------------HELPERS--------------------------------------------------
-const isString = (char: string): boolean => {
+const isString = (char: string | undefined): boolean => {
+  if (char === undefined) {
+    return false;
+  }
+
   // regex letters + special letters like umlaute
   // see https://dev.to/tillsanders/let-s-stop-using-a-za-z-4a0m for details
   const letters = new RegExp(/[\p{Letter}\p{Mark}]+/gu);

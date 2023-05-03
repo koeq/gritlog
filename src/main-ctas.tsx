@@ -26,10 +26,7 @@ export const Buttons = ({
   textAreaRef,
   handleSetEditMode,
 }: ButtonsProps): JSX.Element => {
-  const lastTrainingId =
-    trainings && trainings.length > 0
-      ? trainings[trainings.length - 1].id
-      : undefined;
+  const lastTrainingId = trainings?.[trainings.length - 1]?.id;
 
   return (
     <div className={inputOpen ? "btns btns-input-open" : "btns"}>

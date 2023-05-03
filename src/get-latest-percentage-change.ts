@@ -20,7 +20,13 @@ export const getLatestPercentageChanges = (
     }
 
     for (let i = trainings.length - 2; i >= 0; i--) {
-      const prevExerciseWorkMap = getWorkPerExercise(trainings[i]);
+      const prevTraining = trainings[i];
+
+      if (prevTraining === undefined) {
+        continue;
+      }
+
+      const prevExerciseWorkMap = getWorkPerExercise(prevTraining);
 
       if (
         !Object.prototype.hasOwnProperty.call(prevExerciseWorkMap, exercise)
@@ -30,7 +36,7 @@ export const getLatestPercentageChanges = (
 
       const prevWork = prevExerciseWorkMap[exercise];
 
-      if (prevWork === 0) {
+      if (prevWork === 0 || prevWork === undefined) {
         break;
       }
 
@@ -60,13 +66,13 @@ const getWorkPerExercise = (training: Training): Record<string, number> =>
       }
 
       const doneWork = parsedWeight * parsedReps;
+      const exercise = acc[exerciseName];
 
-      acc[exerciseName] = Object.prototype.hasOwnProperty.call(
-        acc,
-        exerciseName
-      )
-        ? acc[exerciseName] + doneWork
-        : doneWork;
+      acc[exerciseName] =
+        exercise !== undefined &&
+        Object.prototype.hasOwnProperty.call(acc, exerciseName)
+          ? exercise + doneWork
+          : doneWork;
 
       return acc;
     },
@@ -79,7 +85,7 @@ const ZERO_WEIGHT_VALUE = 1;
 // a value for the bodyweight to make sense.
 const parseWeight = (weight: string): number | null => {
   const match = weight.match(/\d+/);
-  const parsed = match ? parseInt(match[0]) : null;
+  const parsed = match && match[0] ? parseInt(match[0]) : null;
 
   return parsed === 0 ? ZERO_WEIGHT_VALUE : parsed;
 };
