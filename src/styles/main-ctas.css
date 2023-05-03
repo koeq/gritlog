@@ -28,6 +28,10 @@
   margin-bottom: 16px;
 }
 
+.btn-disabled {
+  background-color: hsl(221, 0%, 50%);
+}
+
 @media (min-width: 560px) {
   .btns {
     width: min(800px, 97%);
