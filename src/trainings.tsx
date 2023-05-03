@@ -41,12 +41,11 @@ export const Trainings = ({
     [trainings]
   );
 
-  const latestTraining = trainings[trainings.length - 1];
+  const latestTraining: Training | undefined = trainings[trainings.length - 1];
 
-  const percentageChanges = getLatestPercentageChanges(
-    latestTraining,
-    trainings
-  );
+  const percentageChanges = latestTraining
+    ? getLatestPercentageChanges(latestTraining, trainings)
+    : null;
 
   return (
     <main className="trainings">
