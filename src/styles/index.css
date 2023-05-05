@@ -19,7 +19,13 @@
   --text-3-dark: #9ea3a9;
   --cta-dark: #ffffff;
   /* LIGHT MODE */
-  /* ... */
+  --background-1-light: #eff0f4;
+  --background-2-light: #ffffff;
+  --border-light: #ddddde;
+  --text-1-light: #000000;
+  --text-2-light: #000000;
+  --text-3-light: #9ea3a9;
+  --cta-light: #000000;
   /* GENERAL */
   --highlight: #3673f5;
   --cta-disabled: #767b81;
@@ -44,12 +50,22 @@
   box-sizing: inherit;
 }
 
+.dark {
+  color: var(--text-1-dark);
+  background: var(--background-1-dark);
+}
+
+.light {
+  color: var(--text-1-light);
+  background: var(--background-1-light);
+}
+
 html {
   box-sizing: border-box;
 }
 
 body {
-  background: var(--background-1-dark);
+  background: inherit;
 }
 
 button {
@@ -80,14 +96,9 @@ button {
   left: 0;
   right: 1px;
   bottom: 4.5px;
-  background: rgba(
-    255,
-    255,
-    255,
-    0.1
-  ); /* Control the intensity of the white circle */
+  background: rgba(255, 255, 255, 0.1);
   border-radius: 50%;
-  transform: scale(0.5); /* Adjust the circle size */
+  transform: scale(0.5);
   transition: transform 0.15s, opacity 0.15s;
   pointer-events: none;
   opacity: 0;
@@ -110,14 +121,9 @@ button {
   left: 0;
   right: 1px;
   bottom: 4.5px;
-  background: rgba(
-    255,
-    255,
-    255,
-    0.1
-  ); /* Control the intensity of the white circle */
+  background: rgba(255, 255, 255, 0.1);
   border-radius: 50%;
-  transform: scale(0.5); /* Adjust the circle size */
+  transform: scale(0.5);
   transition: transform 0.15s, opacity 0.15s;
   pointer-events: none;
   opacity: 0;
