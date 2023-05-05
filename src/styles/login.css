@@ -15,8 +15,8 @@
   width: min(330px, 85%);
   height: 40%;
   border-radius: var(--border-radius);
-  border: 1px solid var(--border);
-  background: var(--background-gradient);
+  border: 1px solid var(--border-dark);
+  background: var(--background-2-dark);
 }
 
 h2 {

@@ -40,11 +40,7 @@ export const Buttons = ({
             textAreaRef.current?.focus();
           }}
         >
-          <IoMdAdd
-            stroke={inputOpen ? "var(--cta-disabled)" : "var(--cta)"}
-            size={24}
-            strokeWidth={10}
-          />
+          <IoMdAdd size={24} strokeWidth={10} />
         </button>
         <button
           className={`btn-round hover-active ${

@@ -27,7 +27,7 @@
     rgba(21, 23, 31, 0.95)
   );
 
-  border: 1px solid var(--border);
+  border: 1px solid var(--border-dark);
   border-radius: var(--border-radius);
 }
 

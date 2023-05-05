@@ -24,7 +24,7 @@
 .action-btn-default {
   width: 75px;
   border-left: none;
-  background-color: var(--background-gradient);
+  background-color: var(--background-2-dark);
 }
 
 #edit {

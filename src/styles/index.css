@@ -8,26 +8,25 @@
 
 * {
   /* VARIABLES */
-  /* font sizes */
+  /* --------- */
   --font-size-date: 14px;
-  /* colors */
-  --background: #07090f;
-  --background-gradient: #1a1c24;
-  --border: rgb(26, 28, 36);
-  --text-1: #f7f8f8;
-  --text-2: #e8e8e8;
-  --text-3: #9ea3a9;
+  /* DARK MODE */
+  --background-1-dark: #07090f;
+  --background-2-dark: #1a1c24;
+  --border-dark: rgb(26, 28, 36);
+  --text-1-dark: #f7f8f8;
+  --text-2-dark: #e8e8e8;
+  --text-3-dark: #9ea3a9;
+  --cta-dark: #ffffff;
+  /* LIGHT MODE */
+  /* ... */
+  /* GENERAL */
   --highlight: #3673f5;
-  --cta: #ffffff;
   --cta-disabled: #767b81;
-  /* border */
   --border-radius: 8px;
-  /* box shadwos */
   --shadow-extra-small: 0px 4px 8px rgba(0, 0, 0, 0.12);
   --shadow-smallest: 0 2px 6px rgb(0 0 0 / 5%);
-  /* spacings */
   --header-height: 41px;
-  /* closed heigth */
   --bottom-bar-height: 83px;
 
   padding: 0;
@@ -35,7 +34,7 @@
   font-family: "Mona Sans", sans-serif;
   font-weight: 300;
   font-size: 14px;
-  color: var(--text-1);
+  color: var(--text-1-dark);
 }
 
 /* universal box sizing */
@@ -50,7 +49,7 @@ html {
 }
 
 body {
-  background: var(--background);
+  background: var(--background-1-dark);
 }
 
 button {
