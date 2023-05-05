@@ -1,6 +1,7 @@
 import { ReactChild } from "react";
 import { AuthProvider } from "./auth-provider";
 import { IsMobileProvider } from "./is-mobile-provider";
+import { ThemeProvider } from "./theme-provider";
 
 interface AppProvidersProps {
   children: ReactChild;
@@ -8,7 +9,9 @@ interface AppProvidersProps {
 export const AppProviders = ({ children }: AppProvidersProps): JSX.Element => {
   return (
     <AuthProvider>
-      <IsMobileProvider>{children}</IsMobileProvider>
+      <ThemeProvider>
+        <IsMobileProvider>{children}</IsMobileProvider>
+      </ThemeProvider>
     </AuthProvider>
   );
 };
