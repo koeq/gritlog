@@ -3,13 +3,13 @@ import { Training } from "./types";
 export const getLatestPercentageChanges = (
   latestTraining: Training,
   trainings: Training[]
-): Record<string, number> => {
+): Record<string, number> | null => {
   const percentageChanges: Record<string, number> = {
     trainingId: latestTraining.id,
   };
 
   if (trainings.length < 2) {
-    percentageChanges;
+    return null;
   }
 
   const exerciseWorkMap = getWorkPerExercise(latestTraining);
