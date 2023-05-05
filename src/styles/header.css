@@ -14,7 +14,7 @@
 }
 
 .header-active {
-  background: var(--background);
+  background: var(--background-1-dark);
 }
 
 .header-container {
@@ -37,7 +37,7 @@ hr {
   height: 1px;
   border: none;
   width: min(450px, 97%);
-  background: var(--border);
+  background: var(--border-dark);
 }
 
 @media (min-width: 560px) {
@@ -60,7 +60,7 @@ hr {
   flex-direction: column;
   align-items: center;
   width: 100%;
-  background: var(--background);
+  background: var(--background-1-dark);
   overflow: hidden;
   transform: translateY(calc(-100% - var(--header-height)));
   transition: transform 0.3s ease;
