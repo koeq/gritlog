@@ -27,7 +27,7 @@
 }
 
 .format-box {
-  background: var(--background-2-dark);
+  background: var(--background-secondary);
   border: 1px solid grey;
   border-radius: 12px;
   padding: 8px 16px;
@@ -42,7 +42,7 @@
 .description {
   text-align: center;
   font-size: 14px;
-  color: var(--text-3-light);
+  color: var(--text-tertiary);
 }
 
 .exercise-label {

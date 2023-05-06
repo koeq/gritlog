@@ -14,9 +14,9 @@
 .bar {
   width: 25px;
   height: 1.5px;
-  background-color: #fff;
+  background-color: var(--text-primary);
   margin: 3.5px 0;
-  transition: 0.4s;
+  transition: 0.4s transform;
 }
 
 .hamburger.active .bar1 {

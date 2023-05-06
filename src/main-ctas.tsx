@@ -40,7 +40,7 @@ export const Buttons = ({
             textAreaRef.current?.focus();
           }}
         >
-          <IoMdAdd size={24} strokeWidth={10} />
+          <IoMdAdd color="#fff" size={24} strokeWidth={10} />
         </button>
         <button
           className={`btn-round hover-active ${
@@ -57,7 +57,7 @@ export const Buttons = ({
             });
           }}
         >
-          <IoPencilSharp strokeWidth={3} size={19} />
+          <IoPencilSharp color="#fff" strokeWidth={3} size={19} />
         </button>
       </>
     </div>

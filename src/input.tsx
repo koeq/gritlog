@@ -140,7 +140,7 @@ const Buttons = ({ disabled, action, cancel }: ButtonsProps) => (
       onClick={action}
     >
       <IoCheckmark
-        stroke={disabled ? "var(--cta-disabled)" : "var(--cta-dark)"}
+        stroke={disabled ? "var(--cta-disabled)" : "var(--cta)"}
         size={28}
       />
     </button>
@@ -149,7 +149,7 @@ const Buttons = ({ disabled, action, cancel }: ButtonsProps) => (
       className="button circle-hover-active"
       onClick={cancel}
     >
-      <IoCloseOutline stroke="var(--cta-dark)" size={28} />
+      <IoCloseOutline stroke="var(--cta)" size={28} />
     </button>
   </>
 );
