@@ -32,7 +32,7 @@
   --background-tertiary: #2e3038;
   --background-transparent: rgba(7, 9, 15, 0.8);
   --border-primary: #1a1c24;
-  --border-secondary: #494D5A;
+  --border-secondary: #494d5a;
   --text-primary: #f7f8f8;
   --text-secondary: #e8e8e8;
   --text-tertiary: #9ea3a9;
@@ -45,7 +45,7 @@
   --background-tertiary: #f2f3f6;
   --background-transparent: rgba(239, 240, 244, 0.8);
   --border-primary: #ddddde;
-  --border-secondary: rgb(231, 231, 232);
+  --border-secondary: #ddddde;
   --text-primary: #000000;
   --text-secondary: #000000;
   --text-tertiary: #9ea3a9;
@@ -74,11 +74,6 @@ button {
   cursor: pointer;
 }
 
-/* Hover  */
-.hover-active {
-  transition: filter 0.2s;
-}
-
 .hover-active:hover,
 .hover-active:active {
   filter: brightness(1.15);
@@ -99,7 +94,7 @@ button {
   background: rgba(255, 255, 255, 0.1);
   border-radius: 50%;
   transform: scale(0.5);
-  transition: transform 0.15s, opacity 0.15s;
+  transition: transform 0.1s, opacity 0.1s;
   pointer-events: none;
   opacity: 0;
 }
