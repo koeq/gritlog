@@ -4,19 +4,23 @@ export const useGoogleScript = (shouldLoadScript: boolean): boolean => {
   const [scriptLoaded, setScriptLoaded] = useState(false);
 
   useEffect(() => {
-    const loadScript = async () => {
-      try {
-        await loadScriptAsync("https://accounts.google.com/gsi/client");
-        setScriptLoaded(true);
-      } catch (error) {
-        console.error("Failed to load script:", error);
-      }
-    };
+    if (scriptLoaded) {
+      return;
+    }
 
     if (shouldLoadScript) {
+      const loadScript = async () => {
+        try {
+          await loadScriptAsync("https://accounts.google.com/gsi/client");
+          setScriptLoaded(true);
+        } catch (error) {
+          console.error("Failed to load script:", error);
+        }
+      };
+
       loadScript();
     }
-  }, [shouldLoadScript]);
+  }, [scriptLoaded, shouldLoadScript]);
 
   return scriptLoaded;
 };
