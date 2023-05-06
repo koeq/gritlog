@@ -1,10 +1,18 @@
 .calendar {
   display: flex;
   justify-content: center;
+  color: var(--text-primary);
   align-items: center;
   width: 26px;
   height: 26px;
   border-radius: 32px;
-  background: rgba(255, 255, 255, 0.08);
   margin-right: 4px;
+}
+
+.calendar-light {
+  background: var(--background-secondary);
+}
+
+.calendar-dark {
+  background: var(--background-tertiary);
 }

@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
+import { HiOutlineMoon, HiOutlineSun } from "react-icons/hi";
 import { IoLogoGithub } from "react-icons/io5";
 import { useAuth } from "./context";
+import { useTheme } from "./context/theme-provider";
 import { Hamburger } from "./hamburger";
 import "./styles/header.css";
 
@@ -10,7 +12,12 @@ interface HeaderProps {
 
 export const Header = ({ authed }: HeaderProps): JSX.Element => {
   const [menuActive, setMenuActive] = useState(false);
+  const [theme, setTheme] = useTheme();
   const { logout } = useAuth();
+
+  const toggleTheme = () => {
+    setTheme((theme) => (theme === "light" ? "dark" : "light"));
+  };
 
   useEffect(() => {
     setMenuActive(false);
@@ -21,9 +28,28 @@ export const Header = ({ authed }: HeaderProps): JSX.Element => {
       <header className={`header ${menuActive ? "header-active" : ""}`}>
         <nav className="header-container">
           <h1 className="heading">gritlog</h1>
-          {authed && (
-            <Hamburger menuActive={menuActive} setMenuActive={setMenuActive} />
-          )}
+          <div style={{ display: "flex", alignItems: "center" }}>
+            <button
+              style={{
+                display: "flex",
+                color: "var(--text-primary)",
+                marginRight: "8px",
+              }}
+              onClick={toggleTheme}
+            >
+              {theme === "light" ? (
+                <HiOutlineMoon size="20" />
+              ) : (
+                <HiOutlineSun size="20" />
+              )}
+            </button>
+            {authed && (
+              <Hamburger
+                menuActive={menuActive}
+                setMenuActive={setMenuActive}
+              />
+            )}
+          </div>
         </nav>
         <hr />
       </header>

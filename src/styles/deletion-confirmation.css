@@ -1,4 +1,5 @@
 .deletion-confirmation-layer {
+  color: var(--text-primary);
   height: 100vh;
   width: 100vw;
   position: fixed;
@@ -20,14 +21,8 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-
-  background: linear-gradient(
-    45deg,
-    rgba(26, 28, 36, 0.95),
-    rgba(21, 23, 31, 0.95)
-  );
-
-  border: 1px solid var(--border-dark);
+  background: var(--background-secondary);
+  border: 0.5px solid var(--border-primary);
   border-radius: var(--border-radius);
 }
 
@@ -40,4 +35,8 @@
   display: flex;
   justify-content: space-between;
   width: 160px;
+}
+
+.button-container button {
+  color: var(--text-primary);
 }

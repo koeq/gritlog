@@ -2,9 +2,7 @@ table {
   width: 100%;
   padding: 10px 10px;
   color: #8a8f98;
-  background: var(--background-2-dark);
-  border: 1px solid var(--border-dark);
-  border-radius: var(--border-radius) 0 0 var(--border-radius);
+  background: var(--background-secondary);
   cursor: pointer;
   scroll-snap-align: start;
   border-spacing: 0;
@@ -28,12 +26,12 @@ th {
 }
 
 .date-header {
-  color: var(--text-1-light);
+  color: var(--text-primary);
   text-align: right;
 }
 
 .label-header {
-  color: var(--text-2-light);
+  color: var(--text-secondary);
   font-weight: 400;
   padding-top: 16px;
   padding-bottom: 10px;
@@ -42,7 +40,7 @@ th {
 h3 {
   padding: 2px 6px;
   width: fit-content;
-  background: rgba(255, 255, 255, 0.15);
+  background: var(--background-tertiary);
   border-radius: 4px;
   font-weight: 400;
 }
@@ -53,7 +51,7 @@ h3 {
 
 .td {
   padding: 6px 0;
-  border-bottom: 0.5px solid #494d5a;
+  border-bottom: 0.5px solid var(--border-secondary);
 }
 
 .last-td {
@@ -61,21 +59,21 @@ h3 {
 }
 
 #exercise {
-  color: var(--text-3-light);
+  color: var(--text-tertiary);
   width: 130px;
   padding-right: 8px;
   overflow-wrap: anywhere;
 }
 
 #weight {
-  color: var(--text-3-light);
+  color: var(--text-tertiary);
   width: 80px;
   padding-right: 8px;
   overflow-wrap: anywhere;
 }
 
 #repetitions {
-  color: var(--text-3-light);
+  color: var(--text-tertiary);
   width: 90px;
   overflow-wrap: anywhere;
 }

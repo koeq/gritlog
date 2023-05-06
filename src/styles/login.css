@@ -15,11 +15,12 @@
   width: min(330px, 85%);
   height: 40%;
   border-radius: var(--border-radius);
-  border: 1px solid var(--border-dark);
-  background: var(--background-2-dark);
+  border: 1px solid var(--border-primary);
+  background: var(--background-secondary);
 }
 
 h2 {
+  color: var(--text-primary);
   font-size: 26px;
   font-weight: 400;
   margin-top: 40px;
