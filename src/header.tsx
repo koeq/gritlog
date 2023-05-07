@@ -38,9 +38,9 @@ export const Header = ({ authed }: HeaderProps): JSX.Element => {
               onClick={toggleTheme}
             >
               {theme === "light" ? (
-                <HiOutlineMoon size="20" />
-              ) : (
                 <HiOutlineSun size="20" />
+              ) : (
+                <HiOutlineMoon size="20" />
               )}
             </button>
             {authed && (
