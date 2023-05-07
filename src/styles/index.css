@@ -9,7 +9,6 @@
 * {
   --font-size-date: 14px;
   --highlight: #3673f5;
-  --cta-disabled: #767b81;
   --border-radius: 8px;
   --shadow-extra-small: 0px 4px 8px rgba(0, 0, 0, 0.12);
   --shadow-smallest: 0 2px 6px rgb(0 0 0 / 5%);
@@ -21,8 +20,6 @@
   font-family: "Mona Sans", sans-serif;
   font-weight: 300;
   font-size: 14px;
-  transition: background-color 0.1s ease, color 0.1s ease,
-    border-color 0.1s ease;
 }
 
 /* THEMES */
@@ -35,8 +32,9 @@
   --border-secondary: #494d5a;
   --text-primary: #f7f8f8;
   --text-secondary: #e8e8e8;
-  --text-tertiary: #9ea3a9;
+  --text-tertiary: rgb(178, 183, 189);
   --cta: #ffffff;
+  --cta-disabled: #767b81;
 }
 
 .light {
@@ -48,8 +46,9 @@
   --border-secondary: #ddddde;
   --text-primary: #000000;
   --text-secondary: #000000;
-  --text-tertiary: #9ea3a9;
+  --text-tertiary: rgb(108, 113, 119);
   --cta: #000000;
+  --cta-disabled: rgb(188, 193, 219);
 }
 
 /* universal box sizing */

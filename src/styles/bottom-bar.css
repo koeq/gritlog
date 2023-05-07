@@ -13,7 +13,7 @@
   border-top-left-radius: 18px;
   border-top-right-radius: 18px;
   transform: translateY(0);
-  transition: 0.3s ease;
+  transition: transform 0.3s ease;
 }
 
 .closed {
