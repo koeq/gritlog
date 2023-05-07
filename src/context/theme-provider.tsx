@@ -1,4 +1,4 @@
-import { createContext, useLayoutEffect, useState } from "react";
+import { createContext, useEffect, useLayoutEffect, useState } from "react";
 import { useSafeContext } from "../utils/use-safe-context";
 
 interface ThemeProviderProps {
@@ -14,7 +14,11 @@ export const ThemeContext = createContext<
 export const ThemeProvider = ({
   children,
 }: ThemeProviderProps): JSX.Element => {
-  const [theme, setTheme] = useState<Theme>("dark");
+  const [theme, setTheme] = useState<Theme>(getDefaultTheme);
+
+  useEffect(() => {
+    localStorage.setItem("theme", theme);
+  }, [theme]);
 
   useLayoutEffect(() => {
     const previousTheme = theme === "light" ? "dark" : "light";
@@ -27,6 +31,14 @@ export const ThemeProvider = ({
       {children}
     </ThemeContext.Provider>
   );
+};
+
+const getDefaultTheme = (): "light" | "dark" => {
+  const storedTheme = localStorage.getItem("theme");
+
+  return storedTheme === "light" || storedTheme === "dark"
+    ? storedTheme
+    : "light";
 };
 
 export const useTheme: () => [
