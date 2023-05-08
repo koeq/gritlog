@@ -7,12 +7,5 @@
   height: 26px;
   border-radius: 32px;
   margin-right: 4px;
-}
-
-.calendar-light {
-  background: var(--background-secondary);
-}
-
-.calendar-dark {
   background: var(--background-tertiary);
 }

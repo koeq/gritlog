@@ -1,6 +1,5 @@
 import { Dispatch, Fragment, memo, useMemo } from "react";
 import { HandleSetEditModeParams } from "./authed-app";
-import { Calendar } from "./calendar";
 import { getLatestPercentageChanges } from "./get-latest-percentage-change";
 import {
   createDateFormat,
@@ -54,7 +53,6 @@ export const Trainings = ({
           return (
             <Fragment key={startDate.toString()}>
               <div className="date-range">
-                <Calendar />
                 <span className="date-range-text">{`${createDateFormat(
                   startDate
                 )} — ${createDateFormat(endDate)}`}</span>
