@@ -1,13 +1,12 @@
 import { Dispatch } from "react";
 import { IoCheckmark, IoCloseOutline } from "react-icons/io5";
-import { useAuth } from "./context";
+import { useAuth, useTopLevelState } from "./context";
 import { deleteTraining } from "./delete-training";
 import { Action } from "./state-reducer";
 import "./styles/deletion-confirmation.css";
 
 interface DeletionConfirmationProps {
   readonly id: number | null;
-  readonly dispatch: React.Dispatch<Action>;
 }
 
 const handleDelete = (
@@ -21,9 +20,9 @@ const handleDelete = (
 
 export const DeletionConfirmation = ({
   id,
-  dispatch,
 }: DeletionConfirmationProps): JSX.Element | null => {
   const { logout } = useAuth();
+  const [_, dispatch] = useTopLevelState();
 
   if (id === null) {
     return null;

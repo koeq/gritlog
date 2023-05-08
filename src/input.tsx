@@ -5,7 +5,7 @@ import {
   IoInformationCircleOutline,
 } from "react-icons/io5";
 import { addTraining } from "./add-training";
-import { useAuth, useIsMobile } from "./context";
+import { useAuth, useIsMobile, useTopLevelState } from "./context";
 import { editTraining } from "./edit-training";
 import { Action } from "./state-reducer";
 import "./styles/input.css";
@@ -13,12 +13,9 @@ import { Mode, Training } from "./types";
 import { isEmptyTraining } from "./utils/is-empty-training";
 
 interface InputProps {
-  readonly dispatch: React.Dispatch<Action>;
-  readonly currentInput: string;
-  readonly mode: Mode;
   readonly currentTraining: Training;
   readonly textAreaRef: React.MutableRefObject<HTMLTextAreaElement | null>;
-  readonly inputOpen: boolean;
+
   readonly setShowInfo: Dispatch<React.SetStateAction<boolean>>;
 }
 
@@ -37,23 +34,20 @@ interface HandleAddParams {
 }
 
 interface HandleEditParams {
-  mode: Mode;
-  dispatch: Dispatch<Action>;
-  currentTraining: Training;
   logout: () => void;
+  readonly mode: Mode;
+  readonly dispatch: React.Dispatch<Action>;
+  readonly currentTraining: Training;
 }
 
 export const Input = ({
-  dispatch,
-  currentInput,
-  mode,
-  currentTraining,
-  textAreaRef,
-  inputOpen,
   setShowInfo,
+  textAreaRef,
+  currentTraining,
 }: InputProps): JSX.Element => {
-  const isMobile = useIsMobile();
   const { logout } = useAuth();
+  const isMobile = useIsMobile();
+  const [{ currentInput, mode, inputOpen }, dispatch] = useTopLevelState();
 
   useLayoutEffect(() => {
     if (textAreaRef.current) {

@@ -1,5 +1,5 @@
 import { Suspense, lazy } from "react";
-import { useAuth } from "./context";
+import { TopLevelStateProvider, useAuth } from "./context";
 import { Header } from "./header";
 import { LoadingSpinner } from "./loading-spinner";
 import { useGoogleScript } from "./use-google-script";
@@ -20,7 +20,9 @@ export const App = (): JSX.Element => {
     <Suspense fallback={<LoadingSpinner />}>
       <Header authed={authed} />
       {authed ? (
-        <AuthedApp />
+        <TopLevelStateProvider>
+          <AuthedApp />
+        </TopLevelStateProvider>
       ) : (
         <UnauthedApp googleScriptLoaded={googleScriptLoaded} />
       )}

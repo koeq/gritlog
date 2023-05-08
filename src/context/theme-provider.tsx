@@ -1,8 +1,14 @@
-import { createContext, useEffect, useLayoutEffect, useState } from "react";
+import {
+  ReactNode,
+  createContext,
+  useEffect,
+  useLayoutEffect,
+  useState,
+} from "react";
 import { useSafeContext } from "../utils/use-safe-context";
 
 interface ThemeProviderProps {
-  children: React.ReactNode;
+  children: ReactNode;
 }
 
 type Theme = "light" | "dark";
