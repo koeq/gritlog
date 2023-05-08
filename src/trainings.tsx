@@ -1,5 +1,6 @@
 import { Dispatch, Fragment, memo, useMemo } from "react";
 import { HandleSetEditModeParams } from "./authed-app";
+import { useTopLevelState } from "./context";
 import { getLatestPercentageChanges } from "./get-latest-percentage-change";
 import {
   createDateFormat,
@@ -9,28 +10,26 @@ import { serializeTraining } from "./serialize-training";
 import { Action } from "./state-reducer";
 import "./styles/trainings.css";
 import { TrainingTableWithButtons } from "./training-table-with-buttons";
-import { Mode, Training } from "./types";
+import { Training } from "./types";
 
 interface TrainingsProps {
   readonly trainings: Training[];
-  readonly dispatch: React.Dispatch<Action>;
-  readonly textAreaRef: React.MutableRefObject<HTMLTextAreaElement | null>;
   readonly handleSetEditMode: ({
     id,
     trainings,
     dispatch,
     textAreaRef,
   }: HandleSetEditModeParams) => void;
-  readonly mode: Mode;
+  readonly textAreaRef: React.MutableRefObject<HTMLTextAreaElement | null>;
 }
 
 export const Trainings = ({
-  mode,
-  dispatch,
   trainings,
   textAreaRef,
   handleSetEditMode,
 }: TrainingsProps): JSX.Element | null => {
+  const [{ mode }, dispatch] = useTopLevelState();
+
   const groupedTrainings = useMemo(
     // Displaying the list with flex-direction: 'column-reverse' is an
     // optimisation which could be made here instead of this.

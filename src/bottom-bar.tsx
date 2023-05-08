@@ -1,9 +1,11 @@
+import { useTopLevelState } from "./context";
 import "./styles/bottom-bar.css";
 
 export function BottomBar({
   children,
-  inputOpen,
-}: React.PropsWithChildren<{ inputOpen: boolean }>): JSX.Element {
+}: React.PropsWithChildren<{}>): JSX.Element {
+  const [{ inputOpen }] = useTopLevelState();
+
   return (
     <footer className={inputOpen ? "bottom-bar" : "bottom-bar closed"}>
       {children}

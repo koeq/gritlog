@@ -1,15 +1,10 @@
-import { Dispatch } from "react";
 import { IoMdAdd } from "react-icons/io";
 import { IoPencilSharp } from "react-icons/io5";
 import "../src/styles/main-ctas.css";
 import { HandleSetEditModeParams } from "./authed-app";
-import { Action } from "./state-reducer";
-import { Training } from "./types";
+import { useTopLevelState } from "./context";
 
 interface ButtonsProps {
-  dispatch: Dispatch<Action>;
-  trainings: Training[] | undefined;
-  inputOpen: boolean;
   textAreaRef: React.MutableRefObject<HTMLTextAreaElement | null>;
   handleSetEditMode: ({
     id,
@@ -20,12 +15,10 @@ interface ButtonsProps {
 }
 
 export const Buttons = ({
-  dispatch,
-  trainings,
-  inputOpen,
   textAreaRef,
   handleSetEditMode,
 }: ButtonsProps): JSX.Element => {
+  const [{ trainings, inputOpen }, dispatch] = useTopLevelState();
   const lastTrainingId = trainings?.[trainings.length - 1]?.id;
 
   return (
