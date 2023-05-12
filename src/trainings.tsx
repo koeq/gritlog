@@ -35,7 +35,15 @@ export const Trainings = ({
     // optimisation which could be made here instead of this.
     // Downside: components structure is upside down then in the JSX and
     // might be confusing.
-    () => groupTrainingsByWeek(trainings.slice().reverse()),
+    () =>
+      groupTrainingsByWeek(
+        trainings
+          .slice()
+          .reverse()
+          .sort(
+            (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
+          )
+      ),
     [trainings]
   );
 

@@ -17,7 +17,7 @@ export const TrainingTable = ({
   training,
   percentageChanges,
 }: TrainingTableProps): JSX.Element | null => {
-  const { headline, date } = training;
+  const { id, date, headline } = training;
 
   return (
     <table tabIndex={0}>
@@ -28,8 +28,8 @@ export const TrainingTable = ({
           </th>
           <th className={"date-header th-spacing"} colSpan={1}>
             <div className="date">
-              <Calendar />
-              {createDateFormat(new Date(date))}
+              <Calendar id={id} />
+              <p>{createDateFormat(new Date(date))}</p>
             </div>
           </th>
         </tr>
