@@ -91,7 +91,6 @@ const setDate = ({ id, trainings, dispatch, event, logout }: SetDateParams) => {
   const updatedTrainings = trainings.map((training) =>
     training.id === id ? currentTraining : training
   );
-
   editTraining(currentTraining, logout);
 
   dispatch({

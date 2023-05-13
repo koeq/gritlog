@@ -35,19 +35,11 @@ export const Trainings = ({
     // optimisation which could be made here instead of this.
     // Downside: components structure is upside down then in the JSX and
     // might be confusing.
-    () =>
-      groupTrainingsByWeek(
-        trainings
-          .slice()
-          .reverse()
-          .sort(
-            (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
-          )
-      ),
+    () => groupTrainingsByWeek(trainings),
     [trainings]
   );
 
-  const latestTraining: Training | undefined = trainings[trainings.length - 1];
+  const latestTraining: Training | undefined = trainings[0];
 
   const percentageChanges = latestTraining
     ? getLatestPercentageChanges(latestTraining, trainings)

@@ -30,20 +30,27 @@ const AuthedApp = (): JSX.Element => {
   const { headline = null, exercises = [] } =
     useMemo(() => parse(currentInput), [currentInput]) || {};
 
-  const lastTrainingId = trainings?.[trainings.length - 1]?.id;
-  const nextTrainingsId = lastTrainingId !== undefined ? lastTrainingId + 1 : 0;
+  const highestTrainingId =
+    trainings && trainings.length
+      ? trainings.reduce((prev, curr) => (curr.id > prev.id ? curr : prev)).id
+      : -1;
+
+  const nextTrainingId = highestTrainingId + 1;
 
   useEffect(() => {
     (async () => {
       const fetchedTrainings = await fetchTrainings();
-      dispatch({ type: "set-trainings", trainings: fetchedTrainings });
+      dispatch({
+        type: "set-trainings",
+        trainings: fetchedTrainings,
+      });
     })();
   }, [dispatch]);
 
   const currentTraining: Training = {
     headline,
     date: new Date().toString(),
-    id: nextTrainingsId,
+    id: nextTrainingId,
     exercises: exercises,
   };
 

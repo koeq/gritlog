@@ -19,7 +19,11 @@ export const getLatestPercentageChanges = (
       continue;
     }
 
-    for (let i = trainings.length - 2; i >= 0; i--) {
+    const latestTrainingIndex = trainings.findIndex(
+      (training) => training.id === latestTraining.id
+    );
+
+    for (let i = latestTrainingIndex * 1; i < trainings.length; i++) {
       const prevTraining = trainings[i];
 
       if (prevTraining === undefined) {

@@ -92,7 +92,9 @@ export function reducer(state: TopLevelState, action: Action): TopLevelState {
 
       return {
         ...state,
-        trainings,
+        trainings: trainings.sort(
+          (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
+        ),
       };
     }
 

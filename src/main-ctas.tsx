@@ -19,7 +19,7 @@ export const Buttons = ({
   handleSetEditMode,
 }: ButtonsProps): JSX.Element => {
   const [{ trainings, inputOpen }, dispatch] = useTopLevelState();
-  const lastTrainingId = trainings?.[trainings.length - 1]?.id;
+  const latestTrainingId = trainings?.[0]?.id;
 
   return (
     <div className={inputOpen ? "btns btns-input-open" : "btns"}>
@@ -37,13 +37,13 @@ export const Buttons = ({
         </button>
         <button
           className={`btn-round hover-active ${
-            trainings && lastTrainingId === undefined ? "btn-disabled" : ""
+            trainings && latestTrainingId === undefined ? "btn-disabled" : ""
           }`}
           type="button"
-          disabled={lastTrainingId === undefined || inputOpen ? true : false}
+          disabled={latestTrainingId === undefined || inputOpen ? true : false}
           onClick={() => {
             handleSetEditMode({
-              id: lastTrainingId,
+              id: latestTrainingId,
               trainings,
               dispatch,
               textAreaRef,
