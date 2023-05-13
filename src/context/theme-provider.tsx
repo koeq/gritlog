@@ -30,6 +30,7 @@ export const ThemeProvider = ({
     const previousTheme = theme === "light" ? "dark" : "light";
     document.documentElement.classList.remove(previousTheme);
     document.documentElement.classList.add(theme);
+    setThemeColor(theme === "light" ? "#eff0f4" : "#07090f");
   }, [theme]);
 
   return (
@@ -51,3 +52,15 @@ export const useTheme: () => [
   Theme,
   React.Dispatch<React.SetStateAction<Theme>>
 ] = () => useSafeContext(ThemeContext, "Theme");
+
+// TODO: this is hacky and can be solved in a better way:
+// https://css-tricks.com/meta-theme-color-and-trickery/
+function setThemeColor(color: string) {
+  const metaThemeColor = document.querySelector("meta[name=theme-color]");
+
+  if (!metaThemeColor) {
+    return;
+  }
+
+  metaThemeColor.setAttribute("content", color);
+}
