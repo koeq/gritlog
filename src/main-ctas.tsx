@@ -1,8 +1,8 @@
 import { IoMdAdd } from "react-icons/io";
 import { IoPencilSharp } from "react-icons/io5";
-import "../src/styles/main-ctas.css";
 import { HandleSetEditModeParams } from "./authed-app";
 import { useTopLevelState } from "./context";
+import "../src/styles/main-ctas.css";
 
 interface ButtonsProps {
   textAreaRef: React.MutableRefObject<HTMLTextAreaElement | null>;

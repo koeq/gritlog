@@ -5,10 +5,10 @@ import {
 import { marshall } from "@aws-sdk/util-dynamodb";
 import { APIGatewayProxyEvent } from "aws-lambda";
 import jwt_decode from "jwt-decode";
-import { Training } from "../types";
 import { JsonResponse, buildResponse } from "./build-response";
 import { GoogleUserData } from "./check-for-user";
 import { ddbClient } from "./ddb-client";
+import { Training } from "../types";
 
 export const editTraining = async (
   jwt: string | undefined,

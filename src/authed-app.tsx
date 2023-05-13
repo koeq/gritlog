@@ -1,5 +1,4 @@
 import { Dispatch, useEffect, useMemo, useRef, useState } from "react";
-import "../src/styles/authed-app.css";
 import { BottomBar } from "./bottom-bar";
 import { useTopLevelState } from "./context";
 import { DeletionConfirmation } from "./deletion-confirmation";
@@ -13,6 +12,7 @@ import { serializeTraining } from "./serialize-training";
 import { Action } from "./state-reducer";
 import { MemoizedTrainings } from "./trainings";
 import { Training } from "./types";
+import "../src/styles/authed-app.css";
 
 export interface HandleSetEditModeParams {
   id: number | undefined;
