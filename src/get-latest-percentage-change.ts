@@ -1,5 +1,7 @@
 import { Training } from "./types";
 
+const ZERO_WEIGHT_VALUE = 1;
+
 export const getLatestPercentageChanges = (
   latestTraining: Training,
   trainings: Training[]
@@ -22,8 +24,8 @@ export const getLatestPercentageChanges = (
     const latestTrainingIndex = trainings.findIndex(
       (training) => training.id === latestTraining.id
     );
-
-    for (let i = latestTrainingIndex * 1; i < trainings.length; i++) {
+ 
+    for (let i = latestTrainingIndex + 1; i < trainings.length; i++) {
       const prevTraining = trainings[i];
 
       if (prevTraining === undefined) {
@@ -83,7 +85,6 @@ const getWorkPerExercise = (training: Training): Record<string, number> =>
     {}
   );
 
-const ZERO_WEIGHT_VALUE = 1;
 // TODO: This logic only makes sense as long as you don't consider bodyweight exercises.
 // For a progression like --- Pull ups @0 5*5 -> Pull ups @10 5*% to make sense we need
 // a value for the bodyweight to make sense.
