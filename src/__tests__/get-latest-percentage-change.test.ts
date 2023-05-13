@@ -14,6 +14,7 @@ describe("Calculate percentage change compared to the last time the exercises we
     };
 
     const trainings: Training[] = [
+      latestTraining,
       {
         date: "some date",
         id: 1,
@@ -23,7 +24,6 @@ describe("Calculate percentage change compared to the last time the exercises we
           { exerciseName: "bench press", weight: "60kg", repetitions: "5" },
         ],
       },
-      latestTraining,
     ];
 
     const result = getLatestPercentageChanges(latestTraining, trainings);
@@ -47,6 +47,7 @@ describe("Calculate percentage change compared to the last time the exercises we
     };
 
     const trainings: Training[] = [
+      latestTraining,
       {
         date: "some date",
         id: 1,
@@ -56,7 +57,6 @@ describe("Calculate percentage change compared to the last time the exercises we
           { exerciseName: "bench press", weight: "60kg", repetitions: "5" },
         ],
       },
-      latestTraining,
     ];
 
     const result = getLatestPercentageChanges(latestTraining, trainings);
@@ -76,13 +76,13 @@ describe("Calculate percentage change compared to the last time the exercises we
     };
 
     const trainings: Training[] = [
+      latestTraining,
       {
         date: "some date",
         id: 1,
         headline: null,
         exercises: [{ exerciseName: "squat", weight: "0kg", repetitions: "5" }],
       },
-      latestTraining,
     ];
 
     const result = getLatestPercentageChanges(latestTraining, trainings);
@@ -108,6 +108,7 @@ describe("Calculate percentage change compared to the last time the exercises we
     };
 
     const trainings: Training[] = [
+      latestTraining,
       {
         date: "some date",
         id: 1,
@@ -120,7 +121,6 @@ describe("Calculate percentage change compared to the last time the exercises we
           { exerciseName: "chin ups", weight: "10kg", repetitions: "10" },
         ],
       },
-      latestTraining,
     ];
 
     const result = getLatestPercentageChanges(latestTraining, trainings);
