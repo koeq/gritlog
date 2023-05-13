@@ -1,4 +1,5 @@
 import { EditMode, Mode, Training } from "./types";
+import { sortTrainingsByDate } from "./utils/sort-trainings-by-date";
 
 export type TopLevelState = {
   trainings: Training[] | undefined;
@@ -40,7 +41,7 @@ export function reducer(state: TopLevelState, action: Action): TopLevelState {
         mode: { type: "add" },
 
         trainings: trainings
-          ? [...trainings, currentTraining]
+          ? sortTrainingsByDate([...trainings, currentTraining])
           : [currentTraining],
       };
     }
@@ -92,9 +93,7 @@ export function reducer(state: TopLevelState, action: Action): TopLevelState {
 
       return {
         ...state,
-        trainings: trainings.sort(
-          (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
-        ),
+        trainings: sortTrainingsByDate(trainings),
       };
     }
 

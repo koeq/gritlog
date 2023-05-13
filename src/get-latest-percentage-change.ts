@@ -24,7 +24,7 @@ export const getLatestPercentageChanges = (
     const latestTrainingIndex = trainings.findIndex(
       (training) => training.id === latestTraining.id
     );
- 
+
     for (let i = latestTrainingIndex + 1; i < trainings.length; i++) {
       const prevTraining = trainings[i];
 
