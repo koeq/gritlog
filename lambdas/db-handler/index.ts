@@ -9,6 +9,7 @@ import {
 } from "./utils";
 
 const DOMAIN_WHITELIST = ["https://gritlog.app", "https://stage.gritlog.app"];
+// eslint-disable-next-line security/detect-unsafe-regex
 const LOCALHOST_REGEX = /^http:\/\/localhost(:\d{1,5})?$/;
 
 export const handler = async (

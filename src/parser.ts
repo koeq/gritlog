@@ -265,6 +265,7 @@ function createInterpreter(tokens: Token[]): Interpreter {
     const token = tokens[current];
     current = current + 1;
 
+    // eslint-disable-next-line security/detect-possible-timing-attacks
     if (token === undefined) {
       throw new Error("Cannot parse: Next token is undefined.");
     }
