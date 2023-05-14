@@ -5,19 +5,15 @@ import {
 } from "aws-lambda";
 
 const DOMAIN_WHITELIST = ["https://gritlog.app", "https://stage.gritlog.app"];
+// eslint-disable-next-line security/detect-unsafe-regex
 const LOCALHOST_REGEX = /^http:\/\/localhost(:\d{1,5})?$/;
 
 export const handler: APIGatewayProxyHandler = async (
   event: APIGatewayProxyEvent
 ): Promise<APIGatewayProxyResult> => {
-  const DEFAULT_ORIGIN = "https://gritlog.app";
-
-  let corsOrigin = DEFAULT_ORIGIN; // default value
   const origin = event.headers?.origin;
 
-  if (origin && isOriginAllowed(origin)) {
-    corsOrigin = origin;
-  } else {
+  if (!origin || !isOriginAllowed(origin)) {
     return {
       statusCode: 403,
       body: JSON.stringify({
@@ -28,19 +24,19 @@ export const handler: APIGatewayProxyHandler = async (
 
   return {
     statusCode: 200,
-    headers: getHeaders(corsOrigin),
+    headers: getHeaders(origin),
     body: JSON.stringify({
       message: "CORS validation passed: origin allowed",
     }),
   };
 };
 
-const isOriginAllowed = (inputOrigin: string | undefined): boolean => {
-  return (
-    !!inputOrigin &&
-    (DOMAIN_WHITELIST.includes(inputOrigin) ||
-      LOCALHOST_REGEX.test(inputOrigin))
-  );
+const isOriginAllowed = (origin: string | undefined): boolean => {
+  if (!origin) {
+    return false;
+  }
+
+  return DOMAIN_WHITELIST.includes(origin) || LOCALHOST_REGEX.test(origin);
 };
 
 const getHeaders = (origin: string) => ({
