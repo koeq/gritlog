@@ -8,11 +8,12 @@ import { ddbClient } from "./ddb-client";
 import { setAuthCookie } from "./set-auth-cookie";
 
 export const createUser = async (
-  body: APIGatewayProxyEvent["body"]
+  body: APIGatewayProxyEvent["body"],
+  origin: string | undefined
 ): Promise<JsonResponse> => {
   try {
     if (!body) {
-      return buildResponse(500, "No body found");
+      return buildResponse(500, "No body found.", origin);
     }
 
     const decoded: GoogleUserData = jwt_decode(body);
@@ -36,17 +37,17 @@ export const createUser = async (
 
     if (httpStatusCode !== 200) {
       throw Error(
-        `Unable to create new user. Database replied with ${httpStatusCode}`
+        `Unable to create new user. Database replied with ${httpStatusCode}.`
       );
     }
 
-    const response = setAuthCookie(201, body);
+    const response = setAuthCookie(201, body, origin);
     response.body = JSON.stringify("Created new user");
 
     return response;
   } catch (err) {
-    console.log(`Couldn't create user: ${err}`);
+    console.log(`Unable to create user: ${err}.`);
 
-    return buildResponse(500, err);
+    return buildResponse(500, err, origin);
   }
 };

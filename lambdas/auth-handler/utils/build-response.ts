@@ -14,7 +14,7 @@ export interface JsonResponse {
 export const buildResponse = (
   statusCode: number,
   body: unknown,
-
+  origin: string | undefined,
   cookie?: {
     "Set-Cookie": string;
   }
@@ -23,6 +23,7 @@ export const buildResponse = (
     statusCode: statusCode,
     headers: {
       "Content-Type": "application/json",
+      "Access-Control-Allow-Origin": origin,
       "Access-Control-Allow-Methods": "OPTIONS,POST,GET, PUT, DELETE",
       "Access-Control-Allow-Headers": "Content-Type, Authorization, x-api-key",
       "Access-Control-Allow-Credentials": "true",
