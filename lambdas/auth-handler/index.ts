@@ -15,84 +15,59 @@ const LOCALHOST_REGEX = /^http:\/\/localhost(:\d{1,5})?$/;
 export const handler = async (
   event: APIGatewayProxyEvent
 ): Promise<APIGatewayProxyResult> => {
-  try {
-    const { body, httpMethod, headers } = event;
-    let result: APIGatewayProxyResult;
-    let origin: string;
+  const { body, httpMethod, headers } = event;
+  const origin = headers.origin;
+  let result: APIGatewayProxyResult = { statusCode: 200, body: "" };
 
-    if (isOriginAllowed(headers.origin)) {
-      origin = headers.origin || "";
-    } else {
-      return createErrorResponse(headers.origin);
+  try {
+    if (!isOriginAllowed(origin)) {
+      return buildResponse(
+        403,
+        "CORS validation failed: origin not allowed.",
+        origin
+      );
     }
 
     switch (httpMethod) {
       case "GET":
         result = isUserAuthenticated(headers)
-          ? buildResponse(200, "Authenticated")
-          : buildResponse(401, "Not authenticated");
+          ? buildResponse(200, "Authenticated", origin)
+          : buildResponse(401, "Not authenticated", origin);
+
         break;
 
       case "POST": {
         const user = await checkForUser(body);
-        result = user ? setAuthCookie(200, body) : await createUser(body);
+
+        result = user
+          ? setAuthCookie(200, body, origin)
+          : await createUser(body, origin);
+
         break;
       }
 
       case "DELETE": {
-        result = deleteAuthCookie(200);
+        result = deleteAuthCookie(200, origin);
+
         break;
       }
 
       default:
-        result = buildResponse(404, "404 not found");
+        result = buildResponse(404, "404 not found", origin);
     }
-
-    result = {
-      ...result,
-      headers: {
-        ...result.headers,
-        "Access-Control-Allow-Origin": origin,
-      },
-    };
 
     return result;
   } catch (error) {
     console.error(error);
-    const errorResponse = buildResponse(500, error);
 
-    return appendCorsHeaders(errorResponse, origin);
+    return buildResponse(500, "An error occurred", origin);
   }
 };
 
-const isOriginAllowed = (
-  inputOrigin: string | undefined
-): string | boolean | undefined => {
-  return (
-    inputOrigin &&
-    (DOMAIN_WHITELIST.includes(inputOrigin) ||
-      LOCALHOST_REGEX.test(inputOrigin))
-  );
-};
+const isOriginAllowed = (origin: string | undefined): boolean => {
+  if (origin === undefined) {
+    return false;
+  }
 
-const createErrorResponse = (origin: string | undefined) => {
-  return {
-    statusCode: 403,
-    body: JSON.stringify({
-      message: `CORS validation failed: origin ${origin} not allowed`,
-    }),
-  };
-};
-
-const appendCorsHeaders = (
-  result: APIGatewayProxyResult,
-  origin: string
-): APIGatewayProxyResult => {
-  return {
-    ...result,
-    headers: {
-      ...result.headers,
-      "Access-Control-Allow-Origin": origin,
-    },
-  };
+  return DOMAIN_WHITELIST.includes(origin) || LOCALHOST_REGEX.test(origin);
 };

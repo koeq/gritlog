@@ -32,7 +32,7 @@ export const handler: APIGatewayProxyHandler = async (
 };
 
 const isOriginAllowed = (origin: string | undefined): boolean => {
-  if (!origin) {
+  if (origin === undefined) {
     return false;
   }
 
