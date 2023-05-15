@@ -17,7 +17,7 @@ export const handler: APIGatewayProxyHandler = async (
     return {
       statusCode: 403,
       body: JSON.stringify({
-        message: `CORS validation failed: origin ${origin} not allowed`,
+        message: `CORS validation failed: origin ${origin} not allowed.`,
       }),
     };
   }
@@ -26,7 +26,7 @@ export const handler: APIGatewayProxyHandler = async (
     statusCode: 200,
     headers: getHeaders(origin),
     body: JSON.stringify({
-      message: "CORS validation passed: origin allowed",
+      message: "CORS validation passed: origin allowed.",
     }),
   };
 };

@@ -14,7 +14,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     function verb(n) { return function (v) { return step([n, v]); }; }
     function step(op) {
         if (f) throw new TypeError("Generator is already executing.");
-        while (_) try {
+        while (g && (g = 0, op[0] && (_ = 0)), _) try {
             if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;
             if (y = 0, t) op = [op[0] & 2, t.value];
             switch (op[0]) {
@@ -38,11 +38,36 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 exports.__esModule = true;
 exports.handler = void 0;
 var DOMAIN_WHITELIST = ["https://gritlog.app", "https://stage.gritlog.app"];
+// eslint-disable-next-line security/detect-unsafe-regex
 var LOCALHOST_REGEX = /^http:\/\/localhost(:\d{1,5})?$/;
-var isOriginAllowed = function (inputOrigin) {
-    return (!!inputOrigin &&
-        (DOMAIN_WHITELIST.includes(inputOrigin) ||
-            LOCALHOST_REGEX.test(inputOrigin)));
+var handler = function (event) { return __awaiter(void 0, void 0, void 0, function () {
+    var origin;
+    var _a;
+    return __generator(this, function (_b) {
+        origin = (_a = event.headers) === null || _a === void 0 ? void 0 : _a.origin;
+        if (!origin || !isOriginAllowed(origin)) {
+            return [2 /*return*/, {
+                    statusCode: 403,
+                    body: JSON.stringify({
+                        message: "CORS validation failed: origin ".concat(origin, " not allowed.")
+                    })
+                }];
+        }
+        return [2 /*return*/, {
+                statusCode: 200,
+                headers: getHeaders(origin),
+                body: JSON.stringify({
+                    message: "CORS validation passed: origin allowed."
+                })
+            }];
+    });
+}); };
+exports.handler = handler;
+var isOriginAllowed = function (origin) {
+    if (origin === undefined) {
+        return false;
+    }
+    return DOMAIN_WHITELIST.includes(origin) || LOCALHOST_REGEX.test(origin);
 };
 var getHeaders = function (origin) { return ({
     "Access-Control-Allow-Origin": origin,
@@ -50,31 +75,3 @@ var getHeaders = function (origin) { return ({
     "Access-Control-Allow-Methods": "PUT, POST, OPTIONS, GET, DELETE",
     "Access-Control-Allow-Credentials": "true"
 }); };
-var handler = function (event) { return __awaiter(void 0, void 0, void 0, function () {
-    var DEFAULT_ORIGIN, corsOrigin, origin;
-    var _a;
-    return __generator(this, function (_b) {
-        DEFAULT_ORIGIN = "https://gritlog.app";
-        corsOrigin = DEFAULT_ORIGIN;
-        origin = (_a = event.headers) === null || _a === void 0 ? void 0 : _a.origin;
-        if (origin && isOriginAllowed(origin)) {
-            corsOrigin = origin;
-        }
-        else {
-            return [2 /*return*/, {
-                    statusCode: 403,
-                    body: JSON.stringify({
-                        message: "CORS validation failed: origin ".concat(origin, " not allowed")
-                    })
-                }];
-        }
-        return [2 /*return*/, {
-                statusCode: 200,
-                headers: getHeaders(corsOrigin),
-                body: JSON.stringify({
-                    message: "CORS validation passed: origin allowed"
-                })
-            }];
-    });
-}); };
-exports.handler = handler;

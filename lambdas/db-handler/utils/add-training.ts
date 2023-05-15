@@ -8,16 +8,15 @@ import { ddbClient } from "./ddb-client";
 import { Training } from "../types";
 
 export const addTraining = async (
-  jwt: string | undefined,
-  body: APIGatewayProxyEvent["body"]
+  jwt: string,
+  body: APIGatewayProxyEvent["body"],
+  origin: string | undefined
 ): Promise<JsonResponse> => {
   try {
-    if (!jwt) {
-      return buildResponse(401, "Not authenticated");
-    }
-
     if (!body) {
-      return buildResponse(500, "Can't add user");
+      console.error("Unable to add training: Missing training.");
+
+      return buildResponse(500, "Unable to add training.", origin);
     }
 
     const training = JSON.parse(body) as Training;
@@ -32,10 +31,10 @@ export const addTraining = async (
     const command = new PutItemCommand(params);
     const res = await ddbClient.send(command);
 
-    return buildResponse(200, res);
+    return buildResponse(200, res, origin);
   } catch (err) {
     console.log(err);
 
-    return buildResponse(500, "Can't add user");
+    return buildResponse(500, "Unable to add training.", origin);
   }
 };

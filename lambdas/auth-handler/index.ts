@@ -31,8 +31,8 @@ export const handler = async (
     switch (httpMethod) {
       case "GET":
         result = isUserAuthenticated(headers)
-          ? buildResponse(200, "Authenticated", origin)
-          : buildResponse(401, "Not authenticated", origin);
+          ? buildResponse(200, "Authenticated.", origin)
+          : buildResponse(401, "Not authenticated.", origin);
 
         break;
 
@@ -53,14 +53,14 @@ export const handler = async (
       }
 
       default:
-        result = buildResponse(404, "404 not found", origin);
+        result = buildResponse(404, "404: Not found.", origin);
     }
 
     return result;
   } catch (error) {
     console.error(error);
 
-    return buildResponse(500, "An error occurred", origin);
+    return buildResponse(500, "Internal server error.", origin);
   }
 };
 

@@ -5,4 +5,3 @@ aws lambda wait function-updated --function-name cors-handler
 aws lambda update-function-configuration --function-name cors-handler 
 aws lambda wait function-updated --function-name cors-handler
 VERSION=$(aws lambda publish-version --function-name cors-handler  --output text --query Version)
-aws lambda update-alias --function-name cors-handler --name prod --function-version $VERSION

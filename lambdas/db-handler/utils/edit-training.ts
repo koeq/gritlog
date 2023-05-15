@@ -11,12 +11,15 @@ import { ddbClient } from "./ddb-client";
 import { Training } from "../types";
 
 export const editTraining = async (
-  jwt: string | undefined,
-  body: APIGatewayProxyEvent["body"]
+  jwt: string,
+  body: APIGatewayProxyEvent["body"],
+  origin: string | undefined
 ): Promise<JsonResponse> => {
   try {
-    if (!jwt || !body) {
-      return buildResponse(500, "Can't update training.");
+    if (!body) {
+      console.error("Unable to edit training: Missing training.");
+
+      return buildResponse(500, "Unable to edit training.", origin);
     }
 
     const training = JSON.parse(body) as Training;
@@ -37,7 +40,7 @@ export const editTraining = async (
       Key: marshall({ email, id: training.id }),
       UpdateExpression:
         "set exercises = :newExercises, headline = :newHeadline, #date_attr = :newDate",
-      // Date is a reserved keyword within dynamoDB and need to be mapped
+      // Date is a reserved keyword within dynamoDB and needs to be mapped
       ExpressionAttributeNames: {
         "#date_attr": "date",
       },
@@ -52,10 +55,10 @@ export const editTraining = async (
     const command = new UpdateItemCommand(params);
     await ddbClient.send(command);
 
-    return buildResponse(200, "Edited training");
+    return buildResponse(200, "Training was edited.", origin);
   } catch (err) {
     console.log(err);
 
-    return buildResponse(500, "Can't update training.");
+    return buildResponse(500, "Unable to edit training.", origin);
   }
 };

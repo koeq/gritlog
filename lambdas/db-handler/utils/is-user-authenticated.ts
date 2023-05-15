@@ -3,8 +3,7 @@ import { APIGatewayProxyEventHeaders } from "aws-lambda";
 export const isUserAuthenticated = (
   headers: APIGatewayProxyEventHeaders
 ): boolean => {
-  // TO DO: CHECK
-  // is it safe to only check if a cookie exists?
+  // TODO: check for cookie key not just if a cookie exists
   if (!headers.cookie) {
     return false;
   }
