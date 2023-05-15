@@ -58,6 +58,8 @@ const AuthedApp = (): JSX.Element => {
     <div className="authed">
       {trainings ? (
         <MemoizedTrainings
+          mode={mode}
+          dispatch={dispatch}
           trainings={trainings}
           textAreaRef={textAreaRef}
           handleSetEditMode={handleSetEditMode}
