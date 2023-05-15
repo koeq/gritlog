@@ -6,14 +6,9 @@ import { GoogleUserData } from "./check-for-user";
 import { ddbClient } from "./ddb-client";
 
 export const getTrainings = async (
-  jwt: string | undefined
+  jwt: string,
+  origin: string | undefined
 ): Promise<JsonResponse> => {
-  if (!jwt) {
-    console.debug("Can't fetch trainings - missng jwt token");
-
-    return buildResponse(500, "Error: Can't fetch trainings");
-  }
-
   try {
     const decoded: GoogleUserData = jwt_decode(jwt);
     const { email } = decoded;
@@ -33,18 +28,19 @@ export const getTrainings = async (
     const result = await ddbClient.send(command);
 
     if (result.$metadata.httpStatusCode !== 200 || !result.Items) {
-      return buildResponse(
-        500,
-        `Attempt to fetch trainings failed: DB replied with ${result.$metadata.httpStatusCode}`
+      console.error(
+        `Attempt to fetch trainings failed: DB replied with ${result.$metadata.httpStatusCode}.`
       );
+
+      return buildResponse(500, `Unable to fetch trainings.`, origin);
     }
 
     const items = result.Items.map((item) => unmarshall(item));
 
-    return buildResponse(200, items);
+    return buildResponse(200, items, origin);
   } catch (err) {
     console.error(err);
 
-    return buildResponse(500, "Error: Can't fetch trainings");
+    return buildResponse(500, "Unable to fetch trainings.", origin);
   }
 };

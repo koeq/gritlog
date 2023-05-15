@@ -1,7 +1,5 @@
 export * from "./build-response";
 export * from "./check-for-user";
-export * from "./delete-user";
-export * from "./get-user";
 export * from "./is-user-authenticated";
 export * from "./add-training";
 export * from "./get-trainings";

@@ -18,45 +18,54 @@ export const handler = async (
   const { body, httpMethod, headers, queryStringParameters } = event;
   const origin = headers.origin;
 
-  if (origin === undefined || !isOriginAllowed(origin)) {
-    return createCorsErrorResponse(origin);
-  }
-
   try {
-    const isAuthenticated = isUserAuthenticated(headers);
-    if (!isAuthenticated) {
-      const errorResponse = buildResponse(401, "Not authenticated");
+    if (!isOriginAllowed(origin)) {
+      return buildResponse(
+        403,
+        "CORS validation failed: origin not allowed.",
+        origin
+      );
+    }
 
-      return appendCorsHeaders(errorResponse, origin);
+    const isAuthenticated = isUserAuthenticated(headers);
+
+    if (!isAuthenticated) {
+      return buildResponse(401, "Not authenticated.", origin);
     }
 
     const { cookie } = headers;
     const jwt = cookie?.split("=")[1];
+
+    if (!jwt) {
+      console.error("Missing JWT token.");
+
+      return buildResponse(500, "Unable to perform trainings action.", origin);
+    }
+
     let result: APIGatewayProxyResult;
 
     switch (httpMethod) {
       case "GET":
-        result = await getTrainings(jwt);
+        result = await getTrainings(jwt, origin);
         break;
       case "POST":
-        result = await addTraining(jwt, body);
+        result = await addTraining(jwt, body, origin);
         break;
       case "PUT":
-        result = await editTraining(jwt, body);
+        result = await editTraining(jwt, body, origin);
         break;
       case "DELETE":
-        result = await deleteTraining(jwt, queryStringParameters);
+        result = await deleteTraining(jwt, queryStringParameters, origin);
         break;
       default:
-        result = buildResponse(404, "404 not found");
+        result = buildResponse(404, "404: Not found.", origin);
     }
 
-    return appendCorsHeaders(result, origin);
+    return result;
   } catch (error) {
     console.error(error);
-    const errorResponse = buildResponse(500, error);
 
-    return appendCorsHeaders(errorResponse, origin);
+    return buildResponse(500, error, origin);
   }
 };
 
@@ -66,26 +75,4 @@ const isOriginAllowed = (origin: string | undefined): boolean => {
   }
 
   return DOMAIN_WHITELIST.includes(origin) || LOCALHOST_REGEX.test(origin);
-};
-
-const createCorsErrorResponse = (origin: string | undefined) => {
-  return {
-    statusCode: 403,
-    body: JSON.stringify({
-      message: `CORS validation failed: origin ${origin} not allowed`,
-    }),
-  };
-};
-
-const appendCorsHeaders = (
-  result: APIGatewayProxyResult,
-  origin: string
-): APIGatewayProxyResult => {
-  return {
-    ...result,
-    headers: {
-      ...result.headers,
-      "Access-Control-Allow-Origin": origin,
-    },
-  };
 };

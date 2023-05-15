@@ -10,16 +10,18 @@ import { GoogleUserData } from "./check-for-user";
 import { ddbClient } from "./ddb-client";
 
 export const deleteTraining = async (
-  jwt: string | undefined,
-  queryStringParameters: APIGatewayProxyEvent["queryStringParameters"]
+  jwt: string,
+  queryStringParameters: APIGatewayProxyEvent["queryStringParameters"],
+  origin: string | undefined
 ): Promise<JsonResponse> => {
   try {
-    if (!jwt || !queryStringParameters?.id) {
-      return buildResponse(500, "Can't delete training");
+    if (!queryStringParameters?.id) {
+      console.error("Unable to delete training: Missing id.");
+
+      return buildResponse(500, "Unable to delete training.", origin);
     }
 
     const id = JSON.parse(queryStringParameters.id);
-
     const decoded: GoogleUserData = jwt_decode(jwt);
     const { email } = decoded;
 
@@ -31,10 +33,10 @@ export const deleteTraining = async (
     const command = new DeleteItemCommand(params);
     const res = await ddbClient.send(command);
 
-    return buildResponse(200, res);
+    return buildResponse(200, res, origin);
   } catch (err) {
     console.log(err);
 
-    return buildResponse(500, "Can't delete training");
+    return buildResponse(500, "Unable to delete training.", origin);
   }
 };
