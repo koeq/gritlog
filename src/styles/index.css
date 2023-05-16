@@ -35,6 +35,9 @@
   --text-tertiary: rgb(178, 183, 189);
   --cta: #ffffff;
   --cta-disabled: #767b81;
+  --hover-primary: 1.16;
+  --hover-secondary: 1.25;
+  --hover-circle: rgba(255, 255, 255, 0.1);
 }
 
 .light {
@@ -49,6 +52,9 @@
   --text-tertiary: rgb(88, 93, 99);
   --cta: #000000;
   --cta-disabled: rgb(188, 193, 219);
+  --hover-primary: 0.98;
+  --hover-secondary: 0.95;
+  --hover-circle: rgba(0, 0, 0, 0.05);
 }
 
 /* universal box sizing */
@@ -73,24 +79,23 @@ button {
   cursor: pointer;
 }
 
-.hover-active:hover,
-.hover-active:active {
-  filter: brightness(1.15);
-  -webkit-filter: brightness(1.15);
+.hover:active {
+  filter: brightness(var(--hover-primary));
+  -webkit-filter: brightness(var(--hover-primary));
 }
 
-.circle-hover-active {
+.circle-hover {
   position: relative;
 }
 
-.circle-hover-active::after {
+.circle-hover::after {
   content: "";
   position: absolute;
   top: 0;
   left: 0;
   right: 1px;
   bottom: 4.5px;
-  background: rgba(255, 255, 255, 0.1);
+  background: var(--hover-circle);
   border-radius: 50%;
   transform: scale(0.5);
   transition: transform 0.1s, opacity 0.1s;
@@ -98,24 +103,23 @@ button {
   opacity: 0;
 }
 
-.circle-hover-active:hover::after,
-.circle-hover-active:active::after {
+.circle-hover:active::after {
   transform: scale(0.8);
   opacity: 1;
 }
 
-.circle-hover-active-large {
+.circle-hover-large {
   position: relative;
 }
 
-.circle-hover-active-large::after {
+.circle-hover-large::after {
   content: "";
   position: absolute;
   top: 0;
   left: 0;
   right: 1px;
   bottom: 4.5px;
-  background: rgba(255, 255, 255, 0.1);
+  background: var(--hover-circle);
   border-radius: 50%;
   transform: scale(0.5);
   transition: transform 0.15s, opacity 0.15s;
@@ -123,8 +127,41 @@ button {
   opacity: 0;
 }
 
-.circle-hover-active-large:hover::after,
-.circle-hover-active-large:active::after {
+.circle-hover-large:active::after {
   transform: scale(1.3);
   opacity: 1;
+}
+
+/* Hover styles for desktop/hover devices */
+@media (hover: hover) {
+  .hover:hover {
+    filter: brightness(var(--hover-primary));
+    -webkit-filter: brightness(var(--hover-primary));
+  }
+
+  .hover:active {
+    filter: brightness(1);
+    -webkit-filter: brightness(1);
+  }
+
+  .circle-hover:hover::after {
+    transform: scale(0.8);
+    opacity: 1;
+  }
+
+  .circle-hover:active::after {
+    transform: scale(0.7);
+    opacity: 1;
+  }
+
+  .circle-hover-large:hover::after,
+  .circle-hover-large:active::after {
+    transform: scale(1.3);
+    opacity: 1;
+  }
+
+  .circle-hover-large:active::after {
+    transform: scale(1.2);
+    opacity: 1;
+  }
 }

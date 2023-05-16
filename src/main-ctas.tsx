@@ -25,7 +25,7 @@ export const Buttons = ({
     <div className={inputOpen ? "btns btns-input-open" : "btns"}>
       <>
         <button
-          className="btn-round top hover-active"
+          className="btn-round top"
           disabled={inputOpen}
           type="button"
           onClick={() => {
@@ -36,7 +36,7 @@ export const Buttons = ({
           <IoMdAdd color="#fff" size={24} strokeWidth={10} />
         </button>
         <button
-          className={`btn-round hover-active ${
+          className={`btn-round ${
             trainings && latestTrainingId === undefined ? "btn-disabled" : ""
           }`}
           type="button"

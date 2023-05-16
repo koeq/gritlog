@@ -24,6 +24,11 @@
   border-radius: 50%;
 }
 
+.btn-round:hover {
+  filter: brightness(1.15);
+  -webkit-filter: brightness(1.15);
+}
+
 .top {
   margin-bottom: 16px;
 }
