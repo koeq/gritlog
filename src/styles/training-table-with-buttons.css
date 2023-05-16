@@ -29,14 +29,14 @@
 #edit {
   color: var(--text-secondary);
   border-radius: 0;
-  border-left: 0.5px solid var(--border-secondary);
-  border-right: 0.5px solid var(--border-secondary);
+  border-left: 1px solid var(--border-secondary);
+  border-right: 1px solid var(--border-secondary);
 }
 
 #repeat {
   color: var(--text-secondary);
   border-radius: 0;
-  border-right: 0.5px solid var(--border-secondary);
+  border-right: 1px solid var(--border-secondary);
 }
 
 #delete {
