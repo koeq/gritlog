@@ -43,8 +43,8 @@ export const TrainingTableWithButtons = ({
           className="action-btn-default hover-active"
           onClick={(e) => {
             e.stopPropagation();
-            handleSetEditMode();
             scrollOnClick(trainingRef.current);
+            setTimeout(() => handleSetEditMode(), 280);
           }}
         >
           <IoPencilSharp size={23} />
@@ -85,10 +85,10 @@ const scrollOnClick = (element: HTMLDivElement | null): void => {
   }
 
   const elementWidth = element.clientWidth;
-  const leftValue = element.scrollLeft === 0 ? elementWidth : -elementWidth;
+  const scrollValue = element.scrollLeft === 0 ? elementWidth : -elementWidth;
 
   element.scrollBy({
-    left: leftValue,
+    left: scrollValue,
     behavior: "smooth",
   });
 };
