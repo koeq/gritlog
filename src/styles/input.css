@@ -22,7 +22,7 @@ textarea {
   display: flex;
   justify-content: flex-end;
   position: absolute;
-  right: 0px;
+  right: 1px;
   top: 2px;
   padding-right: 0px;
 }
@@ -35,7 +35,7 @@ textarea {
   display: flex;
   justify-content: flex-end;
   position: absolute;
-  right: -5px;
+  right: -3px;
   bottom: -2px;
 }
 

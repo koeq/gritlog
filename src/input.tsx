@@ -114,7 +114,7 @@ export const Input = ({
         <div className="info-btn">
           <button
             type="button"
-            className="button circle-hover-active"
+            className="button circle-hover"
             onClick={() => setShowInfo(true)}
           >
             <IoInformationCircleOutline size={17} />
@@ -129,7 +129,7 @@ const Buttons = ({ disabled, action, cancel }: ButtonsProps) => (
   <>
     <button
       type="button"
-      className={disabled ? "button" : "button circle-hover-active"}
+      className={disabled ? "button" : "button circle-hover"}
       disabled={disabled}
       onClick={action}
     >
@@ -138,11 +138,7 @@ const Buttons = ({ disabled, action, cancel }: ButtonsProps) => (
         size={28}
       />
     </button>
-    <button
-      type="button"
-      className="button circle-hover-active"
-      onClick={cancel}
-    >
+    <button type="button" className="button circle-hover" onClick={cancel}>
       <IoCloseOutline stroke="var(--cta)" size={28} />
     </button>
   </>

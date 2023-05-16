@@ -40,7 +40,7 @@ export const TrainingTableWithButtons = ({
       <div className="buttons-container">
         <button
           id="edit"
-          className="action-btn-default hover-active"
+          className="action-btn-default hover"
           onClick={(e) => {
             e.stopPropagation();
             scrollOnClick(trainingRef.current);
@@ -51,7 +51,7 @@ export const TrainingTableWithButtons = ({
         </button>
         <button
           id="repeat"
-          className="action-btn-default hover-active"
+          className="action-btn-default hover"
           onClick={(e) => {
             e.stopPropagation();
             handleRepeat();
@@ -62,7 +62,7 @@ export const TrainingTableWithButtons = ({
         </button>
         <button
           id="delete"
-          className="action-btn-default hover-active"
+          className="action-btn-default hover"
           onClick={(e) => {
             e.stopPropagation();
             scrollOnClick(trainingRef.current);

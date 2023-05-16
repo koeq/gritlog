@@ -4,11 +4,16 @@
   justify-content: center;
   color: var(--text-primary);
   align-items: center;
-  width: 26px;
-  height: 26px;
+  width: 28px;
+  height: 28px;
   border-radius: 32px;
   margin-right: 4px;
   background: var(--background-tertiary);
+}
+
+.calendar:hover {
+  filter: brightness(var(--hover-secondary));
+  -webkit-filter: brightness(var(--hover-secondary));
 }
 
 #date-picker {

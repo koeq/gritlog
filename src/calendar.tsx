@@ -18,7 +18,7 @@ export const Calendar = ({ id }: { id: number }): JSX.Element | null => {
 
   return (
     <button className="calendar" onClick={(event) => event.stopPropagation()}>
-      <IoCalendarOutline size={14} />
+      <IoCalendarOutline size={15} />
 
       <input
         ref={inputRef}
