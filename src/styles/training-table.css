@@ -46,6 +46,7 @@ h3 {
 }
 
 .headline {
+  color: var(--text-primary);
   padding-right: 12px;
 }
 
