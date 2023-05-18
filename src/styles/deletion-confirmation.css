@@ -14,9 +14,9 @@
 }
 
 .dialog {
-  width: min(450px, 97%);
-  height: 250px;
-  padding: 16px;
+  width: min(330px, 85%);
+  height: 260px;
+  margin-bottom: 80px;
   display: flex;
   flex-direction: column;
   justify-content: center;

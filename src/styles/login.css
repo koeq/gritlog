@@ -13,7 +13,8 @@
   align-items: center;
   justify-content: center;
   width: min(330px, 85%);
-  height: 40%;
+  height: 260px;
+  margin-bottom: 80px;
   border-radius: var(--border-radius);
   border: 1px solid var(--border-primary);
   background: var(--background-secondary);
@@ -23,6 +24,5 @@ h2 {
   color: var(--text-primary);
   font-size: 26px;
   font-weight: 400;
-  margin-top: 40px;
   margin-bottom: 40px;
 }
