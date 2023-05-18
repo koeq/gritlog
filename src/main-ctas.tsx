@@ -25,6 +25,7 @@ export const Buttons = ({
     <div className={inputOpen ? "btns btns-input-open" : "btns"}>
       <>
         <button
+          aria-label="add"
           className="btn-round top"
           disabled={inputOpen}
           type="button"
@@ -36,6 +37,7 @@ export const Buttons = ({
           <IoMdAdd color="#fff" size={24} strokeWidth={10} />
         </button>
         <button
+          aria-label="edit"
           className={`btn-round ${
             trainings && latestTrainingId === undefined ? "btn-disabled" : ""
           }`}

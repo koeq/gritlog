@@ -113,6 +113,7 @@ export const Input = ({
         </div>
         <div className="info-btn">
           <button
+            aria-label="info"
             type="button"
             className="button circle-hover"
             onClick={() => setShowInfo(true)}
@@ -128,6 +129,7 @@ export const Input = ({
 const Buttons = ({ disabled, action, cancel }: ButtonsProps) => (
   <>
     <button
+      aria-label="confirmation"
       type="button"
       className={disabled ? "button" : "button circle-hover"}
       disabled={disabled}
@@ -138,7 +140,12 @@ const Buttons = ({ disabled, action, cancel }: ButtonsProps) => (
         size={28}
       />
     </button>
-    <button type="button" className="button circle-hover" onClick={cancel}>
+    <button
+      aria-label="cancelation"
+      type="button"
+      className="button circle-hover"
+      onClick={cancel}
+    >
       <IoCloseOutline stroke="var(--cta)" size={28} />
     </button>
   </>

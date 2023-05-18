@@ -33,12 +33,14 @@ export const DeletionConfirmation = ({
       <p className="dialog-text">Delete your training?</p>
       <div className="button-container">
         <button
+          aria-label="deletion-confirmation"
           onClick={() => handleDelete(id, dispatch, logout)}
           className="circle-hover-large"
         >
           <IoCheckmark size={32} />
         </button>
         <button
+          aria-label="deletion-cancelation"
           onClick={() =>
             dispatch({
               type: "set-mode",

@@ -17,7 +17,11 @@ export const Calendar = ({ id }: { id: number }): JSX.Element | null => {
   }
 
   return (
-    <button className="calendar" onClick={(event) => event.stopPropagation()}>
+    <button
+      aria-label="calendar"
+      className="calendar"
+      onClick={(event) => event.stopPropagation()}
+    >
       <IoCalendarOutline size={15} />
 
       <input

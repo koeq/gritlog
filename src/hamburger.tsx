@@ -11,6 +11,7 @@ export const Hamburger = ({
 }: HamburgerProps): JSX.Element => {
   return (
     <button
+      aria-label="menu"
       className={`hamburger ${menuActive ? "active" : ""}`}
       onClick={() => setMenuActive((prev) => !prev)}
     >

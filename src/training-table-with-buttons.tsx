@@ -39,6 +39,7 @@ export const TrainingTableWithButtons = ({
 
       <div className="buttons-container">
         <button
+          aria-label="edit"
           id="edit"
           className="action-btn-default hover"
           onClick={(e) => {
@@ -50,6 +51,7 @@ export const TrainingTableWithButtons = ({
           <IoPencilSharp size={23} />
         </button>
         <button
+          aria-label="repeat"
           id="repeat"
           className="action-btn-default hover"
           onClick={(e) => {
@@ -61,6 +63,7 @@ export const TrainingTableWithButtons = ({
           <IoRepeat size={26} />
         </button>
         <button
+          aria-label="delete"
           id="delete"
           className="action-btn-default hover"
           onClick={(e) => {

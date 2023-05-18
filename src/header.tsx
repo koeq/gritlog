@@ -30,6 +30,7 @@ export const Header = ({ authed }: HeaderProps): JSX.Element => {
           <h1 className="heading">gritlog</h1>
           <div style={{ display: "flex", alignItems: "center" }}>
             <button
+              aria-label="toggle-theme"
               style={{
                 display: "flex",
                 color: "var(--text-primary)",
@@ -69,7 +70,7 @@ export const Menu = ({ menuActive, logout }: Menu): JSX.Element => {
       <ul className="menu-list">
         <hr />
         <li className="logout-container">
-          <button onClick={logout}>
+          <button aria-label="logout" onClick={logout}>
             <span className="menu-list-item-text">logout</span>
           </button>
         </li>
