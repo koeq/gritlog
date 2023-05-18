@@ -104,7 +104,7 @@ button {
 }
 
 .circle-hover:active::after {
-  transform: scale(0.8);
+  transform: scale(0.7);
   opacity: 1;
 }
 
@@ -128,7 +128,7 @@ button {
 }
 
 .circle-hover-large:active::after {
-  transform: scale(1.3);
+  transform: scale(1.2);
   opacity: 1;
 }
 
@@ -145,23 +145,23 @@ button {
   }
 
   .circle-hover:hover::after {
-    transform: scale(0.8);
+    transform: scale(0.7);
     opacity: 1;
   }
 
   .circle-hover:active::after {
-    transform: scale(0.7);
+    transform: scale(0.6);
     opacity: 1;
   }
 
   .circle-hover-large:hover::after,
   .circle-hover-large:active::after {
-    transform: scale(1.3);
+    transform: scale(1.2);
     opacity: 1;
   }
 
   .circle-hover-large:active::after {
-    transform: scale(1.2);
+    transform: scale(1.1);
     opacity: 1;
   }
 }
