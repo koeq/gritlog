@@ -29,28 +29,26 @@ export const DeletionConfirmation = ({
   }
 
   return (
-    <div className="deletion-confirmation-layer">
-      <div className="dialog">
-        <p className="dialog-text">Delete your training?</p>
-        <div className="button-container">
-          <button
-            onClick={() => handleDelete(id, dispatch, logout)}
-            className="circle-hover-large"
-          >
-            <IoCheckmark size={32} />
-          </button>
-          <button
-            onClick={() =>
-              dispatch({
-                type: "set-mode",
-                mode: { type: "add" },
-              })
-            }
-            className="circle-hover-large"
-          >
-            <IoCloseOutline size={32} />
-          </button>
-        </div>
+    <div className="dialog">
+      <p className="dialog-text">Delete your training?</p>
+      <div className="button-container">
+        <button
+          onClick={() => handleDelete(id, dispatch, logout)}
+          className="circle-hover-large"
+        >
+          <IoCheckmark size={32} />
+        </button>
+        <button
+          onClick={() =>
+            dispatch({
+              type: "set-mode",
+              mode: { type: "add" },
+            })
+          }
+          className="circle-hover-large"
+        >
+          <IoCloseOutline size={32} />
+        </button>
       </div>
     </div>
   );
