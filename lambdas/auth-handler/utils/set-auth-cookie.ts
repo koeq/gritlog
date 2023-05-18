@@ -1,5 +1,5 @@
 import { APIGatewayProxyEvent } from "aws-lambda";
-import { JsonResponse, buildResponse } from "./build-response";
+import { JsonResponse, buildResponse } from "../../utils";
 
 export const setAuthCookie = (
   statusCode: number,

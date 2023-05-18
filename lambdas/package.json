@@ -1,0 +1,22 @@
+{
+  "name": "lambdas",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build": "esbuild ./auth-handler/index.ts --bundle --platform=node --target=node16 --outdir=auth-handler/dist --external:aws-sdk --format=cjs --sourcemap && esbuild ./cors-handler/index.ts --bundle --platform=node --target=node16 --outdir=cors-handler/dist --external:aws-sdk --format=cjs --sourcemap && esbuild ./db-handler/index.ts --bundle --platform=node --target=node16 --outdir=db-handler/dist --external:aws-sdk --format=cjs --sourcemap"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/aws-lambda": "^8.10.115",
+    "@types/node": "^20.2.0",
+    "esbuild": "^0.17.19"
+  },
+  "dependencies": {
+    "@aws-sdk/client-dynamodb": "^3.332.0",
+    "@aws-sdk/util-dynamodb": "^3.332.0",
+    "jwt-decode": "^3.1.2"
+  }
+}
