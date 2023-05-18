@@ -5,6 +5,7 @@ import { DeletionConfirmation } from "./deletion-confirmation";
 import { fetchTrainings } from "./fetch-trainings";
 import { FormatInfo } from "./format-info";
 import { Input } from "./input";
+import { Layer } from "./layer";
 import { LoadingSpinner } from "./loading-spinner";
 import { Buttons } from "./main-ctas";
 import { parse } from "./parser";
@@ -81,9 +82,15 @@ const AuthedApp = (): JSX.Element => {
         />
       </BottomBar>
 
-      {showFormatInfo && <FormatInfo setShowInfo={setShowFormatInfo} />}
+      {showFormatInfo && (
+        <Layer clickHandler={() => setShowFormatInfo(false)}>
+          {() => <FormatInfo />}
+        </Layer>
+      )}
 
-      {mode.type === "delete" && <DeletionConfirmation id={mode.id} />}
+      {mode.type === "delete" && (
+        <Layer>{() => <DeletionConfirmation id={mode.id} />}</Layer>
+      )}
     </div>
   );
 };

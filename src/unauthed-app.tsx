@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { Login } from "./auth";
 import { useAuth } from "./context";
+import { Layer } from "./layer";
 import "./styles/unauthed-app.css";
 
 const UnauthedApp = ({
@@ -18,7 +19,7 @@ const UnauthedApp = ({
 
   return (
     <div className="unauthed">
-      <Login />
+      <Layer>{() => <Login />}</Layer>
     </div>
   );
 };
