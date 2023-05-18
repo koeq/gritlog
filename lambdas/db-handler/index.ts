@@ -1,12 +1,12 @@
 import { APIGatewayProxyEvent, APIGatewayProxyResult } from "aws-lambda";
 import {
   addTraining,
-  buildResponse,
   deleteTraining,
   editTraining,
   getTrainings,
   isUserAuthenticated,
 } from "./utils";
+import { buildResponse } from "../utils";
 
 const DOMAIN_WHITELIST = ["https://gritlog.app", "https://stage.gritlog.app"];
 // eslint-disable-next-line security/detect-unsafe-regex

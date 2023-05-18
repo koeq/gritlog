@@ -1,16 +1,12 @@
 import { APIGatewayProxyEvent, APIGatewayProxyResult } from "aws-lambda";
 import {
-  buildResponse,
   checkForUser,
   createUser,
   deleteAuthCookie,
   isUserAuthenticated,
   setAuthCookie,
 } from "./utils";
-
-const DOMAIN_WHITELIST = ["https://gritlog.app", "https://stage.gritlog.app"];
-// eslint-disable-next-line security/detect-unsafe-regex
-const LOCALHOST_REGEX = /^http:\/\/localhost(:\d{1,5})?$/;
+import { buildResponse, isOriginAllowed } from "../utils";
 
 export const handler = async (
   event: APIGatewayProxyEvent
@@ -62,12 +58,4 @@ export const handler = async (
 
     return buildResponse(500, "Internal server error.", origin);
   }
-};
-
-const isOriginAllowed = (origin: string | undefined): boolean => {
-  if (origin === undefined) {
-    return false;
-  }
-
-  return DOMAIN_WHITELIST.includes(origin) || LOCALHOST_REGEX.test(origin);
 };

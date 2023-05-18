@@ -5,10 +5,9 @@ import {
 import { marshall } from "@aws-sdk/util-dynamodb";
 import { APIGatewayProxyEvent } from "aws-lambda";
 import jwt_decode from "jwt-decode";
-import { JsonResponse, buildResponse } from "./build-response";
 import { GoogleUserData } from "./check-for-user";
 import { ddbClient } from "./ddb-client";
-import { Training } from "../types";
+import { JsonResponse, Training, buildResponse } from "../../utils";
 
 export const editTraining = async (
   jwt: string,
@@ -29,11 +28,23 @@ export const editTraining = async (
       "exercises"
     ];
 
+    if (!marshalledExercises) {
+      throw new Error("Unable to marshall exercises");
+    }
+
     const marshalledHeadline = marshall({ headline: training.headline })[
       "headline"
     ];
 
+    if (!marshalledHeadline) {
+      throw new Error("Unable to marshall headline");
+    }
+
     const marshalledDate = marshall({ date: training.date })["date"];
+
+    if (!marshalledDate) {
+      throw new Error("Unable to marshall date");
+    }
 
     const params: UpdateItemCommandInput = {
       TableName: "trainings",

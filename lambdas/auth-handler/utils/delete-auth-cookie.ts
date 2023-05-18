@@ -1,4 +1,4 @@
-import { JsonResponse, buildResponse } from "./build-response";
+import { JsonResponse, buildResponse } from "../../utils";
 
 export const deleteAuthCookie = (
   statusCode: number,
