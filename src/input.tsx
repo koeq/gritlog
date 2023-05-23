@@ -9,6 +9,7 @@ import { useAuth, useIsMobile, useTopLevelState } from "./context";
 import { editTraining } from "./edit-training";
 import { Action } from "./state-reducer";
 import "./styles/input.css";
+import { Suggestion } from "./suggestion";
 import { Mode, Training } from "./types";
 import { isEmptyTraining } from "./utils/is-empty-training";
 
@@ -103,6 +104,7 @@ export const Input = ({
           }}
         ></textarea>
 
+        <Suggestion currentInput={currentInput} textAreaRef={textAreaRef} />
         <div className="bottom-bar-btns">
           <Buttons
             mode={mode}

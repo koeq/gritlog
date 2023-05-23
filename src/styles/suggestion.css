@@ -1,0 +1,7 @@
+.suggestion {
+  position: absolute;
+  bottom: 8px;
+  left: 4px;
+  padding: 4px;
+  color: var(--highlight);
+}

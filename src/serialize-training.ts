@@ -1,6 +1,8 @@
 import { Training } from "./types";
 
-export const serializeTraining = (training: Training): string => {
+export const serializeTraining = (
+  training: Omit<Training, "id" | "date">
+): string => {
   const { headline, exercises } = training;
 
   const serializedHeadline = headline ? `# ${headline}\n` : "";
