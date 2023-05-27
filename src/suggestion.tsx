@@ -4,6 +4,7 @@ import { parse } from "./parser";
 import { serializeTraining } from "./serialize-training";
 import "./styles/suggestion.css";
 import { Training } from "./types";
+import { useCursorPosition } from "./use-cursor-position";
 
 interface SuggestionsProps {
   currentInput: string;
@@ -16,6 +17,7 @@ export const Suggestion = ({
 }: SuggestionsProps): JSX.Element | null => {
   const [suggestions, setSuggestions] = useState<string[]>([]);
   const [{ trainings }, dispatch] = useTopLevelState();
+  const cursorPosition = useCursorPosition(textAreaRef);
   const firstSuggestion = suggestions[0];
 
   const uniqueExercises = useMemo(
@@ -24,9 +26,13 @@ export const Suggestion = ({
   );
 
   useEffect(() => {
-    const lastWord = currentInput.split("\n")?.pop()?.split(" ").pop();
+    if (textAreaRef.current === null) {
+      return;
+    }
 
-    if (lastWord === undefined || lastWord === "") {
+    const wordAtCusor = getWordAtCursor(textAreaRef.current);
+
+    if (wordAtCusor === null) {
       setSuggestions([]);
 
       return;
@@ -35,11 +41,11 @@ export const Suggestion = ({
     const matches = uniqueExercises.filter((word) =>
       currentInput === ""
         ? false
-        : word.toLowerCase().startsWith(lastWord.toLowerCase())
+        : word.toLowerCase().startsWith(wordAtCusor.toLowerCase())
     );
 
     setSuggestions(matches);
-  }, [currentInput, uniqueExercises]);
+  }, [currentInput, uniqueExercises, textAreaRef, cursorPosition]);
 
   return (
     <>
@@ -81,6 +87,27 @@ function getUniqueExercises(trainings: Training[]): string[] {
   return Array.from(exerciseSet);
 }
 
+const getWordAtCursor = (textArea: HTMLTextAreaElement): string | null => {
+  const startPos = textArea.selectionStart;
+  const endPos = textArea.selectionEnd;
+  const precedingChars = textArea.value.slice(0, startPos);
+  const currentLine = precedingChars.split("\n").pop() || "";
+
+  if (startPos !== endPos) {
+    // Something is actively selected
+    return textArea.value.slice(startPos, endPos).trim();
+  }
+
+  if (currentLine.startsWith("#")) {
+    return null;
+  }
+
+  // Extract exercise name (sequence of letters possibly separated by whitespace)
+  const exerciseMatch = currentLine.match(/([a-zA-Z\s]+)$/);
+
+  return exerciseMatch ? exerciseMatch[0].trim() : null;
+};
+
 function buildNewInput(currentInput: string, suggestion: string) {
   const currentTraining = parse(currentInput);
 
@@ -101,8 +128,8 @@ function buildNewInput(currentInput: string, suggestion: string) {
 }
 
 // TODO
-// 1. Support for autocomplete not just on last exercise
-// 2. Don't show suggestion on headline
+// 1. Support for autocomplete not just on last exercise √
+// 2. Don't show suggestion on headline √
 // 3. Autocomplete on tab (maybe more)
-// 4. Remove suggestion on delete
 // 5. Not working with trailing whitespaces/newlines
+// 6. Add autocomplete on keyinput
