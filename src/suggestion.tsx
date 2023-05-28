@@ -1,7 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
 import { useTopLevelState } from "./context";
-import { parse } from "./parser";
-import { serializeTraining } from "./serialize-training";
 import "./styles/suggestion.css";
 import { Training } from "./types";
 import { useCursorPosition } from "./use-cursor-position";
@@ -11,13 +9,17 @@ interface SuggestionsProps {
   textAreaRef: React.MutableRefObject<HTMLTextAreaElement | null>;
 }
 
+// TODO:
+// Don't autocomplete for 100% match
+// Autocomplete on keypress desktop & mobile
+
 export const Suggestion = ({
   currentInput,
   textAreaRef,
 }: SuggestionsProps): JSX.Element | null => {
   const [suggestions, setSuggestions] = useState<string[]>([]);
   const [{ trainings }, dispatch] = useTopLevelState();
-  const cursorPosition = useCursorPosition(textAreaRef);
+  const cursorPosition = useCursorPosition(textAreaRef.current);
   const firstSuggestion = suggestions[0];
 
   const uniqueExercises = useMemo(
@@ -47,6 +49,10 @@ export const Suggestion = ({
     setSuggestions(matches);
   }, [currentInput, uniqueExercises, textAreaRef, cursorPosition]);
 
+  if (textAreaRef.current === null) {
+    return null;
+  }
+
   return (
     <>
       {firstSuggestion && (
@@ -61,7 +67,11 @@ export const Suggestion = ({
 
             dispatch({
               type: "set-input",
-              currentInput: buildNewInput(currentInput, firstSuggestion),
+              currentInput: buildNewInput(
+                currentInput,
+                firstSuggestion,
+                textAreaRef.current
+              ),
             });
           }}
         >
@@ -105,31 +115,38 @@ const getWordAtCursor = (textArea: HTMLTextAreaElement): string | null => {
   // Extract exercise name (sequence of letters possibly separated by whitespace)
   const exerciseMatch = currentLine.match(/([a-zA-Z\s]+)$/);
 
-  return exerciseMatch ? exerciseMatch[0].trim() : null;
+  return exerciseMatch && exerciseMatch[0].trim() !== ""
+    ? exerciseMatch[0].trim()
+    : null;
 };
 
-function buildNewInput(currentInput: string, suggestion: string) {
-  const currentTraining = parse(currentInput);
-
-  if (currentTraining === undefined) {
+function buildNewInput(
+  currentInput: string,
+  suggestion: string,
+  textArea: HTMLTextAreaElement | null
+): string {
+  if (textArea === null) {
     return currentInput;
   }
 
-  const lastExercise =
-    currentTraining?.exercises[currentTraining?.exercises?.length - 1];
+  const cursorPos = textArea.selectionStart || 0;
+  const lines = textArea.value.split("\n");
+  const lineIndex = textArea.value.slice(0, cursorPos).split("\n").length - 1;
+  const currentLine = lines[lineIndex];
 
-  if (lastExercise === undefined) {
+  if (!currentLine) {
     return currentInput;
   }
 
-  lastExercise.exerciseName = suggestion;
+  const exerciseMatch = currentLine.match(/([a-zA-Z\s]+)$/);
+  const currentExercise = exerciseMatch?.[0];
 
-  return serializeTraining(currentTraining) + " ";
+  if (!currentExercise) {
+    return currentInput;
+  }
+
+  lines[lineIndex] = currentLine.replace(currentExercise, suggestion);
+  const newInput = lines.join("\n");
+
+  return newInput;
 }
-
-// TODO
-// 1. Support for autocomplete not just on last exercise √
-// 2. Don't show suggestion on headline √
-// 3. Autocomplete on tab (maybe more)
-// 5. Not working with trailing whitespaces/newlines
-// 6. Add autocomplete on keyinput
