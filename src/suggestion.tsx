@@ -10,8 +10,8 @@ interface SuggestionsProps {
 }
 
 // TODO:
-// Don't autocomplete for 100% match
 // Autocomplete on keypress desktop & mobile
+// Write tests
 
 export const Suggestion = ({
   currentInput,
@@ -40,10 +40,10 @@ export const Suggestion = ({
       return;
     }
 
-    const matches = uniqueExercises.filter((word) =>
-      currentInput === ""
+    const matches = uniqueExercises.filter((exerciseName) =>
+      exerciseName.toLowerCase() === wordAtCusor.toLowerCase()
         ? false
-        : word.toLowerCase().startsWith(wordAtCusor.toLowerCase())
+        : exerciseName.toLowerCase().startsWith(wordAtCusor.toLowerCase())
     );
 
     setSuggestions(matches);
@@ -98,14 +98,23 @@ function getUniqueExercises(trainings: Training[]): string[] {
 }
 
 const getWordAtCursor = (textArea: HTMLTextAreaElement): string | null => {
-  const startPos = textArea.selectionStart;
-  const endPos = textArea.selectionEnd;
-  const precedingChars = textArea.value.slice(0, startPos);
-  const currentLine = precedingChars.split("\n").pop() || "";
+  const cursorStartPosition = textArea.selectionStart;
+  const cursorEndPosition = textArea.selectionEnd;
 
-  if (startPos !== endPos) {
-    // Something is actively selected
-    return textArea.value.slice(startPos, endPos).trim();
+  // Something is actively being selected
+  if (cursorStartPosition !== cursorEndPosition) {
+    return textArea.value.slice(cursorStartPosition, cursorEndPosition).trim();
+  }
+
+  const lines = textArea.value.split("\n");
+
+  const lineIndex =
+    textArea.value.slice(0, cursorStartPosition).split("\n").length - 1;
+
+  const currentLine = lines[lineIndex];
+
+  if (currentLine === undefined) {
+    return null;
   }
 
   if (currentLine.startsWith("#")) {
@@ -113,10 +122,10 @@ const getWordAtCursor = (textArea: HTMLTextAreaElement): string | null => {
   }
 
   // Extract exercise name (sequence of letters possibly separated by whitespace)
-  const exerciseMatch = currentLine.match(/([a-zA-Z\s]+)$/);
+  const exerciseMatch = currentLine.match(/([a-zA-Z\s]+)/);
 
   return exerciseMatch && exerciseMatch[0].trim() !== ""
-    ? exerciseMatch[0].trim()
+    ? exerciseMatch?.[0].trim()
     : null;
 };
 
@@ -138,14 +147,14 @@ function buildNewInput(
     return currentInput;
   }
 
-  const exerciseMatch = currentLine.match(/([a-zA-Z\s]+)$/);
+  const exerciseMatch = currentLine.match(/([a-zA-Z\s]+)/);
   const currentExercise = exerciseMatch?.[0];
 
   if (!currentExercise) {
     return currentInput;
   }
 
-  lines[lineIndex] = currentLine.replace(currentExercise, suggestion);
+  lines[lineIndex] = currentLine.replace(currentExercise, suggestion + " ");
   const newInput = lines.join("\n");
 
   return newInput;
