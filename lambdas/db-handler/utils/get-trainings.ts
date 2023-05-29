@@ -1,9 +1,9 @@
 import { QueryCommand, QueryCommandInput } from "@aws-sdk/client-dynamodb";
 import { marshall, unmarshall } from "@aws-sdk/util-dynamodb";
 import jwt_decode from "jwt-decode";
+import { JsonResponse, buildResponse } from "../../utils";
 import { GoogleUserData } from "./check-for-user";
 import { ddbClient } from "./ddb-client";
-import { JsonResponse, buildResponse } from "../../utils";
 
 export const getTrainings = async (
   jwt: string,

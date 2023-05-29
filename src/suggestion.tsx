@@ -12,7 +12,8 @@ interface SuggestionsProps {
 
 // TODO:
 // Autocomplete on keypress desktop & mobile
-// Write tests
+// Write tests √ (search for edge cases)
+// Get ride of duplicated logic in autocomplete and getWordAtCursor
 
 export const Suggestion = ({
   currentInput,
@@ -123,7 +124,8 @@ const getWordAtCursor = (textArea: HTMLTextAreaElement): string | null => {
   }
 
   // Extract exercise name (sequence of letters possibly separated by whitespace)
-  const exerciseMatch = currentLine.match(/([a-zA-Z\s]+)/);
+  // eslint-disable-next-line security/detect-unsafe-regex
+  const exerciseMatch = currentLine.match(/([a-zA-Z]+(\s[a-zA-Z]+)*)/);
   const wordAtCusor = exerciseMatch?.[0]?.trim();
 
   return wordAtCusor ? wordAtCusor : null;

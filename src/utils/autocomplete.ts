@@ -12,11 +12,12 @@ export function autocomplete(
   const lineIndex = textArea.value.slice(0, cursorPos).split("\n").length - 1;
   const currentLine = lines[lineIndex];
 
-  if (!currentLine) {
+  if (!currentLine || currentLine.startsWith("#")) {
     return currentInput;
   }
 
-  const exerciseMatch = currentLine.match(/([a-zA-Z\s]+)/);
+  // eslint-disable-next-line security/detect-unsafe-regex
+  const exerciseMatch = currentLine.match(/([a-zA-Z]+(\s[a-zA-Z]+)*)/);
   const currentExercise = exerciseMatch?.[0];
 
   if (!currentExercise) {
