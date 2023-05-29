@@ -1,20 +1,41 @@
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { IoCalendarOutline } from "react-icons/io5";
 import { useAuth, useIsMobile, useTopLevelState } from "./context";
 import { editTraining } from "./edit-training";
 import { Action } from "./state-reducer";
 import "./styles/calendar.css";
 import { Training } from "./types";
+import { formatDate } from "./utils/format-date";
 
 export const Calendar = ({ id }: { id: number }): JSX.Element | null => {
   const { logout } = useAuth();
   const isMobile = useIsMobile();
   const inputRef = useRef<HTMLInputElement | null>(null);
   const [{ trainings }, dispatch] = useTopLevelState();
+  const currentTraining = trainings?.find((t) => t.id === id);
+
+  const [calendarDate, setCalendarDate] = useState(
+    currentTraining?.date ? formatDate(currentTraining.date) : undefined
+  );
 
   if (trainings === undefined) {
     return null;
   }
+
+  const mobileEventHandlers = {
+    onBlur: () => setDate({ id, trainings, dispatch, logout, calendarDate }),
+    onChange: (event: React.ChangeEvent<HTMLInputElement>) =>
+      setCalendarDate(event.target.value),
+  };
+
+  const desktopEventHandlers = {
+    onChange: (event: React.ChangeEvent<HTMLInputElement>) => {
+      const newDate = event.target.value;
+
+      setCalendarDate(newDate),
+        setDate({ id, trainings, dispatch, logout, calendarDate: newDate });
+    },
+  };
 
   return (
     <button
@@ -28,73 +49,49 @@ export const Calendar = ({ id }: { id: number }): JSX.Element | null => {
         ref={inputRef}
         id="date-picker"
         type="date"
-        // The mobile browsers use the native date picker of the mobile OS
-        // which fires an onChange event with the current date on opening the date picker.
-        // As a workaround we use onBlur instead of onChange.
-        {...(isMobile
-          ? {
-              onBlur: () =>
-                setDateMobile({ id, trainings, dispatch, logout, inputRef }),
-            }
-          : {
-              onChange: (event) =>
-                setDate({ id, trainings, dispatch, event, logout }),
-            })}
+        value={calendarDate}
+        //  This workaround is necessary since the onChange event is not a
+        // reliable indicator if the final date selection was confirmed.
+        {...(isMobile ? mobileEventHandlers : desktopEventHandlers)}
       />
     </button>
   );
 };
 
-interface SetDateMobileParams {
+interface SetDateParams {
   id: number;
   logout: () => void;
   dispatch: React.Dispatch<Action>;
   trainings: Training[];
-  inputRef: React.MutableRefObject<HTMLInputElement | null>;
+  calendarDate: string | undefined;
 }
 
-const setDateMobile = ({
+const setDate = ({
   id,
-  logout,
-  inputRef,
-  dispatch,
   trainings,
-}: SetDateMobileParams) => {
-  if (!inputRef.current) {
-    return;
-  }
-
-  const event = {
-    target: {
-      value: inputRef.current.value,
-    },
-  };
-
-  setDate({ id, trainings, dispatch, event, logout });
-};
-
-type SetDateParams = Omit<SetDateMobileParams, "inputRef"> & {
-  event: { target: { value: string } };
-};
-
-const setDate = ({ id, trainings, dispatch, event, logout }: SetDateParams) => {
-  const pickedDate = event.target.value;
+  dispatch,
+  calendarDate,
+  logout,
+}: SetDateParams) => {
   const training = trainings.find((training) => training.id === id);
 
-  if (!pickedDate || !training) {
+  if (!calendarDate || !training) {
     return;
   }
 
-  const date = new Date(pickedDate).toString();
-  const currentTraining: Training = { ...training, date };
+  const currentTraining: Training = {
+    ...training,
+    date: new Date(calendarDate).toString(),
+  };
 
-  if (date === training.date) {
+  if (calendarDate === formatDate(training.date)) {
     return;
   }
 
   const updatedTrainings = trainings.map((training) =>
     training.id === id ? currentTraining : training
   );
+
   editTraining(currentTraining, logout);
 
   dispatch({
