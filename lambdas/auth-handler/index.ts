@@ -1,4 +1,5 @@
 import { APIGatewayProxyEvent, APIGatewayProxyResult } from "aws-lambda";
+import { buildResponse, isOriginAllowed } from "../utils";
 import {
   checkForUser,
   createUser,
@@ -6,7 +7,6 @@ import {
   isUserAuthenticated,
   setAuthCookie,
 } from "./utils";
-import { buildResponse, isOriginAllowed } from "../utils";
 
 export const handler = async (
   event: APIGatewayProxyEvent

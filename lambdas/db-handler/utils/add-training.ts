@@ -2,9 +2,9 @@ import { PutItemCommand } from "@aws-sdk/client-dynamodb";
 import { marshall } from "@aws-sdk/util-dynamodb";
 import { APIGatewayProxyEvent } from "aws-lambda";
 import jwt_decode from "jwt-decode";
+import { JsonResponse, Training, buildResponse } from "../../utils";
 import { GoogleUserData } from "./check-for-user";
 import { ddbClient } from "./ddb-client";
-import { JsonResponse, Training, buildResponse } from "../../utils";
 
 export const addTraining = async (
   jwt: string,

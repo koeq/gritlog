@@ -5,9 +5,9 @@ import {
 import { marshall } from "@aws-sdk/util-dynamodb";
 import { APIGatewayProxyEvent } from "aws-lambda";
 import jwt_decode from "jwt-decode";
+import { JsonResponse, buildResponse } from "../../utils";
 import { GoogleUserData } from "./check-for-user";
 import { ddbClient } from "./ddb-client";
-import { JsonResponse, buildResponse } from "../../utils";
 
 export const deleteTraining = async (
   jwt: string,
