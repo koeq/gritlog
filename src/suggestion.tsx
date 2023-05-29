@@ -3,6 +3,7 @@ import { useTopLevelState } from "./context";
 import "./styles/suggestion.css";
 import { Training } from "./types";
 import { useCursorPosition } from "./use-cursor-position";
+import { autocomplete } from "./utils/autocomplete";
 
 interface SuggestionsProps {
   currentInput: string;
@@ -67,7 +68,7 @@ export const Suggestion = ({
 
             dispatch({
               type: "set-input",
-              currentInput: buildNewInput(
+              currentInput: autocomplete(
                 currentInput,
                 firstSuggestion,
                 textAreaRef.current
@@ -123,39 +124,7 @@ const getWordAtCursor = (textArea: HTMLTextAreaElement): string | null => {
 
   // Extract exercise name (sequence of letters possibly separated by whitespace)
   const exerciseMatch = currentLine.match(/([a-zA-Z\s]+)/);
+  const wordAtCusor = exerciseMatch?.[0]?.trim();
 
-  return exerciseMatch && exerciseMatch[0].trim() !== ""
-    ? exerciseMatch?.[0].trim()
-    : null;
+  return wordAtCusor ? wordAtCusor : null;
 };
-
-function buildNewInput(
-  currentInput: string,
-  suggestion: string,
-  textArea: HTMLTextAreaElement | null
-): string {
-  if (textArea === null) {
-    return currentInput;
-  }
-
-  const cursorPos = textArea.selectionStart || 0;
-  const lines = textArea.value.split("\n");
-  const lineIndex = textArea.value.slice(0, cursorPos).split("\n").length - 1;
-  const currentLine = lines[lineIndex];
-
-  if (!currentLine) {
-    return currentInput;
-  }
-
-  const exerciseMatch = currentLine.match(/([a-zA-Z\s]+)/);
-  const currentExercise = exerciseMatch?.[0];
-
-  if (!currentExercise) {
-    return currentInput;
-  }
-
-  lines[lineIndex] = currentLine.replace(currentExercise, suggestion + " ");
-  const newInput = lines.join("\n");
-
-  return newInput;
-}
