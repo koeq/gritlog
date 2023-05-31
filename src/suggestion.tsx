@@ -34,26 +34,23 @@ export const Suggestion = ({
       return;
     }
 
-    const wordAtCusor = getWordAtCursor(textAreaRef.current);
+    const wordAtCursor = getWordAtCursor(textAreaRef.current);
 
-    if (wordAtCusor === null) {
+    if (wordAtCursor === null) {
+      // Reset previous suggestion
       setSuggestions([]);
 
       return;
     }
 
-    const matches = uniqueExercises.filter((exerciseName) =>
-      exerciseName.toLowerCase() === wordAtCusor.toLowerCase()
-        ? false
-        : exerciseName.toLowerCase().startsWith(wordAtCusor.toLowerCase())
+    const matches = uniqueExercises.filter(
+      (exerciseName) =>
+        exerciseName.toLowerCase() !== wordAtCursor.toLowerCase() &&
+        exerciseName.toLowerCase().startsWith(wordAtCursor.toLowerCase())
     );
 
     setSuggestions(matches);
   }, [currentInput, uniqueExercises, textAreaRef, cursorPosition]);
-
-  if (textAreaRef.current === null) {
-    return null;
-  }
 
   return (
     <>
@@ -101,32 +98,22 @@ function getUniqueExercises(trainings: Training[]): string[] {
 
 const getWordAtCursor = (textArea: HTMLTextAreaElement): string | null => {
   const cursorStartPosition = textArea.selectionStart;
-  const cursorEndPosition = textArea.selectionEnd;
 
-  // Something is actively being selected
-  if (cursorStartPosition !== cursorEndPosition) {
-    return textArea.value.slice(cursorStartPosition, cursorEndPosition).trim();
-  }
+  const linesBeforeCursor = textArea.value
+    .slice(0, cursorStartPosition)
+    .split("\n");
 
-  const lines = textArea.value.split("\n");
+  const currentLine = linesBeforeCursor[linesBeforeCursor.length - 1];
 
-  const lineIndex =
-    textArea.value.slice(0, cursorStartPosition).split("\n").length - 1;
-
-  const currentLine = lines[lineIndex];
-
-  if (currentLine === undefined) {
+  if (currentLine === undefined || currentLine.startsWith("#")) {
     return null;
   }
 
-  if (currentLine.startsWith("#")) {
-    return null;
-  }
-
-  // Extract exercise name (sequence of letters possibly separated by whitespace)
+  // This regular expression matches one or more words composed of alphabetic characters (either uppercase or lowercase),
+  // separated by single spaces, optionally followed by a single space, and appearing at the end of a string.
   // eslint-disable-next-line security/detect-unsafe-regex
-  const exerciseMatch = currentLine.match(/([a-zA-Z]+(\s[a-zA-Z]+)*)/);
-  const wordAtCusor = exerciseMatch?.[0]?.trim();
+  const exerciseMatch = currentLine.match(/([a-zA-Z]+(\s[a-zA-Z]+)*)\s?$/);
+  const wordAtCusor = exerciseMatch?.[0];
 
-  return wordAtCusor ? wordAtCusor : null;
+  return wordAtCusor ?? null;
 };

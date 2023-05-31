@@ -7,17 +7,22 @@ export function autocomplete(
     return currentInput;
   }
 
-  const cursorPos = textArea.selectionStart || 0;
+  const cursorStartPosition = textArea.selectionStart;
   const lines = textArea.value.split("\n");
-  const lineIndex = textArea.value.slice(0, cursorPos).split("\n").length - 1;
+
+  const lineIndex =
+    textArea.value.slice(0, cursorStartPosition).split("\n").length - 1;
+
   const currentLine = lines[lineIndex];
 
   if (!currentLine || currentLine.startsWith("#")) {
     return currentInput;
   }
 
+  // This regular expression matches one or more words composed of alphabetic characters (either uppercase or lowercase),
+  // separated by single spaces, optionally followed by a single space, and appearing at the end of a string.
   // eslint-disable-next-line security/detect-unsafe-regex
-  const exerciseMatch = currentLine.match(/([a-zA-Z]+(\s[a-zA-Z]+)*)/);
+  const exerciseMatch = currentLine.match(/([a-zA-Z]+(\s[a-zA-Z]+)*)\s?$/);
   const currentExercise = exerciseMatch?.[0];
 
   if (!currentExercise) {
