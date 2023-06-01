@@ -1,19 +1,15 @@
 import { useEffect, useMemo, useState } from "react";
 import { useTopLevelState } from "./context";
+import { Action } from "./state-reducer";
 import "./styles/suggestion.css";
 import { Training } from "./types";
 import { useCursorPosition } from "./use-cursor-position";
-import { autocomplete } from "./utils/autocomplete";
-
-const DEFAULT_EXERCISES = [
-  "Squat",
-  "Bench Press",
-  "Deadlift",
-  "Pull Up",
-  "Push Up",
-  "Chin Up",
-  "Lunge",
-];
+import {
+  DEFAULT_EXERCISES,
+  autocomplete,
+  getExerciseMatch,
+  getTextAreaCursorContext,
+} from "./utils/autocomplete";
 
 interface SuggestionsProps {
   currentInput: string;
@@ -22,17 +18,14 @@ interface SuggestionsProps {
 
 // TODO:
 // Autocomplete on keypress desktop & mobile
-// Write tests √ (search for edge cases)
-// Get ride of duplicated logic in autocomplete and getWordAtCursor
 
 export const Suggestion = ({
   currentInput,
   textAreaRef,
 }: SuggestionsProps): JSX.Element | null => {
-  const [suggestions, setSuggestions] = useState<string[]>([]);
   const [{ trainings }, dispatch] = useTopLevelState();
+  const [suggestions, setSuggestions] = useState<string[]>([]);
   const cursorPosition = useCursorPosition(textAreaRef.current);
-  const firstSuggestion = suggestions[0];
 
   const uniqueExercises = useMemo(
     () =>
@@ -47,9 +40,9 @@ export const Suggestion = ({
       return;
     }
 
-    const wordAtCursor = getWordAtCursor(textAreaRef.current);
+    const currentExercise = getCurrentExercise(textAreaRef.current);
 
-    if (wordAtCursor === null) {
+    if (currentExercise === null) {
       // Reset previous suggestion
       setSuggestions([]);
 
@@ -58,34 +51,28 @@ export const Suggestion = ({
 
     const matches = uniqueExercises.filter(
       (exerciseName) =>
-        exerciseName.toLowerCase() !== wordAtCursor.toLowerCase() &&
-        exerciseName.toLowerCase().startsWith(wordAtCursor.toLowerCase())
+        exerciseName.toLowerCase() !== currentExercise.toLowerCase() &&
+        exerciseName.toLowerCase().startsWith(currentExercise.toLowerCase())
     );
 
     setSuggestions(matches);
   }, [currentInput, uniqueExercises, textAreaRef, cursorPosition]);
+
+  const firstSuggestion = suggestions[0];
 
   return (
     <>
       {firstSuggestion && (
         <button
           className="suggestion"
-          onClick={() => {
-            if (!firstSuggestion) {
-              return;
-            }
-
-            textAreaRef.current?.focus();
-
-            dispatch({
-              type: "set-input",
-              currentInput: autocomplete(
-                currentInput,
-                firstSuggestion,
-                textAreaRef.current
-              ),
-            });
-          }}
+          onClick={() =>
+            handleAutocomplete({
+              firstSuggestion,
+              currentInput,
+              textAreaRef,
+              dispatch,
+            })
+          }
         >
           {firstSuggestion}
         </button>
@@ -109,24 +96,41 @@ function getUniqueExercises(trainings: Training[]): string[] {
   return Array.from(exerciseSet);
 }
 
-const getWordAtCursor = (textArea: HTMLTextAreaElement): string | null => {
-  const cursorStartPosition = textArea.selectionStart;
-
-  const linesBeforeCursor = textArea.value
-    .slice(0, cursorStartPosition)
-    .split("\n");
-
-  const currentLine = linesBeforeCursor[linesBeforeCursor.length - 1];
+const getCurrentExercise = (textArea: HTMLTextAreaElement): string | null => {
+  const { currentLine } = getTextAreaCursorContext(textArea);
 
   if (currentLine === undefined || currentLine.startsWith("#")) {
     return null;
   }
 
-  // This regular expression matches one or more words composed of alphabetic characters (either uppercase or lowercase),
-  // separated by single spaces, optionally followed by a single space, and appearing at the end of a string.
-  // eslint-disable-next-line security/detect-unsafe-regex
-  const exerciseMatch = currentLine.match(/([a-zA-Z]+(\s[a-zA-Z]+)*)\s?$/);
-  const wordAtCusor = exerciseMatch?.[0];
+  const currentExercise = getExerciseMatch(currentLine);
 
-  return wordAtCusor ?? null;
+  return currentExercise ?? null;
 };
+
+interface HandleAutocompleteParams {
+  firstSuggestion: string;
+  currentInput: string;
+  textAreaRef: React.MutableRefObject<HTMLTextAreaElement | null>;
+  dispatch: (value: Action) => void;
+}
+
+function handleAutocomplete({
+  firstSuggestion,
+  currentInput,
+  textAreaRef,
+  dispatch,
+}: HandleAutocompleteParams) {
+  const textArea = textAreaRef.current;
+
+  if (!firstSuggestion || !textArea) {
+    return;
+  }
+
+  textArea.focus();
+
+  dispatch({
+    type: "set-input",
+    currentInput: autocomplete(currentInput, firstSuggestion, textArea),
+  });
+}
