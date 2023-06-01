@@ -5,6 +5,16 @@ import { Training } from "./types";
 import { useCursorPosition } from "./use-cursor-position";
 import { autocomplete } from "./utils/autocomplete";
 
+const DEFAULT_EXERCISES = [
+  "Squat",
+  "Bench Press",
+  "Deadlift",
+  "Pull Up",
+  "Push Up",
+  "Chin Up",
+  "Lunge",
+];
+
 interface SuggestionsProps {
   currentInput: string;
   textAreaRef: React.MutableRefObject<HTMLTextAreaElement | null>;
@@ -25,7 +35,10 @@ export const Suggestion = ({
   const firstSuggestion = suggestions[0];
 
   const uniqueExercises = useMemo(
-    () => (trainings ? getUniqueExercises(trainings) : []),
+    () =>
+      trainings && trainings.length
+        ? getUniqueExercises(trainings)
+        : DEFAULT_EXERCISES,
     [trainings]
   );
 
