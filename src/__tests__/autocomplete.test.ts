@@ -53,6 +53,14 @@ describe("Autocomplete the input on the current line:", () => {
     expect(autocomplete(currentInput, suggestion, textArea)).toBe(expected);
   });
 
+  test("Should autocomplete until one whitespace after the exercise", () => {
+    setupTextAreaAndCursor("Pull ", 5);
+    const currentInput = textArea.value;
+    const suggestion = "Pull Ups";
+    const expected = "Pull Ups ";
+    expect(autocomplete(currentInput, suggestion, textArea)).toBe(expected);
+  });
+
   test("Should autocomplete the current exercise with suggestion in multiline input", () => {
     setupTextAreaAndCursor("Squats\nPush\nPull Ups", 11);
     const currentInput = textArea.value;
