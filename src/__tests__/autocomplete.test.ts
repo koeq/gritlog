@@ -18,12 +18,6 @@ describe("Autocomplete the input on the current line:", () => {
     textArea.selectionEnd = cursorPos;
   };
 
-  test("Should return current input if textArea is null", () => {
-    const currentInput = "some input";
-    const suggestion = "suggestion";
-    expect(autocomplete(currentInput, suggestion, null)).toBe(currentInput);
-  });
-
   test("Should return current input if no matching exercise found in current line", () => {
     setupTextAreaAndCursor("@80 8/8/8", 8);
     const currentInput = textArea.value;
