@@ -11,7 +11,7 @@ interface ThemeProviderProps {
   children: ReactNode;
 }
 
-type Theme = "light" | "dark";
+export type Theme = "light" | "dark";
 
 export const ThemeContext = createContext<
   [Theme, React.Dispatch<React.SetStateAction<Theme>>] | undefined
