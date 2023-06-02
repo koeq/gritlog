@@ -30,7 +30,7 @@ export const ThemeProvider = ({
     const previousTheme = theme === "light" ? "dark" : "light";
     document.documentElement.classList.remove(previousTheme);
     document.documentElement.classList.add(theme);
-    setThemeColor(theme === "light" ? "#eff0f4" : "#07090f");
+    setThemeColor(theme === "light" ? "#f4f5f9" : "#07090f");
   }, [theme]);
 
   return (
