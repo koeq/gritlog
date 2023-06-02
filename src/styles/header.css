@@ -2,6 +2,7 @@
   position: fixed;
   top: 0;
   width: 100%;
+  height: var(--header-height);
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -20,7 +21,7 @@
   display: flex;
   justify-content: space-between;
   width: min(450px, 96%);
-  padding: 8px 0px;
+  padding: 8px 4px 8px 0px;
 }
 
 .heading {
@@ -38,17 +39,6 @@ hr {
   border: none;
   width: min(450px, 96%);
   background: var(--border-primary);
-}
-
-@media (min-width: 560px) {
-  hr {
-    width: 100%;
-  }
-
-  .header-container {
-    width: 100%;
-    padding: 8px 8px;
-  }
 }
 
 .menu {
@@ -112,4 +102,15 @@ hr {
 
 .social {
   margin-top: 39vh;
+}
+
+@media (min-width: 560px) {
+  hr {
+    width: 100%;
+  }
+
+  .header-container {
+    width: 100%;
+    padding: 8px 8px;
+  }
 }

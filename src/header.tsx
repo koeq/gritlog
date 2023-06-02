@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
-import { HiOutlineMoon, HiOutlineSun } from "react-icons/hi";
 import { IoLogoGithub } from "react-icons/io5";
 import { useAuth } from "./context";
 import { useTheme } from "./context/theme-provider";
 import { Hamburger } from "./hamburger";
 import "./styles/header.css";
+import { ThemeToggle } from "./theme-toggle";
 
 interface HeaderProps {
   readonly authed: boolean;
@@ -28,22 +28,8 @@ export const Header = ({ authed }: HeaderProps): JSX.Element => {
       <header className={`header ${menuActive ? "header-active" : ""}`}>
         <nav className="header-container">
           <h1 className="heading">gritlog</h1>
-          <div style={{ display: "flex", alignItems: "center" }}>
-            <button
-              aria-label="toggle-theme"
-              style={{
-                display: "flex",
-                color: "var(--text-primary)",
-                marginRight: "8px",
-              }}
-              onClick={toggleTheme}
-            >
-              {theme === "light" ? (
-                <HiOutlineSun size="20" />
-              ) : (
-                <HiOutlineMoon size="20" />
-              )}
-            </button>
+          <div className="cta-section">
+            <ThemeToggle theme={theme} toggleTheme={toggleTheme} />
             {authed && (
               <Hamburger
                 menuActive={menuActive}
