@@ -11,7 +11,7 @@
 .date-range {
   display: flex;
   align-items: center;
-  width: min(450px, 97%);
+  width: min(450px, 96%);
   margin-bottom: 8px;
 }
 
@@ -21,7 +21,7 @@
 }
 
 .training-group-separator {
-  width: min(450px, 97%);
+  width: min(450px, 96%);
   margin-top: 28px;
   margin-bottom: 24px;
 }

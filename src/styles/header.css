@@ -19,7 +19,7 @@
 .header-container {
   display: flex;
   justify-content: space-between;
-  width: min(450px, 97%);
+  width: min(450px, 96%);
   padding: 8px 0px;
 }
 
@@ -36,7 +36,7 @@ hr {
   display: block;
   height: 1px;
   border: none;
-  width: min(450px, 97%);
+  width: min(450px, 96%);
   background: var(--border-primary);
 }
 
@@ -73,7 +73,7 @@ hr {
   align-items: center;
   list-style: none;
   margin-top: 30vh;
-  width: min(450px, 97%);
+  width: min(450px, 96%);
 }
 
 .menu li {

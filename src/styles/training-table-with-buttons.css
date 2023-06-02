@@ -1,5 +1,5 @@
 .training-with-buttons {
-  width: min(450px, 97%);
+  width: min(450px, 96%);
   display: flex;
   position: relative;
   border-radius: var(--border-radius);
@@ -7,6 +7,7 @@
   overflow-x: scroll;
   scrollbar-width: none;
   margin-bottom: 26px;
+  box-shadow: var(--shadow-small);
 }
 
 .training-with-buttons::-webkit-scrollbar {
