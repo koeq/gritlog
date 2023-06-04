@@ -46,29 +46,8 @@ export const Suggestion = ({
     if (currentExercise === null) {
       // Reset previous suggestion
       setSuggestion(null);
-
-      return;
-    }
-
-    const matches = uniqueExercises.filter(
-      (exerciseName) =>
-        exerciseName.toLowerCase() !== currentExercise.toLowerCase() &&
-        exerciseName.toLowerCase().startsWith(currentExercise.toLowerCase())
-    );
-
-    if (!matches[0]) {
-      const suggestionResult = fuzzyFilter(currentInput, uniqueExercises)[0];
-
-      setSuggestion(
-        suggestionResult
-          ? // Input matches string 100%
-            suggestionResult.score === Infinity
-            ? null
-            : suggestionResult.original
-          : null
-      );
     } else {
-      setSuggestion(matches[0]);
+      setSuggestion(getSuggestion(currentExercise, uniqueExercises));
     }
   }, [currentInput, uniqueExercises, textAreaRef, cursorPosition]);
 
@@ -118,6 +97,28 @@ const getCurrentExercise = (textArea: HTMLTextAreaElement): string | null => {
   const currentExercise = getExerciseMatch(currentLine);
 
   return currentExercise ?? null;
+};
+
+const getSuggestion = (currentExercise: string, uniqueExercises: string[]) => {
+  // match exercise which start with currentExercise
+  const matches = uniqueExercises.filter(
+    (exerciseName) =>
+      exerciseName.toLowerCase() !== currentExercise.toLowerCase() &&
+      exerciseName.toLowerCase().startsWith(currentExercise.toLowerCase())
+  );
+
+  if (matches[0]) {
+    return matches[0];
+  }
+
+  const suggestionResult = fuzzyFilter(currentExercise, uniqueExercises)[0];
+
+  // Infinity for exact match
+  if (!suggestionResult || suggestionResult.score === Infinity) {
+    return null;
+  }
+
+  return suggestionResult.original;
 };
 
 interface HandleAutocompleteParams {
