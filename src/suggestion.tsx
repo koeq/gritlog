@@ -10,6 +10,7 @@ import {
   getExerciseMatch,
   getTextAreaCursorContext,
 } from "./utils/autocomplete";
+import { fuzzyFilter } from "./utils/fuzzy";
 
 interface SuggestionsProps {
   currentInput: string;
@@ -24,7 +25,7 @@ export const Suggestion = ({
   textAreaRef,
 }: SuggestionsProps): JSX.Element | null => {
   const [{ trainings }, dispatch] = useTopLevelState();
-  const [suggestions, setSuggestions] = useState<string[]>([]);
+  const [suggestion, setSuggestion] = useState<string | null>(null);
   const cursorPosition = useCursorPosition(textAreaRef.current);
 
   const uniqueExercises = useMemo(
@@ -44,7 +45,7 @@ export const Suggestion = ({
 
     if (currentExercise === null) {
       // Reset previous suggestion
-      setSuggestions([]);
+      setSuggestion(null);
 
       return;
     }
@@ -55,26 +56,37 @@ export const Suggestion = ({
         exerciseName.toLowerCase().startsWith(currentExercise.toLowerCase())
     );
 
-    setSuggestions(matches);
-  }, [currentInput, uniqueExercises, textAreaRef, cursorPosition]);
+    if (!matches[0]) {
+      const suggestionResult = fuzzyFilter(currentInput, uniqueExercises)[0];
 
-  const firstSuggestion = suggestions[0];
+      setSuggestion(
+        suggestionResult
+          ? // Input matches string 100%
+            suggestionResult.score === Infinity
+            ? null
+            : suggestionResult.original
+          : null
+      );
+    } else {
+      setSuggestion(matches[0]);
+    }
+  }, [currentInput, uniqueExercises, textAreaRef, cursorPosition]);
 
   return (
     <>
-      {firstSuggestion && (
+      {suggestion && (
         <button
           className="suggestion"
           onClick={() =>
             handleAutocomplete({
-              firstSuggestion,
+              suggestion,
               currentInput,
               textAreaRef,
               dispatch,
             })
           }
         >
-          {firstSuggestion}
+          {suggestion}
         </button>
       )}
     </>
@@ -109,21 +121,21 @@ const getCurrentExercise = (textArea: HTMLTextAreaElement): string | null => {
 };
 
 interface HandleAutocompleteParams {
-  firstSuggestion: string;
+  suggestion: string;
   currentInput: string;
   textAreaRef: React.MutableRefObject<HTMLTextAreaElement | null>;
   dispatch: (value: Action) => void;
 }
 
 function handleAutocomplete({
-  firstSuggestion,
+  suggestion,
   currentInput,
   textAreaRef,
   dispatch,
 }: HandleAutocompleteParams) {
   const textArea = textAreaRef.current;
 
-  if (!firstSuggestion || !textArea) {
+  if (!suggestion || !textArea) {
     return;
   }
 
@@ -131,6 +143,6 @@ function handleAutocomplete({
 
   dispatch({
     type: "set-input",
-    currentInput: autocomplete(currentInput, firstSuggestion, textArea),
+    currentInput: autocomplete(currentInput, suggestion, textArea),
   });
 }
