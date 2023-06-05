@@ -16,6 +16,7 @@ textarea {
   outline: none;
   padding: 8px 74px 30px 8px;
   resize: none;
+  box-shadow: var(--shadow-small);
 }
 
 .info-btn {
