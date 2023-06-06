@@ -13,12 +13,14 @@ interface TrainingTableProps {
   readonly handleRepeat: () => void;
   readonly handleSetEditMode: () => void;
   readonly percentageChanges: Record<string, number> | null;
+  readonly textAreaRef: React.MutableRefObject<HTMLTextAreaElement | null>;
 }
 
 export const TrainingTableWithButtons = ({
   editing,
   training,
   dispatch,
+  textAreaRef,
   handleRepeat,
   handleSetEditMode,
   percentageChanges,
@@ -45,6 +47,7 @@ export const TrainingTableWithButtons = ({
           onClick={(e) => {
             e.stopPropagation();
             scrollOnClick(trainingRef.current);
+            textAreaRef.current?.focus();
             setTimeout(() => handleSetEditMode(), 280);
           }}
         >
