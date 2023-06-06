@@ -48,7 +48,7 @@ export const TrainingTableWithButtons = ({
             e.stopPropagation();
             scrollOnClick(trainingRef.current);
             textAreaRef.current?.focus();
-            setTimeout(() => handleSetEditMode(), 280);
+            handleSetEditMode();
           }}
         >
           <IoPencilSharp size={23} />
