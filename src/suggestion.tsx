@@ -17,9 +17,6 @@ interface SuggestionsProps {
   textAreaRef: React.MutableRefObject<HTMLTextAreaElement | null>;
 }
 
-// TODO:
-// Autocomplete on keypress desktop & mobile
-
 export const Suggestion = ({
   currentInput,
   textAreaRef,

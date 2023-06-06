@@ -62,6 +62,7 @@ export const Trainings = ({
                   <TrainingTableWithButtons
                     key={training.id}
                     dispatch={dispatch}
+                    textAreaRef={textAreaRef}
                     training={training}
                     editing={mode.type === "edit" && mode.id === training.id}
                     percentageChanges={
