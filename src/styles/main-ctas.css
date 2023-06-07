@@ -39,7 +39,7 @@
 
 @media (min-width: 560px) {
   .btns {
-    width: min(800px, 97%);
+    width: min(800px, 96%);
     right: auto;
     pointer-events: none;
   }

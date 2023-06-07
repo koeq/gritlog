@@ -48,7 +48,7 @@ export const Input = ({
 }: InputProps): JSX.Element => {
   const { logout } = useAuth();
   const isMobile = useIsMobile();
-  const [{ currentInput, mode, inputOpen }, dispatch] = useTopLevelState();
+  const [{ currentInput, mode, showBottomBar }, dispatch] = useTopLevelState();
 
   useLayoutEffect(() => {
     if (textAreaRef.current) {
@@ -89,9 +89,9 @@ export const Input = ({
           value={currentInput}
           name="training"
           id="training"
-          className={inputOpen ? "open" : "close"}
+          className={showBottomBar ? "open" : "close"}
           ref={textAreaRef}
-          tabIndex={inputOpen ? undefined : -1}
+          tabIndex={showBottomBar ? undefined : -1}
           onKeyDown={(e) => {
             if (isMobile) {
               return;
