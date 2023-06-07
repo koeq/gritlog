@@ -4,10 +4,10 @@ import "./styles/bottom-bar.css";
 export function BottomBar({
   children,
 }: React.PropsWithChildren<{}>): JSX.Element {
-  const [{ inputOpen }] = useTopLevelState();
+  const [{ showBottomBar }] = useTopLevelState();
 
   return (
-    <footer className={inputOpen ? "bottom-bar" : "bottom-bar closed"}>
+    <footer className={`bottom-bar ${showBottomBar ? "" : "closed"}`}>
       {children}
     </footer>
   );

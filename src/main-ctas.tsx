@@ -18,16 +18,16 @@ export const Buttons = ({
   textAreaRef,
   handleSetEditMode,
 }: ButtonsProps): JSX.Element => {
-  const [{ trainings, inputOpen }, dispatch] = useTopLevelState();
+  const [{ trainings, showBottomBar }, dispatch] = useTopLevelState();
   const latestTrainingId = trainings?.[0]?.id;
 
   return (
-    <div className={inputOpen ? "btns btns-input-open" : "btns"}>
+    <div className={showBottomBar ? "btns btns-input-open" : "btns"}>
       <>
         <button
           aria-label="add"
           className="btn-round top"
-          disabled={inputOpen}
+          disabled={showBottomBar}
           type="button"
           onClick={() => {
             dispatch({ type: "open-input" });
@@ -42,7 +42,9 @@ export const Buttons = ({
             trainings && latestTrainingId === undefined ? "btn-disabled" : ""
           }`}
           type="button"
-          disabled={latestTrainingId === undefined || inputOpen ? true : false}
+          disabled={
+            latestTrainingId === undefined || showBottomBar ? true : false
+          }
           onClick={() => {
             handleSetEditMode({
               id: latestTrainingId,

@@ -9,7 +9,7 @@ describe("Mutate global state", () => {
     state = {
       trainings: undefined,
       currentInput: "",
-      inputOpen: false,
+      showBottomBar: false,
       mode: { type: "add" },
     };
   });
@@ -31,7 +31,7 @@ describe("Mutate global state", () => {
 
     expect(newState).toStrictEqual({
       trainings: [someTraining],
-      inputOpen: false,
+      showBottomBar: false,
       mode: { type: "add" },
       currentInput: "",
     });
@@ -61,7 +61,7 @@ describe("Mutate global state", () => {
 
     expect(newState).toStrictEqual({
       trainings: [{ ...currentTraining }],
-      inputOpen: false,
+      showBottomBar: false,
       mode: { type: "add" },
       currentInput: "",
     });
@@ -80,7 +80,7 @@ describe("Mutate global state", () => {
 
     expect(newState).toStrictEqual({
       ...state,
-      inputOpen: true,
+      showBottomBar: true,
       mode: { type: "add" },
       currentInput: newState.currentInput,
     });
@@ -99,7 +99,7 @@ describe("Mutate global state", () => {
 
     expect(newState).toStrictEqual({
       trainings: [],
-      inputOpen: false,
+      showBottomBar: false,
       mode: { type: "add" },
       currentInput: "",
     });
@@ -120,7 +120,7 @@ describe("Mutate global state", () => {
   it("Cancel add", () => {
     state = {
       ...state,
-      inputOpen: true,
+      showBottomBar: true,
       currentInput: "some input",
     };
 
@@ -130,7 +130,7 @@ describe("Mutate global state", () => {
 
     expect(newState).toStrictEqual({
       ...state,
-      inputOpen: false,
+      showBottomBar: false,
       currentInput: "",
     });
   });
@@ -138,7 +138,7 @@ describe("Mutate global state", () => {
   it("Cancel edit", () => {
     state = {
       ...state,
-      inputOpen: true,
+      showBottomBar: true,
       currentInput: "some input",
       mode: {
         type: "edit",
@@ -154,7 +154,7 @@ describe("Mutate global state", () => {
 
     expect(newState).toStrictEqual({
       ...state,
-      inputOpen: false,
+      showBottomBar: false,
       currentInput: "",
       mode: { type: "add" },
     });
@@ -170,7 +170,7 @@ describe("Mutate global state", () => {
 
     expect(newState).toStrictEqual({
       ...state,
-      inputOpen: true,
+      showBottomBar: true,
       currentInput: "some serialized training",
       mode: {
         type: "edit",
@@ -184,7 +184,7 @@ describe("Mutate global state", () => {
   it("Set delete mode", () => {
     state = {
       ...state,
-      inputOpen: true,
+      showBottomBar: true,
       currentInput: "some input",
     };
 
@@ -195,7 +195,7 @@ describe("Mutate global state", () => {
 
     expect(newState).toStrictEqual({
       ...state,
-      inputOpen: false,
+      showBottomBar: false,
       currentInput: "",
       mode: {
         type: "delete",
