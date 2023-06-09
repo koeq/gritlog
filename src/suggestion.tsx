@@ -50,7 +50,7 @@ export const Suggestion = ({
 
   return (
     <>
-      {suggestion && (
+      {suggestion ? (
         <button
           className="suggestion"
           onClick={() =>
@@ -64,6 +64,8 @@ export const Suggestion = ({
         >
           {suggestion}
         </button>
+      ) : (
+        <span></span>
       )}
     </>
   );

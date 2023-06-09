@@ -5,7 +5,6 @@ import { useTopLevelState } from "./context";
 import { DeletionConfirmation } from "./deletion-confirmation";
 import { fetchTrainings } from "./fetch-trainings";
 import { FormatInfo } from "./format-info";
-import { Input } from "./input";
 import { Layer } from "./layer";
 import { LoadingSpinner } from "./loading-spinner";
 import { Buttons } from "./main-ctas";
@@ -23,10 +22,10 @@ export interface HandleSetEditModeParams {
 }
 
 const AuthedApp = (): JSX.Element => {
-  const [showFormatInfo, setShowFormatInfo] = useState(false);
   const [topLevelState, dispatch] = useTopLevelState();
   const { trainings, currentInput, mode } = topLevelState;
   const textAreaRef = useRef<HTMLTextAreaElement | null>(null);
+  const [showFormatInfo, setShowFormatInfo] = useState(false);
 
   const { headline = null, exercises = [] } =
     useMemo(() => parse(currentInput), [currentInput]) || {};
@@ -74,16 +73,19 @@ const AuthedApp = (): JSX.Element => {
         handleSetEditMode={handleSetEditMode}
       />
 
-      <BottomBar>
-        <Input
-          currentTraining={currentTraining}
-          textAreaRef={textAreaRef}
-          setShowInfo={setShowFormatInfo}
-        />
-      </BottomBar>
+      <BottomBar
+        currentTraining={currentTraining}
+        textAreaRef={textAreaRef}
+        setShowFormatInfo={setShowFormatInfo}
+      />
 
       {showFormatInfo && (
-        <Layer clickHandler={() => setShowFormatInfo(false)}>
+        <Layer
+          clickHandler={() => {
+            setShowFormatInfo(false);
+            textAreaRef?.current?.focus();
+          }}
+        >
           {() => <FormatInfo />}
         </Layer>
       )}
