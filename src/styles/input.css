@@ -1,12 +1,12 @@
 .input-wrapper {
   position: relative;
   width: min(450px, 93%);
-  margin-bottom: 18px;
-  border-top: 0.5px solid var(--border-primary);
+  border-top: 0.5px solid var(--border-secondary);
 }
 
 textarea {
   color: var(--text-primary);
+  font-size: 15px;
   width: 100%;
   height: 50px;
   max-height: 180px;
@@ -14,6 +14,10 @@ textarea {
   border: none;
   border-radius: 10px;
   outline: none;
-  padding: 8px 0;
+  padding: 8px 4px;
   resize: none;
+}
+
+textarea::placeholder {
+  color: var(--cta-disabled);
 }

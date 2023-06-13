@@ -1,5 +1,6 @@
 import { Dispatch } from "react";
-import { IoCheckmark, IoCloseOutline } from "react-icons/io5";
+import { IoMdClose } from "react-icons/io";
+import { IoCheckmarkSharp } from "react-icons/io5";
 import { useAuth, useTopLevelState } from "./context";
 import { deleteTraining } from "./delete-training";
 import { Action } from "./state-reducer";
@@ -37,7 +38,7 @@ export const DeletionConfirmation = ({
           onClick={() => handleDelete(id, dispatch, logout)}
           className="circle-hover-large"
         >
-          <IoCheckmark size={32} />
+          <IoCheckmarkSharp size={32} />
         </button>
         <button
           aria-label="deletion-cancelation"
@@ -49,7 +50,7 @@ export const DeletionConfirmation = ({
           }
           className="circle-hover-large"
         >
-          <IoCloseOutline size={32} />
+          <IoMdClose size={32} />
         </button>
       </div>
     </div>
