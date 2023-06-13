@@ -20,3 +20,23 @@
   transform: translateY(100%);
   padding: 0;
 }
+
+.btn-add {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+}
+
+.btn-add::before {
+  content: "";
+  position: absolute;
+  top: -4px;
+  left: -4px;
+  width: calc(100% + 8px);
+  height: calc(100% + 8px);
+  border-radius: 50%;
+  background: var(--hover-circle);
+  z-index: -1;
+}

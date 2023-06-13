@@ -1,5 +1,7 @@
 import { Dispatch } from "react";
 import { ImInfo } from "react-icons/im";
+import { IoMdAdd, IoMdClose } from "react-icons/io";
+import { IoCheckmarkSharp } from "react-icons/io5";
 import { addTraining } from "./add-training";
 import { useAuth, useTopLevelState } from "./context";
 import { editTraining } from "./edit-training";
@@ -40,7 +42,7 @@ export function BottomBar({
       <div
         style={{
           width: "min(450px, 92%)",
-          padding: "14px 0",
+          padding: "8px 0",
           display: "flex",
           justifyContent: "space-between",
         }}
@@ -55,7 +57,7 @@ export function BottomBar({
             alignItems: "center",
           }}
         >
-          <ImInfo size={14} color="var(--text-primary)" />
+          <ImInfo size={14} color="var(--cta-disabled)" />
         </button>
         <button
           aria-label="cancelation"
@@ -65,9 +67,12 @@ export function BottomBar({
             fontSize: 15,
             fontWeight: "500",
             color: "var(--text-primary)",
+            display: "flex",
+            alignItems: "center",
+            borderRadius: "50%",
           }}
         >
-          cancel
+          <IoMdClose size={20} />
         </button>
       </div>
 
@@ -77,19 +82,18 @@ export function BottomBar({
         setShowInfo={setShowFormatInfo}
       />
       <div
-        className=""
         style={{
           display: "flex",
           width: "min(450px, 92%)",
-          height: "20px",
-
-          marginBottom: "18px",
+          height: "22px",
+          marginBottom: "16px",
           justifyContent: "space-between",
           alignItems: "center",
         }}
       >
         <Suggestion currentInput={currentInput} textAreaRef={textAreaRef} />
         <button
+          className="btn-add"
           aria-label="confirmation"
           type="button"
           disabled={disabled}
@@ -100,7 +104,11 @@ export function BottomBar({
             fontWeight: "500",
           }}
         >
-          add
+          {mode.type === "add" ? (
+            <IoMdAdd size={20} />
+          ) : (
+            <IoCheckmarkSharp size={20} />
+          )}
         </button>
       </div>
     </footer>

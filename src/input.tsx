@@ -26,7 +26,7 @@ export const Input = ({
   }, [currentInput, textAreaRef]);
 
   const autoGrow = (element: HTMLTextAreaElement) => {
-    const minHeight = 90;
+    const minHeight = 80;
     // Reset height
     element.style.height = `${minHeight}px`;
     element.style.height = `${element.scrollHeight}px`;
