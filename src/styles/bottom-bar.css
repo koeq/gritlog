@@ -21,7 +21,34 @@
   padding: 0;
 }
 
-.btn-add {
+.input-btn-container {
+  width: min(450px, 92%);
+  display: flex;
+  justify-content: space-between;
+}
+
+.input-top-container {
+  padding: 8px 0;
+}
+
+.input-bottom-container {
+  height: 22px;
+  margin-bottom: 16px;
+}
+
+.btn-info {
+  display: "flex";
+  align-items: center;
+}
+
+.btn-cancel {
+  color: var(--text-primary);
+  display: flex;
+  align-items: center;
+  border-radius: 50%;
+}
+
+.btn-confirm {
   position: relative;
   display: flex;
   justify-content: center;
@@ -29,7 +56,7 @@
   border-radius: 50%;
 }
 
-.btn-add::before {
+.btn-confirm::before {
   content: "";
   position: absolute;
   top: -4px;

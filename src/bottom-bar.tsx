@@ -39,38 +39,20 @@ export function BottomBar({
 
   return (
     <footer className={`bottom-bar ${showBottomBar ? "" : "closed"}`}>
-      <div
-        style={{
-          width: "min(450px, 92%)",
-          padding: "8px 0",
-          display: "flex",
-          justifyContent: "space-between",
-        }}
-      >
+      <div className="input-btn-container input-top-container">
         <button
           aria-label="info"
           type="button"
-          className="button circle-hover"
+          className="button circle-hover btn-info"
           onClick={() => setShowFormatInfo(true)}
-          style={{
-            display: "flex",
-            alignItems: "center",
-          }}
         >
-          <ImInfo size={14} color="var(--cta-disabled)" />
+          <ImInfo size={12} color="var(--cta-disabled)" />
         </button>
         <button
           aria-label="cancelation"
           type="button"
+          className="btn-cancel"
           onClick={cancelHandler}
-          style={{
-            fontSize: 15,
-            fontWeight: "500",
-            color: "var(--text-primary)",
-            display: "flex",
-            alignItems: "center",
-            borderRadius: "50%",
-          }}
         >
           <IoMdClose size={20} />
         </button>
@@ -81,27 +63,16 @@ export function BottomBar({
         textAreaRef={textAreaRef}
         setShowInfo={setShowFormatInfo}
       />
-      <div
-        style={{
-          display: "flex",
-          width: "min(450px, 92%)",
-          height: "22px",
-          marginBottom: "16px",
-          justifyContent: "space-between",
-          alignItems: "center",
-        }}
-      >
+      <div className="input-btn-container input-bottom-container">
         <Suggestion currentInput={currentInput} textAreaRef={textAreaRef} />
         <button
-          className="btn-add"
+          className="btn-confirm"
           aria-label="confirmation"
           type="button"
           disabled={disabled}
           onClick={actionHandler}
           style={{
-            fontSize: 15,
             color: disabled ? "var(--cta-disabled)" : "var(--text-primary)",
-            fontWeight: "500",
           }}
         >
           {mode.type === "add" ? (
