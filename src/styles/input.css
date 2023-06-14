@@ -19,5 +19,5 @@ textarea {
 }
 
 textarea::placeholder {
-  color: var(--cta-disabled);
+  color: var(--border-secondary);
 }
