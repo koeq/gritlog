@@ -5,8 +5,8 @@ import {
   useLayoutEffect,
   useState,
 } from "react";
-import { useSafeContext } from "../utils/use-safe-context";
 import "../styles/index.css";
+import { useSafeContext } from "../utils/use-safe-context";
 
 interface ThemeProviderProps {
   children: ReactNode;
