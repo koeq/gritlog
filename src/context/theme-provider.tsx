@@ -6,6 +6,7 @@ import {
   useState,
 } from "react";
 import { useSafeContext } from "../utils/use-safe-context";
+import "../styles/index.css";
 
 interface ThemeProviderProps {
   children: ReactNode;
@@ -30,7 +31,7 @@ export const ThemeProvider = ({
     const previousTheme = theme === "light" ? "dark" : "light";
     document.documentElement.classList.remove(previousTheme);
     document.documentElement.classList.add(theme);
-    setThemeColor(theme === "light" ? "#f4f5f9" : "#07090f");
+    setThemeColor(theme === "light" ? "#f8f9fd" : "#07090f");
   }, [theme]);
 
   return (

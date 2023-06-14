@@ -41,12 +41,12 @@
 }
 
 .light {
-  --background-primary: #f4f5f9;
+  --background-primary: #f8f9fd;
   --background-secondary: #ffffff;
   --background-tertiary: #f2f3f6;
   --background-transparent: rgba(239, 240, 244, 0.8);
-  --border-primary: #ddddde;
-  --border-secondary: #ddddde;
+  --border-primary: rgb(231, 231, 232);
+  --border-secondary: rgb(231, 231, 232);
   --text-primary: #000000;
   --text-secondary: #000000;
   --text-tertiary: rgb(88, 93, 99);
@@ -56,7 +56,7 @@
   --hover-secondary: 0.95;
   --hover-circle: rgba(0, 0, 0, 0.05);
   --shadow-small: rgba(0, 0, 0, 0.05) 0px 1px 2px 0px;
-  --box-shadow-top: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+  --box-shadow-top: 0 3px 6px rgba(0, 0, 0, 0.12), 0 3px 6px rgba(0, 0, 0, 0.19);
 }
 
 /* universal box sizing */
