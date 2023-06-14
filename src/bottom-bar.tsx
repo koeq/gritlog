@@ -54,7 +54,7 @@ export function BottomBar({
           className="btn-cancel"
           onClick={cancelHandler}
         >
-          <IoMdClose size={20} />
+          <IoMdClose size={21} />
         </button>
       </div>
 
@@ -76,9 +76,9 @@ export function BottomBar({
           }}
         >
           {mode.type === "add" ? (
-            <IoMdAdd size={20} />
+            <IoMdAdd size={21} />
           ) : (
-            <IoCheckmarkSharp size={20} />
+            <IoCheckmarkSharp size={21} />
           )}
         </button>
       </div>

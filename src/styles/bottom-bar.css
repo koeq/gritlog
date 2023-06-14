@@ -7,9 +7,9 @@
   bottom: 0;
   width: 100%;
   background-color: var(--background-secondary);
-  box-shadow: rgba(149, 157, 165, 0.1) 0px 10px 18px;
+  box-shadow: var(--box-shadow-top);
   z-index: 1;
-  border-top: 1px solid var(--border-primary);
+  border-top: 0.5px solid var(--border-primary);
   border-top-left-radius: 20px;
   border-top-right-radius: 20px;
   transform: translateY(0);
@@ -32,12 +32,12 @@
 }
 
 .input-bottom-container {
-  height: 22px;
   margin-bottom: 16px;
+  height: 22px;
 }
 
 .btn-info {
-  display: "flex";
+  display: flex;
   align-items: center;
 }
 
@@ -54,6 +54,8 @@
   justify-content: center;
   align-items: center;
   border-radius: 50%;
+  width: 22px;
+  height: 22px;
 }
 
 .btn-confirm::before {
