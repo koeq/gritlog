@@ -33,16 +33,16 @@ th {
 .label-header {
   color: var(--text-secondary);
   font-weight: 400;
-  padding-top: 16px;
+  padding-top: 10px;
   padding-bottom: 10px;
+  border-color: var(--border-secondary);
+  border-style: solid;
 }
 
-h3 {
-  padding: 2px 6px;
+.label-header h3 {
+  padding-left: 6px;
   width: fit-content;
-  background: var(--background-tertiary);
-  border-radius: 4px;
-  font-weight: 400;
+  font-weight: 500;
 }
 
 .headline {
@@ -50,13 +50,37 @@ h3 {
   padding-right: 12px;
 }
 
+#exercise-header {
+  border-width: 0.5px 0px 0.5px 0.5px;
+  border-top-left-radius: 4px;
+  border-bottom-left-radius: 4px;
+}
+
+#weight-header {
+  border-width: 0.5px 0px 0.5px 0px;
+}
+
+#reps-header {
+  border-width: 0.5px 0px 0.5px 0px;
+}
+
+#percentage-header {
+  border-width: 0.5px 0.5px 0.5px 0px;
+  border-top-right-radius: 4px;
+  border-bottom-right-radius: 4px;
+}
+
 .td {
-  padding: 6px 0;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 6px;
   border-bottom: 0.5px solid var(--border-secondary);
 }
 
 .last-td {
-  padding: 6px 0;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 6px;
 }
 
 #exercise {

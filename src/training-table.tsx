@@ -45,16 +45,17 @@ export const TrainingTable = ({
 
 const TableHeaders = (): JSX.Element => {
   return (
-    <tr>
-      <th id="exerciseLabel" className="label-header">
+    <tr style={{ border: "1px solid var(--border-primary)" }}>
+      <th id="exercise-header" className="label-header">
         <h3>exercise</h3>
       </th>
-      <th id="weightLabel" className="label-header">
+      <th id="weight-header" className="label-header">
         <h3>weight</h3>
       </th>
-      <th className="label-header">
+      <th id="reps-header" className="label-header">
         <h3>reps</h3>
       </th>
+      <th id="percentage-header" className="label-header"></th>
     </tr>
   );
 };
