@@ -1,7 +1,7 @@
 .dialog {
   width: min(330px, 85%);
   height: 260px;
-  margin-bottom: 80px;
+  margin-bottom: 120px;
   display: flex;
   flex-direction: column;
   justify-content: center;

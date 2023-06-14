@@ -5,7 +5,7 @@
   justify-content: center;
   width: min(330px, 85%);
   height: 260px;
-  margin-bottom: 80px;
+  margin-bottom: 120px;
   border-radius: var(--border-radius);
   background: var(--background-secondary);
   box-shadow: var(--shadow-small);

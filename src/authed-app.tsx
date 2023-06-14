@@ -6,7 +6,7 @@ import { DeletionConfirmation } from "./deletion-confirmation";
 import { fetchTrainings } from "./fetch-trainings";
 import { FormatInfo } from "./format-info";
 import { Layer } from "./layer";
-import { LoadingSpinner } from "./loading-spinner";
+import { LoadingDots } from "./loading-dots";
 import { Buttons } from "./main-ctas";
 import { parse } from "./parser";
 import { serializeTraining } from "./serialize-training";
@@ -65,7 +65,7 @@ const AuthedApp = (): JSX.Element => {
           handleSetEditMode={handleSetEditMode}
         />
       ) : (
-        <LoadingSpinner />
+        <LoadingDots />
       )}
 
       <Buttons
