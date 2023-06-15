@@ -10,7 +10,7 @@
   background: var(background-transparent);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
-  z-index: 100;
+  z-index: 2;
 }
 
 .header-active {
@@ -54,7 +54,7 @@ hr {
   overflow: hidden;
   transform: translateY(calc(-100% - var(--header-height)));
   transition: transform 0.3s ease;
-  z-index: 99;
+  z-index: 1;
 }
 
 .menu ul {
