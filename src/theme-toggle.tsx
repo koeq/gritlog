@@ -1,30 +1,64 @@
+import { ReactNode } from "react";
 import { HiOutlineMoon, HiOutlineSun } from "react-icons/hi";
-import { Theme } from "./context/theme-provider";
+import { SlScreenDesktop } from "react-icons/sl";
+import { useTheme } from "./context/theme-provider";
+import "./styles/theme-toggle.css";
 
-interface ThemeToggleProps {
-  theme: Theme;
-  toggleTheme: () => void;
+export function ThemeToggle(): JSX.Element {
+  const { theme, setTheme, themeType, setThemeType } = useTheme();
+
+  return (
+    <div className="theme-toggle-container">
+      <ThemeButton
+        selected={themeType === "OS"}
+        clickHandler={() => {
+          setTheme(
+            window.matchMedia("(prefers-color-scheme: dark)").matches
+              ? "dark"
+              : "light"
+          );
+
+          setThemeType("OS");
+        }}
+      >
+        <SlScreenDesktop strokeWidth={8} size="15" />
+      </ThemeButton>
+      <ThemeButton
+        selected={themeType === "custom" && theme === "light"}
+        clickHandler={() => {
+          setTheme("light");
+          setThemeType("custom");
+        }}
+      >
+        <HiOutlineSun size="15" />
+      </ThemeButton>
+      <ThemeButton
+        selected={themeType === "custom" && theme === "dark"}
+        clickHandler={() => {
+          setTheme("dark");
+          setThemeType("custom");
+        }}
+      >
+        <HiOutlineMoon size="15" />
+      </ThemeButton>
+    </div>
+  );
 }
 
-export function ThemeToggle({
-  theme,
-  toggleTheme,
-}: ThemeToggleProps): JSX.Element {
+interface ThemeButtonProps {
+  children: ReactNode;
+  clickHandler: () => void;
+  selected: boolean;
+}
+
+function ThemeButton({ children, clickHandler, selected }: ThemeButtonProps) {
   return (
     <button
+      className={`theme-toggle-btn ${selected ? "selected" : ""}`}
       aria-label="toggle-theme"
-      style={{
-        display: "flex",
-        color: "var(--text-primary)",
-        marginRight: "12px",
-      }}
-      onClick={toggleTheme}
+      onClick={clickHandler}
     >
-      {theme === "light" ? (
-        <HiOutlineSun size="20" />
-      ) : (
-        <HiOutlineMoon size="20" />
-      )}
+      {children}
     </button>
   );
 }

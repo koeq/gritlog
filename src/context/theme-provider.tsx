@@ -12,31 +12,73 @@ interface ThemeProviderProps {
   children: ReactNode;
 }
 
-export type Theme = "light" | "dark";
+type Theme = "light" | "dark";
+type ThemeType = "OS" | "custom";
 
-export const ThemeContext = createContext<
-  [Theme, React.Dispatch<React.SetStateAction<Theme>>] | undefined
->(undefined);
+interface ThemeContextProps {
+  theme: Theme;
+  setTheme: React.Dispatch<React.SetStateAction<Theme>>;
+  themeType: ThemeType;
+  setThemeType: React.Dispatch<React.SetStateAction<ThemeType>>;
+}
+
+export const ThemeContext = createContext<ThemeContextProps | undefined>(
+  undefined
+);
 
 export const ThemeProvider = ({
   children,
 }: ThemeProviderProps): JSX.Element => {
   const [theme, setTheme] = useState<Theme>(getDefaultTheme);
 
+  const [themeType, setThemeType] = useState<"OS" | "custom">(
+    localStorage.getItem("theme") ? "custom" : "OS"
+  );
+
+  // Persist users preference
   useEffect(() => {
+    if (themeType === "OS") {
+      localStorage.removeItem("theme");
+
+      return;
+    }
+
     localStorage.setItem("theme", theme);
-  }, [theme]);
+  }, [theme, themeType]);
+
+  useEffect(() => {
+    if (themeType === "custom") {
+      return;
+    }
+
+    const darkModeMediaQuery = window.matchMedia(
+      "(prefers-color-scheme: dark)"
+    );
+
+    const setOSTheme = (e: MediaQueryListEvent) =>
+      setTheme(e.matches ? "dark" : "light");
+
+    setOSTheme({
+      matches: darkModeMediaQuery.matches,
+    } as MediaQueryListEvent);
+
+    darkModeMediaQuery.addEventListener("change", setOSTheme);
+
+    return () => {
+      darkModeMediaQuery.removeEventListener("change", setOSTheme);
+    };
+  }, [themeType, setTheme]);
 
   useLayoutEffect(() => {
     const previousTheme = theme === "light" ? "dark" : "light";
     document.documentElement.classList.remove(previousTheme);
     document.documentElement.classList.add(theme);
     document.documentElement.style.colorScheme = theme;
-    setThemeColor(theme === "light" ? "#f8f9fd" : "#07090f");
+    setMetaThemeColor(theme === "light" ? "#f8f9fd" : "#07090f");
   }, [theme]);
 
   return (
-    <ThemeContext.Provider value={[theme, setTheme]}>
+    <ThemeContext.Provider value={{ theme, setTheme, themeType, setThemeType }}>
       {children}
     </ThemeContext.Provider>
   );
@@ -45,19 +87,18 @@ export const ThemeProvider = ({
 const getDefaultTheme = (): "light" | "dark" => {
   const storedTheme = localStorage.getItem("theme");
 
-  return storedTheme === "light" || storedTheme === "dark"
-    ? storedTheme
+  if (storedTheme === "light" || storedTheme === "dark") {
+    return storedTheme;
+  }
+
+  return window.matchMedia("(prefers-color-scheme: dark)").matches
+    ? "dark"
     : "light";
 };
 
-export const useTheme: () => [
-  Theme,
-  React.Dispatch<React.SetStateAction<Theme>>
-] = () => useSafeContext(ThemeContext, "Theme");
-
 // TODO: this is hacky and can be solved in a better way:
 // https://css-tricks.com/meta-theme-color-and-trickery/
-function setThemeColor(color: string) {
+function setMetaThemeColor(color: string) {
   const metaThemeColor = document.querySelector("meta[name=theme-color]");
 
   if (!metaThemeColor) {
@@ -66,3 +107,6 @@ function setThemeColor(color: string) {
 
   metaThemeColor.setAttribute("content", color);
 }
+
+export const useTheme: () => ThemeContextProps = () =>
+  useSafeContext(ThemeContext, "Theme");

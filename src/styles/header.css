@@ -5,7 +5,6 @@
   height: var(--header-height);
   display: flex;
   flex-direction: column;
-  justify-content: center;
   align-items: center;
   background: var(background-transparent);
   backdrop-filter: blur(12px);
@@ -21,7 +20,7 @@
   display: flex;
   justify-content: space-between;
   width: min(450px, 96%);
-  padding: 8px 4px 8px 0px;
+  padding: 6px 4px 6px 0px;
 }
 
 .heading {
@@ -111,6 +110,6 @@ hr {
 
   .header-container {
     width: 100%;
-    padding: 8px 8px;
+    padding: 6px 8px;
   }
 }

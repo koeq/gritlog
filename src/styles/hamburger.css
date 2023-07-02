@@ -3,6 +3,7 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  margin-left: 16px;
   cursor: pointer;
   background-color: transparent;
   border: none;
