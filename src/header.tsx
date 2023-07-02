@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { IoLogoGithub } from "react-icons/io5";
 import { useAuth } from "./context";
-import { useTheme } from "./context/theme-provider";
 import { Hamburger } from "./hamburger";
 import "./styles/header.css";
 import { ThemeToggle } from "./theme-toggle";
@@ -12,12 +11,7 @@ interface HeaderProps {
 
 export const Header = ({ authed }: HeaderProps): JSX.Element => {
   const [menuActive, setMenuActive] = useState(false);
-  const [theme, setTheme] = useTheme();
   const { logout } = useAuth();
-
-  const toggleTheme = () => {
-    setTheme((theme) => (theme === "light" ? "dark" : "light"));
-  };
 
   useEffect(() => {
     setMenuActive(false);
@@ -29,7 +23,7 @@ export const Header = ({ authed }: HeaderProps): JSX.Element => {
         <nav className="header-container">
           <h1 className="heading">gritlog</h1>
           <div className="cta-section">
-            <ThemeToggle theme={theme} toggleTheme={toggleTheme} />
+            <ThemeToggle />
             {authed && (
               <Hamburger
                 menuActive={menuActive}

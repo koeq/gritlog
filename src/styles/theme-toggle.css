@@ -1,0 +1,25 @@
+.theme-toggle-container {
+  display: flex;
+  border: 1px solid var(--border-secondary);
+  border-radius: 36px;
+  padding: 3px;
+}
+
+.theme-toggle-container > :first-child {
+  margin-right: 4px;
+}
+
+.theme-toggle-container > :last-child {
+  margin-left: 4px;
+}
+
+.theme-toggle-btn {
+  display: flex;
+  color: var(--text-primary);
+  padding: 4px;
+  border-radius: 50%;
+}
+
+.selected {
+  background: var(--border-secondary);
+}
