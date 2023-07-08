@@ -41,7 +41,7 @@ hr {
 }
 
 .menu {
-  height: calc(100vh - var(--header-height));
+  height: calc(100dvh - var(--header-height));
   position: fixed;
   top: var(--header-height);
   left: 0;
@@ -61,7 +61,7 @@ hr {
   display: flex;
   align-items: center;
   list-style: none;
-  margin-top: 30vh;
+  margin-top: 30dvh;
   width: min(450px, 96%);
 }
 
@@ -100,7 +100,7 @@ hr {
 }
 
 .social {
-  margin-top: 39vh;
+  margin-top: 39dvh;
 }
 
 @media (min-width: 560px) {
