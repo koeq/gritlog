@@ -55,45 +55,47 @@ const AuthedApp = (): JSX.Element => {
   };
 
   return (
-    <div className="authed">
-      {trainings ? (
-        <MemoizedTrainings
-          mode={mode}
-          dispatch={dispatch}
-          trainings={trainings}
+    <>
+      <div className="authed">
+        {trainings ? (
+          <MemoizedTrainings
+            mode={mode}
+            dispatch={dispatch}
+            trainings={trainings}
+            textAreaRef={textAreaRef}
+            handleSetEditMode={handleSetEditMode}
+          />
+        ) : (
+          <LoadingDots />
+        )}
+
+        <Buttons
           textAreaRef={textAreaRef}
           handleSetEditMode={handleSetEditMode}
         />
-      ) : (
-        <LoadingDots />
-      )}
 
-      <Buttons
-        textAreaRef={textAreaRef}
-        handleSetEditMode={handleSetEditMode}
-      />
+        {showFormatInfo && (
+          <Layer
+            clickHandler={() => {
+              setShowFormatInfo(false);
+              textAreaRef?.current?.focus();
+            }}
+          >
+            {() => <FormatInfo />}
+          </Layer>
+        )}
+
+        {mode.type === "delete" && (
+          <Layer>{() => <DeletionConfirmation id={mode.id} />}</Layer>
+        )}
+      </div>
 
       <BottomBar
         currentTraining={currentTraining}
         textAreaRef={textAreaRef}
         setShowFormatInfo={setShowFormatInfo}
       />
-
-      {showFormatInfo && (
-        <Layer
-          clickHandler={() => {
-            setShowFormatInfo(false);
-            textAreaRef?.current?.focus();
-          }}
-        >
-          {() => <FormatInfo />}
-        </Layer>
-      )}
-
-      {mode.type === "delete" && (
-        <Layer>{() => <DeletionConfirmation id={mode.id} />}</Layer>
-      )}
-    </div>
+    </>
   );
 };
 
