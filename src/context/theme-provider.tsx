@@ -98,7 +98,7 @@ const getDefaultTheme = (): "light" | "dark" => {
 
 // TODO: this is hacky and can be solved in a better way:
 // https://css-tricks.com/meta-theme-color-and-trickery/
-function setMetaThemeColor(color: string) {
+export function setMetaThemeColor(color: string): void {
   const metaThemeColor = document.querySelector("meta[name=theme-color]");
 
   if (!metaThemeColor) {
