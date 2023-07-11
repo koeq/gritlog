@@ -1,5 +1,5 @@
 import { useEffect, useRef } from "react";
-import { useTheme, useTopLevelState } from "./context";
+import { setMetaThemeColor, useTheme, useTopLevelState } from "./context";
 import "./styles/layer.css";
 
 export function BottomBarLayer(): JSX.Element {
@@ -16,11 +16,18 @@ export function BottomBarLayer(): JSX.Element {
 
     const timeoutId = setTimeout(() => {
       current.classList.add("fade-in");
-      // TODO: change background color in meta tag
+      setMetaThemeColor(theme === "light" ? "#E1E5EC" : "#1B1F27");
     }, 0);
 
-    return () => clearTimeout(timeoutId);
-  }, []);
+    return () => {
+      clearTimeout(timeoutId);
+      const rootStyle = getComputedStyle(document.documentElement);
+      const backgroundColor = rootStyle.getPropertyValue(
+        "--background-primary"
+      );
+      setMetaThemeColor(backgroundColor);
+    };
+  }, [theme]);
 
   return (
     <div
