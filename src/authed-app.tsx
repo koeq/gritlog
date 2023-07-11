@@ -23,10 +23,11 @@ export interface HandleSetEditModeParams {
 }
 
 const AuthedApp = (): JSX.Element => {
-  const [topLevelState, dispatch] = useTopLevelState();
-  const { trainings, currentInput, mode, showBottomBar } = topLevelState;
-  const textAreaRef = useRef<HTMLTextAreaElement | null>(null);
   const [showFormatInfo, setShowFormatInfo] = useState(false);
+  const textAreaRef = useRef<HTMLTextAreaElement | null>(null);
+
+  const [{ trainings, currentInput, mode, showBottomBar }, dispatch] =
+    useTopLevelState();
 
   const { headline = null, exercises = [] } =
     useMemo(() => parse(currentInput), [currentInput]) || {};

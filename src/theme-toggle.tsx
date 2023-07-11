@@ -1,7 +1,7 @@
 import { ReactNode } from "react";
 import { HiOutlineMoon, HiOutlineSun } from "react-icons/hi";
 import { SlScreenDesktop } from "react-icons/sl";
-import { useTheme } from "./context/theme-provider";
+import { useTheme } from "./context";
 import "./styles/theme-toggle.css";
 
 export function ThemeToggle(): JSX.Element {
