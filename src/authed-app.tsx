@@ -1,6 +1,7 @@
 import { Dispatch, useEffect, useMemo, useRef, useState } from "react";
 import "../src/styles/authed-app.css";
 import { BottomBar } from "./bottom-bar";
+import { BottomBarLayer } from "./bottom-bar-layer";
 import { useTopLevelState } from "./context";
 import { DeletionConfirmation } from "./deletion-confirmation";
 import { fetchTrainings } from "./fetch-trainings";
@@ -23,7 +24,7 @@ export interface HandleSetEditModeParams {
 
 const AuthedApp = (): JSX.Element => {
   const [topLevelState, dispatch] = useTopLevelState();
-  const { trainings, currentInput, mode } = topLevelState;
+  const { trainings, currentInput, mode, showBottomBar } = topLevelState;
   const textAreaRef = useRef<HTMLTextAreaElement | null>(null);
   const [showFormatInfo, setShowFormatInfo] = useState(false);
 
@@ -81,14 +82,18 @@ const AuthedApp = (): JSX.Element => {
               textAreaRef?.current?.focus();
             }}
           >
-            {() => <FormatInfo />}
+            <FormatInfo />
           </Layer>
         )}
 
         {mode.type === "delete" && (
-          <Layer>{() => <DeletionConfirmation id={mode.id} />}</Layer>
+          <Layer>
+            <DeletionConfirmation id={mode.id} />
+          </Layer>
         )}
       </div>
+
+      {showBottomBar && !showFormatInfo && <BottomBarLayer />}
 
       <BottomBar
         currentTraining={currentTraining}
