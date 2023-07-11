@@ -8,7 +8,7 @@
   width: 100%;
   background-color: var(--background-secondary);
   box-shadow: var(--box-shadow-top);
-  z-index: 1;
+  z-index: 2;
   border-top: 0.5px solid var(--border-primary);
   border-top-left-radius: 20px;
   border-top-right-radius: 20px;

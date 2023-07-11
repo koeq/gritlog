@@ -19,7 +19,9 @@ const UnauthedApp = ({
 
   return (
     <div className="unauthed">
-      <Layer>{() => <Login />}</Layer>
+      <Layer>
+        <Login />
+      </Layer>
     </div>
   );
 };
