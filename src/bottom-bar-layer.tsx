@@ -16,15 +16,17 @@ export function BottomBarLayer(): JSX.Element {
 
     const timeoutId = setTimeout(() => {
       current.classList.add("fade-in");
-      setMetaThemeColor(theme === "light" ? "#E1E5EC" : "#1B1F27");
+      setMetaThemeColor(theme === "light" ? "#E4E6EC" : "#1B1F27");
     }, 0);
 
     return () => {
       clearTimeout(timeoutId);
       const rootStyle = getComputedStyle(document.documentElement);
+
       const backgroundColor = rootStyle.getPropertyValue(
         "--background-primary"
       );
+
       setMetaThemeColor(backgroundColor);
     };
   }, [theme]);

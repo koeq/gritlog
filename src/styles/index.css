@@ -43,10 +43,10 @@
 }
 
 .light {
-  --background-primary: #ffffff;
-  --background-secondary: rgb(248, 248, 250);
+  --background-primary: #fafafe;
+  --background-secondary: rgb(253, 253, 255);
   --background-tertiary: rgb(230, 230, 232);
-  --background-transparent: rgba(255, 255, 255, 0.5);
+  --background-transparent: rgba(250, 250, 254, 0.5);
   --border-primary: rgb(230, 230, 230);
   --border-secondary: rgb(201, 201, 203);
   --border-training: rgb(242, 242, 244);
@@ -59,8 +59,7 @@
   --hover-secondary: 0.95;
   --hover-circle: rgba(0, 0, 0, 0.05);
   --box-shadow-top: 0 3px 6px rgba(0, 0, 0, 0.12), 0 3px 6px rgba(0, 0, 0, 0.19);
-  --shadow-small: 0 0 1px rgba(0, 0, 0, 0.1), 0 1px 3px -2px rgba(0, 0, 0, 0.1),
-    0 5px 7px -5px rgba(0, 0, 0, 0.15);
+  --shadow-small: rgba(0, 0, 0, 0.15) 0px 2px 8px;
 }
 
 /* universal box sizing */
