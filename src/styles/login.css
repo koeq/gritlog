@@ -17,3 +17,9 @@ h2 {
   font-weight: 400;
   margin-bottom: 40px;
 }
+
+/* This is necessary to prevent the google sign in button to change the background color of its container. 
+See https://stackoverflow.com/questions/75226935/white-background-issue-around-sign-in-with-google-button-and-one-tap-popup */
+.login-container iframe {
+  color-scheme: light;
+}

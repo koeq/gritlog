@@ -4,22 +4,20 @@ export const useGoogleScript = (shouldLoadScript: boolean): boolean => {
   const [scriptLoaded, setScriptLoaded] = useState(false);
 
   useEffect(() => {
-    if (scriptLoaded) {
+    if (scriptLoaded || !shouldLoadScript) {
       return;
     }
 
-    if (shouldLoadScript) {
-      const loadScript = async () => {
-        try {
-          await loadScriptAsync("https://accounts.google.com/gsi/client");
-          setScriptLoaded(true);
-        } catch (error) {
-          console.error("Failed to load script:", error);
-        }
-      };
+    const loadScript = async () => {
+      try {
+        await loadScriptAsync("https://accounts.google.com/gsi/client");
+        setScriptLoaded(true);
+      } catch (error) {
+        console.error("Failed to load google authentication script:", error);
+      }
+    };
 
-      loadScript();
-    }
+    loadScript();
   }, [scriptLoaded, shouldLoadScript]);
 
   return scriptLoaded;
@@ -32,6 +30,9 @@ const loadScriptAsync = (src: string) =>
     script.src = src;
     script.async = true;
     script.onload = () => resolve(true);
-    script.onerror = () => reject(new Error("Failed to load script"));
+
+    script.onerror = () =>
+      reject(new Error("Failed to load google authentication script"));
+
     document.head.appendChild(script);
   });
