@@ -90,15 +90,6 @@ hr {
   transform: translateY(0);
 }
 
-.logout-container {
-  display: inline-flex;
-  align-items: center;
-  font-size: 32px;
-  font-weight: 500;
-  color: #fff;
-  text-decoration: none;
-}
-
 .social {
   margin-top: 39dvh;
 }
