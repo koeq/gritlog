@@ -32,42 +32,19 @@ th {
 
 .label-header {
   color: var(--text-secondary);
-  font-weight: 400;
   padding-top: 10px;
-  padding-bottom: 10px;
-  border-color: var(--border-secondary);
-  border-style: solid;
+  padding-bottom: 12px;
 }
 
 .label-header h3 {
   padding-left: 6px;
   width: fit-content;
-  font-weight: 500;
+  font-weight: 600;
 }
 
 .headline {
   color: var(--text-primary);
   padding-right: 12px;
-}
-
-#exercise-header {
-  border-width: 0.5px 0px 0.5px 0.5px;
-  border-top-left-radius: 4px;
-  border-bottom-left-radius: 4px;
-}
-
-#weight-header {
-  border-width: 0.5px 0px 0.5px 0px;
-}
-
-#reps-header {
-  border-width: 0.5px 0px 0.5px 0px;
-}
-
-#percentage-header {
-  border-width: 0.5px 0.5px 0.5px 0px;
-  border-top-right-radius: 4px;
-  border-bottom-right-radius: 4px;
 }
 
 .td {
