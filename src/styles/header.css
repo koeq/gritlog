@@ -12,7 +12,7 @@
   z-index: 2;
 }
 
-.header-active {
+.header.opaque {
   background: var(--background-primary);
 }
 
@@ -20,7 +20,7 @@
   display: flex;
   justify-content: space-between;
   width: min(450px, 95%);
-  padding: 6px 4px 6px 0px;
+  padding: 8px 4px 8px 0px;
 }
 
 .heading {
@@ -101,6 +101,6 @@ hr {
 
   .header-container {
     width: 100%;
-    padding: 6px 8px;
+    padding: 8px 8px;
   }
 }
