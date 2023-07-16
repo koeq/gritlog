@@ -10,7 +10,7 @@
   --font-size-date: 14px;
   --highlight: #3673f5;
   --border-radius: 10px;
-  --header-height: 48px;
+  --header-height: 45px;
   --bottom-bar-height: 83px;
 
   padding: 0;
@@ -24,7 +24,7 @@
 .dark {
   --background-primary: #07090f;
   --background-secondary: #1a1c24;
-  --background-tertiary: #2e3038;
+  --background-tertiary: rgb(46, 48, 56);
   --background-transparent: rgba(7, 9, 15, 0.5);
   --border-primary: rgb(40, 42, 50);
   --border-secondary: #494d5a;
@@ -45,7 +45,7 @@
 .light {
   --background-primary: #fafafe;
   --background-secondary: rgb(253, 253, 255);
-  --background-tertiary: rgb(230, 230, 232);
+  --background-tertiary: rgb(236, 236, 246);
   --background-transparent: rgba(250, 250, 254, 0.5);
   --border-primary: rgb(230, 230, 230);
   --border-secondary: rgb(201, 201, 203);

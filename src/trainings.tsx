@@ -1,5 +1,7 @@
 import { Dispatch, Fragment, memo, useMemo } from "react";
 import { HandleSetEditModeParams } from "./authed-app";
+import { useTopLevelState } from "./context";
+import { NoFilterResult } from "./filter-trainings";
 import { getLatestPercentageChanges } from "./get-latest-percentage-change";
 import {
   createDateFormat,
@@ -31,6 +33,8 @@ export const Trainings = ({
   textAreaRef,
   handleSetEditMode,
 }: TrainingsProps): JSX.Element | null => {
+  const [{ searchTerm }] = useTopLevelState();
+
   const groupedTrainings = useMemo(
     // Displaying the list with flex-direction: 'column-reverse' is an
     // optimisation which could be made here instead of this.
@@ -40,11 +44,16 @@ export const Trainings = ({
     [trainings]
   );
 
+  if (searchTerm && trainings.length === 0) {
+    return <NoFilterResult searchTerm={searchTerm} />;
+  }
+
   const latestTraining: Training | undefined = trainings[0];
 
-  const percentageChanges = latestTraining
-    ? getLatestPercentageChanges(latestTraining, trainings)
-    : null;
+  const percentageChanges =
+    latestTraining && !searchTerm
+      ? getLatestPercentageChanges(latestTraining, trainings)
+      : null;
 
   return (
     <main className="trainings">

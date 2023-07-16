@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { Hamburger } from "./hamburger";
+import { SearchBox } from "./search-box";
 import "./styles/header.css";
-import { ThemeToggle } from "./theme-toggle";
 
 interface HeaderProps {
   readonly authed: boolean;
@@ -19,22 +19,17 @@ export const Header = ({
   }, [setMenuActive, authed]);
 
   return (
-    <>
-      <header className={`header ${menuActive ? "opaque" : ""}`}>
-        <div className="header-container">
-          <h1 className="heading">gritlog</h1>
-          <div className="cta-section">
-            <ThemeToggle />
-            {authed && (
-              <Hamburger
-                menuActive={menuActive}
-                setMenuActive={setMenuActive}
-              />
-            )}
-          </div>
+    <header className={`header${menuActive ? " opaque" : ""}`}>
+      <div className="header-container">
+        <h1 className="heading">gritlog</h1>
+        <div className="cta-section">
+          <SearchBox />
+          {authed && (
+            <Hamburger menuActive={menuActive} setMenuActive={setMenuActive} />
+          )}
         </div>
-        <hr />
-      </header>
-    </>
+      </div>
+      <hr />
+    </header>
   );
 };

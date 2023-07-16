@@ -21,7 +21,7 @@ export function ThemeToggle(): JSX.Element {
           setThemeType("OS");
         }}
       >
-        <SlScreenDesktop strokeWidth={10} size="16" />
+        <SlScreenDesktop size="22" />
       </ThemeButton>
       <ThemeButton
         selected={themeType === "custom" && theme === "light"}
@@ -30,7 +30,7 @@ export function ThemeToggle(): JSX.Element {
           setThemeType("custom");
         }}
       >
-        <HiOutlineSun size="16" />
+        <HiOutlineSun size="23" />
       </ThemeButton>
       <ThemeButton
         selected={themeType === "custom" && theme === "dark"}
@@ -39,7 +39,7 @@ export function ThemeToggle(): JSX.Element {
           setThemeType("custom");
         }}
       >
-        <HiOutlineMoon size="16" />
+        <HiOutlineMoon size="23" />
       </ThemeButton>
     </div>
   );

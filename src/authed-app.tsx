@@ -5,6 +5,7 @@ import { BottomBarLayer } from "./bottom-bar-layer";
 import { useTopLevelState } from "./context";
 import { DeletionConfirmation } from "./deletion-confirmation";
 import { fetchTrainings } from "./fetch-trainings";
+import { filterTrainings } from "./filter-trainings";
 import { FormatInfo } from "./format-info";
 import { Layer } from "./layer";
 import { LoadingDots } from "./loading-dots";
@@ -26,8 +27,10 @@ const AuthedApp = (): JSX.Element => {
   const [showFormatInfo, setShowFormatInfo] = useState(false);
   const textAreaRef = useRef<HTMLTextAreaElement | null>(null);
 
-  const [{ trainings, currentInput, mode, showBottomBar }, dispatch] =
-    useTopLevelState();
+  const [
+    { trainings, currentInput, mode, showBottomBar, searchTerm },
+    dispatch,
+  ] = useTopLevelState();
 
   const { headline = null, exercises = [] } =
     useMemo(() => parse(currentInput), [currentInput]) || {};
@@ -63,7 +66,7 @@ const AuthedApp = (): JSX.Element => {
           <MemoizedTrainings
             mode={mode}
             dispatch={dispatch}
-            trainings={trainings}
+            trainings={filterTrainings(searchTerm, trainings)}
             textAreaRef={textAreaRef}
             handleSetEditMode={handleSetEditMode}
           />
