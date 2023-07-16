@@ -11,6 +11,7 @@ describe("Mutate global state", () => {
       currentInput: "",
       showBottomBar: false,
       mode: { type: "add" },
+      searchTerm: "",
     };
   });
 

@@ -2,21 +2,21 @@
   display: flex;
   border: 0.5px solid var(--border-secondary);
   border-radius: 36px;
-  padding: 3px;
+  padding: 5px;
 }
 
 .theme-toggle-container > :first-child {
-  margin-right: 4px;
+  margin-right: 6px;
 }
 
 .theme-toggle-container > :last-child {
-  margin-left: 4px;
+  margin-left: 6px;
 }
 
 .theme-toggle-btn {
   display: flex;
   color: var(--text-primary);
-  padding: 4px;
+  padding: 7px;
   border-radius: 50%;
 }
 

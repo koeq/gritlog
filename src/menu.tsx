@@ -1,4 +1,5 @@
 import { IoLogoGithub } from "react-icons/io5";
+import { ThemeToggle } from "./theme-toggle";
 
 interface MenuProps {
   readonly menuActive: boolean;
@@ -7,7 +8,7 @@ interface MenuProps {
 
 export const Menu = ({ menuActive, logout }: MenuProps): JSX.Element => {
   return (
-    <nav className={`menu ${menuActive ? "menu-active" : ""}`}>
+    <nav className={`menu${menuActive ? " menu-active" : ""}`}>
       <ul className="menu-list">
         <hr />
         <li className="logout-container">
@@ -17,14 +18,12 @@ export const Menu = ({ menuActive, logout }: MenuProps): JSX.Element => {
         </li>
         <hr />
         <li>
-          <a href="https://github.com/koeq/gritlog">
-            <span className="menu-list-item-text">github</span>
-          </a>
+          <ThemeToggle />
         </li>
         <hr />
       </ul>
       <div className="social">
-        <a href="https://github.com/koeq">
+        <a href="https://github.com/koeq/gritlog">
           <IoLogoGithub fill="#9EA3A9" size={"26"} />
         </a>
       </div>

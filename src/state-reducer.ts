@@ -6,6 +6,7 @@ export type TopLevelState = {
   currentInput: string;
   showBottomBar: boolean;
   mode: Mode;
+  searchTerm: string;
 };
 
 export type Action =
@@ -25,7 +26,9 @@ export type Action =
   | { type: "set-delete-mode"; id: number }
   | { type: "set-mode"; mode: Mode }
   | { type: "set-input"; currentInput: string }
-  | { type: "open-input" };
+  | { type: "open-input" }
+  | { type: "set-search-term"; searchTerm: string }
+  | { type: "clear-search-term" };
 
 export function reducer(state: TopLevelState, action: Action): TopLevelState {
   const { trainings } = state;
@@ -152,6 +155,19 @@ export function reducer(state: TopLevelState, action: Action): TopLevelState {
       return { ...state, showBottomBar: true };
     }
 
+    case "set-search-term": {
+      const { searchTerm } = action;
+
+      return {
+        ...state,
+        searchTerm,
+      };
+    }
+
+    case "clear-search-term": {
+      return { ...state, searchTerm: "" };
+    }
+
     default: {
       const never: never = action;
       throw Error("Unknown action: " + JSON.stringify(never));
@@ -164,4 +180,5 @@ export const initialState: TopLevelState = {
   currentInput: "",
   showBottomBar: false,
   mode: { type: "add" },
+  searchTerm: "",
 };
