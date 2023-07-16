@@ -29,14 +29,14 @@ export function SearchBox(): JSX.Element {
           (active ? (
             <IoCloseOutline size={22} />
           ) : (
-            <IoSearchOutline size={20} />
+            <IoSearchOutline size={19} />
           ))}
       </button>
       <input
         ref={inputRef}
         type="text"
         value={searchTerm}
-        placeholder="Search exercise"
+        placeholder="Search exercises"
         className={`input-search${active ? " active" : ""}`}
         onChange={(event) =>
           dispatch({
