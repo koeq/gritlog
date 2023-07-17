@@ -1,4 +1,5 @@
 import { Calendar } from "./calendar";
+import { useTopLevelState } from "./context";
 import { createDateFormat } from "./group-training-by-weeks";
 import "./styles/training-table.css";
 import { Exercise, Training } from "./types";
@@ -65,6 +66,8 @@ const TableValues = ({
   percentageChanges,
 }: TableValueProps): JSX.Element => {
   const { exercises } = training;
+  const [{ searchTerm }] = useTopLevelState();
+  const normalizedSearchTerm = searchTerm.toLowerCase().trim();
 
   return (
     <>
@@ -79,6 +82,11 @@ const TableValues = ({
               index,
               isLastIndex: index === exercises.length - 1,
               weightChange,
+              isSearchedExercise: normalizedSearchTerm
+                ? exercise.exerciseName
+                    ?.toLowerCase()
+                    .includes(normalizedSearchTerm)
+                : false,
             });
           })
         : renderEmptyRow()}
@@ -92,6 +100,7 @@ interface RenderExerciseRowParams {
   isLastIndex: boolean;
   percentageChanges: Record<string, number> | null;
   weightChange: boolean;
+  isSearchedExercise: boolean | undefined;
 }
 
 const renderExerciseRow = ({
@@ -100,6 +109,7 @@ const renderExerciseRow = ({
   isLastIndex,
   percentageChanges,
   weightChange,
+  isSearchedExercise,
 }: RenderExerciseRowParams) => {
   const { exerciseName, weight, repetitions } = exercise;
 
@@ -112,7 +122,12 @@ const renderExerciseRow = ({
 
   return (
     <tr key={index}>
-      <td className={tdClassName} id="exercise">
+      <td
+        className={`${tdClassName}${
+          isSearchedExercise ? " searched-exercise-name" : ""
+        }`}
+        id="exercise"
+      >
         {weightChange ? "" : exerciseName ?? "—"}
       </td>
       <td className={tdClassName} id="weight">

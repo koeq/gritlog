@@ -34,6 +34,7 @@ export const Trainings = ({
   handleSetEditMode,
 }: TrainingsProps): JSX.Element | null => {
   const [{ searchTerm }] = useTopLevelState();
+  const normalizedSearchTerm = searchTerm.toLowerCase().trim();
 
   const groupedTrainings = useMemo(
     // Displaying the list with flex-direction: 'column-reverse' is an
@@ -44,14 +45,14 @@ export const Trainings = ({
     [trainings]
   );
 
-  if (searchTerm && trainings.length === 0) {
+  if (normalizedSearchTerm && trainings.length === 0) {
     return <NoFilterResult searchTerm={searchTerm} />;
   }
 
   const latestTraining: Training | undefined = trainings[0];
 
   const percentageChanges =
-    latestTraining && !searchTerm
+    latestTraining && !normalizedSearchTerm
       ? getLatestPercentageChanges(latestTraining, trainings)
       : null;
 
