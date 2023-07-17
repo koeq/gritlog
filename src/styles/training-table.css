@@ -95,3 +95,7 @@ th {
   text-align: right;
   width: 30px;
 }
+
+.searched-exercise-name {
+  color: var(--highlight) !important;
+}

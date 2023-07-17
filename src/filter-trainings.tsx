@@ -4,16 +4,17 @@ import { Training } from "./types";
 export const filterTrainings = (
   searchTerm: string,
   trainings: Training[]
-): Training[] =>
-  searchTerm
+): Training[] => {
+  const normalizedSearchTerm = searchTerm.toLowerCase().trim();
+
+  return normalizedSearchTerm
     ? trainings.filter(({ exercises }) =>
         exercises.some((exercise) =>
-          exercise.exerciseName
-            ?.toLowerCase()
-            .includes(searchTerm.toLowerCase().trim())
+          exercise.exerciseName?.toLowerCase().includes(normalizedSearchTerm)
         )
       )
     : trainings;
+};
 
 interface NoFilterResultProps {
   searchTerm: string;
