@@ -2,11 +2,12 @@ import { useRef, useState } from "react";
 import { IoCloseOutline, IoSearchOutline } from "react-icons/io5";
 import { useAuth, useTopLevelState } from "./context";
 import "./styles/search-box.css";
+import { debounce } from "./utils/debounce";
 
 export function SearchBox(): JSX.Element {
   const { authed } = useAuth();
   const [active, setActive] = useState(false);
-  const [{ searchTerm, trainings }, dispatch] = useTopLevelState();
+  const [{ trainings }, dispatch] = useTopLevelState();
   const inputRef = useRef<HTMLInputElement>(null);
 
   const handleClick = () =>
@@ -19,6 +20,15 @@ export function SearchBox(): JSX.Element {
 
       return !isCurrentlyActive;
     });
+
+  const handleSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
+    dispatch({
+      type: "set-search-term",
+      searchTerm: event.target.value,
+    });
+  };
+
+  const debouncedResults = useRef(debounce(handleSearch, 150));
 
   return (
     <div className="search-box">
@@ -35,15 +45,9 @@ export function SearchBox(): JSX.Element {
       <input
         ref={inputRef}
         type="text"
-        value={searchTerm}
         placeholder="Search exercises"
         className={`input-search${active ? " active" : ""}`}
-        onChange={(event) =>
-          dispatch({
-            type: "set-search-term",
-            searchTerm: event.target.value,
-          })
-        }
+        onChange={debouncedResults.current}
       />
     </div>
   );
