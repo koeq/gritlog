@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { IoCloseOutline, IoSearchOutline } from "react-icons/io5";
 import { useAuth, useTopLevelState } from "./context";
 import "./styles/search-box.css";
@@ -10,30 +10,40 @@ export function SearchBox(): JSX.Element {
   const [{ trainings }, dispatch] = useTopLevelState();
   const inputRef = useRef<HTMLInputElement>(null);
 
-  const handleClick = () =>
-    setActive((isCurrentlyActive) => {
-      if (isCurrentlyActive) {
-        dispatch({ type: "clear-search-term" });
-        if (inputRef.current) {
-          inputRef.current.value = "";
-        }
-      } else {
-        inputRef.current?.focus();
-      }
+  const handleClick = () => {
+    if (!active && inputRef.current) {
+      inputRef.current.focus();
+    }
 
-      return !isCurrentlyActive;
-    });
-
-  const handleSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
-    dispatch({
-      type: "set-search-term",
-      searchTerm: event.target.value,
-    });
+    setActive(!active);
   };
 
-  const debouncedResults = useRef(debounce(handleSearch, 150));
+  const debouncedResults = useRef(
+    debounce(
+      (event: React.ChangeEvent<HTMLInputElement>) =>
+        dispatch({
+          type: "set-search-term",
+          searchTerm: event.target.value,
+        }),
+      150
+    )
+  );
 
-  useEffect(() => debouncedResults.current.cancel, []);
+  useEffect(() => {
+    const ref = debouncedResults.current;
+
+    return () => ref.cancel();
+  }, []);
+
+  useLayoutEffect(() => {
+    if (active) {
+      dispatch({ type: "clear-search-term" });
+    }
+
+    if (inputRef.current) {
+      inputRef.current.value = "";
+    }
+  }, [active, dispatch]);
 
   return (
     <div className="search-box">
