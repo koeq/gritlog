@@ -22,12 +22,12 @@ export const Header = ({
     <header className={`header${menuActive ? " opaque" : ""}`}>
       <div className="header-container">
         <h1 className="heading">gritlog</h1>
-        <div className="cta-section">
-          <SearchBox />
-          {authed && (
+        {authed && (
+          <div className="cta-section">
+            <SearchBox />
             <Hamburger menuActive={menuActive} setMenuActive={setMenuActive} />
-          )}
-        </div>
+          </div>
+        )}
       </div>
       <hr />
     </header>

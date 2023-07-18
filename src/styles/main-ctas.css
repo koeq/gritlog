@@ -34,7 +34,7 @@
 }
 
 .btn-disabled {
-  background-color: hsl(221, 0%, 50%);
+  background-color: var(--cta-disabled);
 }
 
 @media (min-width: 560px) {

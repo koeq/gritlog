@@ -32,6 +32,10 @@
   pointer-events: painted;
 }
 
+.btn-search.no-trainings {
+  color: var(--cta-disabled);
+}
+
 .input-search.active {
   width: 180px;
   transition: width 0.3s ease;

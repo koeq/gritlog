@@ -33,7 +33,7 @@
   --text-secondary: #e8e8e8;
   --text-tertiary: rgb(200, 200, 200);
   --cta: #ffffff;
-  --cta-disabled: #767b81;
+  --cta-disabled: rgb(118, 123, 135);
   --hover-primary: 1.16;
   --hover-secondary: 1.25;
   --hover-circle: rgba(255, 255, 255, 0.1);
@@ -54,7 +54,7 @@
   --text-secondary: #000000;
   --text-tertiary: rgb(20, 20, 20);
   --cta: #000000;
-  --cta-disabled: rgb(188, 193, 219);
+  --cta-disabled: rgb(200, 200, 219);
   --hover-primary: 0.98;
   --hover-secondary: 0.95;
   --hover-circle: rgba(0, 0, 0, 0.05);
