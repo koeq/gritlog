@@ -6,7 +6,7 @@ export function debounce<F extends (...args: any[]) => void>(
   debounced: (...args: Parameters<F>) => void;
   cancel: () => void;
 } {
-  let timeoutId: NodeJS.Timeout | undefined;
+  let timeoutId: number | undefined;
 
   return {
     debounced: (...args: Parameters<F>) => {
@@ -14,7 +14,7 @@ export function debounce<F extends (...args: any[]) => void>(
         clearTimeout(timeoutId);
       }
 
-      timeoutId = setTimeout(() => {
+      timeoutId = window.setTimeout(() => {
         func(...args);
       }, time);
     },
