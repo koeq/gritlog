@@ -16,7 +16,7 @@ export function BottomBarLayer(): JSX.Element {
 
     const timeoutId = setTimeout(() => {
       current.classList.add("fade-in");
-      setMetaThemeColor(theme === "light" ? "#E4E6EC" : "#1B1F27");
+      setMetaThemeColor(theme === "light" ? "#E4E6EC" : "#1E222B");
     }, 0);
 
     return () => {
