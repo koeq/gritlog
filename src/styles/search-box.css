@@ -32,7 +32,7 @@
   pointer-events: painted;
 }
 
-.btn-search.no-trainings {
+.btn-search.disable {
   color: var(--cta-disabled);
 }
 
