@@ -10,7 +10,7 @@
   border-style: none;
   outline: none;
   border-radius: 26px;
-  transition: width 0.3s ease-in-out;
+  transition: width 0.3s ease-out;
   padding-left: 8px;
   padding-right: 40px;
   color: var(--text-primary);
@@ -38,7 +38,7 @@
 
 .input-search.active {
   width: 180px;
-  transition: width 0.3s ease;
+  transition: width 0.3s ease-out;
   background: var(--background-tertiary);
   pointer-events: all;
 }
