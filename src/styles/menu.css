@@ -1,0 +1,39 @@
+.menu ul {
+  flex-direction: column;
+  display: flex;
+  align-items: center;
+  list-style: none;
+  margin-top: 30dvh;
+  width: min(450px, 95%);
+}
+
+.menu li {
+  text-align: center;
+  padding: 20px 0;
+  text-decoration: none;
+}
+
+.menu li a {
+  text-decoration: none;
+}
+
+.menu li button {
+  display: flex;
+  align-items: center;
+}
+
+.menu-list-item-text {
+  color: var(--text-primary);
+  font-size: 26px;
+  font-weight: 500;
+  font-stretch: 110%;
+}
+
+.menu-active {
+  transform: translateY(0);
+}
+
+.social {
+  position: fixed;
+  bottom: 36px;
+}

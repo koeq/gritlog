@@ -1,4 +1,5 @@
 import { IoLogoGithub } from "react-icons/io5";
+import "./styles/menu.css";
 import { ThemeToggle } from "./theme-toggle";
 
 interface MenuProps {
