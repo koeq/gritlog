@@ -13,8 +13,9 @@
 
 h2 {
   color: var(--text-primary);
-  font-size: 26px;
+  font-size: 24px;
   font-weight: 400;
+  font-stretch: var(--font-stretch);
   margin-bottom: 40px;
 }
 

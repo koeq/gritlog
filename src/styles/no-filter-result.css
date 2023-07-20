@@ -5,7 +5,7 @@
   font-weight: 300;
   text-align: center;
   line-height: 1.5;
-  font-stretch: 110%;
+  font-stretch: var(--font-stretch);
 }
 
 .no-result-term {
