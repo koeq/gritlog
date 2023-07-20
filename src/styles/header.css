@@ -29,7 +29,8 @@
   align-items: center;
   font-size: 19px;
   font-weight: 700;
-  font-stretch: 110%;
+  font-stretch: 120%;
+  letter-spacing: 0.3px;
 }
 
 hr {
@@ -71,45 +72,6 @@ hr {
   transform: translateY(calc(-100% - var(--header-height)));
   transition: transform 0.3s ease;
   z-index: 1;
-}
-
-.menu ul {
-  flex-direction: column;
-  display: flex;
-  align-items: center;
-  list-style: none;
-  margin-top: 30dvh;
-  width: min(450px, 95%);
-}
-
-.menu li {
-  text-align: center;
-  padding: 20px 0;
-  text-decoration: none;
-}
-
-.menu li a {
-  text-decoration: none;
-}
-
-.menu li button {
-  display: flex;
-  align-items: center;
-}
-
-.menu-list-item-text {
-  color: var(--text-primary);
-  font-size: 28px;
-  font-weight: 500;
-}
-
-.menu-active {
-  transform: translateY(0);
-}
-
-.social {
-  position: fixed;
-  bottom: 36px;
 }
 
 @media (min-width: 560px) {

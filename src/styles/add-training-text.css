@@ -1,4 +1,4 @@
-.no-result-text {
+.add-training-text {
   color: var(--text-primary);
   margin: 240px 20px 0px 20px;
   font-size: 22px;
@@ -8,7 +8,7 @@
   font-stretch: 110%;
 }
 
-.no-result-term {
+.bold {
   color: var(--text-primary);
   font-size: 22px;
   font-weight: 600;

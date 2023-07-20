@@ -1,5 +1,6 @@
 import { Dispatch, useEffect, useMemo, useRef, useState } from "react";
 import "../src/styles/authed-app.css";
+import { AddTrainingCallToAction } from "./add-training-text";
 import { BottomBar } from "./bottom-bar";
 import { BottomBarLayer } from "./bottom-bar-layer";
 import { useTopLevelState } from "./context";
@@ -59,10 +60,14 @@ const AuthedApp = (): JSX.Element => {
     exercises: exercises,
   };
 
+  if (trainings === undefined) {
+    return <LoadingDots />;
+  }
+
   return (
     <>
       <div className="authed">
-        {trainings ? (
+        {trainings.length ? (
           <MemoizedTrainings
             mode={mode}
             dispatch={dispatch}
@@ -71,7 +76,7 @@ const AuthedApp = (): JSX.Element => {
             handleSetEditMode={handleSetEditMode}
           />
         ) : (
-          <LoadingDots />
+          <AddTrainingCallToAction />
         )}
 
         <Buttons
