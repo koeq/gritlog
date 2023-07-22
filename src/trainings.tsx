@@ -27,16 +27,20 @@ interface TrainingsProps {
 }
 
 export const Trainings = ({
-  mode,
-  dispatch,
   trainings,
   textAreaRef,
   handleSetEditMode,
 }: TrainingsProps): JSX.Element | null => {
   const [{ searchTerm }] = useTopLevelState();
+  const latestTraining: Training | undefined = trainings[0];
   const normalizedSearchTerm = searchTerm.toLowerCase().trim();
 
-  const groupedTrainings = useMemo(
+  const percentageChanges =
+    latestTraining && !normalizedSearchTerm
+      ? getLatestPercentageChanges(latestTraining, trainings)
+      : null;
+
+  const trainingsByWeek = useMemo(
     // Displaying the list with flex-direction: 'column-reverse' is an
     // optimisation which could be made here instead of this.
     // Downside: components structure is upside down then in the JSX and
@@ -49,58 +53,21 @@ export const Trainings = ({
     return <NoFilterResult searchTerm={searchTerm} />;
   }
 
-  const latestTraining: Training | undefined = trainings[0];
-
-  const percentageChanges =
-    latestTraining && !normalizedSearchTerm
-      ? getLatestPercentageChanges(latestTraining, trainings)
-      : null;
-
   return (
     <main className="trainings">
       <section>
-        {groupedTrainings.map(({ startDate, endDate, trainings }, index) => {
+        {trainingsByWeek.map(({ weekStart, weekEnd, trainings }, index) => {
           return (
-            <Fragment key={startDate.toString()}>
-              <div className="date-range">
-                <span className="date-range-text">{`${createDateFormat(
-                  startDate
-                )} — ${createDateFormat(endDate)}`}</span>
-              </div>
-              {trainings.map((training) => {
-                return (
-                  <TrainingTableWithButtons
-                    key={training.id}
-                    dispatch={dispatch}
-                    textAreaRef={textAreaRef}
-                    training={training}
-                    editing={mode.type === "edit" && mode.id === training.id}
-                    percentageChanges={
-                      training.id === percentageChanges?.trainingId
-                        ? percentageChanges
-                        : null
-                    }
-                    handleSetEditMode={() =>
-                      handleSetEditMode({
-                        id: training.id,
-                        trainings,
-                        dispatch,
-                        textAreaRef,
-                      })
-                    }
-                    handleRepeat={() =>
-                      handleRepeat({
-                        id: training.id,
-                        trainings,
-                        dispatch,
-                        textAreaRef,
-                      })
-                    }
-                  />
-                );
-              })}
-
-              {index !== groupedTrainings.length - 1 && (
+            <Fragment key={weekStart.toString()}>
+              <TrainingsByWeek
+                weekEnd={weekEnd}
+                weekStart={weekStart}
+                trainings={trainings}
+                textAreaRef={textAreaRef}
+                percentageChanges={percentageChanges}
+                handleSetEditMode={handleSetEditMode}
+              />
+              {index !== trainingsByWeek.length - 1 && (
                 <hr className="training-group-separator" />
               )}
             </Fragment>
@@ -108,6 +75,68 @@ export const Trainings = ({
         })}
       </section>
     </main>
+  );
+};
+
+interface TrainingsByWeekProps {
+  weekStart: Date;
+  weekEnd: Date;
+  trainings: Training[];
+  textAreaRef: React.MutableRefObject<HTMLTextAreaElement | null>;
+  percentageChanges: Record<string, number> | null;
+  handleSetEditMode: (params: HandleSetEditModeParams) => void;
+}
+
+export const TrainingsByWeek = ({
+  weekStart,
+  weekEnd,
+  trainings,
+  textAreaRef,
+  percentageChanges,
+  handleSetEditMode,
+}: TrainingsByWeekProps): JSX.Element => {
+  const [{ mode }, dispatch] = useTopLevelState();
+
+  return (
+    <>
+      <div className="date-range">
+        <span className="date-range-text">{`${createDateFormat(
+          weekStart
+        )} — ${createDateFormat(weekEnd)}`}</span>
+      </div>
+      {trainings.map((training) => {
+        return (
+          <TrainingTableWithButtons
+            key={training.id}
+            dispatch={dispatch}
+            textAreaRef={textAreaRef}
+            training={training}
+            editing={mode.type === "edit" && mode.id === training.id}
+            percentageChanges={
+              training.id === percentageChanges?.trainingId
+                ? percentageChanges
+                : null
+            }
+            handleSetEditMode={() =>
+              handleSetEditMode({
+                id: training.id,
+                trainings,
+                dispatch,
+                textAreaRef,
+              })
+            }
+            handleRepeat={() =>
+              handleRepeat({
+                id: training.id,
+                trainings,
+                dispatch,
+                textAreaRef,
+              })
+            }
+          />
+        );
+      })}
+    </>
   );
 };
 

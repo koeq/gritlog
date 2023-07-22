@@ -1,8 +1,8 @@
 import { Training } from "./types";
 
 type TrainingGroup = {
-  startDate: Date;
-  endDate: Date;
+  weekStart: Date;
+  weekEnd: Date;
   trainings: Training[];
 };
 
@@ -23,8 +23,8 @@ export const groupTrainingsByWeek = (
       weekEnd.setDate(weekStart.getDate() + 6);
 
       groupedTrainings.set(groupKey, {
-        startDate: weekStart,
-        endDate: weekEnd,
+        weekStart,
+        weekEnd,
         trainings: [],
       });
     }
