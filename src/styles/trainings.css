@@ -4,7 +4,6 @@
   top: 0;
   bottom: 0;
   padding-top: calc(var(--header-height) + 24px);
-  padding-bottom: var(--bottom-bar-height);
   overflow-y: scroll;
 }
 
@@ -31,4 +30,5 @@ section {
   display: flex;
   flex-direction: column;
   align-items: center;
+  padding-bottom: 160px;
 }
