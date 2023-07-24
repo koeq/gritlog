@@ -7,6 +7,14 @@
   overflow-y: scroll;
 }
 
+section {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-bottom: 160px;
+}
+
 .date-range {
   display: flex;
   align-items: center;
@@ -23,12 +31,4 @@
   width: min(450px, 95%);
   margin-top: 28px;
   margin-bottom: 24px;
-}
-
-section {
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding-bottom: 160px;
 }
