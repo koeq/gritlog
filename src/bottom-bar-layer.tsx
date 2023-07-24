@@ -34,9 +34,7 @@ export function BottomBarLayer(): JSX.Element {
   return (
     <div
       ref={layerRef}
-      className={`layer muted-background ${
-        theme === "light" ? "light" : "dark"
-      }`}
+      className="layer muted-background"
       onClick={
         mode.type === "add"
           ? () => dispatch({ type: "cancel-add" })

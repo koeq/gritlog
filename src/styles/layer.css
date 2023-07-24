@@ -19,16 +19,9 @@
 
 .muted-background {
   opacity: 0;
+  background-color: var(--background-muted);
   transition: opacity 0.1s ease;
   z-index: 2;
-}
-
-.muted-background.dark {
-  background-color: rgba(110, 118, 135, 0.23);
-}
-
-.muted-background.light {
-  background-color: rgba(175, 184, 193, 0.3);
 }
 
 .muted-background.fade-in {

@@ -54,7 +54,7 @@ export function BottomBar({
           className="btn-cancel"
           onClick={cancelHandler}
         >
-          <IoMdClose size={21} />
+          <IoMdClose size={22} />
         </button>
       </div>
 
