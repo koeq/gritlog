@@ -1,4 +1,5 @@
-import { Dispatch, Fragment, memo, useMemo } from "react";
+import { Dispatch, Fragment, memo, useEffect, useMemo, useState } from "react";
+import { IoChevronDown, IoChevronUp } from "react-icons/io5";
 import { HandleSetEditModeParams } from "./authed-app";
 import { useTopLevelState } from "./context";
 import { NoFilterResult } from "./filter-trainings";
@@ -12,6 +13,8 @@ import { Action } from "./state-reducer";
 import "./styles/trainings.css";
 import { TrainingTableWithButtons } from "./training-table-with-buttons";
 import { Mode, Training } from "./types";
+
+const OPEN_WEEKS = 4;
 
 interface TrainingsProps {
   readonly mode: Mode;
@@ -60,6 +63,7 @@ export const Trainings = ({
           return (
             <Fragment key={weekStart.toString()}>
               <TrainingsByWeek
+                index={index}
                 weekEnd={weekEnd}
                 weekStart={weekStart}
                 trainings={trainings}
@@ -85,6 +89,7 @@ interface TrainingsByWeekProps {
   textAreaRef: React.MutableRefObject<HTMLTextAreaElement | null>;
   percentageChanges: Record<string, number> | null;
   handleSetEditMode: (params: HandleSetEditModeParams) => void;
+  index: number;
 }
 
 export const TrainingsByWeek = ({
@@ -94,8 +99,15 @@ export const TrainingsByWeek = ({
   textAreaRef,
   percentageChanges,
   handleSetEditMode,
+  index,
 }: TrainingsByWeekProps): JSX.Element => {
-  const [{ mode }, dispatch] = useTopLevelState();
+  const [{ mode, searchTerm }, dispatch] = useTopLevelState();
+  const [open, setOpen] = useState<boolean | null>(null);
+
+  useEffect(() => {
+    const shouldBeOpen = index < OPEN_WEEKS || searchTerm.length > 0;
+    setOpen((prev) => (shouldBeOpen !== prev ? shouldBeOpen : prev));
+  }, [index, searchTerm]);
 
   return (
     <>
@@ -103,39 +115,43 @@ export const TrainingsByWeek = ({
         <span className="date-range-text">{`${createDateFormat(
           weekStart
         )} — ${createDateFormat(weekEnd)}`}</span>
+        <button onClick={() => setOpen((prev) => !prev)}>
+          {open ? <IoChevronUp size={22} /> : <IoChevronDown size={22} />}
+        </button>
       </div>
-      {trainings.map((training) => {
-        return (
-          <TrainingTableWithButtons
-            key={training.id}
-            dispatch={dispatch}
-            textAreaRef={textAreaRef}
-            training={training}
-            editing={mode.type === "edit" && mode.id === training.id}
-            percentageChanges={
-              training.id === percentageChanges?.trainingId
-                ? percentageChanges
-                : null
-            }
-            handleSetEditMode={() =>
-              handleSetEditMode({
-                id: training.id,
-                trainings,
-                dispatch,
-                textAreaRef,
-              })
-            }
-            handleRepeat={() =>
-              handleRepeat({
-                id: training.id,
-                trainings,
-                dispatch,
-                textAreaRef,
-              })
-            }
-          />
-        );
-      })}
+      {open &&
+        trainings.map((training) => {
+          return (
+            <TrainingTableWithButtons
+              key={training.id}
+              dispatch={dispatch}
+              textAreaRef={textAreaRef}
+              training={training}
+              editing={mode.type === "edit" && mode.id === training.id}
+              percentageChanges={
+                training.id === percentageChanges?.trainingId
+                  ? percentageChanges
+                  : null
+              }
+              handleSetEditMode={() =>
+                handleSetEditMode({
+                  id: training.id,
+                  trainings,
+                  dispatch,
+                  textAreaRef,
+                })
+              }
+              handleRepeat={() =>
+                handleRepeat({
+                  id: training.id,
+                  trainings,
+                  dispatch,
+                  textAreaRef,
+                })
+              }
+            />
+          );
+        })}
     </>
   );
 };

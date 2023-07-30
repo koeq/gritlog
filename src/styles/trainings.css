@@ -12,14 +12,19 @@ section {
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding-bottom: 160px;
+  padding-bottom: 200px;
 }
 
 .date-range {
   display: flex;
   align-items: center;
+  justify-content: space-between;
   width: min(450px, 95%);
-  margin-bottom: 8px;
+  margin-bottom: 12px;
+}
+
+.date-range button {
+  color: var(--text-tertiary);
 }
 
 .date-range-text {
