@@ -29,8 +29,8 @@ export const TrainingTable = ({
           </th>
           <th className={"date-header th-spacing"} colSpan={1}>
             <div className="date">
-              <Calendar id={id} />
               <p>{createDateFormat(new Date(date))}</p>
+              <Calendar id={id} />
             </div>
           </th>
         </tr>
