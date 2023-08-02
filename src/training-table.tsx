@@ -119,7 +119,8 @@ const renderExerciseRow = ({
   weightChange,
   isSearchedExercise,
 }: RenderExerciseRowParams) => {
-  const { exerciseName, weight, repetitions } = exercise;
+  const weight = parseWeight(exercise.weight);
+  const { exerciseName, repetitions } = exercise;
 
   const percentageChange = exerciseName
     ? percentageChanges?.[exerciseName] ?? null
@@ -139,7 +140,7 @@ const renderExerciseRow = ({
         {weightChange ? "" : exerciseName ?? "—"}
       </td>
       <td className={tdClassName} id="weight">
-        {weight ?? "—"}
+        {weight ? `${weight.value} ${weight.unit}` : "—"}
       </td>
       <td className={tdClassName} id="repetitions">
         {parseReps(repetitions) ?? "—"}
@@ -163,6 +164,24 @@ const renderExerciseRow = ({
       )}
     </tr>
   );
+};
+
+// This should be presented in the type of weight and therefore in the database scheme.
+// In order to prevent a database migration for now we handle this here.
+const parseWeight = (
+  weight: string | null | undefined
+): { value: string; unit: string } | undefined => {
+  if (!weight) {
+    return;
+  }
+
+  const [value, unit] = weight.split(/(kg|lbs)/);
+
+  if (!value || !unit) {
+    return;
+  }
+
+  return { value, unit };
 };
 
 const parseReps = (repetitions: string | null | undefined) => {
