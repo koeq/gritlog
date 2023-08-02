@@ -35,6 +35,7 @@ describe("Mutate global state", () => {
       showBottomBar: false,
       mode: { type: "add" },
       currentInput: "",
+      searchTerm: "",
     });
   });
 
@@ -65,6 +66,7 @@ describe("Mutate global state", () => {
       showBottomBar: false,
       mode: { type: "add" },
       currentInput: "",
+      searchTerm: "",
     });
   });
 
@@ -103,6 +105,7 @@ describe("Mutate global state", () => {
       showBottomBar: false,
       mode: { type: "add" },
       currentInput: "",
+      searchTerm: "",
     });
   });
 
