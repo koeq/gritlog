@@ -16,7 +16,6 @@ export const groupTrainingsByWeek = (
     const weekStart = getWeekStart(date);
     const groupKey = createGroupKey(weekStart);
 
-    // Create group
     if (!groupedTrainings.has(groupKey)) {
       const weekEnd = new Date(weekStart);
       // Add 6 days to get Sunday
@@ -48,18 +47,12 @@ export const createDateFormat = (date: Date): string => {
 };
 
 function getWeekStart(date: Date): Date {
-  const inputDate = new Date(
-    date.getFullYear(),
-    date.getMonth(),
-    date.getDate()
-  );
-
   // Sunday is 0, but we want it to be 7
-  const dayOfWeek = inputDate.getDay() || 7;
-  const weekStart = new Date(inputDate);
+  const dayOfWeek = date.getDay() || 7;
+  const weekStart = new Date(date.getTime());
 
-  // Start at Monday
-  weekStart.setDate(inputDate.getDate() - dayOfWeek + 1);
+  // Start on Monday
+  weekStart.setDate(weekStart.getDate() - dayOfWeek + 1);
 
   return weekStart;
 }

@@ -24,8 +24,8 @@
 /* THEMES */
 .dark {
   --background-primary: #07090f;
-  --background-secondary: rgb(26, 28, 36);
-  --background-tertiary: rgb(46, 48, 56);
+  --background-secondary: #1a1c24;
+  --background-tertiary: #2e3038;
   --background-transparent: rgba(7, 9, 15, 0.5);
   --background-muted: rgba(110, 118, 135, 0.3);
   --border-primary: rgb(40, 42, 50);
@@ -46,8 +46,8 @@
 
 .light {
   --background-primary: #fafafe;
-  --background-secondary: rgb(253, 253, 255);
-  --background-tertiary: rgb(236, 236, 246);
+  --background-secondary: #fdfdff;
+  --background-tertiary: #ececf6;
   --background-transparent: rgba(250, 250, 254, 0.5);
   --background-muted: rgba(175, 184, 193, 0.3);
   --border-primary: rgb(225, 225, 230);
