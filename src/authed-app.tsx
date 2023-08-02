@@ -46,6 +46,7 @@ const AuthedApp = (): JSX.Element => {
   useEffect(() => {
     (async () => {
       const fetchedTrainings = await fetchTrainings();
+
       dispatch({
         type: "set-trainings",
         trainings: fetchedTrainings,

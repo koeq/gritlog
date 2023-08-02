@@ -1,5 +1,7 @@
 import { Training } from "./types";
 
+const DAYS = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+
 type TrainingGroup = {
   weekStart: Date;
   weekEnd: Date;
@@ -34,7 +36,10 @@ export const groupTrainingsByWeek = (
   return [...groupedTrainings.values()];
 };
 
-export const createDateFormat = (date: Date): string => {
+export const createDateFormat = (
+  date: Date,
+  includeDayName?: boolean
+): string => {
   const day = date.toLocaleString("default", {
     day: "2-digit",
   });
@@ -43,7 +48,7 @@ export const createDateFormat = (date: Date): string => {
     month: "short",
   });
 
-  return `${day} ${month}`;
+  return `${includeDayName ? DAYS[date.getDay()] : ""} ${day} ${month}`;
 };
 
 function getWeekStart(date: Date): Date {

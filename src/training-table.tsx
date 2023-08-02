@@ -18,22 +18,10 @@ export const TrainingTable = ({
   training,
   percentageChanges,
 }: TrainingTableProps): JSX.Element | null => {
-  const { id, date, headline } = training;
-
   return (
     <table tabIndex={0}>
       <tbody>
-        <tr>
-          <th className={"th-spacing headline"} colSpan={3}>
-            {headline && <span>{headline}</span>}
-          </th>
-          <th className={"date-header th-spacing"} colSpan={1}>
-            <div className="date">
-              <p>{createDateFormat(new Date(date))}</p>
-              <Calendar id={id} />
-            </div>
-          </th>
-        </tr>
+        <TableTopRow training={training} />
         <TableHeaders />
         <TableValues
           training={training}
@@ -41,6 +29,26 @@ export const TrainingTable = ({
         />
       </tbody>
     </table>
+  );
+};
+
+const TableTopRow = ({
+  training: { id, date, headline },
+}: {
+  training: Training;
+}): JSX.Element => {
+  return (
+    <tr>
+      <th className={"th-spacing headline"} colSpan={3}>
+        {headline && <span>{headline}</span>}
+      </th>
+      <th className={"date-header th-spacing"} colSpan={1}>
+        <div className="date">
+          <p>{createDateFormat(new Date(date), true)}</p>
+          <Calendar id={id} />
+        </div>
+      </th>
+    </tr>
   );
 };
 
