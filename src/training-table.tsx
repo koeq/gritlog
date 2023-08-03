@@ -1,3 +1,4 @@
+import { Fragment } from "react";
 import { Calendar } from "./calendar";
 import { useTopLevelState } from "./context";
 import { createDateFormat } from "./group-training-by-weeks";
@@ -150,7 +151,7 @@ const renderExerciseRow = ({
         )}
       </td>
       <td className={tdClassName} id="repetitions">
-        {parseReps(repetitions) ?? "—"}
+        {renderReps(parseReps(repetitions)) ?? "—"}
       </td>
       {percentageChange !== null && !weightChange ? (
         <td
@@ -191,19 +192,37 @@ const parseWeight = (
   return { value, unit };
 };
 
-const parseReps = (repetitions: string | null | undefined) => {
+const parseReps = (repetitions: string | null | undefined): string[] => {
   if (!repetitions) {
-    return;
+    return [];
   }
 
-  const reps = repetitions.split("/");
+  return repetitions.split("/");
+};
+
+const renderReps = (reps: string[]): JSX.Element => {
   const firstRep = reps[0];
 
   if (reps.length > 1 && reps.every((rep) => rep === firstRep)) {
-    return `${reps.length}x${firstRep}`;
+    return (
+      <>
+        <span>{reps.length}</span>
+        <span className="text-off">x</span>
+        <span>{firstRep}</span>
+      </>
+    );
   }
 
-  return repetitions;
+  return (
+    <>
+      {reps.map((rep, index) => (
+        <Fragment key={index}>
+          <span>{rep}</span>
+          {index !== reps.length - 1 && <span className="text-off">/</span>}
+        </Fragment>
+      ))}
+    </>
+  );
 };
 
 const renderEmptyRow = () => (
