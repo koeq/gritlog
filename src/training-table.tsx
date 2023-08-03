@@ -1,7 +1,7 @@
 import { Fragment } from "react";
 import { Calendar } from "./calendar";
 import { useTopLevelState } from "./context";
-import { createDateFormat } from "./group-training-by-weeks";
+import { createDateFormat } from "./create-date-format";
 import "./styles/training-table.css";
 import { Exercise, Training } from "./types";
 

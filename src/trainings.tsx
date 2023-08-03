@@ -5,16 +5,16 @@ import { useTopLevelState } from "./context";
 import { NoFilterResult } from "./filter-trainings";
 import { getLatestPercentageChanges } from "./get-latest-percentage-change";
 import {
-  createDateFormat,
-  groupTrainingsByWeek,
-} from "./group-training-by-weeks";
+  TrainingsByMonth as TrainingByMonthType,
+  groupTrainingsByMonth,
+} from "./group-training-by-month";
 import { serializeTraining } from "./serialize-training";
 import { Action } from "./state-reducer";
 import "./styles/trainings.css";
 import { TrainingTableWithButtons } from "./training-table-with-buttons";
 import { Mode, Training } from "./types";
 
-const OPEN_WEEKS = 4;
+const OPEN_MONTHS = 2;
 
 interface TrainingsProps {
   readonly mode: Mode;
@@ -43,12 +43,8 @@ export const Trainings = ({
       ? getLatestPercentageChanges(latestTraining, trainings)
       : null;
 
-  const trainingsByWeek = useMemo(
-    // Displaying the list with flex-direction: 'column-reverse' is an
-    // optimisation which could be made here instead of this.
-    // Downside: components structure is upside down then in the JSX and
-    // might be confusing.
-    () => groupTrainingsByWeek(trainings),
+  const trainingsByMonth = useMemo(
+    () => groupTrainingsByMonth(trainings),
     [trainings]
   );
 
@@ -59,19 +55,18 @@ export const Trainings = ({
   return (
     <main className="trainings">
       <section>
-        {trainingsByWeek.map(({ weekStart, weekEnd, trainings }, index) => {
+        {trainingsByMonth.map(({ trainings, date }, index) => {
           return (
-            <Fragment key={weekStart.toString()}>
-              <TrainingsByWeek
+            <Fragment key={`${date.month}-${date.year}`}>
+              <TrainingsByMonth
                 index={index}
-                weekEnd={weekEnd}
-                weekStart={weekStart}
+                date={date}
                 trainings={trainings}
                 textAreaRef={textAreaRef}
                 percentageChanges={percentageChanges}
                 handleSetEditMode={handleSetEditMode}
               />
-              {index !== trainingsByWeek.length - 1 && (
+              {index !== trainingsByMonth.length - 1 && (
                 <hr className="training-group-separator" />
               )}
             </Fragment>
@@ -82,9 +77,8 @@ export const Trainings = ({
   );
 };
 
-interface TrainingsByWeekProps {
-  weekStart: Date;
-  weekEnd: Date;
+interface TrainingsByMonthProps {
+  date: TrainingByMonthType["date"];
   trainings: Training[];
   textAreaRef: React.MutableRefObject<HTMLTextAreaElement | null>;
   percentageChanges: Record<string, number> | null;
@@ -92,29 +86,28 @@ interface TrainingsByWeekProps {
   index: number;
 }
 
-export const TrainingsByWeek = ({
-  weekStart,
-  weekEnd,
+export const TrainingsByMonth = ({
+  date: { month, year },
   trainings,
   textAreaRef,
   percentageChanges,
   handleSetEditMode,
   index,
-}: TrainingsByWeekProps): JSX.Element => {
+}: TrainingsByMonthProps): JSX.Element => {
   const [{ mode, searchTerm }, dispatch] = useTopLevelState();
   const [open, setOpen] = useState<boolean | null>(null);
 
   useEffect(() => {
-    const shouldBeOpen = index < OPEN_WEEKS || searchTerm.length > 0;
+    const shouldBeOpen = index < OPEN_MONTHS || searchTerm.length > 0;
     setOpen((prev) => (shouldBeOpen !== prev ? shouldBeOpen : prev));
   }, [index, searchTerm]);
 
   return (
     <>
       <div className="date-range">
-        <span className="date-range-text">{`${createDateFormat(
-          weekStart
-        )} — ${createDateFormat(weekEnd)}`}</span>
+        <span className="date-range-text">
+          {month} {new Date().getFullYear() > year ? year : null}
+        </span>
         <button onClick={() => setOpen((prev) => !prev)}>
           {open ? <IoChevronUp size={22} /> : <IoChevronDown size={22} />}
         </button>
