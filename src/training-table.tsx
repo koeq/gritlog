@@ -140,7 +140,14 @@ const renderExerciseRow = ({
         {weightChange ? "" : exerciseName ?? "—"}
       </td>
       <td className={tdClassName} id="weight">
-        {weight ? `${weight.value} ${weight.unit}` : "—"}
+        {weight ? (
+          <>
+            {weight.value}
+            <span className="text-off">{` ${weight.unit}`}</span>
+          </>
+        ) : (
+          "—"
+        )}
       </td>
       <td className={tdClassName} id="repetitions">
         {parseReps(repetitions) ?? "—"}
@@ -166,7 +173,7 @@ const renderExerciseRow = ({
   );
 };
 
-// This should be presented in the type of weight and therefore in the database scheme.
+// This should be expressed in the type of weight and therefore in the database scheme.
 // In order to prevent a database migration for now we handle this here.
 const parseWeight = (
   weight: string | null | undefined

@@ -29,7 +29,6 @@ section {
 
 .date-range-text {
   color: var(--text-primary);
-  font-size: var(--font-size-date);
 }
 
 .training-group-separator {

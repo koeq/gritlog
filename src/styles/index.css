@@ -8,11 +8,11 @@
 }
 
 * {
-  --font-size-date: 14px;
   --highlight: #3673f5;
-  --border-radius: 10px;
+  --border-radius: 16px;
   --header-height: 48.5px;
   --font-stretch: 110%;
+  --text-off: #888888;
 
   padding: 0;
   margin: 0;
@@ -85,6 +85,10 @@ button {
   background: rgba(0, 0, 0, 0);
   border: none;
   cursor: pointer;
+}
+
+.text-off {
+  color: var(--text-off);
 }
 
 .hover:active {

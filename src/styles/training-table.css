@@ -14,7 +14,6 @@ th {
 }
 
 .date {
-  font-size: var(--font-size-date);
   display: flex;
   align-items: center;
   justify-content: flex-end;
@@ -62,21 +61,21 @@ th {
 }
 
 #exercise {
-  color: var(--text-tertiary);
+  color: var(--text-secondary);
   width: 130px;
   padding-right: 8px;
   overflow-wrap: anywhere;
 }
 
 #weight {
-  color: var(--text-tertiary);
+  color: var(--text-secondary);
   width: 80px;
   padding-right: 8px;
   overflow-wrap: anywhere;
 }
 
 #repetitions {
-  color: var(--text-tertiary);
+  color: var(--text-secondary);
   width: 90px;
   overflow-wrap: anywhere;
 }
