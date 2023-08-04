@@ -3,7 +3,7 @@
   position: fixed;
   top: 0;
   bottom: 0;
-  padding-top: calc(var(--header-height) + 24px);
+  padding-top: calc(var(--header-height));
   overflow-y: scroll;
 }
 
@@ -20,7 +20,7 @@ section {
   align-items: center;
   justify-content: space-between;
   width: min(450px, 95%);
-  margin-bottom: 12px;
+  margin: 24px 0;
 }
 
 .date-range button {
@@ -29,11 +29,11 @@ section {
 
 .date-range-text {
   color: var(--text-primary);
+  font-size: 16px;
   font-weight: 600;
+  font-stretch: 110%;
 }
 
 .training-group-separator {
   width: min(450px, 95%);
-  margin-top: 28px;
-  margin-bottom: 24px;
 }

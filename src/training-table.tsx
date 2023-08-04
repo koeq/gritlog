@@ -45,7 +45,7 @@ const TableTopRow = ({
       </th>
       <th className={"date-header th-spacing"} colSpan={1}>
         <div className="date">
-          <p>{createDateFormat(new Date(date), true)}</p>
+          <span>{createDateFormat(new Date(date), true)}</span>
           <Calendar id={id} />
         </div>
       </th>
