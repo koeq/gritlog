@@ -27,10 +27,9 @@
   color: var(--text-primary);
   display: flex;
   align-items: center;
-  font-size: 19px;
+  font-size: 20px;
   font-weight: 700;
-  font-stretch: 120%;
-  letter-spacing: 0.3px;
+  font-stretch: 125%;
 }
 
 hr {
