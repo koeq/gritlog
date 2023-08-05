@@ -42,18 +42,18 @@ export const ExerciseRow = ({
         {reps}
       </div>
       {percentageChange !== null && !weightChange ? (
-        <div
-          id="change"
-          className={
-            percentageChange === 0
-              ? `zero row"`
-              : percentageChange > 0
-              ? `positive row`
-              : `negative row`
-          }
-        >
-          {sign}
-          {Math.abs(percentageChange).toFixed(0)}%
+        <div id="change" className={"row"}>
+          <span
+            className={`${
+              percentageChange === 0
+                ? "zero"
+                : percentageChange > 0
+                ? "positive"
+                : "negative"
+            } change`}
+          >
+            {`${sign}${Math.abs(percentageChange).toFixed(0)}%`}
+          </span>
         </div>
       ) : (
         <div className={"row"} id="change" />

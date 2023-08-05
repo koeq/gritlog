@@ -1,5 +1,5 @@
 .training {
-  --row-padding: 6px;
+  --row-margin: 7px;
   --column-header-font-weight: 450;
 
   width: 100%;
@@ -29,12 +29,19 @@
   margin-top: 30px;
   margin-bottom: 8px;
   align-items: center;
-  grid-template-columns: 2fr 2fr 2fr 1fr;
+  grid-template-columns: 2fr 1fr 2fr 1fr;
+}
+
+#exercise-header {
+  margin-left: var(--row-margin);
+}
+
+#repetition-header {
+  margin-left: 16px;
 }
 
 .label-header {
   width: fit-content;
-  padding-left: var(--row-padding);
   font-weight: var(--column-header-font-weight);
 }
 

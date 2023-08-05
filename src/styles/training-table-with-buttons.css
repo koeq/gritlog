@@ -47,5 +47,5 @@
 }
 
 .editing {
-  border: 1px dashed var(--highlight);
+  border: 1px dashed var(--color-progress);
 }

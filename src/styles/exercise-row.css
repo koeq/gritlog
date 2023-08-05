@@ -1,14 +1,13 @@
 .exercise-row {
   display: grid;
   align-items: center;
-  grid-template-columns: 2fr 2fr 2fr 1fr;
+  grid-template-columns: 2fr 1fr 2fr 1fr;
   border-bottom: 0.5px solid var(--border-secondary);
 }
 
 .row {
   padding-top: 7px;
   padding-bottom: 7px;
-  padding-left: var(--row-padding);
   overflow-wrap: anywhere;
 }
 
@@ -17,32 +16,45 @@
 }
 
 #exercise {
-  padding-right: 6px;
+  margin-right: 12px;
+  margin-left: var(--row-margin);
 }
 
 #weight {
-  padding-right: 6px;
+  margin-right: var(--row-margin);
 }
 
 #repetitions {
-  padding-right: 6px;
+  margin-right: var(--row-margin);
+  margin-left: 16px;
 }
 
 #change {
   text-align: right;
 }
 
+.change {
+  width: fit-content;
+  border-radius: 16px;
+  padding: 5px 5px 4px 5px;
+}
+
 .zero {
   color: var(--text-off);
+  background-color: var(--background-even);
+  padding: 5px 6px 4px 6px;
 }
+
 .positive {
-  color: #518593;
+  color: var(--color-progress);
+  background-color: var(--background-progress);
 }
 
 .negative {
-  color: #b95952;
+  color: var(--color-regress);
+  background-color: var(--background-regress);
 }
 
 .searched-exercise-name {
-  color: var(--highlight) !important;
+  color: var(--color-progress) !important;
 }
