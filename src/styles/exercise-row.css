@@ -33,7 +33,7 @@
 }
 
 .zero {
-  color: #9ea3a9;
+  color: var(--text-off);
 }
 .positive {
   color: #518593;
