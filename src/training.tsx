@@ -47,9 +47,13 @@ const HeadlineDateRow = ({
 const Headers = (): JSX.Element => {
   return (
     <div id="header-row">
-      <h3 className="label-header">exercise</h3>
+      <h3 id="exercise-header" className="label-header">
+        exercise
+      </h3>
       <h3 className="label-header">weight</h3>
-      <h3 className="label-header">reps</h3>
+      <h3 id="repetition-header" className="label-header">
+        reps
+      </h3>
     </div>
   );
 };
