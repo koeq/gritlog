@@ -1,0 +1,48 @@
+.exercise-row {
+  display: grid;
+  align-items: center;
+  grid-template-columns: 2fr 2fr 2fr 1fr;
+  border-bottom: 0.5px solid var(--border-secondary);
+}
+
+.row {
+  padding-top: 7px;
+  padding-bottom: 7px;
+  padding-left: var(--row-padding);
+  overflow-wrap: anywhere;
+}
+
+.last-row {
+  border-bottom: none;
+}
+
+#exercise {
+  padding-right: 6px;
+}
+
+#weight {
+  padding-right: 6px;
+}
+
+#repetitions {
+  padding-right: 6px;
+}
+
+#change {
+  text-align: right;
+}
+
+.zero {
+  color: #9ea3a9;
+}
+.positive {
+  color: #518593;
+}
+
+.negative {
+  color: #b95952;
+}
+
+.searched-exercise-name {
+  color: var(--highlight) !important;
+}

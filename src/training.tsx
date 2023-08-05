@@ -1,0 +1,101 @@
+import { Calendar } from "./calendar";
+import { useTopLevelState } from "./context";
+import { createDateFormat } from "./create-date-format";
+import { ExerciseRow } from "./exercise-row";
+import "./styles/training.css";
+import { Training as TrainingType } from "./types";
+
+interface TrainingProps {
+  readonly training: TrainingType;
+  readonly percentageChanges: Record<string, number> | null;
+}
+
+interface TrainingValuesProps {
+  readonly training: TrainingType;
+  readonly percentageChanges: Record<string, number> | null;
+}
+
+export const Training = ({
+  training,
+  percentageChanges,
+}: TrainingProps): JSX.Element | null => {
+  return (
+    <div className="training" tabIndex={0}>
+      <HeadlineDateRow training={training} />
+      <Headers />
+      <Values training={training} percentageChanges={percentageChanges} />
+    </div>
+  );
+};
+
+const HeadlineDateRow = ({
+  training: { id, date, headline },
+}: {
+  training: TrainingType;
+}): JSX.Element => {
+  return (
+    <div className="headline-date-row">
+      <span id="headline">{headline}</span>
+      <div className="date">
+        {createDateFormat(new Date(date), true)}
+        <Calendar id={id} />
+      </div>
+    </div>
+  );
+};
+
+const Headers = (): JSX.Element => {
+  return (
+    <div id="header-row">
+      <h3 className="label-header">exercise</h3>
+      <h3 className="label-header">weight</h3>
+      <h3 className="label-header">reps</h3>
+    </div>
+  );
+};
+
+const Values = ({
+  training,
+  percentageChanges,
+}: TrainingValuesProps): JSX.Element => {
+  const { exercises } = training;
+  const [{ searchTerm }] = useTopLevelState();
+  const normalizedSearchTerm = searchTerm.toLowerCase().trim();
+
+  return (
+    <>
+      {exercises.length
+        ? exercises.map((exercise, index) => {
+            const weightChange =
+              exercise.exerciseName === exercises[index - 1]?.exerciseName;
+
+            const isSearchedExercise = normalizedSearchTerm
+              ? exercise.exerciseName
+                  ?.toLowerCase()
+                  .includes(normalizedSearchTerm)
+              : false;
+
+            return (
+              <ExerciseRow
+                key={index}
+                exercise={exercise}
+                weightChange={weightChange}
+                isLastExercise={index === exercises.length - 1}
+                percentageChanges={percentageChanges}
+                isSearchedExercise={isSearchedExercise}
+              />
+            );
+          })
+        : renderEmptyRow()}
+    </>
+  );
+};
+
+const renderEmptyRow = () => (
+  <div className="header-row">
+    <div id="exercise">—</div>
+    <div id="weight">—</div>
+    <div id="repetitions">—</div>
+    <div id="change"></div>
+  </div>
+);
