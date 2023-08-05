@@ -3,12 +3,12 @@ import { IoPencilSharp, IoRepeat, IoTrashBin } from "react-icons/io5";
 import { useIsMobile } from "./context";
 import { Action } from "./state-reducer";
 import "./styles/training-table-with-buttons.css";
-import { TrainingTable } from "./training-table";
-import { Training } from "./types";
+import { Training } from "./training";
+import { Training as TrainingType } from "./types";
 
 interface TrainingTableProps {
   readonly editing: boolean;
-  readonly training: Training;
+  readonly training: TrainingType;
   readonly dispatch: React.Dispatch<Action>;
   readonly handleRepeat: () => void;
   readonly handleSetEditMode: () => void;
@@ -34,10 +34,7 @@ export const TrainingTableWithButtons = ({
       ref={trainingRef}
       onClick={isMobile ? undefined : () => scrollOnClick(trainingRef.current)}
     >
-      <TrainingTable
-        training={training}
-        percentageChanges={percentageChanges}
-      />
+      <Training training={training} percentageChanges={percentageChanges} />
 
       <div className="buttons-container">
         <button
