@@ -11,7 +11,7 @@
     "db-handler:deploy": "./scripts/db-handler-deploy.sh",
     "db-handler:deploy-dev": "./scripts/db-handler-deploy-dev.sh",
     "db-handler:deploy-prod": "./scripts/db-handler-deploy-prod.sh",
-    "deploy": "tsc && vite build && aws s3 cp ./dist/ s3://gritlog.app/ --recursive",
+    "deploy": "tsc && vite build && aws s3 sync ./dist/assets/ s3://gritlog.app/assets/ --delete --cache-control \"max-age=31536000, immutable\" && aws s3 cp ./dist/ s3://gritlog.app/ --recursive --exclude \"assets/*\"",
     "deploy:flush": "npm run deploy && npm run flush-cache",
     "deploy:stage": "tsc && vite build && aws s3 cp ./dist/ s3://stage.gritlog.app/ --recursive",
     "dev": "npm run start & npm run tsc:watch",
