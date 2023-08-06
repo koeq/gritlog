@@ -40,7 +40,7 @@
 }
 
 .zero {
-  color: var(--text-off);
+  color: var(--color-even);
   background-color: var(--background-even);
   padding: 5px 6px 4px 6px;
 }

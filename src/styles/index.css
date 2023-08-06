@@ -41,12 +41,13 @@
   --box-shadow-top: 0 16px 36px rgba(1, 4, 9, 0.85);
   --shadow-small: 0 0 1px rgba(0, 0, 0, 0.1), 0 1px 3px -2px rgba(0, 0, 0, 0.1),
     0 5px 7px -5px rgba(0, 0, 0, 0.15);
-  --color-progress: rgba(90, 130, 255, 0.8);
-  --background-progress: rgba(70, 95, 230, 0.15);
+  --color-progress: rgba(90, 130, 255, 0.7);
+  --background-progress: rgba(70, 95, 230, 0.2);
   --color-highlight: #3673f5;
-  --color-regress: rgba(230, 148, 3, 0.7);
-  --background-regress: rgba(61, 37, 11, 0.6);
-  --background-even: rgba(136, 136, 136, 0.2);
+  --color-regress: rgba(230, 148, 3, 0.75);
+  --background-regress: rgba(61, 37, 11, 0.8);
+  --background-even: rgba(136, 136, 136, 0.25);
+  --color-even: rgba(136, 136, 136, 0.9);
 }
 
 .light {
@@ -69,12 +70,13 @@
   --hover-circle: rgba(0, 0, 0, 0.05);
   --box-shadow-top: 0 3px 6px rgba(0, 0, 0, 0.12), 0 3px 6px rgba(0, 0, 0, 0.19);
   --shadow-small: rgba(0, 0, 0, 0.15) 0px 2px 8px;
-  --color-progress: #5a82ff;
+  --color-progress: rgba(90, 130, 255, 0.8);
   --background-progress: rgba(70, 95, 230, 0.2);
   --color-highlight: #3673f5;
   --color-regress: rgba(230, 148, 3, 1);
   --background-regress: rgba(230, 148, 3, 0.25);
-  --background-even: rgba(136, 136, 136, 0.15);
+  --background-even: rgba(136, 136, 136, 0.13);
+  --color-even: rgba(136, 136, 136, 0.7);
 }
 
 /* universal box sizing */
