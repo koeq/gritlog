@@ -1,17 +1,11 @@
 import { IoMdAdd } from "react-icons/io";
 import { IoPencilSharp } from "react-icons/io5";
 import "../src/styles/main-ctas.css";
-import { HandleSetEditModeParams } from "./authed-app";
 import { useTopLevelState } from "./context";
 
 interface ButtonsProps {
   textAreaRef: React.MutableRefObject<HTMLTextAreaElement | null>;
-  handleSetEditMode: ({
-    id,
-    trainings,
-    dispatch,
-    textAreaRef,
-  }: HandleSetEditModeParams) => void;
+  handleSetEditMode: (id: number) => void;
 }
 
 export const Buttons = ({
@@ -30,8 +24,8 @@ export const Buttons = ({
           disabled={showBottomBar}
           type="button"
           onClick={() => {
-            dispatch({ type: "open-input" });
             textAreaRef.current?.focus();
+            dispatch({ type: "open-input" });
           }}
         >
           <IoMdAdd color="#fff" size={24} strokeWidth={10} />
@@ -45,14 +39,11 @@ export const Buttons = ({
           disabled={
             latestTrainingId === undefined || showBottomBar ? true : false
           }
-          onClick={() => {
-            handleSetEditMode({
-              id: latestTrainingId,
-              trainings,
-              dispatch,
-              textAreaRef,
-            });
-          }}
+          onClick={
+            latestTrainingId
+              ? () => handleSetEditMode(latestTrainingId)
+              : undefined
+          }
         >
           <IoPencilSharp color="#fff" strokeWidth={3} size={19} />
         </button>

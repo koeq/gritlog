@@ -1,6 +1,13 @@
-import { Dispatch, Fragment, memo, useEffect, useMemo, useState } from "react";
+import {
+  Dispatch,
+  Fragment,
+  memo,
+  useCallback,
+  useEffect,
+  useMemo,
+  useState,
+} from "react";
 import { IoChevronDown, IoChevronUp } from "react-icons/io5";
-import { HandleSetEditModeParams } from "./authed-app";
 import { NoFilterResult } from "./filter-trainings";
 import { getLatestPercentageChanges } from "./get-latest-percentage-change";
 import {
@@ -20,14 +27,8 @@ interface TrainingsProps {
   readonly searchTerm: string;
   readonly trainings: Training[];
   readonly dispatch: Dispatch<Action>;
+  readonly handleSetEditMode: (id: number) => void;
   readonly textAreaRef: React.MutableRefObject<HTMLTextAreaElement | null>;
-
-  readonly handleSetEditMode: ({
-    id,
-    trainings,
-    dispatch,
-    textAreaRef,
-  }: HandleSetEditModeParams) => void;
 }
 
 export const Trainings = ({
@@ -41,10 +42,11 @@ export const Trainings = ({
   const latestTraining: Training | undefined = trainings[0];
   const normalizedSearchTerm = searchTerm.toLowerCase().trim();
 
-  const percentageChanges =
-    latestTraining && !normalizedSearchTerm
+  const percentageChanges = useMemo(() => {
+    return latestTraining && !normalizedSearchTerm
       ? getLatestPercentageChanges(latestTraining, trainings)
       : null;
+  }, [latestTraining, normalizedSearchTerm, trainings]);
 
   const trainingsByMonth = useMemo(
     () => groupTrainingsByMonth(trainings),
@@ -89,24 +91,24 @@ interface TrainingsByMonthProps {
   readonly mode: Mode;
   readonly index: number;
   readonly searchTerm: string;
+  readonly trainings: Training[];
   readonly dispatch: Dispatch<Action>;
   readonly date: TrainingByMonthType["date"];
-  readonly trainings: Training[];
+  readonly handleSetEditMode: (id: number) => void;
   readonly percentageChanges: Record<string, number> | null;
-  readonly handleSetEditMode: (params: HandleSetEditModeParams) => void;
   readonly textAreaRef: React.MutableRefObject<HTMLTextAreaElement | null>;
 }
 
 export const TrainingsByMonth = ({
   mode,
+  index,
   dispatch,
-  searchTerm,
-  date: { month, year },
   trainings,
+  searchTerm,
   textAreaRef,
   percentageChanges,
   handleSetEditMode,
-  index,
+  date: { month, year },
 }: TrainingsByMonthProps): JSX.Element => {
   const [open, setOpen] = useState<boolean | null>(null);
 
@@ -114,6 +116,20 @@ export const TrainingsByMonth = ({
     const shouldBeOpen = index < OPEN_MONTHS || searchTerm.length > 0;
     setOpen((prev) => (shouldBeOpen !== prev ? shouldBeOpen : prev));
   }, [index, searchTerm]);
+
+  const handleRepeat = useCallback(
+    (id: number) => {
+      const training = trainings.find((training) => training.id === id);
+
+      if (!training) {
+        return;
+      }
+
+      dispatch({ type: "repeat", currentInput: serializeTraining(training) });
+      textAreaRef.current?.focus();
+    },
+    [trainings, dispatch, textAreaRef]
+  );
 
   return (
     <>
@@ -134,54 +150,17 @@ export const TrainingsByMonth = ({
               training={training}
               searchTerm={searchTerm}
               textAreaRef={textAreaRef}
+              handleRepeat={handleRepeat}
+              handleSetEditMode={handleSetEditMode}
               editing={mode.type === "edit" && mode.id === training.id}
               percentageChanges={
                 training.id === percentageChanges?.trainingId
                   ? percentageChanges
                   : null
               }
-              handleSetEditMode={() =>
-                handleSetEditMode({
-                  id: training.id,
-                  trainings,
-                  dispatch,
-                  textAreaRef,
-                })
-              }
-              handleRepeat={() =>
-                handleRepeat({
-                  id: training.id,
-                  trainings,
-                  dispatch,
-                  textAreaRef,
-                })
-              }
             />
           );
         })}
     </>
   );
-};
-
-interface HandleRepeatParams {
-  id: number;
-  trainings: Training[];
-  dispatch: Dispatch<Action>;
-  textAreaRef: React.MutableRefObject<HTMLTextAreaElement | null>;
-}
-
-const handleRepeat = ({
-  id,
-  trainings,
-  dispatch,
-  textAreaRef,
-}: HandleRepeatParams) => {
-  const training = trainings.find((training) => training.id === id);
-
-  if (!training) {
-    return;
-  }
-
-  dispatch({ type: "repeat", currentInput: serializeTraining(training) });
-  textAreaRef.current?.focus();
 };
