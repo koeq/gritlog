@@ -1,29 +1,29 @@
 import { Calendar } from "./calendar";
-import { useTopLevelState } from "./context";
 import { createDateFormat } from "./create-date-format";
 import { ExerciseRow } from "./exercise-row";
 import "./styles/training.css";
 import { Training as TrainingType } from "./types";
 
 interface TrainingProps {
-  readonly training: TrainingType;
-  readonly percentageChanges: Record<string, number> | null;
-}
-
-interface TrainingValuesProps {
+  readonly searchTerm: string;
   readonly training: TrainingType;
   readonly percentageChanges: Record<string, number> | null;
 }
 
 export const Training = ({
   training,
+  searchTerm,
   percentageChanges,
 }: TrainingProps): JSX.Element | null => {
   return (
     <div className="training" tabIndex={0}>
       <HeadlineDateRow training={training} />
       <Headers />
-      <Values training={training} percentageChanges={percentageChanges} />
+      <Values
+        training={training}
+        searchTerm={searchTerm}
+        percentageChanges={percentageChanges}
+      />
     </div>
   );
 };
@@ -58,12 +58,18 @@ const Headers = (): JSX.Element => {
   );
 };
 
+interface TrainingValuesProps {
+  readonly searchTerm: string;
+  readonly training: TrainingType;
+  readonly percentageChanges: Record<string, number> | null;
+}
+
 const Values = ({
   training,
+  searchTerm,
   percentageChanges,
 }: TrainingValuesProps): JSX.Element => {
   const { exercises } = training;
-  const [{ searchTerm }] = useTopLevelState();
   const normalizedSearchTerm = searchTerm.toLowerCase().trim();
 
   return (

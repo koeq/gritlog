@@ -1,7 +1,6 @@
 import { Dispatch, Fragment, memo, useEffect, useMemo, useState } from "react";
 import { IoChevronDown, IoChevronUp } from "react-icons/io5";
 import { HandleSetEditModeParams } from "./authed-app";
-import { useTopLevelState } from "./context";
 import { NoFilterResult } from "./filter-trainings";
 import { getLatestPercentageChanges } from "./get-latest-percentage-change";
 import {
@@ -11,16 +10,18 @@ import {
 import { serializeTraining } from "./serialize-training";
 import { Action } from "./state-reducer";
 import "./styles/trainings.css";
-import { TrainingTableWithButtons } from "./training-table-with-buttons";
+import { MemoizedTrainingCard } from "./training-card";
 import { Mode, Training } from "./types";
 
 const OPEN_MONTHS = 2;
 
 interface TrainingsProps {
   readonly mode: Mode;
-  readonly dispatch: Dispatch<Action>;
+  readonly searchTerm: string;
   readonly trainings: Training[];
+  readonly dispatch: Dispatch<Action>;
   readonly textAreaRef: React.MutableRefObject<HTMLTextAreaElement | null>;
+
   readonly handleSetEditMode: ({
     id,
     trainings,
@@ -30,11 +31,13 @@ interface TrainingsProps {
 }
 
 export const Trainings = ({
+  mode,
+  dispatch,
   trainings,
+  searchTerm,
   textAreaRef,
   handleSetEditMode,
 }: TrainingsProps): JSX.Element | null => {
-  const [{ searchTerm }] = useTopLevelState();
   const latestTraining: Training | undefined = trainings[0];
   const normalizedSearchTerm = searchTerm.toLowerCase().trim();
 
@@ -59,9 +62,12 @@ export const Trainings = ({
           return (
             <Fragment key={`${date.month}-${date.year}`}>
               <TrainingsByMonth
-                index={index}
                 date={date}
+                mode={mode}
+                index={index}
+                dispatch={dispatch}
                 trainings={trainings}
+                searchTerm={searchTerm}
                 textAreaRef={textAreaRef}
                 percentageChanges={percentageChanges}
                 handleSetEditMode={handleSetEditMode}
@@ -77,16 +83,24 @@ export const Trainings = ({
   );
 };
 
+export const MemoizedTrainings = memo(Trainings);
+
 interface TrainingsByMonthProps {
-  date: TrainingByMonthType["date"];
-  trainings: Training[];
-  textAreaRef: React.MutableRefObject<HTMLTextAreaElement | null>;
-  percentageChanges: Record<string, number> | null;
-  handleSetEditMode: (params: HandleSetEditModeParams) => void;
-  index: number;
+  readonly mode: Mode;
+  readonly index: number;
+  readonly searchTerm: string;
+  readonly dispatch: Dispatch<Action>;
+  readonly date: TrainingByMonthType["date"];
+  readonly trainings: Training[];
+  readonly percentageChanges: Record<string, number> | null;
+  readonly handleSetEditMode: (params: HandleSetEditModeParams) => void;
+  readonly textAreaRef: React.MutableRefObject<HTMLTextAreaElement | null>;
 }
 
 export const TrainingsByMonth = ({
+  mode,
+  dispatch,
+  searchTerm,
   date: { month, year },
   trainings,
   textAreaRef,
@@ -94,7 +108,6 @@ export const TrainingsByMonth = ({
   handleSetEditMode,
   index,
 }: TrainingsByMonthProps): JSX.Element => {
-  const [{ mode, searchTerm }, dispatch] = useTopLevelState();
   const [open, setOpen] = useState<boolean | null>(null);
 
   useEffect(() => {
@@ -115,11 +128,12 @@ export const TrainingsByMonth = ({
       {open &&
         trainings.map((training) => {
           return (
-            <TrainingTableWithButtons
+            <MemoizedTrainingCard
               key={training.id}
               dispatch={dispatch}
-              textAreaRef={textAreaRef}
               training={training}
+              searchTerm={searchTerm}
+              textAreaRef={textAreaRef}
               editing={mode.type === "edit" && mode.id === training.id}
               percentageChanges={
                 training.id === percentageChanges?.trainingId
@@ -148,8 +162,6 @@ export const TrainingsByMonth = ({
     </>
   );
 };
-
-export const MemoizedTrainings = memo(Trainings);
 
 interface HandleRepeatParams {
   id: number;

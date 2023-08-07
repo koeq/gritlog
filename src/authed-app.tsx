@@ -72,9 +72,10 @@ const AuthedApp = (): JSX.Element => {
           <MemoizedTrainings
             mode={mode}
             dispatch={dispatch}
-            trainings={filterTrainings(searchTerm, trainings)}
+            searchTerm={searchTerm}
             textAreaRef={textAreaRef}
             handleSetEditMode={handleSetEditMode}
+            trainings={filterTrainings(searchTerm, trainings)}
           />
         ) : (
           <AddTrainingCallToAction />

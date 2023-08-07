@@ -1,30 +1,32 @@
-import { useRef } from "react";
+import { memo, useRef } from "react";
 import { IoPencilSharp, IoRepeat, IoTrashBin } from "react-icons/io5";
 import { useIsMobile } from "./context";
 import { Action } from "./state-reducer";
-import "./styles/training-table-with-buttons.css";
+import "./styles/training-card.css";
 import { Training } from "./training";
 import { Training as TrainingType } from "./types";
 
-interface TrainingTableProps {
+interface TrainingCard {
   readonly editing: boolean;
+  readonly searchTerm: string;
   readonly training: TrainingType;
-  readonly dispatch: React.Dispatch<Action>;
   readonly handleRepeat: () => void;
   readonly handleSetEditMode: () => void;
+  readonly dispatch: React.Dispatch<Action>;
   readonly percentageChanges: Record<string, number> | null;
   readonly textAreaRef: React.MutableRefObject<HTMLTextAreaElement | null>;
 }
 
-export const TrainingTableWithButtons = ({
+const TrainingCard = ({
   editing,
   training,
   dispatch,
+  searchTerm,
   textAreaRef,
   handleRepeat,
   handleSetEditMode,
   percentageChanges,
-}: TrainingTableProps): JSX.Element | null => {
+}: TrainingCard): JSX.Element | null => {
   const isMobile = useIsMobile();
   const trainingRef = useRef<HTMLDivElement | null>(null);
 
@@ -34,8 +36,11 @@ export const TrainingTableWithButtons = ({
       ref={trainingRef}
       onClick={isMobile ? undefined : () => scrollOnClick(trainingRef.current)}
     >
-      <Training training={training} percentageChanges={percentageChanges} />
-
+      <Training
+        training={training}
+        searchTerm={searchTerm}
+        percentageChanges={percentageChanges}
+      />
       <div className="buttons-container">
         <button
           aria-label="edit"
@@ -81,6 +86,8 @@ export const TrainingTableWithButtons = ({
     </div>
   );
 };
+
+export const MemoizedTrainingCard = memo(TrainingCard);
 
 const scrollOnClick = (element: HTMLDivElement | null): void => {
   if (!element) {
