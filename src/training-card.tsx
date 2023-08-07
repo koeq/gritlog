@@ -10,8 +10,8 @@ interface TrainingCard {
   readonly editing: boolean;
   readonly searchTerm: string;
   readonly training: TrainingType;
-  readonly handleRepeat: () => void;
-  readonly handleSetEditMode: () => void;
+  readonly handleRepeat: (id: number) => void;
+  readonly handleSetEditMode: (id: number) => void;
   readonly dispatch: React.Dispatch<Action>;
   readonly percentageChanges: Record<string, number> | null;
   readonly textAreaRef: React.MutableRefObject<HTMLTextAreaElement | null>;
@@ -48,9 +48,9 @@ const TrainingCard = ({
           className="action-btn-default hover"
           onClick={(e) => {
             e.stopPropagation();
-            scrollOnClick(trainingRef.current);
             textAreaRef.current?.focus();
-            handleSetEditMode();
+            handleSetEditMode(training.id);
+            scrollOnClick(trainingRef.current);
           }}
         >
           <IoPencilSharp size={23} />
@@ -61,7 +61,7 @@ const TrainingCard = ({
           className="action-btn-default hover"
           onClick={(e) => {
             e.stopPropagation();
-            handleRepeat();
+            handleRepeat(training.id);
             scrollOnClick(trainingRef.current);
           }}
         >

@@ -1,4 +1,4 @@
-import { Dispatch, useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import "../src/styles/authed-app.css";
 import { AddTrainingCallToAction } from "./add-training-text";
 import { BottomBar } from "./bottom-bar";
@@ -13,16 +13,8 @@ import { LoadingDots } from "./loading-dots";
 import { Buttons } from "./main-ctas";
 import { parse } from "./parser";
 import { serializeTraining } from "./serialize-training";
-import { Action } from "./state-reducer";
 import { MemoizedTrainings } from "./trainings";
 import { Training } from "./types";
-
-export interface HandleSetEditModeParams {
-  id: number | undefined;
-  trainings: Training[] | undefined;
-  dispatch: Dispatch<Action>;
-  textAreaRef: React.MutableRefObject<HTMLTextAreaElement | null>;
-}
 
 const AuthedApp = (): JSX.Element => {
   const [showFormatInfo, setShowFormatInfo] = useState(false);
@@ -56,10 +48,30 @@ const AuthedApp = (): JSX.Element => {
 
   const currentTraining: Training = {
     headline,
-    date: new Date().toString(),
     id: nextTrainingId,
     exercises: exercises,
+    date: new Date().toString(),
   };
+
+  const handleSetEditMode = useCallback(
+    (id: number) => {
+      const training = trainings?.find((training) => training.id === id);
+
+      if (!training) {
+        return;
+      }
+
+      dispatch({
+        id,
+        date: training.date,
+        type: "set-edit-mode",
+        serializedTraining: serializeTraining(training),
+      });
+
+      textAreaRef.current?.focus();
+    },
+    [trainings, dispatch]
+  );
 
   if (trainings === undefined) {
     return <LoadingDots />;
@@ -107,38 +119,12 @@ const AuthedApp = (): JSX.Element => {
       {showBottomBar && !showFormatInfo && <BottomBarLayer />}
 
       <BottomBar
-        currentTraining={currentTraining}
         textAreaRef={textAreaRef}
+        currentTraining={currentTraining}
         setShowFormatInfo={setShowFormatInfo}
       />
     </>
   );
-};
-
-const handleSetEditMode = ({
-  id,
-  trainings,
-  dispatch,
-  textAreaRef,
-}: HandleSetEditModeParams) => {
-  if (id === undefined) {
-    return;
-  }
-
-  const training = trainings?.find((training) => training.id === id);
-
-  if (!training) {
-    return;
-  }
-
-  dispatch({
-    type: "set-edit-mode",
-    id,
-    serializedTraining: serializeTraining(training),
-    date: training.date,
-  });
-
-  textAreaRef.current?.focus();
 };
 
 export default AuthedApp;
