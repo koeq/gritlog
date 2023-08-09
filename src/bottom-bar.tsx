@@ -11,6 +11,7 @@ import "./styles/bottom-bar.css";
 import { Suggestion } from "./suggestion";
 import { Mode, Training } from "./types";
 import { isEmptyTraining } from "./utils/is-empty-training";
+import { useAnimatedMount } from "./utils/use-animate-mount";
 
 interface BottomBarProps {
   readonly currentTraining: Training;
@@ -22,9 +23,10 @@ export function BottomBar({
   currentTraining,
   textAreaRef,
   setShowFormatInfo,
-}: BottomBarProps): JSX.Element {
+}: BottomBarProps): JSX.Element | null {
   const { logout } = useAuth();
   const [{ currentInput, showBottomBar, mode }, dispatch] = useTopLevelState();
+  const { isActive, shouldBeMounted } = useAnimatedMount(showBottomBar);
 
   const actionHandler = handleAction(
     mode,
@@ -37,8 +39,12 @@ export function BottomBar({
   const disabled = isDisabled(mode, currentTraining, currentInput);
   const cancelHandler = handleCancel(mode, dispatch);
 
+  if (!shouldBeMounted) {
+    return null;
+  }
+
   return (
-    <footer className={`bottom-bar ${showBottomBar ? "" : "closed"}`}>
+    <footer className={`bottom-bar ${isActive ? "" : "closed"}`}>
       <div className="input-btn-container input-top-container">
         <button
           aria-label="info"
