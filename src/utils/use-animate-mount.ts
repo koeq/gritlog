@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
 
 export const useAnimatedMount = (
-  shouldRender: boolean
+  shouldRender: boolean,
+  unmountDelay?: number
 ): { isActive: boolean; shouldBeMounted: boolean } => {
   const [isActive, setIsActive] = useState(false);
   const [shouldBeMounted, setShouldBeMounted] = useState(false);
@@ -16,11 +17,14 @@ export const useAnimatedMount = (
     } else {
       setIsActive(false);
       // Delay to allow for transition before unmounting
-      timeoutId = window.setTimeout(() => setShouldBeMounted(false), 500); // 500ms should match the transition duration
+      timeoutId = window.setTimeout(
+        () => setShouldBeMounted(false),
+        unmountDelay || 500
+      );
     }
 
     return () => clearTimeout(timeoutId);
-  }, [shouldRender]);
+  }, [shouldRender, unmountDelay]);
 
   return { isActive, shouldBeMounted };
 };
