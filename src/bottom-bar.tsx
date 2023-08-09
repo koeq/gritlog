@@ -1,4 +1,4 @@
-import { Dispatch } from "react";
+import { Dispatch, useRef } from "react";
 import { ImInfo } from "react-icons/im";
 import { IoMdAdd, IoMdClose } from "react-icons/io";
 import { IoCheckmarkSharp } from "react-icons/io5";
@@ -11,7 +11,7 @@ import "./styles/bottom-bar.css";
 import { Suggestion } from "./suggestion";
 import { Mode, Training } from "./types";
 import { isEmptyTraining } from "./utils/is-empty-training";
-import { useAnimatedMount } from "./utils/use-animate-mount";
+import { useEscape } from "./utils/use-escape";
 
 interface BottomBarProps {
   readonly currentTraining: Training;
@@ -20,13 +20,16 @@ interface BottomBarProps {
 }
 
 export function BottomBar({
-  currentTraining,
   textAreaRef,
+  currentTraining,
   setShowFormatInfo,
 }: BottomBarProps): JSX.Element | null {
   const { logout } = useAuth();
+  const bottomBarRef = useRef(null);
   const [{ currentInput, showBottomBar, mode }, dispatch] = useTopLevelState();
-  const { isActive, shouldBeMounted } = useAnimatedMount(showBottomBar);
+
+  const cancelHandler = handleCancel(mode, dispatch);
+  useEscape(bottomBarRef, cancelHandler);
 
   const actionHandler = handleAction(
     mode,
@@ -37,14 +40,12 @@ export function BottomBar({
   );
 
   const disabled = isDisabled(mode, currentTraining, currentInput);
-  const cancelHandler = handleCancel(mode, dispatch);
-
-  if (!shouldBeMounted) {
-    return null;
-  }
 
   return (
-    <footer className={`bottom-bar ${isActive ? "" : "closed"}`}>
+    <footer
+      ref={bottomBarRef}
+      className={`bottom-bar ${showBottomBar ? "" : "closed"}`}
+    >
       <div className="input-btn-container input-top-container">
         <button
           aria-label="info"
@@ -119,9 +120,7 @@ const handleAction = (
 const handleCancel = (mode: Mode, dispatch: React.Dispatch<Action>) =>
   mode.type === "add"
     ? () => dispatch({ type: "cancel-add" })
-    : mode.type === "edit"
-    ? () => dispatch({ type: "cancel-edit" })
-    : undefined;
+    : () => dispatch({ type: "cancel-edit" });
 
 interface HandleAddParams {
   logout: () => void;

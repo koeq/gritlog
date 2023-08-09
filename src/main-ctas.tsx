@@ -24,8 +24,8 @@ export const Buttons = ({
           disabled={showBottomBar}
           type="button"
           onClick={() => {
-            textAreaRef.current?.focus();
             dispatch({ type: "open-input" });
+            textAreaRef.current?.focus();
           }}
         >
           <IoMdAdd color="#fff" size={24} strokeWidth={10} />

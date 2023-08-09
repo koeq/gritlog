@@ -1,7 +1,6 @@
 import { IoLogoGithub } from "react-icons/io5";
 import "./styles/menu.css";
 import { ThemeToggle } from "./theme-toggle";
-import { useAnimatedMount } from "./utils/use-animate-mount";
 
 interface MenuProps {
   readonly menuOpen: boolean;
@@ -9,14 +8,8 @@ interface MenuProps {
 }
 
 export const Menu = ({ menuOpen, logout }: MenuProps): JSX.Element | null => {
-  const { isActive, shouldBeMounted } = useAnimatedMount(menuOpen);
-
-  if (!shouldBeMounted) {
-    return null;
-  }
-
   return (
-    <nav className={`menu${isActive ? " menu-open" : ""}`}>
+    <nav className={`menu${menuOpen ? " menu-open" : ""}`}>
       <ul className="menu-list">
         <hr />
         <li className="logout-container">
