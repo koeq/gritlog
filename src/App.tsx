@@ -9,7 +9,7 @@ const AuthedApp = lazy(() => import("./authed-app"));
 const UnauthedApp = lazy(() => import("./unauthed-app"));
 
 export const App = (): JSX.Element => {
-  const { authed, logout } = useAuth();
+  const { authed } = useAuth();
   const [menuOpen, setMenuOpen] = useState(false);
   const googleScriptLoaded = useGoogleScript(authed === false);
 
@@ -24,7 +24,7 @@ export const App = (): JSX.Element => {
       {authed ? (
         <>
           <AuthedApp />
-          <Menu menuOpen={menuOpen} logout={logout} />
+          <Menu menuOpen={menuOpen} />
         </>
       ) : (
         <UnauthedApp googleScriptLoaded={googleScriptLoaded} />

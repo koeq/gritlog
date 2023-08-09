@@ -1,13 +1,15 @@
 import { IoLogoGithub } from "react-icons/io5";
+import { useAuth } from "./context";
 import "./styles/menu.css";
 import { ThemeToggle } from "./theme-toggle";
 
 interface MenuProps {
   readonly menuOpen: boolean;
-  readonly logout: () => void;
 }
 
-export const Menu = ({ menuOpen, logout }: MenuProps): JSX.Element | null => {
+export const Menu = ({ menuOpen }: MenuProps): JSX.Element | null => {
+  const { logout } = useAuth();
+
   return (
     <nav className={`menu${menuOpen ? " menu-open" : ""}`}>
       <ul className="menu-list">
