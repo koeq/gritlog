@@ -10,7 +10,7 @@ const UnauthedApp = lazy(() => import("./unauthed-app"));
 
 export const App = (): JSX.Element => {
   const { authed, logout } = useAuth();
-  const [menuActive, setMenuActive] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
   const googleScriptLoaded = useGoogleScript(authed === false);
 
   // We are still waiting for the status of authed.
@@ -20,15 +20,11 @@ export const App = (): JSX.Element => {
 
   return (
     <Suspense fallback={<LoadingDots />}>
-      <Header
-        authed={authed}
-        menuActive={menuActive}
-        setMenuActive={setMenuActive}
-      />
+      <Header authed={authed} menuOpen={menuOpen} setMenuOpen={setMenuOpen} />
       {authed ? (
         <>
           <AuthedApp />
-          <Menu menuActive={menuActive} logout={logout} />
+          <Menu menuOpen={menuOpen} logout={logout} />
         </>
       ) : (
         <UnauthedApp googleScriptLoaded={googleScriptLoaded} />

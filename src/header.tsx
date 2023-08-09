@@ -5,27 +5,27 @@ import "./styles/header.css";
 
 interface HeaderProps {
   readonly authed: boolean;
-  readonly menuActive: boolean;
-  readonly setMenuActive: React.Dispatch<React.SetStateAction<boolean>>;
+  readonly menuOpen: boolean;
+  readonly setMenuOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 export const Header = ({
   authed,
-  menuActive,
-  setMenuActive,
+  menuOpen,
+  setMenuOpen,
 }: HeaderProps): JSX.Element => {
   useEffect(() => {
-    setMenuActive(false);
-  }, [setMenuActive, authed]);
+    setMenuOpen(false);
+  }, [setMenuOpen, authed]);
 
   return (
-    <header className={`header${menuActive ? " opaque" : ""}`}>
+    <header className={`header${menuOpen ? " opaque" : ""}`}>
       <div className="header-container">
         <h1 className="heading">gritlog</h1>
         {authed && (
           <div className="cta-section">
             <SearchBox />
-            <Hamburger menuActive={menuActive} setMenuActive={setMenuActive} />
+            <Hamburger menuOpen={menuOpen} setMenuOpen={setMenuOpen} />
           </div>
         )}
       </div>

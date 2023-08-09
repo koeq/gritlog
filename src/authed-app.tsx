@@ -115,9 +115,7 @@ const AuthedApp = (): JSX.Element => {
           </Layer>
         )}
       </div>
-
       {showBottomBar && !showFormatInfo && <BottomBarLayer />}
-
       <BottomBar
         textAreaRef={textAreaRef}
         currentTraining={currentTraining}
