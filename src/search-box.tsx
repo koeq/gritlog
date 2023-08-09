@@ -4,10 +4,12 @@ import { useTopLevelState } from "./context";
 import "./styles/search-box.css";
 import { debounce } from "./utils/debounce";
 import { noTrainings } from "./utils/no-trainings";
+import { useEscape } from "./utils/use-escape";
 
 export function SearchBox(): JSX.Element {
   // To ensure the ability to debounce the setting of the external
   // search state, we maintain both internal and global search states.
+  const searchRef = useRef(null);
   const [search, setSearch] = useState("");
   const [active, setActive] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
@@ -24,6 +26,8 @@ export function SearchBox(): JSX.Element {
     setActive(false);
     dispatch({ type: "clear-search-term" });
   };
+
+  useEscape(searchRef, handleClose);
 
   const searchTermResult = useMemo(
     () =>
@@ -49,7 +53,7 @@ export function SearchBox(): JSX.Element {
   }, [trainings, active]);
 
   return (
-    <div className="search-box">
+    <div ref={searchRef} className="search-box">
       <button
         className={`btn-search${disableButton ? " disable" : ""}`}
         onClick={active ? handleClose : handleOpen}
