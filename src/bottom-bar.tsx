@@ -114,7 +114,7 @@ const handleCancel = (mode: Mode, dispatch: React.Dispatch<Action>) =>
   mode.type === "add"
     ? () => dispatch({ type: "cancel-add" })
     : mode.type === "edit"
-    ? () => handleCancelEdit(dispatch)
+    ? () => dispatch({ type: "cancel-edit" })
     : undefined;
 
 interface HandleAddParams {
@@ -164,8 +164,4 @@ const handleEdit = ({
     currentTraining: { ...currentTraining, date },
     mode,
   });
-};
-
-const handleCancelEdit = (dispatch: Dispatch<Action>): void => {
-  dispatch({ type: "cancel-edit" });
 };
