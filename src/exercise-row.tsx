@@ -91,7 +91,7 @@ const renderWeight = (weight: { value: string; unit: string } | undefined) => {
   );
 };
 
-const parseReps = (repetitions: string | null | undefined): string[] =>
+export const parseReps = (repetitions: string | null | undefined): string[] =>
   repetitions ? repetitions.split("/") : [];
 
 const renderReps = (reps: string[]): JSX.Element => {
