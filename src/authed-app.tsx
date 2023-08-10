@@ -13,6 +13,7 @@ import { LoadingDots } from "./loading-dots";
 import { Buttons } from "./main-ctas";
 import { parse } from "./parser";
 import { serializeTraining } from "./serialize-training";
+import { Statistics } from "./statistics";
 import { MemoizedTrainings } from "./trainings";
 import { Training } from "./types";
 
@@ -77,10 +78,20 @@ const AuthedApp = (): JSX.Element => {
     return <LoadingDots />;
   }
 
+  const showStatistics = true;
+
+  if (showStatistics) {
+    return (
+      <div className="authed">
+        <Statistics trainings={trainings} />
+      </div>
+    );
+  }
+
   return (
     <>
       <div className="authed">
-        {trainings.length ? (
+        {!trainings.length ? (
           <MemoizedTrainings
             mode={mode}
             dispatch={dispatch}

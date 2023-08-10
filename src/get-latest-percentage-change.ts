@@ -88,7 +88,7 @@ const getWorkPerExercise = (training: Training): Record<string, number> =>
 // TODO: This logic only makes sense as long as you don't consider bodyweight exercises.
 // For a progression like --- Pull ups @0 5*5 -> Pull ups @10 5*% to make sense we need
 // a value for the bodyweight to make sense.
-const parseWeight = (weight: string): number | null => {
+export const parseWeight = (weight: string): number | null => {
   const match = weight.match(/\d+/);
   const parsed = match && match[0] ? parseInt(match[0]) : null;
 
