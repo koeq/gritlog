@@ -2,7 +2,6 @@ import { useEffect, useMemo, useState } from "react";
 import { useTopLevelState } from "./context";
 import { Action } from "./state-reducer";
 import "./styles/suggestion.css";
-import { Training } from "./types";
 import { useCursorPosition } from "./use-cursor-position";
 import {
   DEFAULT_EXERCISES,
@@ -11,6 +10,7 @@ import {
   getTextAreaCursorContext,
 } from "./utils/autocomplete";
 import { fuzzyFilter } from "./utils/fuzzy";
+import { getUniqueExerciseNames } from "./utils/get-unique-exercises";
 
 interface SuggestionsProps {
   currentInput: string;
@@ -28,7 +28,7 @@ export const Suggestion = ({
   const uniqueExercises = useMemo(
     () =>
       trainings && trainings.length
-        ? getUniqueExercises(trainings)
+        ? getUniqueExerciseNames(trainings)
         : DEFAULT_EXERCISES,
     [trainings]
   );
@@ -70,21 +70,6 @@ export const Suggestion = ({
     </>
   );
 };
-
-function getUniqueExercises(trainings: Training[]): string[] {
-  const exerciseSet = new Set<string>();
-
-  for (const training of trainings) {
-    const { exercises } = training;
-    for (const { exerciseName } of exercises) {
-      if (exerciseName) {
-        exerciseSet.add(exerciseName);
-      }
-    }
-  }
-
-  return Array.from(exerciseSet);
-}
 
 const getCurrentExercise = (textArea: HTMLTextAreaElement): string | null => {
   const { currentLine } = getTextAreaCursorContext(textArea);

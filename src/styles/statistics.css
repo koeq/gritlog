@@ -1,4 +1,5 @@
 #statistics {
-  width: 100%;
+  width: min(800px, 98%);
+  height: 400px;
   margin-top: var(--header-height);
 }
