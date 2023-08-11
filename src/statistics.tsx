@@ -1,6 +1,8 @@
 import {
   CategoryScale,
+  ChartData,
   Chart as ChartJS,
+  ChartOptions,
   Legend,
   LineElement,
   LinearScale,
@@ -8,12 +10,13 @@ import {
   Title,
   Tooltip,
 } from "chart.js";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { Line } from "react-chartjs-2";
 import { parseReps } from "./exercise-row";
 import { parseWeight } from "./get-latest-percentage-change";
 import "./styles/statistics.css";
 import { Exercise, Training } from "./types";
+import { getUniqueExerciseNames } from "./utils/get-unique-exercises";
 
 ChartJS.register(
   CategoryScale,
@@ -25,16 +28,33 @@ ChartJS.register(
   Legend
 );
 
-export const options = {
+export const options: ChartOptions<"line"> = {
   responsive: true,
-
+  font: {
+    family: "Mona Sans",
+  },
+  maintainAspectRatio: false,
   plugins: {
     legend: {
-      position: "top" as const,
+      display: false,
     },
+
     title: {
-      display: true,
-      text: "Benchpress",
+      display: false,
+    },
+  },
+  scales: {
+    x: {
+      ticks: {
+        maxTicksLimit: 10,
+      },
+      grid: { display: false },
+    },
+    y: {
+      ticks: {
+        maxTicksLimit: 4,
+      },
+      grid: { display: false },
     },
   },
 };
@@ -107,17 +127,27 @@ interface StatiscticsProps {
 }
 
 export function Statistics({ trainings }: StatiscticsProps): JSX.Element {
-  const [exercise, _] = useState("Benchpress");
+  const [exercise, setExercise] = useState("Squats");
 
-  const { dataPoints, labels } = collectData(
-    collectExercise(exercise, trainings)
+  const exercises = useMemo(
+    () => getUniqueExerciseNames(trainings),
+    [trainings]
   );
 
-  const data = {
+  const { dataPoints, labels } = useMemo(
+    () => collectData(collectExercise(exercise, trainings)),
+    [exercise, trainings]
+  );
+
+  const data: ChartData<"line"> = {
     labels,
     datasets: [
       {
-        label: "Dataset 1",
+        tension: 0.1,
+        borderWidth: 2.5,
+        pointBorderWidth: 1,
+        pointRadius: 3,
+        label: exercise,
         data: dataPoints,
         borderColor: "rgb(255, 99, 132)",
         backgroundColor: "rgba(255, 99, 132, 0.5)",
@@ -125,9 +155,27 @@ export function Statistics({ trainings }: StatiscticsProps): JSX.Element {
     ],
   };
 
+  // TODO:
+  // 1. getUniqueExerciseNames only for exercises with weights and reps
+  // 2. collectData needs to sum exercises with different weight in the same session
+
   return (
     <section id="statistics">
-      <Line options={options} data={data} redraw />
+      <br />
+      <br />
+      <select
+        name="exercise"
+        id="exercise"
+        value={exercise}
+        onChange={(event) => setExercise(event.target.value)}
+      >
+        {exercises.map((exercise) => (
+          <option key={exercise} value={exercise}>
+            {exercise}
+          </option>
+        ))}
+      </select>
+      <Line options={options} data={data} />
     </section>
   );
 }
