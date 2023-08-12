@@ -13,9 +13,9 @@ import { LoadingDots } from "./loading-dots";
 import { Buttons } from "./main-ctas";
 import { parse } from "./parser";
 import { serializeTraining } from "./serialize-training";
-import { Statistics } from "./statistics";
 import { MemoizedTrainings } from "./trainings";
 import { Training } from "./types";
+import { VolumeOverTime } from "./volume-over-time";
 
 const AuthedApp = (): JSX.Element => {
   const [showFormatInfo, setShowFormatInfo] = useState(false);
@@ -83,7 +83,7 @@ const AuthedApp = (): JSX.Element => {
   if (showStatistics) {
     return (
       <div className="authed">
-        <Statistics trainings={trainings} />
+        <VolumeOverTime trainings={trainings} />
       </div>
     );
   }
