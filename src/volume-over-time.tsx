@@ -92,15 +92,10 @@ export function VolumeOverTime({ trainings }: VolumeOverTime): JSX.Element {
     ],
   };
 
-  console.log(trainings);
-
   return (
     <section id="volume-over-time">
-      <br />
-      <br />
       <select
-        name="exercise"
-        id="exercise"
+        id="exercise-select"
         value={exercise}
         onChange={(event) => setExercise(event.target.value)}
       >

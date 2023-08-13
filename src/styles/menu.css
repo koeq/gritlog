@@ -33,6 +33,7 @@
 
 .menu li a {
   text-decoration: none;
+  cursor: pointer;
 }
 
 .menu li button {
@@ -40,15 +41,27 @@
   align-items: center;
 }
 
-.menu-list-item-text {
+.menu-list-item {
   color: var(--text-primary);
-  font-size: 22px;
+  font-size: 20px;
   font-weight: 450;
   font-stretch: var(--font-stretch);
 }
 
 .menu-open {
   transform: translateY(0);
+}
+
+#menu-logout {
+  margin-left: 26px;
+  width: 48px;
+  height: 48px;
+  border: 0.5px solid var(--border-secondary);
+  padding: 2px;
+  border-radius: 36px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .social {

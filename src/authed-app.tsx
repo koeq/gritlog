@@ -17,7 +17,11 @@ import { MemoizedTrainings } from "./trainings";
 import { Training } from "./types";
 import { VolumeOverTime } from "./volume-over-time";
 
-const AuthedApp = (): JSX.Element => {
+interface AuthedAppProps {
+  readonly contentType: "trainings" | "statistics";
+}
+
+const AuthedApp = ({ contentType }: AuthedAppProps): JSX.Element => {
   const [showFormatInfo, setShowFormatInfo] = useState(false);
   const textAreaRef = useRef<HTMLTextAreaElement | null>(null);
 
@@ -78,9 +82,7 @@ const AuthedApp = (): JSX.Element => {
     return <LoadingDots />;
   }
 
-  const showStatistics = true;
-
-  if (showStatistics) {
+  if (contentType === "statistics") {
     return (
       <div className="authed">
         <VolumeOverTime trainings={trainings} />
@@ -91,7 +93,7 @@ const AuthedApp = (): JSX.Element => {
   return (
     <>
       <div className="authed">
-        {!trainings.length ? (
+        {trainings.length ? (
           <MemoizedTrainings
             mode={mode}
             dispatch={dispatch}
