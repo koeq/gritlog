@@ -3,3 +3,9 @@
   height: 400px;
   margin-top: var(--header-height);
 }
+
+#exercise-select {
+  width: 160px;
+  margin-top: 30px;
+  margin-bottom: 30px;
+}

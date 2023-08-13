@@ -13,6 +13,10 @@ export const App = (): JSX.Element => {
   const [menuOpen, setMenuOpen] = useState(false);
   const googleScriptLoaded = useGoogleScript(authed === false);
 
+  const [contentType, setContentType] = useState<"trainings" | "statistics">(
+    "trainings"
+  );
+
   // We are still waiting for the status of authed.
   if (authed === undefined) {
     return <LoadingDots />;
@@ -23,8 +27,12 @@ export const App = (): JSX.Element => {
       <Header authed={authed} menuOpen={menuOpen} setMenuOpen={setMenuOpen} />
       {authed ? (
         <>
-          <AuthedApp />
-          <Menu menuOpen={menuOpen} />
+          <AuthedApp contentType={contentType} />
+          <Menu
+            menuOpen={menuOpen}
+            setMenuOpen={setMenuOpen}
+            setContentType={setContentType}
+          />
         </>
       ) : (
         <UnauthedApp googleScriptLoaded={googleScriptLoaded} />
