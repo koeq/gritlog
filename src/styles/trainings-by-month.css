@@ -1,0 +1,18 @@
+.date-range {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: min(450px, 95%);
+  margin: 24px 0;
+}
+
+.date-range button {
+  color: var(--text-tertiary);
+}
+
+.date-range-text {
+  color: var(--text-primary);
+  font-size: 16px;
+  font-weight: 600;
+  font-stretch: 105%;
+}
