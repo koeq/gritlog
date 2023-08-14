@@ -17,7 +17,6 @@ export function ThemeToggle(): JSX.Element {
               ? "dark"
               : "light"
           );
-
           setThemeType("OS");
         }}
       >
