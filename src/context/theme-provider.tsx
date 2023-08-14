@@ -31,7 +31,7 @@ export const ThemeProvider = ({
 }: ThemeProviderProps): JSX.Element => {
   const [theme, setTheme] = useState<Theme>(getDefaultTheme);
 
-  const [themeType, setThemeType] = useState<"OS" | "custom">(
+  const [themeType, setThemeType] = useState<"OS" | "custom">(() =>
     localStorage.getItem("theme") ? "custom" : "OS"
   );
 
