@@ -49,13 +49,7 @@ export const Menu = ({
           </a>
         </li>
         <hr />
-        <li
-          style={{
-            display: "flex",
-            justifyContent: "center",
-            width: "100%",
-          }}
-        >
+        <li id="menu-list-item-btns">
           <ThemeToggle />
           <button
             onClick={logout}
