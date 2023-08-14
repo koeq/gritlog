@@ -28,7 +28,7 @@ ChartJS.register(
   Legend
 );
 
-export const options: ChartOptions<"line"> = {
+const options: ChartOptions<"line"> = {
   responsive: true,
   font: {
     family: "Mona Sans",
@@ -63,7 +63,7 @@ interface VolumeOverTime {
   trainings: Training[];
 }
 
-export function VolumeOverTime({ trainings }: VolumeOverTime): JSX.Element {
+function VolumeOverTime({ trainings }: VolumeOverTime): JSX.Element {
   const [exercise, setExercise] = useState("Squats");
 
   const exercises = useMemo(
@@ -109,3 +109,5 @@ export function VolumeOverTime({ trainings }: VolumeOverTime): JSX.Element {
     </section>
   );
 }
+
+export default VolumeOverTime;
