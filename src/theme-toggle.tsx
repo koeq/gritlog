@@ -7,36 +7,37 @@ import "./styles/theme-toggle.css";
 export function ThemeToggle(): JSX.Element {
   const { theme, setTheme, themeType, setThemeType } = useTheme();
 
+  const createHandler =
+    (theme: "light" | "dark", themeType: "OS" | "custom") => () => {
+      setTheme(theme);
+      setThemeType(themeType);
+    };
+
   return (
     <div className="theme-toggle-container">
       <ThemeButton
+        ariaLabel="toggle-OS"
         selected={themeType === "OS"}
-        clickHandler={() => {
-          setTheme(
-            window.matchMedia("(prefers-color-scheme: dark)").matches
-              ? "dark"
-              : "light"
-          );
-          setThemeType("OS");
-        }}
+        clickHandler={createHandler(
+          window.matchMedia("(prefers-color-scheme: dark)").matches
+            ? "dark"
+            : "light",
+          "OS"
+        )}
       >
         <SlScreenDesktop size="22" />
       </ThemeButton>
       <ThemeButton
+        ariaLabel="toggle-light"
+        clickHandler={createHandler("light", "custom")}
         selected={themeType === "custom" && theme === "light"}
-        clickHandler={() => {
-          setTheme("light");
-          setThemeType("custom");
-        }}
       >
         <HiOutlineSun size="23" />
       </ThemeButton>
       <ThemeButton
+        ariaLabel="toggle-dark"
+        clickHandler={createHandler("dark", "custom")}
         selected={themeType === "custom" && theme === "dark"}
-        clickHandler={() => {
-          setTheme("dark");
-          setThemeType("custom");
-        }}
       >
         <HiOutlineMoon size="23" />
       </ThemeButton>
@@ -45,17 +46,23 @@ export function ThemeToggle(): JSX.Element {
 }
 
 interface ThemeButtonProps {
-  children: ReactNode;
-  clickHandler: () => void;
-  selected: boolean;
+  readonly ariaLabel: string;
+  readonly selected: boolean;
+  readonly children: ReactNode;
+  readonly clickHandler: () => void;
 }
 
-function ThemeButton({ children, clickHandler, selected }: ThemeButtonProps) {
+function ThemeButton({
+  children,
+  clickHandler,
+  selected,
+  ariaLabel,
+}: ThemeButtonProps) {
   return (
     <button
-      className={`theme-toggle-btn ${selected ? "selected" : ""}`}
-      aria-label="toggle-theme"
       onClick={clickHandler}
+      aria-label={ariaLabel}
+      className={`theme-toggle-btn ${selected ? "selected" : ""}`}
     >
       {children}
     </button>
