@@ -8,7 +8,7 @@
   height: 26px;
   border-radius: 32px;
   margin-left: 6px;
-  background: var(--background-tertiary);
+  border: 0.5px solid var(--border-secondary);
 }
 
 .calendar:hover {
