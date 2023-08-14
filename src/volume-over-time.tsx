@@ -14,6 +14,7 @@ import { useMemo, useState } from "react";
 import { Line } from "react-chartjs-2";
 import { collectExerciseOccurences } from "./collect-exercise-occurences";
 import { collectVolumeOverTime } from "./collect-volume-over-time";
+import { useTheme } from "./context";
 import "./styles/volume-over-time.css";
 import { Training } from "./types";
 import { getUniqueExerciseNames } from "./utils/get-unique-exercises";
@@ -28,43 +29,14 @@ ChartJS.register(
   Legend
 );
 
-const options: ChartOptions<"line"> = {
-  responsive: true,
-  font: {
-    family: "Mona Sans",
-  },
-  maintainAspectRatio: false,
-  plugins: {
-    legend: {
-      display: false,
-    },
-
-    title: {
-      display: false,
-    },
-  },
-  scales: {
-    x: {
-      ticks: {
-        maxTicksLimit: 10,
-      },
-      grid: { display: false },
-    },
-    y: {
-      ticks: {
-        maxTicksLimit: 4,
-      },
-      grid: { display: false },
-    },
-  },
-};
-
 interface VolumeOverTime {
   trainings: Training[];
 }
 
 function VolumeOverTime({ trainings }: VolumeOverTime): JSX.Element {
+  const { theme } = useTheme();
   const [exercise, setExercise] = useState("Squats");
+  const chartBorderColor = theme === "dark" ? "#282A32" : "#e6e6e9";
 
   const exercises = useMemo(
     () => getUniqueExerciseNames(trainings),
@@ -86,10 +58,51 @@ function VolumeOverTime({ trainings }: VolumeOverTime): JSX.Element {
         pointRadius: 3,
         label: exercise,
         data: volumens,
-        borderColor: "rgb(255, 99, 132)",
-        backgroundColor: "rgba(255, 99, 132, 0.5)",
+        borderColor: getComputedStyle(
+          document.documentElement
+        ).getPropertyValue("--color-progress"),
+        backgroundColor: "rgba(90, 130, 255, 0.6)",
       },
     ],
+  };
+
+  const options: ChartOptions<"line"> = {
+    responsive: true,
+    font: {
+      family: "Mona Sans",
+    },
+    maintainAspectRatio: false,
+    plugins: {
+      legend: {
+        display: false,
+      },
+
+      title: {
+        display: false,
+      },
+    },
+    scales: {
+      x: {
+        border: {
+          color: chartBorderColor,
+        },
+        ticks: {
+          maxTicksLimit: 10,
+        },
+        grid: {
+          display: false,
+        },
+      },
+      y: {
+        border: {
+          color: chartBorderColor,
+        },
+        ticks: {
+          maxTicksLimit: 4,
+        },
+        grid: { display: false },
+      },
+    },
   };
 
   return (
