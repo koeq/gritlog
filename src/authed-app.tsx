@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { lazy, useCallback, useEffect, useMemo, useRef, useState } from "react";
 import "../src/styles/authed-app.css";
 import { AddTrainingCallToAction } from "./add-training-text";
 import { BottomBar } from "./bottom-bar";
@@ -15,7 +15,8 @@ import { parse } from "./parser";
 import { serializeTraining } from "./serialize-training";
 import { MemoizedTrainings } from "./trainings";
 import { Training } from "./types";
-import { VolumeOverTime } from "./volume-over-time";
+
+const VolumeOverTime = lazy(() => import("./volume-over-time"));
 
 interface AuthedAppProps {
   readonly contentType: "trainings" | "statistics";
