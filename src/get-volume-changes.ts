@@ -22,7 +22,6 @@ export const getVolumeChanges = (
   const exerciseVolumeMap = getVolumePerExercise(training);
 
   for (const [exerciseName, volume] of Object.entries(exerciseVolumeMap)) {
-    // How would this be 0?
     if (volume === 0) {
       continue;
     }
@@ -37,20 +36,10 @@ export const getVolumeChanges = (
       }
 
       const prevExerciseVolumeMap = getVolumePerExercise(prevTraining);
-
-      if (
-        !Object.prototype.hasOwnProperty.call(
-          prevExerciseVolumeMap,
-          exerciseName
-        )
-      ) {
-        continue;
-      }
-
       const prevVolume = prevExerciseVolumeMap[exerciseName];
 
-      if (prevVolume === 0 || prevVolume === undefined) {
-        break;
+      if (!prevVolume) {
+        continue;
       }
 
       const percentageChange = (volume / prevVolume - 1) * 100;

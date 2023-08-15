@@ -1,8 +1,8 @@
 import { Fragment } from "react";
 import "./styles/exercise-row.css";
 import { Exercise } from "./types";
-import { ParsedWeight, parseWeight } from "./utils/parse-weight";
 import { parseReps } from "./utils/parse-reps";
+import { ParsedWeight, parseWeight } from "./utils/parse-weight";
 
 interface ExerciseRowProps {
   exercise: Exercise;
