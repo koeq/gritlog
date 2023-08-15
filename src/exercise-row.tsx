@@ -1,6 +1,8 @@
 import { Fragment } from "react";
 import "./styles/exercise-row.css";
 import { Exercise } from "./types";
+import { ParsedWeight, parseWeight } from "./utils/parse-weight";
+import { parseReps } from "./utils/parse-reps";
 
 interface ExerciseRowProps {
   exercise: Exercise;
@@ -62,25 +64,7 @@ export const ExerciseRow = ({
   );
 };
 
-// This should be expressed in the type of weight and therefore in the database scheme.
-// In order to prevent a database migration for now we handle the correct parsing here.
-const parseWeight = (
-  weight: string | null | undefined
-): { value: string; unit: string } | undefined => {
-  if (!weight) {
-    return;
-  }
-
-  const [value, unit] = weight.split(/(kg|lbs)/);
-
-  if (!value || !unit) {
-    return;
-  }
-
-  return { value, unit };
-};
-
-const renderWeight = (weight: { value: string; unit: string } | undefined) => {
+const renderWeight = (weight: ParsedWeight | undefined) => {
   return weight ? (
     <>
       {weight.value}
@@ -91,10 +75,7 @@ const renderWeight = (weight: { value: string; unit: string } | undefined) => {
   );
 };
 
-export const parseReps = (repetitions: string | null | undefined): string[] =>
-  repetitions ? repetitions.split("/") : [];
-
-const renderReps = (reps: string[]): JSX.Element => {
+const renderReps = (reps: number[]): JSX.Element => {
   if (reps.length === 0) {
     return <span>—</span>;
   }
