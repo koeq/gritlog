@@ -1,5 +1,4 @@
 import { DatedExercise } from "./collect-exercise-occurences";
-
 import { parseReps } from "./utils/parse-reps";
 import { parseWeight } from "./utils/parse-weight";
 

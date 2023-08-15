@@ -1,4 +1,12 @@
-import { lazy, useCallback, useEffect, useMemo, useRef, useState } from "react";
+import {
+  Suspense,
+  lazy,
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 import "../src/styles/authed-app.css";
 import { AddTrainingCallToAction } from "./add-training-text";
 import { BottomBar } from "./bottom-bar";
@@ -86,7 +94,9 @@ const AuthedApp = ({ contentType }: AuthedAppProps): JSX.Element => {
   if (contentType === "statistics") {
     return (
       <div className="authed">
-        <VolumeOverTime trainings={trainings} />
+        <Suspense fallback={<LoadingDots />}>
+          <VolumeOverTime trainings={trainings} />
+        </Suspense>
       </div>
     );
   }
