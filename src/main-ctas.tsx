@@ -40,7 +40,7 @@ export const Buttons = ({
             latestTrainingId === undefined || showBottomBar ? true : false
           }
           onClick={
-            latestTrainingId
+            latestTrainingId !== undefined
               ? () => handleSetEditMode(latestTrainingId)
               : undefined
           }
