@@ -2,27 +2,27 @@ import { Training } from "./types";
 
 const ZERO_WEIGHT_VALUE = 1;
 
-export const getLatestPercentageChanges = (
-  latestTraining: Training,
+export const getVolumeChanges = (
+  training: Training,
   trainings: Training[]
 ): Record<string, number> | null => {
-  const percentageChanges: Record<string, number> = {
-    trainingId: latestTraining.id,
+  const volumeChanges: Record<string, number> = {
+    trainingId: training.id,
   };
 
   if (trainings.length < 2) {
     return null;
   }
 
-  const exerciseWorkMap = getWorkPerExercise(latestTraining);
+  const exerciseVolumeMap = getVolumePerExercise(training);
 
-  for (const [exercise, work] of Object.entries(exerciseWorkMap)) {
+  for (const [exercise, work] of Object.entries(exerciseVolumeMap)) {
     if (work === 0) {
       continue;
     }
 
     const latestTrainingIndex = trainings.findIndex(
-      (training) => training.id === latestTraining.id
+      (training) => training.id === training.id
     );
 
     for (let i = latestTrainingIndex + 1; i < trainings.length; i++) {
@@ -32,7 +32,7 @@ export const getLatestPercentageChanges = (
         continue;
       }
 
-      const prevExerciseWorkMap = getWorkPerExercise(prevTraining);
+      const prevExerciseWorkMap = getVolumePerExercise(prevTraining);
 
       if (
         !Object.prototype.hasOwnProperty.call(prevExerciseWorkMap, exercise)
@@ -47,15 +47,15 @@ export const getLatestPercentageChanges = (
       }
 
       const percentageChange = (work / prevWork - 1) * 100;
-      percentageChanges[exercise] = percentageChange;
+      volumeChanges[exercise] = percentageChange;
       break;
     }
   }
 
-  return percentageChanges;
+  return volumeChanges;
 };
 
-const getWorkPerExercise = (training: Training): Record<string, number> =>
+const getVolumePerExercise = (training: Training): Record<string, number> =>
   training.exercises.reduce(
     (
       acc: Record<string, number>,
@@ -71,14 +71,11 @@ const getWorkPerExercise = (training: Training): Record<string, number> =>
         return acc;
       }
 
-      const doneWork = parsedWeight * parsedReps;
-      const exercise = acc[exerciseName];
+      const volume = parsedWeight * parsedReps;
+      const prevVolume = acc[exerciseName];
 
       acc[exerciseName] =
-        exercise !== undefined &&
-        Object.prototype.hasOwnProperty.call(acc, exerciseName)
-          ? exercise + doneWork
-          : doneWork;
+        prevVolume === undefined ? volume : prevVolume + volume;
 
       return acc;
     },
