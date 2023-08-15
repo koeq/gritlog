@@ -1,6 +1,6 @@
 import { DatedExercise } from "./collect-exercise-occurences";
 import { parseReps } from "./exercise-row";
-import { parseWeight } from "./get-latest-percentage-change";
+import { parseWeight } from "./get-volume-changes";
 
 export const collectVolumeOverTime = (
   exercises: DatedExercise[]

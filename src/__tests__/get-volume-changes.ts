@@ -1,4 +1,4 @@
-import { getLatestPercentageChanges } from "../get-latest-percentage-change";
+import { getVolumeChanges } from "../get-volume-changes";
 import { Training } from "../types";
 
 describe("Calculate percentage change compared to the last time the exercises were performed:", () => {
@@ -26,7 +26,7 @@ describe("Calculate percentage change compared to the last time the exercises we
       },
     ];
 
-    const result = getLatestPercentageChanges(latestTraining, trainings);
+    const result = getVolumeChanges(latestTraining, trainings);
 
     expect(result).toEqual({
       trainingId: 2,
@@ -59,7 +59,7 @@ describe("Calculate percentage change compared to the last time the exercises we
       },
     ];
 
-    const result = getLatestPercentageChanges(latestTraining, trainings);
+    const result = getVolumeChanges(latestTraining, trainings);
 
     expect(result).toEqual({
       trainingId: 2,
@@ -85,7 +85,7 @@ describe("Calculate percentage change compared to the last time the exercises we
       },
     ];
 
-    const result = getLatestPercentageChanges(latestTraining, trainings);
+    const result = getVolumeChanges(latestTraining, trainings);
 
     expect(result).toEqual({
       trainingId: 2,
@@ -123,7 +123,7 @@ describe("Calculate percentage change compared to the last time the exercises we
       },
     ];
 
-    const result = getLatestPercentageChanges(latestTraining, trainings);
+    const result = getVolumeChanges(latestTraining, trainings);
 
     expect(result).toEqual({
       trainingId: 2,
@@ -146,7 +146,7 @@ describe("Calculate percentage change compared to the last time the exercises we
 
     const trainings: Training[] = [latestTraining];
 
-    const result = getLatestPercentageChanges(latestTraining, trainings);
+    const result = getVolumeChanges(latestTraining, trainings);
 
     expect(result).toBe(null);
   });

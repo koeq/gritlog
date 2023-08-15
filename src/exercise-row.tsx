@@ -6,8 +6,8 @@ interface ExerciseRowProps {
   exercise: Exercise;
   weightChange: boolean;
   isLastExercise: boolean;
-  percentageChanges: Record<string, number> | null;
   isSearchedExercise: boolean | undefined;
+  percentageChanges: Record<string, number> | null;
 }
 
 export const ExerciseRow = ({
@@ -63,7 +63,7 @@ export const ExerciseRow = ({
 };
 
 // This should be expressed in the type of weight and therefore in the database scheme.
-// In order to prevent a database migration for now we handle this here.
+// In order to prevent a database migration for now we handle the correct parsing here.
 const parseWeight = (
   weight: string | null | undefined
 ): { value: string; unit: string } | undefined => {

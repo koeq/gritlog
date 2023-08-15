@@ -1,6 +1,6 @@
 import { Dispatch, Fragment, memo, useMemo } from "react";
 import { NoFilterResult } from "./filter-trainings";
-import { getLatestPercentageChanges } from "./get-latest-percentage-change";
+import { getVolumeChanges } from "./get-volume-changes";
 import { groupTrainingsByMonth } from "./group-training-by-month";
 import { Action } from "./state-reducer";
 import "./styles/trainings.css";
@@ -29,7 +29,7 @@ export const Trainings = ({
 
   const percentageChanges = useMemo(() => {
     return latestTraining && !normalizedSearchTerm
-      ? getLatestPercentageChanges(latestTraining, trainings)
+      ? getVolumeChanges(latestTraining, trainings)
       : null;
   }, [latestTraining, normalizedSearchTerm, trainings]);
 
