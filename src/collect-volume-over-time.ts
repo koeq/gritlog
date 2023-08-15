@@ -1,6 +1,7 @@
 import { DatedExercise } from "./collect-exercise-occurences";
-import { parseReps } from "./exercise-row";
-import { parseWeight } from "./get-volume-changes";
+
+import { parseReps } from "./utils/parse-reps";
+import { parseWeight } from "./utils/parse-weight";
 
 export const collectVolumeOverTime = (
   exercises: DatedExercise[]
@@ -17,18 +18,18 @@ export const collectVolumeOverTime = (
     const dateString = `${monthShort} ${day}`;
     const parsedWeight = parseWeight(weight);
 
-    if (parsedWeight === null) {
+    if (!parsedWeight) {
       continue;
     }
 
-    const parsedRepetitions = parseReps(repetitions);
+    const parsedReps = parseReps(repetitions);
 
-    const movedWeight = parsedRepetitions.reduce((prev, curr) => {
-      return prev + parseInt(curr) * parsedWeight;
+    const volume = parsedReps.reduce((prev, curr) => {
+      return prev + curr * parsedWeight.value;
     }, 0);
 
     const currentVolume = volumesByDate.get(dateString) || 0;
-    volumesByDate.set(dateString, currentVolume + movedWeight);
+    volumesByDate.set(dateString, currentVolume + volume);
   }
 
   const dates: string[] = [];

@@ -1,5 +1,10 @@
 import { Training } from "./types";
+import { parseReps } from "./utils/parse-reps";
+import { parseWeight } from "./utils/parse-weight";
 
+// TODO: This logic only makes sense as long as you don't consider bodyweight exercises.
+// For a progression like --- Pull ups @0kg 3x8 -> Pull ups @10kg 3x8 to make sense we need
+// a value for the bodyweight to make sense.
 const ZERO_WEIGHT_VALUE = 1;
 
 export const getVolumeChanges = (
@@ -16,38 +21,40 @@ export const getVolumeChanges = (
 
   const exerciseVolumeMap = getVolumePerExercise(training);
 
-  for (const [exercise, work] of Object.entries(exerciseVolumeMap)) {
-    if (work === 0) {
+  for (const [exerciseName, volume] of Object.entries(exerciseVolumeMap)) {
+    // How would this be 0?
+    if (volume === 0) {
       continue;
     }
 
-    const latestTrainingIndex = trainings.findIndex(
-      (training) => training.id === training.id
-    );
+    const trainingIndex = trainings.findIndex((t) => t.id === training.id);
 
-    for (let i = latestTrainingIndex + 1; i < trainings.length; i++) {
+    for (let i = trainingIndex + 1; i < trainings.length; i++) {
       const prevTraining = trainings[i];
 
       if (prevTraining === undefined) {
         continue;
       }
 
-      const prevExerciseWorkMap = getVolumePerExercise(prevTraining);
+      const prevExerciseVolumeMap = getVolumePerExercise(prevTraining);
 
       if (
-        !Object.prototype.hasOwnProperty.call(prevExerciseWorkMap, exercise)
+        !Object.prototype.hasOwnProperty.call(
+          prevExerciseVolumeMap,
+          exerciseName
+        )
       ) {
         continue;
       }
 
-      const prevWork = prevExerciseWorkMap[exercise];
+      const prevVolume = prevExerciseVolumeMap[exerciseName];
 
-      if (prevWork === 0 || prevWork === undefined) {
+      if (prevVolume === 0 || prevVolume === undefined) {
         break;
       }
 
-      const percentageChange = (work / prevWork - 1) * 100;
-      volumeChanges[exercise] = percentageChange;
+      const percentageChange = (volume / prevVolume - 1) * 100;
+      volumeChanges[exerciseName] = percentageChange;
       break;
     }
   }
@@ -64,14 +71,14 @@ const getVolumePerExercise = (training: Training): Record<string, number> =>
       if (!exerciseName) {
         return acc;
       }
-      const parsedWeight = weight ? parseWeight(weight) : null;
-      const parsedReps = reps ? parseReps(reps) : null;
+      const parsedWeight = parseWeight(weight);
+      const summedReps = parseReps(reps)?.reduce((acc, rep) => acc + rep, 0);
 
-      if (parsedWeight === null || parsedReps === null) {
+      if (!parsedWeight || summedReps === 0) {
         return acc;
       }
 
-      const volume = parsedWeight * parsedReps;
+      const volume = (parsedWeight.value || ZERO_WEIGHT_VALUE) * summedReps;
       const prevVolume = acc[exerciseName];
 
       acc[exerciseName] =
@@ -81,24 +88,3 @@ const getVolumePerExercise = (training: Training): Record<string, number> =>
     },
     {}
   );
-
-// TODO: This logic only makes sense as long as you don't consider bodyweight exercises.
-// For a progression like --- Pull ups @0 5*5 -> Pull ups @10 5*% to make sense we need
-// a value for the bodyweight to make sense.
-export const parseWeight = (weight: string): number | null => {
-  const match = weight.match(/\d+/);
-  const parsed = match && match[0] ? parseInt(match[0]) : null;
-
-  return parsed === 0 ? ZERO_WEIGHT_VALUE : parsed;
-};
-
-const parseReps = (reps: string): number | null => {
-  const parsedReps = reps
-    .split("/")
-    .map((rep) => parseInt(rep))
-    .filter((rep) => !isNaN(rep));
-
-  const summedReps = parsedReps.reduce((acc, rep) => acc + rep, 0);
-
-  return summedReps || null;
-};
