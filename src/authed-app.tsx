@@ -1,18 +1,10 @@
-import {
-  Suspense,
-  lazy,
-  useCallback,
-  useEffect,
-  useRef,
-  useState,
-} from "react";
+import { Suspense, lazy, useCallback, useRef, useState } from "react";
 import "../src/styles/authed-app.css";
 import { AddTrainingCallToAction } from "./add-training-text";
 import { BottomBar } from "./bottom-bar";
 import { BottomBarLayer } from "./bottom-bar-layer";
 import { useTopLevelState } from "./context";
 import { DeletionConfirmation } from "./deletion-confirmation";
-import { fetchTrainings } from "./fetch-trainings";
 import { filterTrainings } from "./filter-trainings";
 import { FormatInfo } from "./format-info";
 import { Layer } from "./layer";
@@ -20,6 +12,7 @@ import { LoadingDots } from "./loading-dots";
 import { Buttons } from "./main-ctas";
 import { serializeTraining } from "./serialize-training";
 import { MemoizedTrainings } from "./trainings";
+import { useFetchTrainings } from "./use-fetch-trainings";
 
 const VolumeOverTime = lazy(() => import("./volume-over-time"));
 
@@ -28,22 +21,12 @@ interface AuthedAppProps {
 }
 
 const AuthedApp = ({ contentType }: AuthedAppProps): JSX.Element => {
-  const [showFormatInfo, setShowFormatInfo] = useState(false);
-  const textAreaRef = useRef<HTMLTextAreaElement | null>(null);
-
   const [{ trainings, mode, showBottomBar, searchTerm }, dispatch] =
     useTopLevelState();
 
-  useEffect(() => {
-    (async () => {
-      const fetchedTrainings = await fetchTrainings();
-
-      dispatch({
-        type: "set-trainings",
-        trainings: fetchedTrainings,
-      });
-    })();
-  }, [dispatch]);
+  useFetchTrainings(dispatch);
+  const [showFormatInfo, setShowFormatInfo] = useState(false);
+  const textAreaRef = useRef<HTMLTextAreaElement | null>(null);
 
   const handleSetEditMode = useCallback(
     (id: number) => {

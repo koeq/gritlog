@@ -6,13 +6,13 @@ import { addTraining } from "./add-training";
 import { useAuth, useTopLevelState } from "./context";
 import { editTraining } from "./edit-training";
 import { Input } from "./input";
+import { parse } from "./parser";
 import { Action } from "./state-reducer";
 import "./styles/bottom-bar.css";
 import { Suggestion } from "./suggestion";
 import { Mode, Training } from "./types";
 import { isEmptyTraining } from "./utils/is-empty-training";
 import { useEscape } from "./utils/use-escape";
-import { parse } from "./parser";
 
 interface BottomBarProps {
   readonly textAreaRef: React.MutableRefObject<HTMLTextAreaElement | null>;
