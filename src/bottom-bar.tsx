@@ -1,4 +1,4 @@
-import { Dispatch, useRef } from "react";
+import { Dispatch, useMemo, useRef } from "react";
 import { ImInfo } from "react-icons/im";
 import { IoMdAdd, IoMdClose } from "react-icons/io";
 import { IoCheckmarkSharp } from "react-icons/io5";
@@ -12,32 +12,48 @@ import { Suggestion } from "./suggestion";
 import { Mode, Training } from "./types";
 import { isEmptyTraining } from "./utils/is-empty-training";
 import { useEscape } from "./utils/use-escape";
+import { parse } from "./parser";
 
 interface BottomBarProps {
-  readonly currentTraining: Training;
   readonly textAreaRef: React.MutableRefObject<HTMLTextAreaElement | null>;
   readonly setShowFormatInfo: Dispatch<React.SetStateAction<boolean>>;
 }
 
 export function BottomBar({
   textAreaRef,
-  currentTraining,
   setShowFormatInfo,
 }: BottomBarProps): JSX.Element | null {
   const { logout } = useAuth();
   const bottomBarRef = useRef(null);
-  const [{ currentInput, showBottomBar, mode }, dispatch] = useTopLevelState();
+
+  const [{ trainings, currentInput, showBottomBar, mode }, dispatch] =
+    useTopLevelState();
+
+  const { headline = null, exercises = [] } =
+    useMemo(() => parse(currentInput), [currentInput]) || {};
+
+  const highestTrainingId =
+    trainings && trainings.length
+      ? trainings.reduce((prev, curr) => (curr.id > prev.id ? curr : prev)).id
+      : -1;
+
+  const currentTraining: Training = {
+    headline,
+    id: highestTrainingId + 1,
+    exercises,
+    date: new Date().toString(),
+  };
 
   const cancelHandler = handleCancel(mode, dispatch);
   useEscape(bottomBarRef, cancelHandler);
 
-  const actionHandler = handleAction(
+  const actionHandler = handleAction({
     mode,
-    currentTraining,
-    dispatch,
     logout,
-    textAreaRef
-  );
+    dispatch,
+    textAreaRef,
+    currentTraining,
+  });
 
   const disabled = isDisabled(mode, currentTraining, currentInput);
 
@@ -104,13 +120,21 @@ const isDisabled = (
     ? currentInput?.trim() === mode.initialInput
     : false;
 
-const handleAction = (
-  mode: Mode,
-  currentTraining: Training,
-  dispatch: React.Dispatch<Action>,
-  logout: () => void,
-  textAreaRef: React.MutableRefObject<HTMLTextAreaElement | null>
-): (() => void) | undefined =>
+interface HandleActionParams {
+  mode: Mode;
+  logout: () => void;
+  currentTraining: Training;
+  dispatch: React.Dispatch<Action>;
+  textAreaRef: React.MutableRefObject<HTMLTextAreaElement | null>;
+}
+
+const handleAction = ({
+  mode,
+  currentTraining,
+  dispatch,
+  logout,
+  textAreaRef,
+}: HandleActionParams): (() => void) | undefined =>
   mode.type === "add"
     ? () => handleAdd({ currentTraining, dispatch, logout, textAreaRef })
     : mode.type === "edit"

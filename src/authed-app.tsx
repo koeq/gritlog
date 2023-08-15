@@ -3,7 +3,6 @@ import {
   lazy,
   useCallback,
   useEffect,
-  useMemo,
   useRef,
   useState,
 } from "react";
@@ -19,10 +18,8 @@ import { FormatInfo } from "./format-info";
 import { Layer } from "./layer";
 import { LoadingDots } from "./loading-dots";
 import { Buttons } from "./main-ctas";
-import { parse } from "./parser";
 import { serializeTraining } from "./serialize-training";
 import { MemoizedTrainings } from "./trainings";
-import { Training } from "./types";
 
 const VolumeOverTime = lazy(() => import("./volume-over-time"));
 
@@ -34,20 +31,8 @@ const AuthedApp = ({ contentType }: AuthedAppProps): JSX.Element => {
   const [showFormatInfo, setShowFormatInfo] = useState(false);
   const textAreaRef = useRef<HTMLTextAreaElement | null>(null);
 
-  const [
-    { trainings, currentInput, mode, showBottomBar, searchTerm },
-    dispatch,
-  ] = useTopLevelState();
-
-  const { headline = null, exercises = [] } =
-    useMemo(() => parse(currentInput), [currentInput]) || {};
-
-  const highestTrainingId =
-    trainings && trainings.length
-      ? trainings.reduce((prev, curr) => (curr.id > prev.id ? curr : prev)).id
-      : -1;
-
-  const nextTrainingId = highestTrainingId + 1;
+  const [{ trainings, mode, showBottomBar, searchTerm }, dispatch] =
+    useTopLevelState();
 
   useEffect(() => {
     (async () => {
@@ -59,13 +44,6 @@ const AuthedApp = ({ contentType }: AuthedAppProps): JSX.Element => {
       });
     })();
   }, [dispatch]);
-
-  const currentTraining: Training = {
-    headline,
-    id: nextTrainingId,
-    exercises: exercises,
-    date: new Date().toString(),
-  };
 
   const handleSetEditMode = useCallback(
     (id: number) => {
@@ -142,7 +120,6 @@ const AuthedApp = ({ contentType }: AuthedAppProps): JSX.Element => {
       {showBottomBar && !showFormatInfo && <BottomBarLayer />}
       <BottomBar
         textAreaRef={textAreaRef}
-        currentTraining={currentTraining}
         setShowFormatInfo={setShowFormatInfo}
       />
     </>
