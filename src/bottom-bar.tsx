@@ -5,6 +5,7 @@ import { IoCheckmarkSharp } from "react-icons/io5";
 import { addTraining } from "./add-training";
 import { useAuth, useTopLevelState } from "./context";
 import { editTraining } from "./edit-training";
+import { getVolumePerExercise } from "./get-volume-per-exercise";
 import { Input } from "./input";
 import { parse } from "./parser";
 import { Action } from "./state-reducer";
@@ -39,9 +40,10 @@ export function BottomBar({
 
   const currentTraining: Training = {
     headline,
-    id: highestTrainingId + 1,
     exercises,
+    id: highestTrainingId + 1,
     date: new Date().toString(),
+    exerciseVolumeMap: getVolumePerExercise(exercises),
   };
 
   const cancelHandler = handleCancel(mode, dispatch);

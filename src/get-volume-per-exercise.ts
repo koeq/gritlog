@@ -1,4 +1,4 @@
-import { Training } from "./types";
+import { Exercise } from "./types";
 import { parseReps } from "./utils/parse-reps";
 import { parseWeight } from "./utils/parse-weight";
 
@@ -8,9 +8,9 @@ import { parseWeight } from "./utils/parse-weight";
 const ZERO_WEIGHT_VALUE = 1;
 
 export const getVolumePerExercise = (
-  training: Training
+  exercises: Exercise[]
 ): Record<string, number> =>
-  training.exercises.reduce(
+  exercises.reduce(
     (
       acc: Record<string, number>,
       { exerciseName, weight, repetitions: reps }

@@ -11,6 +11,10 @@ describe("Calculate percentage change compared to the last time the exercises we
         { exerciseName: "squat", weight: "100kg", repetitions: "5" },
         { exerciseName: "bench press", weight: "80kg", repetitions: "5" },
       ],
+      exerciseVolumeMap: {
+        squat: 500,
+        "bench press": 400,
+      },
     };
 
     const trainings: Training[] = [
@@ -23,6 +27,10 @@ describe("Calculate percentage change compared to the last time the exercises we
           { exerciseName: "squat", weight: "80kg", repetitions: "5" },
           { exerciseName: "bench press", weight: "60kg", repetitions: "5" },
         ],
+        exerciseVolumeMap: {
+          squat: 400,
+          "bench press": 300,
+        },
       },
     ];
 
@@ -44,6 +52,7 @@ describe("Calculate percentage change compared to the last time the exercises we
         { exerciseName: "squat", weight: "100kg", repetitions: "5" },
         { exerciseName: "deadlift", weight: "120kg", repetitions: "5" },
       ],
+      exerciseVolumeMap: { squat: 500, deadlift: 600 },
     };
 
     const trainings: Training[] = [
@@ -56,6 +65,10 @@ describe("Calculate percentage change compared to the last time the exercises we
           { exerciseName: "squat", weight: "80kg", repetitions: "5" },
           { exerciseName: "bench press", weight: "60kg", repetitions: "5" },
         ],
+        exerciseVolumeMap: {
+          squat: 400,
+          "bench press": 300,
+        },
       },
     ];
 
@@ -73,6 +86,9 @@ describe("Calculate percentage change compared to the last time the exercises we
       id: 2,
       headline: null,
       exercises: [{ exerciseName: "squat", weight: "0kg", repetitions: "10" }],
+      exerciseVolumeMap: {
+        squat: 0,
+      },
     };
 
     const trainings: Training[] = [
@@ -82,6 +98,9 @@ describe("Calculate percentage change compared to the last time the exercises we
         id: 1,
         headline: null,
         exercises: [{ exerciseName: "squat", weight: "0kg", repetitions: "5" }],
+        exerciseVolumeMap: {
+          squat: 0,
+        },
       },
     ];
 
@@ -105,6 +124,10 @@ describe("Calculate percentage change compared to the last time the exercises we
         { exerciseName: "pull ups", weight: "10kg", repetitions: "10" },
         { exerciseName: "chin ups", weight: "", repetitions: "10" },
       ],
+      exerciseVolumeMap: {
+        row: 900,
+        "pull ups": 100,
+      },
     };
 
     const trainings: Training[] = [
@@ -120,6 +143,11 @@ describe("Calculate percentage change compared to the last time the exercises we
           { exerciseName: "pull ups", weight: "10kg", repetitions: null },
           { exerciseName: "chin ups", weight: "10kg", repetitions: "10" },
         ],
+        exerciseVolumeMap: {
+          squat: 400,
+          "bench press": 800,
+          "chin ups": 100,
+        },
       },
     ];
 
@@ -142,6 +170,10 @@ describe("Calculate percentage change compared to the last time the exercises we
         { exerciseName: "pull ups", weight: "10kg", repetitions: "10" },
         { exerciseName: "chin ups", weight: "", repetitions: "10" },
       ],
+      exerciseVolumeMap: {
+        row: 900,
+        "pull ups": 100,
+      },
     };
 
     const trainings: Training[] = [latestTraining];

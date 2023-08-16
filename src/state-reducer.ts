@@ -1,3 +1,4 @@
+import { getVolumePerExercise } from "./get-volume-per-exercise";
 import { EditMode, Mode, Training } from "./types";
 import { sortTrainingsByDate } from "./utils/sort-trainings-by-date";
 
@@ -62,7 +63,14 @@ export function reducer(state: TopLevelState, action: Action): TopLevelState {
         mode: { type: "add" },
 
         trainings: trainings?.map((training) =>
-          training.id === id ? { ...currentTraining, id } : training
+          training.id === id
+            ? {
+                ...currentTraining,
+                exerciseVolumeMap: getVolumePerExercise(
+                  currentTraining.exercises
+                ),
+              }
+            : training
         ),
       };
     }

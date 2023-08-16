@@ -1,3 +1,4 @@
+import { addExerciseVolumeMap } from "./add-exercise-volume-map";
 import { TrainingSchema } from "./schemas";
 import { Training } from "./types";
 
@@ -24,7 +25,7 @@ export const fetchTrainings = async (): Promise<Training[] | []> => {
 
     const trainings = await res.json();
 
-    return TrainingSchema.array().parse(trainings);
+    return addExerciseVolumeMap(TrainingSchema.array().parse(trainings));
   } catch (error) {
     console.error(error);
 
