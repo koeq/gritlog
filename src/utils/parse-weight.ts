@@ -18,5 +18,5 @@ export const parseWeight = (
     return;
   }
 
-  return { value: parseInt(weight), unit };
+  return { value: parseFloat(weight.replace(",", ".")), unit };
 };
