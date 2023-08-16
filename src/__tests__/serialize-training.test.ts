@@ -21,6 +21,7 @@ beforeEach(() => {
         repetitions: "8 8 8",
       },
     ],
+    exerciseVolumeMap: {},
   };
 });
 

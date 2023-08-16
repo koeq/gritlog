@@ -1,3 +1,4 @@
+import { getVolumePerExercise } from "../get-volume-per-exercise";
 import { serializeTraining } from "../serialize-training";
 import { TopLevelState, reducer } from "../state-reducer";
 import { Training } from "../types";
@@ -22,6 +23,9 @@ describe("Mutate global state", () => {
     exercises: [
       { exerciseName: "Benchpress", repetitions: "8/8/8", weight: "100.5kg" },
     ],
+    exerciseVolumeMap: {
+      Benchpress: 2412,
+    },
   };
 
   it("Add training", () => {
@@ -45,9 +49,14 @@ describe("Mutate global state", () => {
       trainings: [someTraining],
     };
 
+    const exercises = [
+      { ...someTraining.exercises[0], exerciseName: "Squats" },
+    ];
+
     const currentTraining: Training = {
       ...someTraining,
-      exercises: [{ ...someTraining.exercises[0], exerciseName: "Squats" }],
+      exercises,
+      exerciseVolumeMap: getVolumePerExercise(exercises),
     };
 
     const newState = reducer(state, {

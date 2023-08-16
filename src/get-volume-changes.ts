@@ -13,7 +13,7 @@ export const getVolumeChanges = (
     return null;
   }
 
-  const exerciseVolumeMap = getVolumePerExercise(training);
+  const exerciseVolumeMap = getVolumePerExercise(training.exercises);
 
   for (const [exerciseName, volume] of Object.entries(exerciseVolumeMap)) {
     if (volume === 0) {
@@ -29,7 +29,10 @@ export const getVolumeChanges = (
         continue;
       }
 
-      const prevExerciseVolumeMap = getVolumePerExercise(prevTraining);
+      const prevExerciseVolumeMap = getVolumePerExercise(
+        prevTraining.exercises
+      );
+
       const prevVolume = prevExerciseVolumeMap[exerciseName];
 
       if (!prevVolume) {

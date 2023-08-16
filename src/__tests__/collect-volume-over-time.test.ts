@@ -4,13 +4,16 @@ import { Training } from "../types";
 
 const trainings: Training[] = [
   {
+    id: 100,
+    headline: null,
     date: new Date().toDateString(),
     exercises: [
       { exerciseName: "Squats", weight: "100kg", repetitions: "8/8/8" },
       { exerciseName: "Squats", weight: "110kg", repetitions: "7/7" },
     ],
-    headline: null,
-    id: 100,
+    exerciseVolumeMap: {
+      Squats: 3940,
+    },
   },
 ];
 

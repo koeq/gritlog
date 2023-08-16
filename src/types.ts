@@ -1,7 +1,13 @@
 import { z } from "zod";
 import { TrainingSchema } from "./schemas";
 
-export type Training = z.infer<typeof TrainingSchema>;
+// This is the type of the training as it comes from the DB.
+export type TrainingAsOfSchema = z.infer<typeof TrainingSchema>;
+
+export interface Training extends TrainingAsOfSchema {
+  exerciseVolumeMap: Record<string, number>;
+}
+
 export type Exercise = Training["exercises"][number];
 export type CurrentInput = string;
 
