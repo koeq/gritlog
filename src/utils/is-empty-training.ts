@@ -1,6 +1,8 @@
-import { Training } from "../types";
+import { Training, TrainingWithoutVolume } from "../types";
 
-export const isEmptyTraining = (currentTraining: Training): boolean =>
+export const isEmptyTraining = (
+  currentTraining: Training | TrainingWithoutVolume
+): boolean =>
   !(
     currentTraining.headline?.length ||
     currentTraining.exercises.some(

@@ -9,23 +9,23 @@ interface ExerciseRowProps {
   weightChange: boolean;
   isLastExercise: boolean;
   isSearchedExercise: boolean | undefined;
-  percentageChanges: Record<string, number> | null;
+  volumeChanges: Record<string, number> | null;
 }
 
 export const ExerciseRow = ({
   exercise,
   weightChange,
   isLastExercise,
-  percentageChanges,
+  volumeChanges,
   isSearchedExercise,
 }: ExerciseRowProps): JSX.Element => {
   const { exerciseName, repetitions } = exercise;
 
-  const percentageChange = exerciseName
-    ? percentageChanges?.[exerciseName] ?? null
+  const volumeChange = exerciseName
+    ? volumeChanges?.[exerciseName] ?? null
     : null;
 
-  const sign = percentageChange ? (percentageChange > 0 ? "↑" : "↓") : "";
+  const sign = volumeChange ? (volumeChange > 0 ? "↑" : "↓") : "";
   const weight = renderWeight(parseWeight(exercise.weight));
   const reps = renderReps(parseReps(repetitions));
 
@@ -43,18 +43,18 @@ export const ExerciseRow = ({
       <div className="row" id="repetitions">
         {reps}
       </div>
-      {percentageChange !== null && !weightChange ? (
+      {volumeChange !== null && !weightChange ? (
         <div id="change" className={"row"}>
           <span
             className={`${
-              percentageChange === 0
+              volumeChange === 0
                 ? "zero"
-                : percentageChange > 0
+                : volumeChange > 0
                 ? "positive"
                 : "negative"
             } change`}
           >
-            {`${sign}${Math.abs(percentageChange).toFixed(0)}%`}
+            {`${sign}${Math.abs(volumeChange).toFixed(0)}%`}
           </span>
         </div>
       ) : (

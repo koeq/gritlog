@@ -1,5 +1,13 @@
+import { addVolumeChanges as updateVolumeChanges } from "./enrich-trainings";
+import { getVolumeChanges } from "./get-volume-changes";
 import { getVolumePerExercise } from "./get-volume-per-exercise";
-import { EditMode, Mode, Training } from "./types";
+import {
+  EditMode,
+  Mode,
+  Training,
+  TrainingWithoutVolume,
+  TrainingWithoutVolumeChanges,
+} from "./types";
 import { sortTrainingsByDate } from "./utils/sort-trainings-by-date";
 
 export type TopLevelState = {
@@ -11,8 +19,8 @@ export type TopLevelState = {
 };
 
 export type Action =
-  | { type: "add"; currentTraining: Training }
-  | { type: "edit"; mode: EditMode; currentTraining: Training }
+  | { type: "add"; currentTraining: TrainingWithoutVolume }
+  | { type: "edit"; mode: EditMode; currentTraining: TrainingWithoutVolume }
   | { type: "repeat"; currentInput: string }
   | { type: "delete"; id: number }
   | { type: "set-trainings"; trainings: Training[] }
@@ -31,6 +39,21 @@ export type Action =
   | { type: "set-search-term"; searchTerm: string }
   | { type: "clear-search-term" };
 
+const createTrainingWithVolume = (
+  currentTraining: TrainingWithoutVolume,
+  trainings: Training[]
+): Training => {
+  const temp: TrainingWithoutVolumeChanges = {
+    ...currentTraining,
+    exerciseVolumeMap: getVolumePerExercise(currentTraining.exercises),
+  };
+
+  return {
+    ...temp,
+    volumeChanges: getVolumeChanges(temp, trainings),
+  };
+};
+
 export function reducer(state: TopLevelState, action: Action): TopLevelState {
   const { trainings } = state;
 
@@ -45,8 +68,19 @@ export function reducer(state: TopLevelState, action: Action): TopLevelState {
         mode: { type: "add" },
 
         trainings: trainings
-          ? sortTrainingsByDate([...trainings, currentTraining])
-          : [currentTraining],
+          ? sortTrainingsByDate([
+              ...trainings,
+              createTrainingWithVolume(currentTraining, trainings),
+            ])
+          : [
+              {
+                ...currentTraining,
+                exerciseVolumeMap: getVolumePerExercise(
+                  currentTraining.exercises
+                ),
+                volumeChanges: null,
+              },
+            ],
       };
     }
 
@@ -62,16 +96,13 @@ export function reducer(state: TopLevelState, action: Action): TopLevelState {
         showBottomBar: false,
         mode: { type: "add" },
 
-        trainings: trainings?.map((training) =>
-          training.id === id
-            ? {
-                ...currentTraining,
-                exerciseVolumeMap: getVolumePerExercise(
-                  currentTraining.exercises
-                ),
-              }
-            : training
-        ),
+        trainings: trainings
+          ?.map((training) =>
+            training.id === id
+              ? createTrainingWithVolume(currentTraining, trainings)
+              : training
+          )
+          .map(updateVolumeChanges),
       };
     }
 
@@ -91,7 +122,9 @@ export function reducer(state: TopLevelState, action: Action): TopLevelState {
 
       return {
         ...state,
-        trainings: trainings?.filter(({ id: pastId }) => pastId !== id),
+        trainings: trainings
+          ?.filter(({ id: pastId }) => pastId !== id)
+          .map(updateVolumeChanges),
 
         mode: {
           type: "add",
