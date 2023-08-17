@@ -23,7 +23,7 @@ export const App = (): JSX.Element => {
   }
 
   return (
-    <Suspense fallback={<LoadingDots />}>
+    <Suspense fallback={<></>}>
       <Header authed={authed} menuOpen={menuOpen} setMenuOpen={setMenuOpen} />
       {authed ? (
         <>

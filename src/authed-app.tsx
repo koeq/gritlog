@@ -14,7 +14,7 @@ import { serializeTraining } from "./serialize-training";
 import { MemoizedTrainings } from "./trainings";
 import { useFetchTrainings } from "./use-fetch-trainings";
 
-const VolumeOverTime = lazy(() => import("./volume-over-time"));
+const VolumeOverTime = lazy(() => import("./volume-over-time-chart"));
 
 interface AuthedAppProps {
   readonly contentType: "trainings" | "statistics";
@@ -52,10 +52,10 @@ const AuthedApp = ({ contentType }: AuthedAppProps): JSX.Element => {
     return <LoadingDots />;
   }
 
-  if (contentType === "statistics") {
+  if (contentType === "statistics" && trainings.length > 0) {
     return (
       <div className="authed">
-        <Suspense fallback={<LoadingDots />}>
+        <Suspense fallback={<></>}>
           <VolumeOverTime trainings={trainings} />
         </Suspense>
       </div>
@@ -65,7 +65,9 @@ const AuthedApp = ({ contentType }: AuthedAppProps): JSX.Element => {
   return (
     <>
       <div className="authed">
-        {trainings.length ? (
+        {trainings.length === 0 ? (
+          <AddTrainingCallToAction />
+        ) : (
           <MemoizedTrainings
             mode={mode}
             dispatch={dispatch}
@@ -74,8 +76,6 @@ const AuthedApp = ({ contentType }: AuthedAppProps): JSX.Element => {
             handleSetEditMode={handleSetEditMode}
             trainings={filterTrainings(searchTerm, trainings)}
           />
-        ) : (
-          <AddTrainingCallToAction />
         )}
 
         <Buttons

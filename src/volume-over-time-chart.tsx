@@ -14,7 +14,7 @@ import { useMemo, useState } from "react";
 import { Line } from "react-chartjs-2";
 import { collectVolumeOverTime } from "./collect-volume-over-time";
 import { useTheme } from "./context";
-import "./styles/volume-over-time.css";
+import "./styles/volume-over-time-chart.css";
 import { Training } from "./types";
 import { getUniqueExerciseNames } from "./utils/get-unique-exercises";
 
@@ -28,19 +28,22 @@ ChartJS.register(
   Legend
 );
 
-interface VolumeOverTimeProps {
+interface VolumeOverTimeChartProps {
   trainings: Training[];
 }
 
-function VolumeOverTime({ trainings }: VolumeOverTimeProps): JSX.Element {
+function VolumeOverTimeChart({
+  trainings,
+}: VolumeOverTimeChartProps): JSX.Element {
   const { theme } = useTheme();
-  const [exercise, setExercise] = useState("Squats");
-  const chartBorderColor = theme === "dark" ? "#282A32" : "#e6e6e9";
 
   const exercises = useMemo(
     () => getUniqueExerciseNames(trainings),
     [trainings]
   );
+
+  const [exercise, setExercise] = useState(exercises[0] || "");
+  const chartBorderColor = theme === "dark" ? "#282A32" : "#e6e6e9";
 
   const { volumens, dates } = useMemo(
     () => collectVolumeOverTime(exercise, trainings),
@@ -122,4 +125,4 @@ function VolumeOverTime({ trainings }: VolumeOverTimeProps): JSX.Element {
   );
 }
 
-export default VolumeOverTime;
+export default VolumeOverTimeChart;
