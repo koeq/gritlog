@@ -13,7 +13,7 @@ export const Buttons = ({
   handleSetEditMode,
 }: ButtonsProps): JSX.Element => {
   const [{ trainings, showBottomBar }, dispatch] = useTopLevelState();
-  const latestTrainingId = trainings?.[0]?.id;
+  const latestTrainingId = trainings[0]?.id;
 
   return (
     <div className={showBottomBar ? "btns btns-input-open" : "btns"}>

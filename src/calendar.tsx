@@ -12,7 +12,7 @@ export const Calendar = ({ id }: { id: number }): JSX.Element | null => {
   const isMobile = useIsMobile();
   const inputRef = useRef<HTMLInputElement | null>(null);
   const [{ trainings }, dispatch] = useTopLevelState();
-  const currentTraining = trainings?.find((t) => t.id === id);
+  const currentTraining = trainings.find((t) => t.id === id);
 
   const [calendarDate, setCalendarDate] = useState(
     currentTraining?.date ? formatDate(currentTraining.date) : undefined

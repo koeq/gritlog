@@ -11,7 +11,7 @@ import {
 import { sortTrainingsByDate } from "./utils/sort-trainings-by-date";
 
 export type TopLevelState = {
-  trainings: Training[] | undefined;
+  trainings: Training[];
   currentInput: string;
   showBottomBar: boolean;
   mode: Mode;
@@ -67,20 +67,10 @@ export function reducer(state: TopLevelState, action: Action): TopLevelState {
         showBottomBar: false,
         mode: { type: "add" },
 
-        trainings: trainings
-          ? sortTrainingsByDate([
-              ...trainings,
-              createTrainingWithVolume(currentTraining, trainings),
-            ])
-          : [
-              {
-                ...currentTraining,
-                exerciseVolumeMap: getVolumePerExercise(
-                  currentTraining.exercises
-                ),
-                volumeChanges: null,
-              },
-            ],
+        trainings: sortTrainingsByDate([
+          ...trainings,
+          createTrainingWithVolume(currentTraining, trainings),
+        ]),
       };
     }
 
@@ -217,7 +207,7 @@ export function reducer(state: TopLevelState, action: Action): TopLevelState {
 }
 
 export const initialState: TopLevelState = {
-  trainings: undefined,
+  trainings: [],
   currentInput: "",
   showBottomBar: false,
   mode: { type: "add" },

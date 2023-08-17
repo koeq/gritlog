@@ -24,13 +24,13 @@ const AuthedApp = ({ contentType }: AuthedAppProps): JSX.Element => {
   const [{ trainings, mode, showBottomBar, searchTerm }, dispatch] =
     useTopLevelState();
 
-  useFetchTrainings(dispatch);
+  const isLoading = useFetchTrainings(dispatch);
   const [showFormatInfo, setShowFormatInfo] = useState(false);
   const textAreaRef = useRef<HTMLTextAreaElement | null>(null);
 
   const handleSetEditMode = useCallback(
     (id: number) => {
-      const training = trainings?.find((training) => training.id === id);
+      const training = trainings.find((training) => training.id === id);
 
       if (!training) {
         return;
@@ -48,7 +48,7 @@ const AuthedApp = ({ contentType }: AuthedAppProps): JSX.Element => {
     [trainings, dispatch]
   );
 
-  if (trainings === undefined) {
+  if (isLoading) {
     return <LoadingDots />;
   }
 

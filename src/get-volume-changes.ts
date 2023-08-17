@@ -2,11 +2,11 @@ import { TrainingWithoutVolumeChanges } from "./types";
 
 export const getVolumeChanges = (
   training: TrainingWithoutVolumeChanges,
-  trainings: TrainingWithoutVolumeChanges[] | undefined
+  trainings: TrainingWithoutVolumeChanges[]
 ): Record<string, number> | null => {
   const volumeChanges: Record<string, number> = {};
 
-  if (!trainings || trainings.length < 2) {
+  if (trainings.length < 2) {
     return null;
   }
 

@@ -12,11 +12,11 @@ import {
 } from "chart.js";
 import { useMemo, useState } from "react";
 import { Line } from "react-chartjs-2";
+import { collectVolumeOverTime } from "./collect-volume-over-time";
 import { useTheme } from "./context";
 import "./styles/volume-over-time.css";
 import { Training } from "./types";
 import { getUniqueExerciseNames } from "./utils/get-unique-exercises";
-import { collectVolumeOverTime } from "./collect-volume-over-time";
 
 ChartJS.register(
   CategoryScale,

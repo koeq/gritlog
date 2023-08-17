@@ -3,7 +3,6 @@ import { IoCloseOutline, IoSearch } from "react-icons/io5";
 import { useTopLevelState } from "./context";
 import "./styles/search-box.css";
 import { debounce } from "./utils/debounce";
-import { noTrainings } from "./utils/no-trainings";
 import { useEscape } from "./utils/use-escape";
 
 export function SearchBox(): JSX.Element {
@@ -14,7 +13,7 @@ export function SearchBox(): JSX.Element {
   const [active, setActive] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
   const [{ trainings }, dispatch] = useTopLevelState();
-  const disableButton = noTrainings(trainings) && !active;
+  const disableButton = trainings.length === 0 && !active;
 
   const handleOpen = () => {
     setActive(true);
@@ -47,7 +46,7 @@ export function SearchBox(): JSX.Element {
   }, [searchTermResult]);
 
   useEffect(() => {
-    if (noTrainings(trainings) && active) {
+    if (trainings.length === 0 && active) {
       setActive(false);
     }
   }, [trainings, active]);
