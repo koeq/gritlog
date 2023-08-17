@@ -1,7 +1,7 @@
-import { Training } from "./types";
+import { TrainingWithoutVolume } from "./types";
 
 export const addTraining = async (
-  training: Training,
+  training: TrainingWithoutVolume,
   logout: () => void
 ): Promise<void> => {
   try {

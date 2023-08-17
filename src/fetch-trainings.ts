@@ -1,6 +1,7 @@
-import { addExerciseVolumeMap } from "./add-exercise-volume-map";
+import { addExerciseVolumeMap, addVolumeChanges } from "./enrich-trainings";
 import { TrainingSchema } from "./schemas";
 import { Training } from "./types";
+import { sortTrainingsByDate } from "./utils/sort-trainings-by-date";
 
 export const fetchTrainings = async (): Promise<Training[] | []> => {
   const trainingUrl = import.meta.env.VITE_TRAINING_URL;
@@ -25,7 +26,9 @@ export const fetchTrainings = async (): Promise<Training[] | []> => {
 
     const trainings = await res.json();
 
-    return addExerciseVolumeMap(TrainingSchema.array().parse(trainings));
+    return sortTrainingsByDate(TrainingSchema.array().parse(trainings))
+      .map(addExerciseVolumeMap)
+      .map(addVolumeChanges);
   } catch (error) {
     console.error(error);
 

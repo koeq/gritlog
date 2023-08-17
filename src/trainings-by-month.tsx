@@ -17,7 +17,6 @@ interface TrainingsByMonthProps {
   readonly dispatch: Dispatch<Action>;
   readonly date: TrainingByMonthType["date"];
   readonly handleSetEditMode: (id: number) => void;
-  readonly percentageChanges: Record<string, number> | null;
   readonly textAreaRef: React.MutableRefObject<HTMLTextAreaElement | null>;
 }
 
@@ -28,7 +27,6 @@ export const TrainingsByMonth = ({
   trainings,
   searchTerm,
   textAreaRef,
-  percentageChanges,
   handleSetEditMode,
   date: { month, year },
 }: TrainingsByMonthProps): JSX.Element => {
@@ -75,11 +73,6 @@ export const TrainingsByMonth = ({
               handleRepeat={handleRepeat}
               handleSetEditMode={handleSetEditMode}
               editing={mode.type === "edit" && mode.id === training.id}
-              percentageChanges={
-                training.id === percentageChanges?.trainingId
-                  ? percentageChanges
-                  : null
-              }
             />
           );
         })}

@@ -2,10 +2,12 @@ import { z } from "zod";
 import { TrainingSchema } from "./schemas";
 
 // This is the type of the training as it comes from the DB.
-export type TrainingAsOfSchema = z.infer<typeof TrainingSchema>;
+export type TrainingWithoutVolume = z.infer<typeof TrainingSchema>;
+export type TrainingWithoutVolumeChanges = Omit<Training, "volumeChanges">;
 
-export interface Training extends TrainingAsOfSchema {
+export interface Training extends TrainingWithoutVolume {
   exerciseVolumeMap: Record<string, number>;
+  volumeChanges: Record<string, number> | null;
 }
 
 export type Exercise = Training["exercises"][number];

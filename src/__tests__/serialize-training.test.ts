@@ -22,6 +22,7 @@ beforeEach(() => {
       },
     ],
     exerciseVolumeMap: {},
+    volumeChanges: null,
   };
 });
 

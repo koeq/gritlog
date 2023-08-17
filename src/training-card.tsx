@@ -13,7 +13,6 @@ interface TrainingCard {
   readonly handleRepeat: (id: number) => void;
   readonly handleSetEditMode: (id: number) => void;
   readonly dispatch: React.Dispatch<Action>;
-  readonly percentageChanges: Record<string, number> | null;
   readonly textAreaRef: React.MutableRefObject<HTMLTextAreaElement | null>;
 }
 
@@ -25,7 +24,6 @@ const TrainingCard = ({
   textAreaRef,
   handleRepeat,
   handleSetEditMode,
-  percentageChanges,
 }: TrainingCard): JSX.Element | null => {
   const isMobile = useIsMobile();
   const trainingRef = useRef<HTMLDivElement | null>(null);
@@ -36,11 +34,7 @@ const TrainingCard = ({
       ref={trainingRef}
       onClick={isMobile ? undefined : () => scrollOnClick(trainingRef.current)}
     >
-      <Training
-        training={training}
-        searchTerm={searchTerm}
-        percentageChanges={percentageChanges}
-      />
+      <Training training={training} searchTerm={searchTerm} />
       <div className="buttons-container">
         <button
           aria-label="edit"

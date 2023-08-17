@@ -1,27 +1,25 @@
-import { getVolumePerExercise } from "./get-volume-per-exercise";
-import { Training } from "./types";
+import { TrainingWithoutVolumeChanges } from "./types";
 
 export const getVolumeChanges = (
-  training: Training,
-  trainings: Training[]
+  training: TrainingWithoutVolumeChanges,
+  trainings: TrainingWithoutVolumeChanges[] | undefined
 ): Record<string, number> | null => {
-  const volumeChanges: Record<string, number> = {
-    trainingId: training.id,
-  };
+  const volumeChanges: Record<string, number> = {};
 
-  if (trainings.length < 2) {
+  if (!trainings || trainings.length < 2) {
     return null;
   }
 
-  const exerciseVolumeMap = getVolumePerExercise(training.exercises);
-
-  for (const [exerciseName, volume] of Object.entries(exerciseVolumeMap)) {
+  for (const [exerciseName, volume] of Object.entries(
+    training.exerciseVolumeMap
+  )) {
     if (volume === 0) {
       continue;
     }
 
     const trainingIndex = trainings.findIndex((t) => t.id === training.id);
 
+    // Start looking for exercises one training before.
     for (let i = trainingIndex + 1; i < trainings.length; i++) {
       const prevTraining = trainings[i];
 
@@ -29,18 +27,14 @@ export const getVolumeChanges = (
         continue;
       }
 
-      const prevExerciseVolumeMap = getVolumePerExercise(
-        prevTraining.exercises
-      );
-
-      const prevVolume = prevExerciseVolumeMap[exerciseName];
+      const prevVolume = prevTraining.exerciseVolumeMap[exerciseName];
 
       if (!prevVolume) {
         continue;
       }
 
-      const percentageChange = (volume / prevVolume - 1) * 100;
-      volumeChanges[exerciseName] = percentageChange;
+      const volumeChangeInPercent = (volume / prevVolume - 1) * 100;
+      volumeChanges[exerciseName] = volumeChangeInPercent;
       break;
     }
   }

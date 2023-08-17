@@ -1,8 +1,8 @@
 import { getVolumeChanges } from "../get-volume-changes";
 import { Training } from "../types";
 
-describe("Calculate percentage change compared to the last time the exercises were performed:", () => {
-  test("Should return percentage changes for exercises in the latest training", () => {
+describe("Calculate volume changes compared to the last time the exercises were performed:", () => {
+  test("Should return volume changes for exercises in the latest training", () => {
     const latestTraining: Training = {
       id: 2,
       date: "some date",
@@ -15,6 +15,7 @@ describe("Calculate percentage change compared to the last time the exercises we
         squat: 500,
         "bench press": 400,
       },
+      volumeChanges: null,
     };
 
     const trainings: Training[] = [
@@ -31,13 +32,13 @@ describe("Calculate percentage change compared to the last time the exercises we
           squat: 400,
           "bench press": 300,
         },
+        volumeChanges: null,
       },
     ];
 
     const result = getVolumeChanges(latestTraining, trainings);
 
     expect(result).toEqual({
-      trainingId: 2,
       squat: 25,
       "bench press": 33.33333333333333,
     });
@@ -53,6 +54,7 @@ describe("Calculate percentage change compared to the last time the exercises we
         { exerciseName: "deadlift", weight: "120kg", repetitions: "5" },
       ],
       exerciseVolumeMap: { squat: 500, deadlift: 600 },
+      volumeChanges: null,
     };
 
     const trainings: Training[] = [
@@ -69,13 +71,13 @@ describe("Calculate percentage change compared to the last time the exercises we
           squat: 400,
           "bench press": 300,
         },
+        volumeChanges: null,
       },
     ];
 
     const result = getVolumeChanges(latestTraining, trainings);
 
     expect(result).toEqual({
-      trainingId: 2,
       squat: 25,
     });
   });
@@ -87,8 +89,9 @@ describe("Calculate percentage change compared to the last time the exercises we
       headline: null,
       exercises: [{ exerciseName: "squat", weight: "0kg", repetitions: "10" }],
       exerciseVolumeMap: {
-        squat: 0,
+        squat: 10,
       },
+      volumeChanges: null,
     };
 
     const trainings: Training[] = [
@@ -99,15 +102,15 @@ describe("Calculate percentage change compared to the last time the exercises we
         headline: null,
         exercises: [{ exerciseName: "squat", weight: "0kg", repetitions: "5" }],
         exerciseVolumeMap: {
-          squat: 0,
+          squat: 5,
         },
+        volumeChanges: null,
       },
     ];
 
     const result = getVolumeChanges(latestTraining, trainings);
 
     expect(result).toEqual({
-      trainingId: 2,
       squat: 100,
     });
   });
@@ -128,6 +131,7 @@ describe("Calculate percentage change compared to the last time the exercises we
         row: 900,
         "pull ups": 100,
       },
+      volumeChanges: null,
     };
 
     const trainings: Training[] = [
@@ -148,14 +152,13 @@ describe("Calculate percentage change compared to the last time the exercises we
           "bench press": 800,
           "chin ups": 100,
         },
+        volumeChanges: null,
       },
     ];
 
     const result = getVolumeChanges(latestTraining, trainings);
 
-    expect(result).toEqual({
-      trainingId: 2,
-    });
+    expect(result).toEqual({});
   });
 
   test("Should return null if there are less than two trainings", () => {
@@ -174,6 +177,7 @@ describe("Calculate percentage change compared to the last time the exercises we
         row: 900,
         "pull ups": 100,
       },
+      volumeChanges: null,
     };
 
     const trainings: Training[] = [latestTraining];

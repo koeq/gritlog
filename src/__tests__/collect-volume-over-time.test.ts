@@ -14,6 +14,7 @@ const trainings: Training[] = [
     exerciseVolumeMap: {
       Squats: 3940,
     },
+    volumeChanges: null,
   },
 ];
 

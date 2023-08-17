@@ -2,13 +2,12 @@ import { Dispatch, useLayoutEffect } from "react";
 import { handleAdd } from "./bottom-bar";
 import { useAuth, useIsMobile, useTopLevelState } from "./context";
 import "./styles/input.css";
-import { Training } from "./types";
+import { TrainingWithoutVolume } from "./types";
 
 interface InputProps {
-  readonly currentTraining: Training;
-  readonly textAreaRef: React.MutableRefObject<HTMLTextAreaElement | null>;
-
+  readonly currentTraining: TrainingWithoutVolume;
   readonly setShowInfo: Dispatch<React.SetStateAction<boolean>>;
+  readonly textAreaRef: React.MutableRefObject<HTMLTextAreaElement | null>;
 }
 
 export const Input = ({

@@ -5,13 +5,12 @@ import { IoCheckmarkSharp } from "react-icons/io5";
 import { addTraining } from "./add-training";
 import { useAuth, useTopLevelState } from "./context";
 import { editTraining } from "./edit-training";
-import { getVolumePerExercise } from "./get-volume-per-exercise";
 import { Input } from "./input";
 import { parse } from "./parser";
 import { Action } from "./state-reducer";
 import "./styles/bottom-bar.css";
 import { Suggestion } from "./suggestion";
-import { Mode, Training } from "./types";
+import { Mode, TrainingWithoutVolume } from "./types";
 import { isEmptyTraining } from "./utils/is-empty-training";
 import { useEscape } from "./utils/use-escape";
 
@@ -38,12 +37,11 @@ export function BottomBar({
       ? trainings.reduce((prev, curr) => (curr.id > prev.id ? curr : prev)).id
       : -1;
 
-  const currentTraining: Training = {
+  const currentTraining: TrainingWithoutVolume = {
     headline,
     exercises,
     id: highestTrainingId + 1,
     date: new Date().toString(),
-    exerciseVolumeMap: getVolumePerExercise(exercises),
   };
 
   const cancelHandler = handleCancel(mode, dispatch);
@@ -113,7 +111,7 @@ export function BottomBar({
 
 const isDisabled = (
   mode: Mode,
-  currentTraining: Training,
+  currentTraining: TrainingWithoutVolume,
   currentInput: string
 ): boolean =>
   mode.type === "add"
@@ -125,7 +123,7 @@ const isDisabled = (
 interface HandleActionParams {
   mode: Mode;
   logout: () => void;
-  currentTraining: Training;
+  currentTraining: TrainingWithoutVolume;
   dispatch: React.Dispatch<Action>;
   textAreaRef: React.MutableRefObject<HTMLTextAreaElement | null>;
 }
@@ -150,9 +148,9 @@ const handleCancel = (mode: Mode, dispatch: React.Dispatch<Action>) =>
 
 interface HandleAddParams {
   logout: () => void;
+  currentTraining: TrainingWithoutVolume;
   dispatch: Dispatch<Action>;
   textAreaRef: React.MutableRefObject<HTMLTextAreaElement | null>;
-  currentTraining: Training;
 }
 
 export const handleAdd = ({
@@ -174,7 +172,7 @@ interface HandleEditParams {
   logout: () => void;
   readonly mode: Mode;
   readonly dispatch: React.Dispatch<Action>;
-  readonly currentTraining: Training;
+  readonly currentTraining: TrainingWithoutVolume;
 }
 
 const handleEdit = ({

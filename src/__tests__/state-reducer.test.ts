@@ -26,6 +26,7 @@ describe("Mutate global state", () => {
     exerciseVolumeMap: {
       Benchpress: 2412,
     },
+    volumeChanges: null,
   };
 
   it("Add training", () => {

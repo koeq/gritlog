@@ -7,23 +7,17 @@ import { Training as TrainingType } from "./types";
 interface TrainingProps {
   readonly searchTerm: string;
   readonly training: TrainingType;
-  readonly percentageChanges: Record<string, number> | null;
 }
 
 export const Training = ({
   training,
   searchTerm,
-  percentageChanges,
 }: TrainingProps): JSX.Element | null => {
   return (
     <div className="training" tabIndex={0}>
       <HeadlineDateRow training={training} />
       <Headers />
-      <Values
-        training={training}
-        searchTerm={searchTerm}
-        percentageChanges={percentageChanges}
-      />
+      <Values training={training} searchTerm={searchTerm} />
     </div>
   );
 };
@@ -61,14 +55,9 @@ const Headers = (): JSX.Element => {
 interface TrainingValuesProps {
   readonly searchTerm: string;
   readonly training: TrainingType;
-  readonly percentageChanges: Record<string, number> | null;
 }
 
-const Values = ({
-  training,
-  searchTerm,
-  percentageChanges,
-}: TrainingValuesProps): JSX.Element => {
+const Values = ({ training, searchTerm }: TrainingValuesProps): JSX.Element => {
   const { exercises } = training;
   const normalizedSearchTerm = searchTerm.toLowerCase().trim();
 
@@ -91,7 +80,7 @@ const Values = ({
                 exercise={exercise}
                 weightChange={weightChange}
                 isLastExercise={index === exercises.length - 1}
-                percentageChanges={percentageChanges}
+                volumeChanges={training.volumeChanges}
                 isSearchedExercise={isSearchedExercise}
               />
             );
