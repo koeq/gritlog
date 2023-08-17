@@ -8,7 +8,7 @@ let state: TopLevelState;
 describe("Mutate global state", () => {
   beforeEach(() => {
     state = {
-      trainings: undefined,
+      trainings: [],
       currentInput: "",
       showBottomBar: false,
       mode: { type: "add" },
