@@ -2,7 +2,6 @@ import { useEffect, useMemo, useState } from "react";
 import { useTopLevelState } from "./context";
 import { Action } from "./state-reducer";
 import "./styles/suggestion.css";
-import { useCursorPosition } from "./use-cursor-position";
 import {
   DEFAULT_EXERCISES,
   autocomplete,
@@ -23,7 +22,6 @@ export const Suggestion = ({
 }: SuggestionsProps): JSX.Element | null => {
   const [{ trainings }, dispatch] = useTopLevelState();
   const [suggestion, setSuggestion] = useState<string | null>(null);
-  const cursorPosition = useCursorPosition(textAreaRef.current);
 
   const uniqueExercises = useMemo(
     () =>
@@ -46,7 +44,7 @@ export const Suggestion = ({
     } else {
       setSuggestion(getSuggestion(currentExercise, uniqueExercises));
     }
-  }, [currentInput, uniqueExercises, textAreaRef, cursorPosition]);
+  }, [currentInput, uniqueExercises, textAreaRef]);
 
   return (
     <>
