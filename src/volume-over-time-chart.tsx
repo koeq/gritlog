@@ -36,6 +36,7 @@ function VolumeOverTimeChart({
   trainings,
 }: VolumeOverTimeChartProps): JSX.Element {
   const { theme } = useTheme();
+  const chartBorderColor = theme === "dark" ? "#282A32" : "#e6e6e9";
 
   const exercises = useMemo(
     () => getUniqueExerciseNames(trainings),
@@ -43,7 +44,6 @@ function VolumeOverTimeChart({
   );
 
   const [exercise, setExercise] = useState(exercises[0] || "");
-  const chartBorderColor = theme === "dark" ? "#282A32" : "#e6e6e9";
 
   const { volumens, dates } = useMemo(
     () => collectVolumeOverTime(exercise, trainings),

@@ -75,10 +75,7 @@ export function reducer(state: TopLevelState, action: Action): TopLevelState {
     }
 
     case "edit": {
-      const {
-        mode: { id },
-        currentTraining,
-      } = action;
+      const { currentTraining } = action;
 
       return {
         ...state,
@@ -88,7 +85,7 @@ export function reducer(state: TopLevelState, action: Action): TopLevelState {
 
         trainings: trainings
           ?.map((training) =>
-            training.id === id
+            training.id === currentTraining.id
               ? createTrainingWithVolume(currentTraining, trainings)
               : training
           )

@@ -40,7 +40,7 @@ export function BottomBar({
   const currentTraining: TrainingWithoutVolume = {
     headline,
     exercises,
-    id: highestTrainingId + 1,
+    id: mode.type === "edit" ? mode.id : highestTrainingId + 1,
     date: new Date().toString(),
   };
 

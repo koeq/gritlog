@@ -1,6 +1,21 @@
 import { z } from "zod";
 import { TrainingSchema } from "./schemas";
 
+// ------- What is the data type we would really like to have? ---------
+// }
+//   id: number;
+//   date: string;
+//   headline: string | null;
+//   exercises: {
+//     name: string;
+//     weight: {
+//       value: number;
+//       unit: 'kg' | 'lbs'; ---> string if not possible in DB schema.
+//     };
+//     repetitions: number[];
+//   }[];
+// }
+
 // This is the type of the training as it comes from the DB.
 export type TrainingWithoutVolume = z.infer<typeof TrainingSchema>;
 export type TrainingWithoutVolumeChanges = Omit<Training, "volumeChanges">;
