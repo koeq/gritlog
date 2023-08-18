@@ -1,4 +1,7 @@
-import { collectVolumeOverTime } from "../collect-volume-over-time";
+import {
+  SHOW_ALL_SETS,
+  collectVolumeOverTime,
+} from "../collect-volume-over-time";
 import { Training } from "../types";
 
 const trainings: Training[] = [
@@ -30,4 +33,6 @@ const result: {
 };
 
 test("Add volume of the same exercise if dates match.", () =>
-  expect(collectVolumeOverTime("Squats", trainings)).toEqual(result));
+  expect(collectVolumeOverTime("Squats", trainings, SHOW_ALL_SETS)).toEqual(
+    result
+  ));
