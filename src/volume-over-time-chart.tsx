@@ -6,6 +6,7 @@ import {
   LineElement,
   LinearScale,
   PointElement,
+  Tooltip,
 } from "chart.js";
 import { useMemo, useState } from "react";
 import { Line } from "react-chartjs-2";
@@ -19,7 +20,13 @@ import "./styles/volume-over-time-chart.css";
 import { Training } from "./types";
 import { getUniqueExerciseNames } from "./utils/get-unique-exercises";
 
-ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement);
+ChartJS.register(
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  Tooltip
+);
 
 interface VolumeOverTimeChartProps {
   trainings: Training[];
