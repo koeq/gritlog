@@ -3,12 +3,9 @@ import {
   ChartData,
   Chart as ChartJS,
   ChartOptions,
-  Legend,
   LineElement,
   LinearScale,
   PointElement,
-  Title,
-  Tooltip,
 } from "chart.js";
 import { useMemo, useState } from "react";
 import { Line } from "react-chartjs-2";
@@ -22,15 +19,7 @@ import "./styles/volume-over-time-chart.css";
 import { Training } from "./types";
 import { getUniqueExerciseNames } from "./utils/get-unique-exercises";
 
-ChartJS.register(
-  CategoryScale,
-  LinearScale,
-  PointElement,
-  LineElement,
-  Title,
-  Tooltip,
-  Legend
-);
+ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement);
 
 interface VolumeOverTimeChartProps {
   trainings: Training[];
@@ -119,36 +108,42 @@ function VolumeOverTimeChart({
 
   return (
     <section id="volume-over-time">
-      <div>
-        <select
-          id="exercise-select"
-          value={exercise}
-          onChange={(event) => {
-            setExercise(event.target.value);
-            setNumberOfSets(SHOW_ALL_SETS);
-          }}
-        >
-          {exercises.map((exercise) => (
-            <option key={exercise} value={exercise}>
-              {exercise}
-            </option>
-          ))}
-        </select>
+      <div id="selects">
+        <div className="select-section">
+          <label htmlFor="exercise-select">exercise:</label>
+          <select
+            id="exercise-select"
+            value={exercise}
+            onChange={(event) => {
+              setExercise(event.target.value);
+              setNumberOfSets(SHOW_ALL_SETS);
+            }}
+          >
+            {exercises.map((exercise) => (
+              <option key={exercise} value={exercise}>
+                {exercise}
+              </option>
+            ))}
+          </select>
+        </div>
 
-        <select
-          id="exercise-select"
-          value={numberOfSets}
-          onChange={(event) => setNumberOfSets(parseInt(event.target.value))}
-        >
-          <option key="all" value={SHOW_ALL_SETS}>
-            all
-          </option>
-          {numbersOfSets.map((numberOfSets) => (
-            <option key={numberOfSets} value={numberOfSets}>
-              {numberOfSets}
+        <div className="select-section">
+          <label htmlFor="number-of-sets-select">number of sets:</label>
+          <select
+            id="number-of-sets-select"
+            value={numberOfSets}
+            onChange={(event) => setNumberOfSets(parseInt(event.target.value))}
+          >
+            <option key="all" value={SHOW_ALL_SETS}>
+              all
             </option>
-          ))}
-        </select>
+            {numbersOfSets.map((numberOfSets) => (
+              <option key={numberOfSets} value={numberOfSets}>
+                {numberOfSets}
+              </option>
+            ))}
+          </select>
+        </div>
       </div>
       <Line options={options} data={data} />
     </section>
