@@ -13,7 +13,6 @@
 }
 
 .format-box {
-  background: var(--background-secondary);
   border: 1px solid var(--border-secondary);
   border-radius: 12px;
   padding: 8px 16px;
@@ -29,6 +28,10 @@
   text-align: center;
   font-size: 14px;
   color: var(--text-tertiary);
+}
+
+.training-format-explanation .label {
+  font-weight: 500;
 }
 
 .exercise-label {

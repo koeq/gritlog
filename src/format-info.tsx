@@ -5,13 +5,13 @@ export const FormatInfo = (): JSX.Element => {
     <div className="training-format-explanation">
       <div className="format-container">
         <div className="exercise-name-explanation">
-          <div className="exercise-label">Exercise name</div>
+          <div className="exercise-label label">Exercise name</div>
           <svg width="20" height="58" viewBox="0 0 20 58">
             <rect x="9" y="0" width="1" height="58" fill="grey" />
           </svg>
         </div>
         <div className="reps-explanation">
-          <div>Repetitions</div>
+          <div className="label">Repetitions</div>
           <span style={{ whiteSpace: "nowrap" }} className="description">
             (abbreviate with 3*8)
           </span>
@@ -31,7 +31,7 @@ export const FormatInfo = (): JSX.Element => {
           <svg width="20" height="50" viewBox="0 0 20 50">
             <rect x="9" y="0" width="1" height="40" fill="grey" />
           </svg>
-          <div className="weight-label">Weight</div>
+          <div className="weight-label label">Weight</div>
           <span className="description">
             (starts with &apos;@&apos; and defaults to &apos;kg&apos; - add lbs
             to change weight unit)
@@ -41,7 +41,7 @@ export const FormatInfo = (): JSX.Element => {
           <svg width="20" height="50" viewBox="0 0 20 50">
             <rect x="9" y="0" width="1" height="40" fill="grey" />
           </svg>
-          <div className="extra-set-label">Additional set</div>
+          <div className="extra-set-label label">Additional set</div>
           <span className="description">(different weight)</span>
         </div>
       </div>
