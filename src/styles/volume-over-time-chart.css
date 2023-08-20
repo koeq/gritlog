@@ -5,7 +5,7 @@
 }
 
 #exercise-select {
-  width: 160px;
+  width: 140px;
 }
 
 #selects {
@@ -21,19 +21,21 @@
 }
 
 #selects label {
-  color: var(--text-primary);
+  color: #616161;
   margin-bottom: 12px;
 }
 
 #selects select {
-  padding: 5px;
+  padding: 8px;
+  outline: none;
+  font-size: 17px;
   margin-bottom: 20px;
   border-radius: 12px;
-  color: var(text-primary);
+  color: var(--text-primary);
   background-color: var(--background-primary);
-  border: 0.5px solid var(--border-secondary);
+  border: 1px solid var(--border-secondary);
 }
 
 #exercise-select {
-  margin-right: 30px;
+  margin-right: 80px;
 }
