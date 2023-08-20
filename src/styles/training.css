@@ -30,11 +30,7 @@
   margin-top: 30px;
   margin-bottom: 8px;
   align-items: center;
-  grid-template-columns: 2fr 1fr 2fr 1fr;
-}
-
-#exercise-header {
-  margin-left: var(--row-margin);
+  grid-template-columns: 33% 20% 30% 17%;
 }
 
 #repetition-header {

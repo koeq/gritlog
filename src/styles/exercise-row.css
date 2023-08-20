@@ -1,7 +1,7 @@
 .exercise-row {
   display: grid;
   align-items: center;
-  grid-template-columns: 2fr 1fr 2fr 1fr;
+  grid-template-columns: 33% 20% 30% 17%;
   border-bottom: 0.5px solid var(--border-secondary);
 }
 
@@ -17,7 +17,6 @@
 
 #exercise {
   margin-right: 12px;
-  margin-left: var(--row-margin);
 }
 
 #weight {
@@ -31,6 +30,7 @@
 
 #change {
   text-align: right;
+  white-space: nowrap;
 }
 
 .change {
