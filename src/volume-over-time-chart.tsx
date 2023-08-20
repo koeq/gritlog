@@ -135,7 +135,7 @@ function VolumeOverTimeChart({
         </div>
 
         <div className="select-section">
-          <label htmlFor="number-of-sets-select">number of sets:</label>
+          <label htmlFor="number-of-sets-select">set count:</label>
           <select
             id="number-of-sets-select"
             value={numberOfSets}
