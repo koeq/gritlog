@@ -56,62 +56,74 @@ function VolumeOverTimeChart({
     [exercise, trainings, numberOfSets]
   );
 
-  const data: ChartData<"line"> = {
-    labels: dates,
-    datasets: [
-      {
-        tension: 0.1,
-        borderWidth: 2.5,
-        pointBorderWidth: 1,
-        pointRadius: 3,
-        label: exercise,
-        data: volumens,
-        borderColor: getComputedStyle(
-          document.documentElement
-        ).getPropertyValue("--color-progress"),
-        backgroundColor: "rgba(90, 130, 255, 0.6)",
-      },
-    ],
-  };
-
-  const options: ChartOptions<"line"> = {
-    responsive: true,
-    font: {
-      family: "Mona Sans",
-    },
-    maintainAspectRatio: false,
-    plugins: {
-      legend: {
-        display: false,
-      },
-
-      title: {
-        display: false,
-      },
-    },
-    scales: {
-      x: {
-        border: {
-          color: chartBorderColor,
+  const data: ChartData<"line"> = useMemo(
+    () => ({
+      labels: dates,
+      datasets: [
+        {
+          tension: 0.1,
+          borderWidth: 2.5,
+          pointBorderWidth: 1,
+          pointRadius: 3,
+          label: exercise,
+          data: volumens,
+          borderColor: getComputedStyle(
+            document.documentElement
+          ).getPropertyValue("--color-progress"),
+          backgroundColor: "rgba(90, 130, 255, 0.6)",
         },
-        ticks: {
-          maxTicksLimit: 10,
+      ],
+    }),
+    [dates, exercise, volumens]
+  );
+
+  const options: ChartOptions<"line"> = useMemo(
+    () => ({
+      responsive: true,
+      font: {
+        family: "Mona Sans",
+      },
+      maintainAspectRatio: false,
+      plugins: {
+        legend: {
+          display: false,
         },
-        grid: {
+
+        title: {
           display: false,
         },
       },
-      y: {
-        border: {
-          color: chartBorderColor,
+      scales: {
+        x: {
+          border: {
+            color: chartBorderColor,
+          },
+          ticks: {
+            maxTicksLimit: 10,
+            color: getComputedStyle(document.documentElement).getPropertyValue(
+              "--text-off"
+            ),
+          },
+          grid: {
+            display: false,
+          },
         },
-        ticks: {
-          maxTicksLimit: 4,
+        y: {
+          border: {
+            color: chartBorderColor,
+          },
+          ticks: {
+            maxTicksLimit: 4,
+            color: getComputedStyle(document.documentElement).getPropertyValue(
+              "--text-off"
+            ),
+          },
+          grid: { display: false },
         },
-        grid: { display: false },
       },
-    },
-  };
+    }),
+    [chartBorderColor]
+  );
 
   return (
     <section id="volume-over-time">

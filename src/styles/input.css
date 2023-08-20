@@ -19,5 +19,5 @@ textarea {
 }
 
 textarea::placeholder {
-  color: var(--border-secondary);
+  color: var(--text-off);
 }

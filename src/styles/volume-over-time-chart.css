@@ -21,7 +21,7 @@
 }
 
 #selects label {
-  color: #616161;
+  color: var(--text-off);
   margin-bottom: 12px;
 }
 

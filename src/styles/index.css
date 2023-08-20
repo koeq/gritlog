@@ -8,10 +8,11 @@
 }
 
 * {
+  --text-off: #787878;
+  --font-stretch: 110%;
   --border-radius: 16px;
   --header-height: 48.5px;
-  --font-stretch: 110%;
-  --color-progress: rgb(102, 161, 248);
+  --color-progress: #66a1f8;
   --background-progress: rgba(102, 161, 248, 0.25);
 
   padding: 0;
@@ -34,7 +35,6 @@
   --text-primary: #f7f8f8;
   --text-secondary: #e8e8e8;
   --text-tertiary: rgb(200, 200, 200);
-  --text-off: #9ea3a9;
   --cta: #ffffff;
   --cta-disabled: rgb(118, 123, 135);
   --hover-primary: 1.16;
@@ -62,7 +62,6 @@
   --text-primary: #000000;
   --text-secondary: #000000;
   --text-tertiary: rgb(20, 20, 20);
-  --text-off: #888888;
   --cta: #000000;
   --cta-disabled: rgb(200, 200, 219);
   --hover-primary: 0.98;

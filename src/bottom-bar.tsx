@@ -69,7 +69,7 @@ export function BottomBar({
           className="button circle-hover btn-info"
           onClick={() => setShowFormatInfo(true)}
         >
-          <ImInfo size={14} color="var(--cta-disabled)" />
+          <ImInfo size={14} color="var(--text-off)" />
         </button>
         <button
           aria-label="cancelation"
