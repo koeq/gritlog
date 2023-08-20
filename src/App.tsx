@@ -24,7 +24,12 @@ export const App = (): JSX.Element => {
 
   return (
     <Suspense fallback={<></>}>
-      <Header authed={authed} menuOpen={menuOpen} setMenuOpen={setMenuOpen} />
+      <Header
+        authed={authed}
+        menuOpen={menuOpen}
+        contentType={contentType}
+        setMenuOpen={setMenuOpen}
+      />
       {authed ? (
         <>
           <AuthedApp contentType={contentType} />
