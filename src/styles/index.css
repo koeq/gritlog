@@ -98,6 +98,14 @@ button {
   cursor: pointer;
 }
 
+hr {
+  display: block;
+  height: 0.5px;
+  border: none;
+  width: min(450px, 95%);
+  background: var(--border-primary);
+}
+
 .text-off {
   color: var(--text-off);
 }

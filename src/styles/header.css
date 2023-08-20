@@ -32,14 +32,6 @@
   font-stretch: 125%;
 }
 
-hr {
-  display: block;
-  height: 0.5px;
-  border: none;
-  width: min(450px, 95%);
-  background: var(--border-primary);
-}
-
 .search-bar-container {
   position: fixed;
   top: var(--header-height);
