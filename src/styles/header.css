@@ -9,7 +9,7 @@
   background: var(--background-transparent);
   backdrop-filter: blur(14px);
   -webkit-backdrop-filter: blur(14px);
-  z-index: 2;
+  z-index: 1;
 }
 
 .header.opaque {
