@@ -1,7 +1,7 @@
 .input-wrapper {
   position: relative;
   width: min(450px, 93%);
-  border-top: 1px solid var(--border-secondary);
+  border-top: 0.8px solid var(--border-primary);
 }
 
 textarea {
