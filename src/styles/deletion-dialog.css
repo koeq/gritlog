@@ -1,12 +1,13 @@
 .dialog {
   width: min(330px, 85%);
   height: 260px;
-  margin-bottom: 120px;
+  margin-bottom: 160px;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   background: var(--background-secondary);
+  border: 0.5px solid var(--border-secondary);
   box-shadow: var(--shadow-small);
   border-radius: var(--border-radius);
 }

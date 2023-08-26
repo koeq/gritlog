@@ -4,7 +4,7 @@ import { AddTrainingCallToAction } from "./add-training-text";
 import { BottomBar } from "./bottom-bar";
 import { BottomBarLayer } from "./bottom-bar-layer";
 import { useTopLevelState } from "./context";
-import { DeletionConfirmation } from "./deletion-confirmation";
+import { DeletionDialog } from "./deletion-dialog";
 import { filterTrainings } from "./filter-trainings";
 import { FormatInfo } from "./format-info";
 import { Layer } from "./layer";
@@ -96,7 +96,7 @@ const AuthedApp = ({ contentType }: AuthedAppProps): JSX.Element => {
 
         {mode.type === "delete" && (
           <Layer>
-            <DeletionConfirmation id={mode.id} />
+            <DeletionDialog id={mode.id} />
           </Layer>
         )}
       </div>

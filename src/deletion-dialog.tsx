@@ -4,7 +4,7 @@ import { IoCheckmarkSharp } from "react-icons/io5";
 import { useAuth, useTopLevelState } from "./context";
 import { deleteTraining } from "./delete-training";
 import { Action } from "./state-reducer";
-import "./styles/deletion-confirmation.css";
+import "./styles/deletion-dialog.css";
 
 interface DeletionConfirmationProps {
   readonly id: number | null;
@@ -19,7 +19,7 @@ const handleDelete = (
   dispatch({ type: "delete", id });
 };
 
-export const DeletionConfirmation = ({
+export const DeletionDialog = ({
   id,
 }: DeletionConfirmationProps): JSX.Element | null => {
   const { logout } = useAuth();
