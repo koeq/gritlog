@@ -1,0 +1,65 @@
+#activity-matrix {
+  --square-gap: 4px;
+  --square-size: 12px;
+  --week-width: calc(var(--square-size) + var(--square-gap));
+
+  display: grid;
+  grid-gap: 10px;
+  grid-template-areas:
+    "empty months"
+    "days squares";
+  grid-template-columns: auto 1fr;
+}
+
+#days {
+  grid-area: days;
+}
+
+#months {
+  display: grid;
+  grid-area: months;
+  /* TODO: We need a programatical way to determine the width of the month columns */
+  grid-template-columns:
+    calc(var(--week-width) * 4) /* Jan */
+    calc(var(--week-width) * 4) /* Feb */
+    calc(var(--week-width) * 4) /* Mar */
+    calc(var(--week-width) * 5) /* Apr */
+    calc(var(--week-width) * 4) /* May */
+    calc(var(--week-width) * 4) /* Jun */
+    calc(var(--week-width) * 5) /* Jul */
+    calc(var(--week-width) * 4) /* Aug */
+    calc(var(--week-width) * 4) /* Sep */
+    calc(var(--week-width) * 5) /* Oct */
+    calc(var(--week-width) * 4) /* Nov */
+    calc(var(--week-width) * 5) /* Dec */;
+}
+
+#squares {
+  grid-area: squares;
+  grid-auto-flow: column;
+  grid-auto-columns: var(--square-size);
+}
+
+#days,
+#months > li {
+  font-size: 14px;
+  color: var(--text-off);
+}
+
+#squares > li {
+  border-radius: 2px;
+  background-color: var(--background-secondary);
+}
+
+#days,
+#squares {
+  display: grid;
+  grid-gap: var(--square-gap);
+  grid-template-rows: repeat(7, var(--square-size));
+}
+
+#days,
+#months,
+#squares > li {
+  list-style-type: none;
+}
