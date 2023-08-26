@@ -30,6 +30,7 @@
   },
   "dependencies": {
     "chart.js": "^4.3.3",
+    "chartjs-chart-matrix": "^2.0.1",
     "react": "^17.0.0",
     "react-chartjs-2": "^5.2.0",
     "react-dom": "^17.0.0",
