@@ -48,6 +48,7 @@
   --background-regress: rgba(61, 37, 11, 0.8);
   --background-even: rgba(136, 136, 136, 0.25);
   --color-even: rgba(136, 136, 136, 0.9);
+  --activity-graph-square: #141419;
 }
 
 .light {
@@ -74,6 +75,7 @@
   --background-regress: rgba(230, 148, 3, 0.25);
   --background-even: rgba(136, 136, 136, 0.13);
   --color-even: rgba(136, 136, 136, 0.7);
+  --activity-graph-square: #ececf6;
 }
 
 /* universal box sizing */
