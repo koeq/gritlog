@@ -1,5 +1,6 @@
 import { Suspense, lazy, useCallback, useRef, useState } from "react";
 import "../src/styles/authed-app.css";
+import { ActivityMatrix } from "./activit-matrix";
 import { AddTrainingCallToAction } from "./add-training-text";
 import { BottomBar } from "./bottom-bar";
 import { BottomBarLayer } from "./bottom-bar-layer";
@@ -57,6 +58,7 @@ const AuthedApp = ({ contentType }: AuthedAppProps): JSX.Element => {
       <div className="authed">
         <Suspense fallback={<></>}>
           <VolumeOverTime trainings={trainings} />
+          <ActivityMatrix trainings={trainings} />
         </Suspense>
       </div>
     );
