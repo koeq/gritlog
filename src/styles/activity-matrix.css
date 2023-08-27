@@ -56,7 +56,7 @@
 }
 
 #squares > .no-training {
-  background-color: var(--background-secondary);
+  background-color: var(--activity-graph-square);
 }
 
 #squares > .below-average {
