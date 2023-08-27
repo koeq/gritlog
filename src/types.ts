@@ -1,7 +1,7 @@
 import { z } from "zod";
 import { TrainingSchema } from "./schemas";
 
-// ------- What is the data type we would really like to have? ---------
+// ------- What is the Training type we would really like to have? ---------
 // }
 //   id: number;
 //   date: string;

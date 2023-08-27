@@ -18,20 +18,6 @@
 #months {
   display: grid;
   grid-area: months;
-  /* TODO: We need a programatical way to determine the width of the month columns */
-  grid-template-columns:
-    calc(var(--week-width) * 4) /* Jan */
-    calc(var(--week-width) * 4) /* Feb */
-    calc(var(--week-width) * 4) /* Mar */
-    calc(var(--week-width) * 5) /* Apr */
-    calc(var(--week-width) * 4) /* May */
-    calc(var(--week-width) * 4) /* Jun */
-    calc(var(--week-width) * 5) /* Jul */
-    calc(var(--week-width) * 4) /* Aug */
-    calc(var(--week-width) * 4) /* Sep */
-    calc(var(--week-width) * 5) /* Oct */
-    calc(var(--week-width) * 4) /* Nov */
-    calc(var(--week-width) * 5) /* Dec */;
 }
 
 #squares {
@@ -48,7 +34,6 @@
 
 #squares > li {
   border-radius: 2px;
-  background-color: var(--background-secondary);
 }
 
 #days,
@@ -62,4 +47,20 @@
 #months,
 #squares > li {
   list-style-type: none;
+}
+
+#squares > .no-training {
+  background-color: var(--background-secondary);
+}
+
+#squares > .below-average {
+  background-color: #0d4429;
+}
+
+#squares > .average {
+  background-color: #016d32;
+}
+
+#squares > .above-average {
+  background-color: #27a641;
 }

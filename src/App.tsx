@@ -1,5 +1,4 @@
 import { Suspense, lazy, useState } from "react";
-import { ActivityMatrix } from "./activit-matrix";
 import { useAuth } from "./context";
 import { Header } from "./header";
 import { LoadingDots } from "./loading-dots";
@@ -33,8 +32,7 @@ export const App = (): JSX.Element => {
       />
       {authed ? (
         <>
-          {/* <AuthedApp contentType={contentType} /> */}
-          <ActivityMatrix />
+          <AuthedApp contentType={contentType} />
           <Menu
             menuOpen={menuOpen}
             setMenuOpen={setMenuOpen}

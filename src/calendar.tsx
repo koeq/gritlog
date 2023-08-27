@@ -5,7 +5,7 @@ import { editTraining } from "./edit-training";
 import { Action } from "./state-reducer";
 import "./styles/calendar.css";
 import { Training } from "./types";
-import { formatDate } from "./utils/format-date";
+import { formatDate } from "./utils/date";
 
 export const Calendar = ({ id }: { id: number }): JSX.Element | null => {
   const { logout } = useAuth();
