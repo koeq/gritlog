@@ -1,7 +1,8 @@
 #volume-over-time {
+  height: 200px;
   width: min(800px, 98%);
-  height: 400px;
   margin-top: var(--header-height);
+  margin-bottom: 200px;
 }
 
 #exercise-select {
