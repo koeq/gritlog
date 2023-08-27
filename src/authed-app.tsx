@@ -55,7 +55,7 @@ const AuthedApp = ({ contentType }: AuthedAppProps): JSX.Element => {
 
   if (contentType === "statistics" && trainings.length > 0) {
     return (
-      <div className="authed">
+      <div className="statistics">
         <Suspense fallback={<></>}>
           <VolumeOverTime trainings={trainings} />
           <ActivityMatrix trainings={trainings} />

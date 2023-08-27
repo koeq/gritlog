@@ -50,32 +50,37 @@ export const ActivityMatrix = ({
   }, []);
 
   return (
-    <div id="activity-matrix">
-      <ul ref={monthsRef} id="months">
-        {months.map((month) => (
-          <li key={month}>{month}</li>
-        ))}
-      </ul>
-      <ul id="days">
-        {daysOfWeek.map((day, index) => (
-          <li key={index}>{day}</li>
-        ))}
-      </ul>
-      <ul id="squares">
-        {daysOfYear.map((day, index) => {
-          const normalizedVolume = day ? day.volume / averageVolume : undefined;
+    <section className="activity-matrix-container">
+      <br />
+      <div id="activity-matrix">
+        <ul ref={monthsRef} id="months">
+          {months.map((month) => (
+            <li key={month}>{month}</li>
+          ))}
+        </ul>
+        <ul id="days">
+          {daysOfWeek.map((day, index) => (
+            <li key={index}>{day}</li>
+          ))}
+        </ul>
+        <ul id="squares">
+          {daysOfYear.map((day, index) => {
+            const normalizedVolume = day
+              ? day.volume / averageVolume
+              : undefined;
 
-          const className = normalizedVolume
-            ? normalizedVolume < 0.8
-              ? "below-average"
-              : normalizedVolume > 1.2
-              ? "above-average"
-              : "average"
-            : "no-training";
+            const className = normalizedVolume
+              ? normalizedVolume < 0.8
+                ? "below-average"
+                : normalizedVolume > 1.2
+                ? "above-average"
+                : "average"
+              : "no-training";
 
-          return <li key={index} className={className}></li>;
-        })}
-      </ul>
-    </div>
+            return <li key={index} className={className}></li>;
+          })}
+        </ul>
+      </div>
+    </section>
   );
 };
