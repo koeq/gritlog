@@ -7,7 +7,7 @@ import "./styles/header.css";
 interface HeaderProps {
   readonly authed: boolean;
   readonly menuOpen: boolean;
-  readonly contentType: "trainings" | "statistics";
+  readonly contentType: "trainings" | "analytics";
   readonly setMenuOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
 

@@ -18,7 +18,7 @@ import { useFetchTrainings } from "./use-fetch-trainings";
 const VolumeOverTime = lazy(() => import("./volume-over-time-chart"));
 
 interface AuthedAppProps {
-  readonly contentType: "trainings" | "statistics";
+  readonly contentType: "trainings" | "analytics";
 }
 
 const AuthedApp = ({ contentType }: AuthedAppProps): JSX.Element => {
@@ -53,9 +53,9 @@ const AuthedApp = ({ contentType }: AuthedAppProps): JSX.Element => {
     return <LoadingDots />;
   }
 
-  if (contentType === "statistics" && trainings.length > 0) {
+  if (contentType === "analytics" && trainings.length > 0) {
     return (
-      <div className="statistics">
+      <div className="analytics">
         <Suspense fallback={<></>}>
           <VolumeOverTime trainings={trainings} />
           <ActivityMatrix trainings={trainings} />

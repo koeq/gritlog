@@ -13,7 +13,7 @@ export const App = (): JSX.Element => {
   const [menuOpen, setMenuOpen] = useState(false);
   const googleScriptLoaded = useGoogleScript(authed === false);
 
-  const [contentType, setContentType] = useState<"trainings" | "statistics">(
+  const [contentType, setContentType] = useState<"trainings" | "analytics">(
     "trainings"
   );
 

@@ -8,7 +8,7 @@ interface MenuProps {
   readonly menuOpen: boolean;
   readonly setMenuOpen: React.Dispatch<React.SetStateAction<boolean>>;
   readonly setContentType: React.Dispatch<
-    React.SetStateAction<"trainings" | "statistics">
+    React.SetStateAction<"trainings" | "analytics">
   >;
 }
 
@@ -42,10 +42,10 @@ export const Menu = ({
             onClick={(e) => {
               e.preventDefault();
               setMenuOpen(false);
-              setContentType("statistics");
+              setContentType("analytics");
             }}
           >
-            statistics
+            analytics
           </a>
         </li>
         <hr />
