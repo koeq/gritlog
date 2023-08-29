@@ -1,5 +1,6 @@
 import { useCallback, useRef, useState } from "react";
 import "../src/styles/authed-app.css";
+import { AddEditCTAs } from "./add-edit-ctas";
 import { BottomBar } from "./bottom-bar";
 import { BottomBarLayer } from "./bottom-bar-layer";
 import { useTopLevelState } from "./context";
@@ -7,7 +8,6 @@ import { DeletionDialog } from "./deletion-dialog";
 import { filterTrainings } from "./filter-trainings";
 import { FormatInfo } from "./format-info";
 import { Layer } from "./layer";
-import { Buttons } from "./main-ctas";
 import { serializeTraining } from "./serialize-training";
 import { MemoizedTrainingList } from "./training-list";
 import { Training } from "./types";
@@ -54,7 +54,7 @@ export const Trainings = ({
         trainings={filterTrainings(searchTerm, trainings)}
       />
 
-      <Buttons
+      <AddEditCTAs
         textAreaRef={textAreaRef}
         handleSetEditMode={handleSetEditMode}
       />
