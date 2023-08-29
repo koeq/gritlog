@@ -7,14 +7,14 @@ import "./styles/header.css";
 interface HeaderProps {
   readonly authed: boolean;
   readonly menuOpen: boolean;
-  readonly contentType: "trainings" | "analytics";
+  readonly sectionType: "trainings" | "analytics";
   readonly setMenuOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 export const Header = ({
   authed,
   menuOpen,
-  contentType,
+  sectionType,
   setMenuOpen,
 }: HeaderProps): JSX.Element => {
   const { theme } = useTheme();
@@ -65,7 +65,7 @@ export const Header = ({
 
         {authed && (
           <div className="cta-section">
-            {contentType === "trainings" && <SearchBox />}
+            {sectionType === "trainings" && <SearchBox />}
             <Hamburger menuOpen={menuOpen} setMenuOpen={setMenuOpen} />
           </div>
         )}

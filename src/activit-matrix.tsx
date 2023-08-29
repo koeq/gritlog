@@ -25,9 +25,7 @@ interface ActivityMatrixProps {
   trainings: Training[];
 }
 
-export const ActivityMatrix = ({
-  trainings,
-}: ActivityMatrixProps): JSX.Element => {
+const ActivityMatrix = ({ trainings }: ActivityMatrixProps): JSX.Element => {
   const monthsRef = useRef<HTMLUListElement>(null);
 
   const { daysOfYear, averageVolume } = useMemo(
@@ -84,3 +82,5 @@ export const ActivityMatrix = ({
     </section>
   );
 };
+
+export default ActivityMatrix;
