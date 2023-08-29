@@ -1,64 +1,86 @@
-import { Dispatch, Fragment, memo, useMemo } from "react";
-import { NoFilterResult } from "./filter-trainings";
-import { groupTrainingsByMonth } from "./group-training-by-month";
-import { Action } from "./state-reducer";
-import "./styles/trainings.css";
-import { TrainingsByMonth } from "./trainings-by-month";
-import { Mode, Training } from "./types";
+import { useCallback, useRef, useState } from "react";
+import "../src/styles/authed-app.css";
+import { BottomBar } from "./bottom-bar";
+import { BottomBarLayer } from "./bottom-bar-layer";
+import { useTopLevelState } from "./context";
+import { DeletionDialog } from "./deletion-dialog";
+import { filterTrainings } from "./filter-trainings";
+import { FormatInfo } from "./format-info";
+import { Layer } from "./layer";
+import { Buttons } from "./main-ctas";
+import { serializeTraining } from "./serialize-training";
+import { MemoizedTrainingList } from "./training-list";
+import { Training } from "./types";
 
-interface TrainingsProps {
-  readonly mode: Mode;
-  readonly searchTerm: string;
+interface TrainingsSectionProps {
   readonly trainings: Training[];
-  readonly dispatch: Dispatch<Action>;
-  readonly handleSetEditMode: (id: number) => void;
-  readonly textAreaRef: React.MutableRefObject<HTMLTextAreaElement | null>;
 }
 
 export const Trainings = ({
-  mode,
-  dispatch,
   trainings,
-  searchTerm,
-  textAreaRef,
-  handleSetEditMode,
-}: TrainingsProps): JSX.Element | null => {
-  const normalizedSearchTerm = searchTerm.toLowerCase().trim();
+}: TrainingsSectionProps): JSX.Element => {
+  const [showFormatInfo, setShowFormatInfo] = useState(false);
+  const textAreaRef = useRef<HTMLTextAreaElement | null>(null);
+  const [{ mode, showBottomBar, searchTerm }, dispatch] = useTopLevelState();
 
-  const trainingsByMonth = useMemo(
-    () => groupTrainingsByMonth(trainings),
-    [trainings]
+  const handleSetEditMode = useCallback(
+    (id: number) => {
+      const training = trainings.find((training) => training.id === id);
+
+      if (!training) {
+        return;
+      }
+
+      dispatch({
+        id,
+        date: training.date,
+        type: "set-edit-mode",
+        serializedTraining: serializeTraining(training),
+      });
+
+      textAreaRef.current?.focus();
+    },
+    [trainings, dispatch]
   );
-
-  if (normalizedSearchTerm && trainings.length === 0) {
-    return <NoFilterResult searchTerm={searchTerm} />;
-  }
 
   return (
-    <main className="trainings">
-      <section>
-        {trainingsByMonth.map(({ trainings, date }, index) => {
-          return (
-            <Fragment key={`${date.month}-${date.year}`}>
-              <TrainingsByMonth
-                date={date}
-                mode={mode}
-                index={index}
-                dispatch={dispatch}
-                trainings={trainings}
-                searchTerm={searchTerm}
-                textAreaRef={textAreaRef}
-                handleSetEditMode={handleSetEditMode}
-              />
-              {index !== trainingsByMonth.length - 1 && (
-                <hr className="training-group-separator" />
-              )}
-            </Fragment>
-          );
-        })}
-      </section>
-    </main>
+    <>
+      <MemoizedTrainingList
+        mode={mode}
+        dispatch={dispatch}
+        searchTerm={searchTerm}
+        textAreaRef={textAreaRef}
+        handleSetEditMode={handleSetEditMode}
+        trainings={filterTrainings(searchTerm, trainings)}
+      />
+
+      <Buttons
+        textAreaRef={textAreaRef}
+        handleSetEditMode={handleSetEditMode}
+      />
+
+      {showFormatInfo && (
+        <Layer
+          clickHandler={() => {
+            setShowFormatInfo(false);
+            textAreaRef?.current?.focus();
+          }}
+        >
+          <FormatInfo />
+        </Layer>
+      )}
+
+      {mode.type === "delete" && (
+        <Layer>
+          <DeletionDialog id={mode.id} />
+        </Layer>
+      )}
+
+      {showBottomBar && !showFormatInfo && <BottomBarLayer />}
+      <BottomBar
+        textAreaRef={textAreaRef}
+        setShowFormatInfo={setShowFormatInfo}
+      />
+    </>
   );
 };
-
-export const MemoizedTrainings = memo(Trainings);

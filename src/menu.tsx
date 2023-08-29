@@ -7,7 +7,7 @@ import { ThemeToggle } from "./theme-toggle";
 interface MenuProps {
   readonly menuOpen: boolean;
   readonly setMenuOpen: React.Dispatch<React.SetStateAction<boolean>>;
-  readonly setContentType: React.Dispatch<
+  readonly setSectionType: React.Dispatch<
     React.SetStateAction<"trainings" | "analytics">
   >;
 }
@@ -15,7 +15,7 @@ interface MenuProps {
 export const Menu = ({
   menuOpen,
   setMenuOpen,
-  setContentType,
+  setSectionType,
 }: MenuProps): JSX.Element | null => {
   const { logout } = useAuth();
 
@@ -29,7 +29,7 @@ export const Menu = ({
             onClick={(e) => {
               e.preventDefault();
               setMenuOpen(false);
-              setContentType("trainings");
+              setSectionType("trainings");
             }}
           >
             trainings
@@ -42,7 +42,7 @@ export const Menu = ({
             onClick={(e) => {
               e.preventDefault();
               setMenuOpen(false);
-              setContentType("analytics");
+              setSectionType("analytics");
             }}
           >
             analytics
