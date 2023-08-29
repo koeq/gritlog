@@ -1,12 +1,14 @@
 .activity-matrix-container {
   overflow-x: scroll;
-  width: min(800px, 98%);
+  width: min(800px, 100%);
 }
 
 #activity-matrix {
   --square-gap: 3px;
-  --square-size: 11px;
+  --square-size: 12px;
   --week-width: calc(var(--square-size) + var(--square-gap));
+
+  padding: 0 6px;
   width: fit-content;
   margin: auto;
   display: grid;
@@ -35,6 +37,7 @@
 #days > li,
 #months > li {
   font-size: 12px;
+  font-weight: 400;
   color: var(--text-off);
 }
 
