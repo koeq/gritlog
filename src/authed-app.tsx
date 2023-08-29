@@ -12,7 +12,6 @@ interface AuthedAppProps {
 
 const AuthedApp = ({ sectionType }: AuthedAppProps): JSX.Element => {
   const [{ trainings }, dispatch] = useTopLevelState();
-
   const isLoading = useFetchTrainings(dispatch);
 
   if (isLoading) {

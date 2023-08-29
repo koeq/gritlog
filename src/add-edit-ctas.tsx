@@ -1,17 +1,17 @@
 import { IoMdAdd } from "react-icons/io";
 import { IoPencilSharp } from "react-icons/io5";
-import "../src/styles/main-ctas.css";
+import "../src/styles/add-edit-ctas.css";
 import { useTopLevelState } from "./context";
 
-interface ButtonsProps {
+interface AddEditCTAsProps {
   textAreaRef: React.MutableRefObject<HTMLTextAreaElement | null>;
   handleSetEditMode: (id: number) => void;
 }
 
-export const Buttons = ({
+export const AddEditCTAs = ({
   textAreaRef,
   handleSetEditMode,
-}: ButtonsProps): JSX.Element => {
+}: AddEditCTAsProps): JSX.Element => {
   const [{ trainings, showBottomBar }, dispatch] = useTopLevelState();
   const latestTrainingId = trainings[0]?.id;
 
