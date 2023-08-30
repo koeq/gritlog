@@ -1,21 +1,20 @@
 import { IoLogoGithub } from "react-icons/io5";
 import { MdLogout } from "react-icons/md";
+import { Section } from "./app";
 import { useAuth } from "./context";
 import "./styles/menu.css";
 import { ThemeToggle } from "./theme-toggle";
 
 interface MenuProps {
   readonly menuOpen: boolean;
+  readonly setSection: React.Dispatch<React.SetStateAction<Section>>;
   readonly setMenuOpen: React.Dispatch<React.SetStateAction<boolean>>;
-  readonly setSectionType: React.Dispatch<
-    React.SetStateAction<"trainings" | "analytics">
-  >;
 }
 
 export const Menu = ({
   menuOpen,
+  setSection,
   setMenuOpen,
-  setSectionType,
 }: MenuProps): JSX.Element | null => {
   const { logout } = useAuth();
 
@@ -29,7 +28,7 @@ export const Menu = ({
             onClick={(e) => {
               e.preventDefault();
               setMenuOpen(false);
-              setSectionType("trainings");
+              setSection({ type: "trainings", analyticsType: null });
             }}
           >
             trainings
@@ -42,7 +41,7 @@ export const Menu = ({
             onClick={(e) => {
               e.preventDefault();
               setMenuOpen(false);
-              setSectionType("analytics");
+              setSection({ type: "analytics", analyticsType: "volume" });
             }}
           >
             analytics
