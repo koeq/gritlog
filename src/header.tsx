@@ -1,4 +1,5 @@
 import { useEffect } from "react";
+import { Section } from "./app";
 import { useTheme } from "./context";
 import { Hamburger } from "./hamburger";
 import { SearchBox } from "./search-box";
@@ -6,15 +7,15 @@ import "./styles/header.css";
 
 interface HeaderProps {
   readonly authed: boolean;
+  readonly section: Section;
   readonly menuOpen: boolean;
-  readonly sectionType: "trainings" | "analytics";
   readonly setMenuOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 export const Header = ({
   authed,
+  section,
   menuOpen,
-  sectionType,
   setMenuOpen,
 }: HeaderProps): JSX.Element => {
   const { theme } = useTheme();
@@ -65,7 +66,7 @@ export const Header = ({
 
         {authed && (
           <div className="cta-section">
-            {sectionType === "trainings" && <SearchBox />}
+            {section.type === "trainings" && <SearchBox />}
             <Hamburger menuOpen={menuOpen} setMenuOpen={setMenuOpen} />
           </div>
         )}

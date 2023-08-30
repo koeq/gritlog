@@ -22,7 +22,7 @@ const months = [
 ] as const;
 
 interface ActivityMatrixProps {
-  trainings: Training[];
+  readonly trainings: Training[];
 }
 
 const ActivityMatrix = ({ trainings }: ActivityMatrixProps): JSX.Element => {

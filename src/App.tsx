@@ -7,14 +7,27 @@ import { useGoogleScript } from "./use-google-script";
 const AuthedApp = lazy(() => import("./authed-app"));
 const UnauthedApp = lazy(() => import("./unauthed-app"));
 
+export type AnalyticsSectionType = "volume" | "activity";
+
+export type Section =
+  | {
+      readonly type: "trainings";
+      readonly analyticsType: null;
+    }
+  | {
+      readonly type: "analytics";
+      readonly analyticsType: AnalyticsSectionType;
+    };
+
 export const App = (): JSX.Element | null => {
   const { authed } = useAuth();
   const [menuOpen, setMenuOpen] = useState(false);
   const googleScriptLoaded = useGoogleScript(authed === false);
 
-  const [sectionType, setSectionType] = useState<"trainings" | "analytics">(
-    "trainings"
-  );
+  const [section, setSection] = useState<Section>({
+    type: "trainings",
+    analyticsType: null,
+  });
 
   if (authed === undefined) {
     return null;
@@ -24,17 +37,17 @@ export const App = (): JSX.Element | null => {
     <Suspense fallback={<></>}>
       <Header
         authed={authed}
+        section={section}
         menuOpen={menuOpen}
-        sectionType={sectionType}
         setMenuOpen={setMenuOpen}
       />
       {authed ? (
         <>
-          <AuthedApp sectionType={sectionType} />
+          <AuthedApp section={section} />
           <Menu
             menuOpen={menuOpen}
+            setSection={setSection}
             setMenuOpen={setMenuOpen}
-            setSectionType={setSectionType}
           />
         </>
       ) : (
