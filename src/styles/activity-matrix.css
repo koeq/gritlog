@@ -1,6 +1,7 @@
 .activity-matrix-container {
   overflow-x: scroll;
   width: min(800px, 100%);
+  margin-top: 60px;
 }
 
 #activity-matrix {

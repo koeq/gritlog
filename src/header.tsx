@@ -9,6 +9,7 @@ interface HeaderProps {
   readonly authed: boolean;
   readonly section: Section;
   readonly menuOpen: boolean;
+  readonly setSection: React.Dispatch<React.SetStateAction<Section>>;
   readonly setMenuOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
@@ -16,6 +17,7 @@ export const Header = ({
   authed,
   section,
   menuOpen,
+  setSection,
   setMenuOpen,
 }: HeaderProps): JSX.Element => {
   const { theme } = useTheme();
@@ -67,6 +69,30 @@ export const Header = ({
         {authed && (
           <div className="cta-section">
             {section.type === "trainings" && <SearchBox />}
+            {section.type === "analytics" && (
+              <a
+                onClick={() =>
+                  setSection({ type: "analytics", analyticsType: "activity" })
+                }
+                className={`analytics-link${
+                  section.analyticsType === "activity" ? " active" : ""
+                }`}
+              >
+                activity
+              </a>
+            )}
+            {section.type === "analytics" && (
+              <a
+                onClick={() =>
+                  setSection({ type: "analytics", analyticsType: "volume" })
+                }
+                className={`analytics-link${
+                  section.analyticsType === "volume" ? " active" : ""
+                }`}
+              >
+                volume
+              </a>
+            )}
             <Hamburger menuOpen={menuOpen} setMenuOpen={setMenuOpen} />
           </div>
         )}

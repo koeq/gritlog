@@ -7,7 +7,7 @@ import { useGoogleScript } from "./use-google-script";
 const AuthedApp = lazy(() => import("./authed-app"));
 const UnauthedApp = lazy(() => import("./unauthed-app"));
 
-export type AnalyticsSectionType = "volume" | "activity";
+export type AnalyticsSectionType = "activity" | "volume";
 
 export type Section =
   | {
@@ -39,6 +39,7 @@ export const App = (): JSX.Element | null => {
         authed={authed}
         section={section}
         menuOpen={menuOpen}
+        setSection={setSection}
         setMenuOpen={setMenuOpen}
       />
       {authed ? (
