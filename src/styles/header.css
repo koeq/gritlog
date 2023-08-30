@@ -33,21 +33,15 @@
   font-stretch: 125%;
 }
 
-.search-bar-container {
-  position: fixed;
-  top: var(--header-height);
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  z-index: 2;
-  background: var(--background-transparent);
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
+.analytics-link {
+  cursor: pointer;
+  margin-right: 12px;
+  color: var(--text-off);
 }
 
-.search-bar-container input {
-  margin: 8px 0;
+.analytics-link.active {
+  color: var(--text-primary);
+  border-bottom: 0.8px solid var(--text-primary);
 }
 
 @media (min-width: 560px) {
