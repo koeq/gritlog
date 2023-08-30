@@ -27,7 +27,7 @@ export const Header = ({
   }, [setMenuOpen, authed]);
 
   return (
-    <header className={`header${menuOpen ? " opaque" : ""}`}>
+    <header className="header">
       <div className="header-container">
         <svg
           width="63"

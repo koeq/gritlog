@@ -13,8 +13,8 @@
   pointer-events: none;
   transition: opacity 0.15s ease;
   z-index: 3;
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
 }
 
 .menu ul {

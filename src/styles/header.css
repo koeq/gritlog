@@ -12,10 +12,6 @@
   z-index: 1;
 }
 
-.header.opaque {
-  background: var(--background-primary);
-}
-
 .header-container {
   display: flex;
   align-items: center;
