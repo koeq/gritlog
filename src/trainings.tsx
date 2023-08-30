@@ -1,6 +1,7 @@
 import { useCallback, useRef, useState } from "react";
 import "../src/styles/authed-app.css";
 import { AddEditCTAs } from "./add-edit-ctas";
+import { AddFirstTraining } from "./add-first-training";
 import { BottomBar } from "./bottom-bar";
 import { BottomBarLayer } from "./bottom-bar-layer";
 import { useTopLevelState } from "./context";
@@ -45,14 +46,18 @@ export const Trainings = ({
 
   return (
     <>
-      <MemoizedTrainingList
-        mode={mode}
-        dispatch={dispatch}
-        searchTerm={searchTerm}
-        textAreaRef={textAreaRef}
-        handleSetEditMode={handleSetEditMode}
-        trainings={filterTrainings(searchTerm, trainings)}
-      />
+      {trainings.length === 0 ? (
+        <AddFirstTraining />
+      ) : (
+        <MemoizedTrainingList
+          mode={mode}
+          dispatch={dispatch}
+          searchTerm={searchTerm}
+          textAreaRef={textAreaRef}
+          handleSetEditMode={handleSetEditMode}
+          trainings={filterTrainings(searchTerm, trainings)}
+        />
+      )}
 
       <AddEditCTAs
         textAreaRef={textAreaRef}

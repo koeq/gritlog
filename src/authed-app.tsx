@@ -1,5 +1,4 @@
 import "../src/styles/authed-app.css";
-import { AddTrainingCallToAction } from "./add-training-text";
 import { Analytics } from "./analytics";
 import { useTopLevelState } from "./context";
 import { LoadingDots } from "./loading-dots";
@@ -16,10 +15,6 @@ const AuthedApp = ({ sectionType }: AuthedAppProps): JSX.Element => {
 
   if (isLoading) {
     return <LoadingDots />;
-  }
-
-  if (trainings.length === 0) {
-    return <AddTrainingCallToAction />;
   }
 
   return (
