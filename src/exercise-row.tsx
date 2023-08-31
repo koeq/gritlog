@@ -31,18 +31,18 @@ export const ExerciseRow = ({
 
   return (
     <div className={`exercise-row ${isLastExercise ? "last-row" : ""}`}>
-      <div
+      <span
         id="exercise"
         className={`row ${isSearchedExercise ? "searched-exercise-name" : ""}`}
       >
         {weightChange ? "" : exerciseName ?? "—"}
-      </div>
-      <div className="row" id="weight">
+      </span>
+      <span id="weight" className="row">
         {weight}
-      </div>
-      <div className="row" id="repetitions">
+      </span>
+      <span id="repetitions" className="row">
         {reps}
-      </div>
+      </span>
       {volumeChange !== null && !weightChange ? (
         <div id="change" className={"row"}>
           <span
@@ -71,13 +71,13 @@ const renderWeight = (weight: ParsedWeight | undefined) => {
       <span className="text-off">{` ${weight.unit}`}</span>
     </>
   ) : (
-    "—"
+    <>—</>
   );
 };
 
 const renderReps = (reps: number[]): JSX.Element => {
   if (reps.length === 0) {
-    return <span>—</span>;
+    return <>—</>;
   }
   const firstRep = reps[0];
 
