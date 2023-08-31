@@ -61,38 +61,25 @@ const Values = ({ training, searchTerm }: TrainingValuesProps): JSX.Element => {
 
   return (
     <>
-      {exercises.length
-        ? exercises.map((exercise, index) => {
-            const weightChange =
-              exercise.exerciseName === exercises[index - 1]?.exerciseName;
+      {exercises.map((exercise, index) => {
+        const weightChange =
+          exercise.exerciseName === exercises[index - 1]?.exerciseName;
 
-            const isSearchedExercise = normalizedSearchTerm
-              ? exercise.exerciseName
-                  ?.toLowerCase()
-                  .includes(normalizedSearchTerm)
-              : false;
+        const isSearchedExercise = normalizedSearchTerm
+          ? exercise.exerciseName?.toLowerCase().includes(normalizedSearchTerm)
+          : false;
 
-            return (
-              <ExerciseRow
-                key={index}
-                exercise={exercise}
-                weightChange={weightChange}
-                isLastExercise={index === exercises.length - 1}
-                volumeChanges={training.volumeChanges}
-                isSearchedExercise={isSearchedExercise}
-              />
-            );
-          })
-        : renderEmptyRow()}
+        return (
+          <ExerciseRow
+            key={index}
+            exercise={exercise}
+            weightChange={weightChange}
+            isLastExercise={index === exercises.length - 1}
+            volumeChanges={training.volumeChanges}
+            isSearchedExercise={isSearchedExercise}
+          />
+        );
+      })}
     </>
   );
 };
-
-const renderEmptyRow = () => (
-  <div className="header-row">
-    <div id="exercise">—</div>
-    <div id="weight">—</div>
-    <div id="repetitions">—</div>
-    <div id="change"></div>
-  </div>
-);
