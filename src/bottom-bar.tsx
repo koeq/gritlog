@@ -1,4 +1,11 @@
-import { Dispatch, useMemo, useRef } from "react";
+import {
+  Dispatch,
+  useCallback,
+  useLayoutEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 import { ImInfo } from "react-icons/im";
 import { IoMdAdd, IoMdClose } from "react-icons/io";
 import { IoCheckmarkSharp } from "react-icons/io5";
@@ -14,6 +21,8 @@ import { Mode, TrainingWithoutVolume } from "./types";
 import { isEmptyTraining } from "./utils/is-empty-training";
 import { useEscape } from "./utils/use-escape";
 
+const BOTTOM_CTAS_MARGIN = 16;
+
 interface BottomBarProps {
   readonly textAreaRef: React.MutableRefObject<HTMLTextAreaElement | null>;
   readonly setShowFormatInfo: Dispatch<React.SetStateAction<boolean>>;
@@ -25,6 +34,7 @@ export function BottomBar({
 }: BottomBarProps): JSX.Element | null {
   const { logout } = useAuth();
   const bottomBarRef = useRef(null);
+  const bottomCTAsHeight = useBottomCTAsHeight();
 
   const [{ trainings, currentInput, showBottomBar, mode }, dispatch] =
     useTopLevelState();
@@ -69,15 +79,16 @@ export function BottomBar({
           className="button circle-hover btn-info"
           onClick={() => setShowFormatInfo(true)}
         >
-          <ImInfo size={14} color="var(--text-off)" />
+          <ImInfo size={15} color="var(--text-off)" />
         </button>
+        <h3 style={{ fontWeight: 700, fontSize: "16px" }}>{mode.type}</h3>
         <button
           aria-label="cancelation"
           type="button"
           className="btn-cancel"
           onClick={cancelHandler}
         >
-          <IoMdClose size={22} />
+          <IoMdClose size={24} />
         </button>
       </div>
 
@@ -86,7 +97,10 @@ export function BottomBar({
         textAreaRef={textAreaRef}
         setShowInfo={setShowFormatInfo}
       />
-      <div className="input-btn-container input-bottom-container">
+      <div
+        style={{ position: "absolute", bottom: bottomCTAsHeight }}
+        className="input-btn-container input-bottom-container"
+      >
         <Suggestion currentInput={currentInput} textAreaRef={textAreaRef} />
         <button
           className="btn-confirm"
@@ -99,9 +113,9 @@ export function BottomBar({
           }}
         >
           {mode.type === "add" ? (
-            <IoMdAdd size={21} />
+            <IoMdAdd size={24} />
           ) : (
-            <IoCheckmarkSharp size={21} />
+            <IoCheckmarkSharp size={24} />
           )}
         </button>
       </div>
@@ -144,7 +158,9 @@ const handleAction = ({
 const handleCancel = (mode: Mode, dispatch: React.Dispatch<Action>) =>
   mode.type === "add"
     ? () => dispatch({ type: "cancel-add" })
-    : () => dispatch({ type: "cancel-edit" });
+    : mode.type === "edit"
+    ? () => dispatch({ type: "cancel-edit" })
+    : () => undefined;
 
 interface HandleAddParams {
   logout: () => void;
@@ -193,4 +209,32 @@ const handleEdit = ({
     currentTraining: { ...currentTraining, date },
     mode,
   });
+};
+
+const useBottomCTAsHeight = (): number => {
+  const changedHeightRef = useRef(false);
+
+  const [bottomCTAsHeight, setBottomCTAsHeight] = useState(
+    visualViewport?.height || 0
+  );
+
+  const resizeHandler = useCallback(() => {
+    if (changedHeightRef.current || !visualViewport) {
+      return;
+    }
+
+    setBottomCTAsHeight(
+      window.innerHeight - visualViewport.height + BOTTOM_CTAS_MARGIN
+    );
+
+    changedHeightRef.current = true;
+  }, []);
+
+  useLayoutEffect(() => {
+    visualViewport?.addEventListener("resize", resizeHandler);
+
+    return () => visualViewport?.removeEventListener("resize", resizeHandler);
+  }, [resizeHandler]);
+
+  return bottomCTAsHeight;
 };

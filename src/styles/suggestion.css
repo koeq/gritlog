@@ -1,4 +1,8 @@
 .suggestion {
-  padding: 4px 0;
+  font-size: 14px;
+  padding: 3px 8px;
+  border-radius: 26px;
+  align-items: center;
   color: var(--color-progress);
+  border: 0.8px solid var(--color-progress);
 }
