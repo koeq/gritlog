@@ -25,7 +25,7 @@ export const Input = ({
   }, [currentInput, textAreaRef]);
 
   const autoGrow = (element: HTMLTextAreaElement) => {
-    const minHeight = 80;
+    const minHeight = 100;
     // Reset height
     element.style.height = `${minHeight}px`;
     element.style.height = `${element.scrollHeight}px`;
@@ -35,8 +35,8 @@ export const Input = ({
     <>
       <div className="input-wrapper">
         <textarea
-          autoComplete="on"
-          placeholder="Squats @80kg 8/8/8"
+          autoComplete="off"
+          placeholder="Squats @80kg 8/8/8 ..."
           onChange={(event) =>
             dispatch({
               type: "set-input",
