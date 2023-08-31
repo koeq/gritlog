@@ -4,8 +4,8 @@ import "../src/styles/add-edit-ctas.css";
 import { useTopLevelState } from "./context";
 
 interface AddEditCTAsProps {
-  textAreaRef: React.MutableRefObject<HTMLTextAreaElement | null>;
-  handleSetEditMode: (id: number) => void;
+  readonly textAreaRef: React.MutableRefObject<HTMLTextAreaElement | null>;
+  readonly handleSetEditMode: (id: number) => void;
 }
 
 export const AddEditCTAs = ({
