@@ -5,6 +5,8 @@ import { Hamburger } from "./hamburger";
 import { SearchBox } from "./search-box";
 import "./styles/header.css";
 
+const analyticsTypes = ["activity", "volume"] as const;
+
 interface HeaderProps {
   readonly authed: boolean;
   readonly section: Section;
@@ -69,30 +71,27 @@ export const Header = ({
         {authed && (
           <div className="cta-section">
             {section.type === "trainings" && <SearchBox />}
-            {section.type === "analytics" && (
-              <a
-                onClick={() =>
-                  setSection({ type: "analytics", analyticsType: "activity" })
-                }
-                className={`analytics-link${
-                  section.analyticsType === "activity" ? " active" : ""
-                }`}
-              >
-                activity
-              </a>
-            )}
-            {section.type === "analytics" && (
-              <a
-                onClick={() =>
-                  setSection({ type: "analytics", analyticsType: "volume" })
-                }
-                className={`analytics-link${
-                  section.analyticsType === "volume" ? " active" : ""
-                }`}
-              >
-                volume
-              </a>
-            )}
+            {section.type === "analytics" &&
+              analyticsTypes.map((type) => (
+                <div
+                  className={`analytics-link-container${
+                    section.analyticsType === type ? " active" : ""
+                  }`}
+                  key={type}
+                >
+                  <a
+                    onClick={() =>
+                      setSection({ type: "analytics", analyticsType: type })
+                    }
+                    className={`analytics-link${
+                      section.analyticsType === type ? " active" : ""
+                    }`}
+                  >
+                    {type}
+                  </a>
+                </div>
+              ))}
+
             <Hamburger menuOpen={menuOpen} setMenuOpen={setMenuOpen} />
           </div>
         )}
