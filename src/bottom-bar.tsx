@@ -71,7 +71,7 @@ export function BottomBar({
   return (
     <footer
       ref={bottomBarRef}
-      style={{ height: isMobile ? "85%" : "35%" }}
+      style={{ height: isMobile ? "86%" : "34%" }}
       className={`bottom-bar ${showBottomBar ? "" : "closed"}`}
     >
       <div className="input-btn-container input-top-container">
