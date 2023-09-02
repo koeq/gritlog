@@ -71,7 +71,7 @@ export function BottomBar({
   return (
     <footer
       ref={bottomBarRef}
-      style={{ height: isMobile ? "86%" : "34%" }}
+      style={{ height: isMobile ? "calc(100% - 77px)" : "34%" }}
       className={`bottom-bar ${showBottomBar ? "" : "closed"}`}
     >
       <div className="input-btn-container input-top-container">
@@ -83,7 +83,7 @@ export function BottomBar({
         >
           <ImInfo size={15} color="var(--text-off)" />
         </button>
-        <h3 style={{ fontWeight: 700, fontSize: "16px" }}>{mode.type}</h3>
+        <h3 style={{ fontWeight: 700, fontSize: "17px" }}>{mode.type}</h3>
         <button
           aria-label="cancelation"
           type="button"

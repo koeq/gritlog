@@ -1,6 +1,5 @@
 .suggestion {
-  font-size: 14px;
-  padding: 3px 8px;
+  padding: 4px 9px;
   border-radius: 26px;
   align-items: center;
   color: var(--color-progress);
