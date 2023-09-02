@@ -10,7 +10,7 @@ import { ImInfo } from "react-icons/im";
 import { IoMdAdd, IoMdClose } from "react-icons/io";
 import { IoCheckmarkSharp } from "react-icons/io5";
 import { addTraining } from "./add-training";
-import { useAuth, useTopLevelState } from "./context";
+import { useAuth, useIsMobile, useTopLevelState } from "./context";
 import { editTraining } from "./edit-training";
 import { Input } from "./input";
 import { parse } from "./parser";
@@ -33,6 +33,7 @@ export function BottomBar({
   setShowFormatInfo,
 }: BottomBarProps): JSX.Element | null {
   const { logout } = useAuth();
+  const isMobile = useIsMobile();
   const bottomBarRef = useRef(null);
   const bottomCTAsHeight = useBottomCTAsHeight();
 
@@ -70,6 +71,7 @@ export function BottomBar({
   return (
     <footer
       ref={bottomBarRef}
+      style={{ height: isMobile ? "84%" : "34%" }}
       className={`bottom-bar ${showBottomBar ? "" : "closed"}`}
     >
       <div className="input-btn-container input-top-container">
@@ -212,11 +214,10 @@ const handleEdit = ({
 };
 
 const useBottomCTAsHeight = (): number => {
+  const isMobile = useIsMobile();
   const changedHeightRef = useRef(false);
 
-  const [bottomCTAsHeight, setBottomCTAsHeight] = useState(
-    visualViewport?.height || 0
-  );
+  const [bottomCTAsHeight, setBottomCTAsHeight] = useState(BOTTOM_CTAS_MARGIN);
 
   const resizeHandler = useCallback(() => {
     if (changedHeightRef.current || !visualViewport) {
@@ -231,10 +232,14 @@ const useBottomCTAsHeight = (): number => {
   }, []);
 
   useLayoutEffect(() => {
+    if (!isMobile) {
+      return;
+    }
+
     visualViewport?.addEventListener("resize", resizeHandler);
 
     return () => visualViewport?.removeEventListener("resize", resizeHandler);
-  }, [resizeHandler]);
+  }, [resizeHandler, isMobile]);
 
   return bottomCTAsHeight;
 };
