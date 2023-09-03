@@ -1,5 +1,5 @@
 import { getVolumePerExercise } from "../get-volume-per-exercise";
-import { serializeTraining } from "../serialize-training";
+import { serializeExercises } from "../serialize-exercises";
 import { TopLevelState, reducer } from "../state-reducer";
 import { Training } from "../types";
 
@@ -9,7 +9,7 @@ describe("Mutate global state", () => {
   beforeEach(() => {
     state = {
       trainings: [],
-      currentInput: "",
+      currentInput: { headline: "", exercises: "" },
       showBottomBar: false,
       mode: { type: "add" },
       searchTerm: "",
@@ -18,7 +18,7 @@ describe("Mutate global state", () => {
 
   const someTraining: Training = {
     date: "someDate",
-    headline: null,
+    headline: "",
     id: 0,
     exercises: [
       { exerciseName: "Benchpress", repetitions: "8/8/8", weight: "100.5kg" },
@@ -39,7 +39,7 @@ describe("Mutate global state", () => {
       trainings: [someTraining],
       showBottomBar: false,
       mode: { type: "add" },
-      currentInput: "",
+      currentInput: { headline: "", exercises: "" },
       searchTerm: "",
     });
   });
@@ -65,7 +65,10 @@ describe("Mutate global state", () => {
       mode: {
         type: "edit",
         id: 0,
-        initialInput: "someInitialInput",
+        initialInput: {
+          headline: "some initial headline ",
+          exercises: "some initial exercises",
+        },
         date: "some date",
       },
       currentTraining,
@@ -75,7 +78,7 @@ describe("Mutate global state", () => {
       trainings: [{ ...currentTraining }],
       showBottomBar: false,
       mode: { type: "add" },
-      currentInput: "",
+      currentInput: { headline: "", exercises: "" },
       searchTerm: "",
     });
   });
@@ -88,7 +91,10 @@ describe("Mutate global state", () => {
 
     const newState = reducer(state, {
       type: "repeat",
-      currentInput: serializeTraining(someTraining),
+      currentInput: {
+        headline: someTraining.headline || "",
+        exercises: serializeExercises(someTraining),
+      },
     });
 
     expect(newState).toStrictEqual({
@@ -114,7 +120,7 @@ describe("Mutate global state", () => {
       trainings: [],
       showBottomBar: false,
       mode: { type: "add" },
-      currentInput: "",
+      currentInput: { headline: "", exercises: "" },
       searchTerm: "",
     });
   });
@@ -135,7 +141,7 @@ describe("Mutate global state", () => {
     state = {
       ...state,
       showBottomBar: true,
-      currentInput: "some input",
+      currentInput: { headline: "", exercises: "" },
     };
 
     const newState = reducer(state, {
@@ -145,7 +151,7 @@ describe("Mutate global state", () => {
     expect(newState).toStrictEqual({
       ...state,
       showBottomBar: false,
-      currentInput: "",
+      currentInput: { headline: "", exercises: "" },
     });
   });
 
@@ -153,11 +159,14 @@ describe("Mutate global state", () => {
     state = {
       ...state,
       showBottomBar: true,
-      currentInput: "some input",
+      currentInput: { headline: "", exercises: "" },
       mode: {
         type: "edit",
         id: 1000,
-        initialInput: "some input",
+        initialInput: {
+          headline: "some initial headline ",
+          exercises: "some initial exercises",
+        },
         date: "some date",
       },
     };
@@ -169,7 +178,7 @@ describe("Mutate global state", () => {
     expect(newState).toStrictEqual({
       ...state,
       showBottomBar: false,
-      currentInput: "",
+      currentInput: { headline: "", exercises: "" },
       mode: { type: "add" },
     });
   });
@@ -178,18 +187,21 @@ describe("Mutate global state", () => {
     const newState = reducer(state, {
       type: "set-edit-mode",
       id: 1000,
-      serializedTraining: "some serialized training",
+      serializedExercises: "some exercises",
       date: "some date",
     });
 
     expect(newState).toStrictEqual({
       ...state,
       showBottomBar: true,
-      currentInput: "some serialized training",
+      currentInput: { headline: "", exercises: "some exercises" },
       mode: {
         type: "edit",
         id: 1000,
-        initialInput: "some serialized training",
+        initialInput: {
+          headline: "",
+          exercises: "some exercises",
+        },
         date: "some date",
       },
     });
@@ -199,7 +211,7 @@ describe("Mutate global state", () => {
     state = {
       ...state,
       showBottomBar: true,
-      currentInput: "some input",
+      currentInput: { headline: "", exercises: "" },
     };
 
     const newState = reducer(state, {
@@ -210,7 +222,7 @@ describe("Mutate global state", () => {
     expect(newState).toStrictEqual({
       ...state,
       showBottomBar: false,
-      currentInput: "",
+      currentInput: { headline: "", exercises: "" },
       mode: {
         type: "delete",
         id: 1000,

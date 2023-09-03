@@ -9,7 +9,7 @@ import { DeletionDialog } from "./deletion-dialog";
 import { filterTrainings } from "./filter-trainings";
 import { FormatInfo } from "./format-info";
 import { Layer } from "./layer";
-import { serializeTraining } from "./serialize-training";
+import { serializeExercises } from "./serialize-exercises";
 import { MemoizedTrainingList } from "./training-list";
 import { Training } from "./types";
 
@@ -36,7 +36,7 @@ export const Trainings = ({
         id,
         date: training.date,
         type: "set-edit-mode",
-        serializedTraining: serializeTraining(training),
+        serializedExercises: serializeExercises(training),
       });
 
       textAreaRef.current?.focus();

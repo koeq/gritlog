@@ -35,13 +35,14 @@ export function BottomBar({
   const { logout } = useAuth();
   const isMobile = useIsMobile();
   const bottomBarRef = useRef(null);
-  const bottomCTAsHeight = useBottomCTAsHeight();
+  const bottomCTAsBottomOffset = useBottomCTAsBottomOffset();
 
   const [{ trainings, currentInput, showBottomBar, mode }, dispatch] =
     useTopLevelState();
 
-  const { headline = null, exercises = [] } =
-    useMemo(() => parse(currentInput), [currentInput]) || {};
+  const exercises =
+    useMemo(() => parse(currentInput.exercises), [currentInput.exercises]) ||
+    [];
 
   const highestTrainingId =
     trainings && trainings.length
@@ -49,7 +50,7 @@ export function BottomBar({
       : -1;
 
   const currentTraining: TrainingWithoutVolume = {
-    headline,
+    headline: currentInput.headline,
     exercises,
     id: mode.type === "edit" ? mode.id : highestTrainingId + 1,
     date: new Date().toString(),
@@ -66,7 +67,7 @@ export function BottomBar({
     currentTraining,
   });
 
-  const disabled = isDisabled(mode, currentTraining, currentInput);
+  const disabled = isDisabled(mode, currentTraining, currentInput.exercises);
 
   return (
     <footer
@@ -83,7 +84,7 @@ export function BottomBar({
         >
           <ImInfo size={15} color="var(--text-off)" />
         </button>
-        <h3 style={{ fontWeight: 700, fontSize: "17px" }}>{mode.type}</h3>
+        <h3 id="bottom-bar-headline">{mode.type}</h3>
         <button
           aria-label="cancelation"
           type="button"
@@ -95,12 +96,13 @@ export function BottomBar({
       </div>
 
       <Input
-        currentTraining={currentTraining}
         textAreaRef={textAreaRef}
-        setShowInfo={setShowFormatInfo}
+        currentInput={currentInput}
+        actionHandler={actionHandler}
+        currentTraining={currentTraining}
       />
       <div
-        style={{ position: "absolute", bottom: bottomCTAsHeight }}
+        style={{ position: "absolute", bottom: bottomCTAsBottomOffset }}
         className="input-btn-container input-bottom-container"
       >
         <Suggestion currentInput={currentInput} textAreaRef={textAreaRef} />
@@ -128,19 +130,20 @@ export function BottomBar({
 const isDisabled = (
   mode: Mode,
   currentTraining: TrainingWithoutVolume,
-  currentInput: string
+  serializedExercises: string
 ): boolean =>
   mode.type === "add"
     ? isEmptyTraining(currentTraining)
     : mode.type === "edit"
-    ? currentInput?.trim() === mode.initialInput
+    ? serializedExercises?.trim() === mode.initialInput.exercises &&
+      currentTraining.headline?.trim() === mode.initialInput.headline
     : false;
 
 interface HandleActionParams {
   mode: Mode;
   logout: () => void;
-  currentTraining: TrainingWithoutVolume;
   dispatch: React.Dispatch<Action>;
+  currentTraining: TrainingWithoutVolume;
   textAreaRef: React.MutableRefObject<HTMLTextAreaElement | null>;
 }
 
@@ -150,12 +153,12 @@ const handleAction = ({
   dispatch,
   logout,
   textAreaRef,
-}: HandleActionParams): (() => void) | undefined =>
+}: HandleActionParams): (() => void) =>
   mode.type === "add"
     ? () => handleAdd({ currentTraining, dispatch, logout, textAreaRef })
     : mode.type === "edit"
     ? () => handleEdit({ mode, currentTraining, dispatch, logout })
-    : undefined;
+    : () => undefined;
 
 const handleCancel = (mode: Mode, dispatch: React.Dispatch<Action>) =>
   mode.type === "add"
@@ -177,10 +180,6 @@ export const handleAdd = ({
   dispatch,
   textAreaRef,
 }: HandleAddParams): void => {
-  if (isEmptyTraining(currentTraining)) {
-    return;
-  }
-
   addTraining(currentTraining, logout);
   dispatch({ type: "add", currentTraining });
   textAreaRef.current?.blur();
@@ -213,7 +212,7 @@ const handleEdit = ({
   });
 };
 
-const useBottomCTAsHeight = (): number => {
+const useBottomCTAsBottomOffset = (): number => {
   const isMobile = useIsMobile();
   const changedHeightRef = useRef(false);
 

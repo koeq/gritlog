@@ -26,7 +26,11 @@ export interface Training extends TrainingWithoutVolume {
 }
 
 export type Exercise = Training["exercises"][number];
-export type CurrentInput = string;
+
+export interface CurrentInput {
+  readonly headline: string;
+  readonly exercises: string;
+}
 
 export type AddMode = {
   type: "add";
@@ -35,7 +39,7 @@ export type AddMode = {
 export type EditMode = {
   id: number;
   type: "edit";
-  initialInput: string;
+  initialInput: CurrentInput;
   date: string;
 };
 

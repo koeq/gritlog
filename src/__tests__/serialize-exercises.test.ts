@@ -1,10 +1,10 @@
-import { serializeTraining } from "../serialize-training";
+import { serializeExercises } from "../serialize-exercises";
 import { Training } from "../types";
 
-let multipleExercisesWithHeadline: Training;
+let multipleExercises: Training;
 
 beforeEach(() => {
-  multipleExercisesWithHeadline = {
+  multipleExercises = {
     id: 0,
     date: "",
     headline: "some headline",
@@ -26,9 +26,7 @@ beforeEach(() => {
   };
 });
 
-const multipleExercisesWithHeadlineResult = `# some headline\nBenchpress @100kg 8/8/8\nBenchpress @100 8 8 8`;
+const multipleExercisesResult = `Benchpress @100kg 8/8/8\nBenchpress @100 8 8 8`;
 
-test("Multiple exercises with headline.", () =>
-  expect(serializeTraining(multipleExercisesWithHeadline)).toBe(
-    multipleExercisesWithHeadlineResult
-  ));
+test("Multiple exercises.", () =>
+  expect(serializeExercises(multipleExercises)).toBe(multipleExercisesResult));

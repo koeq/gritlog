@@ -2,6 +2,7 @@ import { addVolumeChanges as updateVolumeChanges } from "./enrich-trainings";
 import { getVolumeChanges } from "./get-volume-changes";
 import { getVolumePerExercise } from "./get-volume-per-exercise";
 import {
+  CurrentInput,
   EditMode,
   Mode,
   Training,
@@ -12,7 +13,7 @@ import { sortTrainingsByDate } from "./utils/sort-trainings-by-date";
 
 export type TopLevelState = {
   trainings: Training[];
-  currentInput: string;
+  currentInput: CurrentInput;
   showBottomBar: boolean;
   mode: Mode;
   searchTerm: string;
@@ -21,7 +22,7 @@ export type TopLevelState = {
 export type Action =
   | { type: "add"; currentTraining: TrainingWithoutVolume }
   | { type: "edit"; mode: EditMode; currentTraining: TrainingWithoutVolume }
-  | { type: "repeat"; currentInput: string }
+  | { type: "repeat"; currentInput: CurrentInput }
   | { type: "delete"; id: number }
   | { type: "set-trainings"; trainings: Training[] }
   | { type: "cancel-add" }
@@ -29,12 +30,12 @@ export type Action =
   | {
       type: "set-edit-mode";
       id: number;
-      serializedTraining: string;
+      serializedExercises: string;
       date: string;
     }
   | { type: "set-delete-mode"; id: number }
   | { type: "set-mode"; mode: Mode }
-  | { type: "set-input"; currentInput: string }
+  | { type: "set-input"; currentInput: CurrentInput }
   | { type: "open-input" }
   | { type: "set-search-term"; searchTerm: string }
   | { type: "clear-search-term" };
@@ -63,9 +64,9 @@ export function reducer(state: TopLevelState, action: Action): TopLevelState {
 
       return {
         ...state,
-        currentInput: "",
         showBottomBar: false,
         mode: { type: "add" },
+        currentInput: { headline: "", exercises: "" },
 
         trainings: sortTrainingsByDate([
           ...trainings,
@@ -79,9 +80,9 @@ export function reducer(state: TopLevelState, action: Action): TopLevelState {
 
       return {
         ...state,
-        currentInput: "",
         showBottomBar: false,
         mode: { type: "add" },
+        currentInput: { headline: "", exercises: "" },
 
         trainings: trainings
           ?.map((training) =>
@@ -132,7 +133,7 @@ export function reducer(state: TopLevelState, action: Action): TopLevelState {
       return {
         ...state,
         showBottomBar: false,
-        currentInput: "",
+        currentInput: { headline: "", exercises: "" },
       };
     }
 
@@ -140,19 +141,29 @@ export function reducer(state: TopLevelState, action: Action): TopLevelState {
       return {
         ...state,
         showBottomBar: false,
-        currentInput: "",
         mode: { type: "add" },
+        currentInput: { headline: "", exercises: "" },
       };
     }
 
     case "set-edit-mode": {
-      const { id, serializedTraining, date } = action;
+      const { id, serializedExercises, date } = action;
+      const training = trainings.find((t) => t.id === id);
+      const headline = training?.headline || "";
 
       return {
         ...state,
-        currentInput: serializedTraining,
         showBottomBar: true,
-        mode: { type: "edit", id, initialInput: serializedTraining, date },
+        currentInput: {
+          headline,
+          exercises: serializedExercises,
+        },
+        mode: {
+          id,
+          date,
+          type: "edit",
+          initialInput: { headline, exercises: serializedExercises },
+        },
       };
     }
 
@@ -161,9 +172,9 @@ export function reducer(state: TopLevelState, action: Action): TopLevelState {
 
       return {
         ...state,
-        mode: { type: "delete", id },
-        currentInput: "",
         showBottomBar: false,
+        mode: { type: "delete", id },
+        currentInput: { headline: "", exercises: "" },
       };
     }
 
@@ -205,8 +216,8 @@ export function reducer(state: TopLevelState, action: Action): TopLevelState {
 
 export const initialState: TopLevelState = {
   trainings: [],
-  currentInput: "",
+  searchTerm: "",
   showBottomBar: false,
   mode: { type: "add" },
-  searchTerm: "",
+  currentInput: { headline: "", exercises: "" },
 };
