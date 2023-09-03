@@ -31,6 +31,12 @@
 
 .input-top-container {
   padding: 8px 0;
+  border-bottom: 0.8px solid var(--border-primary);
+}
+
+#bottom-bar-headline {
+  font-weight: 600;
+  font-size: 16px;
 }
 
 .input-bottom-container {

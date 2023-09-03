@@ -1,7 +1,7 @@
 import { Dispatch, useCallback, useEffect, useState } from "react";
 import { IoChevronDown, IoChevronUp } from "react-icons/io5";
 import { TrainingsByMonth as TrainingByMonthType } from "./group-training-by-month";
-import { serializeTraining } from "./serialize-training";
+import { serializeExercises } from "./serialize-exercises";
 import { Action } from "./state-reducer";
 import "./styles/trainings-by-month.css";
 import { MemoizedTrainingCard } from "./training-card";
@@ -45,7 +45,13 @@ export const TrainingsByMonth = ({
         return;
       }
 
-      dispatch({ type: "repeat", currentInput: serializeTraining(training) });
+      dispatch({
+        type: "repeat",
+        currentInput: {
+          headline: training.headline || "",
+          exercises: serializeExercises(training),
+        },
+      });
       textAreaRef.current?.focus();
     },
     [trainings, dispatch, textAreaRef]

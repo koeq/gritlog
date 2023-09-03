@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState } from "react";
 import { useTopLevelState } from "./context";
 import { Action } from "./state-reducer";
 import "./styles/suggestion.css";
+import { CurrentInput } from "./types";
 import {
   DEFAULT_EXERCISES,
   autocomplete,
@@ -12,13 +13,13 @@ import { fuzzyFilter } from "./utils/fuzzy";
 import { getUniqueExerciseNames } from "./utils/get-unique-exercises";
 
 interface SuggestionsProps {
-  currentInput: string;
-  textAreaRef: React.MutableRefObject<HTMLTextAreaElement | null>;
+  readonly currentInput: CurrentInput;
+  readonly textAreaRef: React.MutableRefObject<HTMLTextAreaElement | null>;
 }
 
 export const Suggestion = ({
-  currentInput,
   textAreaRef,
+  currentInput,
 }: SuggestionsProps): JSX.Element | null => {
   const [{ trainings }, dispatch] = useTopLevelState();
   const [suggestion, setSuggestion] = useState<string | null>(null);
@@ -54,7 +55,7 @@ export const Suggestion = ({
           onClick={() =>
             handleAutocomplete({
               suggestion,
-              currentInput,
+              currentInput: currentInput,
               textAreaRef,
               dispatch,
             })
@@ -82,7 +83,7 @@ const getCurrentExercise = (textArea: HTMLTextAreaElement): string | null => {
 };
 
 const getSuggestion = (currentExercise: string, uniqueExercises: string[]) => {
-  // match exercise which start with currentExercise
+  // Match exercise which start with currentExercise
   const matches = uniqueExercises.filter(
     (exerciseName) =>
       exerciseName.toLowerCase() !== currentExercise.toLowerCase() &&
@@ -104,10 +105,10 @@ const getSuggestion = (currentExercise: string, uniqueExercises: string[]) => {
 };
 
 interface HandleAutocompleteParams {
-  suggestion: string;
-  currentInput: string;
-  textAreaRef: React.MutableRefObject<HTMLTextAreaElement | null>;
-  dispatch: (value: Action) => void;
+  readonly suggestion: string;
+  readonly currentInput: CurrentInput;
+  readonly textAreaRef: React.MutableRefObject<HTMLTextAreaElement | null>;
+  readonly dispatch: (value: Action) => void;
 }
 
 function handleAutocomplete({
@@ -126,6 +127,9 @@ function handleAutocomplete({
 
   dispatch({
     type: "set-input",
-    currentInput: autocomplete(currentInput, suggestion, textArea),
+    currentInput: {
+      headline: currentInput.headline,
+      exercises: autocomplete(currentInput.exercises, suggestion, textArea),
+    },
   });
 }

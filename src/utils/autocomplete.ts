@@ -9,21 +9,21 @@ export const DEFAULT_EXERCISES = [
 ];
 
 export function autocomplete(
-  currentInput: string,
+  serializedExercises: string,
   suggestion: string,
   textArea: HTMLTextAreaElement
 ): string {
   const { currentLine, lines, currentLineIndex } =
     getTextAreaCursorContext(textArea);
 
-  if (!currentLine || currentLine.startsWith("#")) {
-    return currentInput;
+  if (!currentLine) {
+    return serializedExercises;
   }
 
   const currentExercise = getExerciseMatch(currentLine);
 
   if (!currentExercise) {
-    return currentInput;
+    return serializedExercises;
   }
 
   lines[currentLineIndex] = currentLine.replace(

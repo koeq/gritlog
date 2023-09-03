@@ -5,7 +5,6 @@ type TokenType =
   | "ASPERAND"
   | "FORWARD_SLASH"
   | "STAR"
-  | "HASHTAG"
   // Literals
   | "NUMBER"
   // The token type "STRING" represents one or multiple letters in this context
@@ -45,7 +44,7 @@ interface Scanner {
 }
 
 interface Interpreter {
-  interpret(): { headline: string | null; exercises: Exercise[] };
+  interpret(): Exercise[];
 }
 
 //-------------------------------------------------Scanner--------------------------------------------------
@@ -171,10 +170,6 @@ function createScanner(source: string): Scanner {
         addToken("STAR");
         break;
 
-      case "#":
-        addToken("HASHTAG");
-        break;
-
       case "-":
         addToken("HYPHEN");
         break;
@@ -248,7 +243,6 @@ function createScanner(source: string): Scanner {
 function createInterpreter(tokens: Token[]): Interpreter {
   const exercises: Exercise[] = [];
   let exerciseNumber = -1;
-  let headline: string | null = null;
   // Constructs
   let exerciseName: string | null = null;
   let weight: string | null = null;
@@ -287,27 +281,6 @@ function createInterpreter(tokens: Token[]): Interpreter {
       .map((token) => token.lexeme)
       .join("")
       .trim();
-
-  const buildHeadline = (token: Token) => {
-    while (token.type !== "NEWLINE") {
-      const next = peek();
-
-      if (next) {
-        token = advance();
-      } else {
-        break;
-      }
-    }
-
-    // Ignore Hashtag
-    start = start + 1;
-    const tokenizedHeadline = tokens.slice(start, current);
-
-    // Only build headline if some char is not whitespace
-    if (tokenizedHeadline.some((token) => token.type !== "WHITESPACE")) {
-      headline = build();
-    }
-  };
 
   const buildExerciseName = (token: Token) => {
     while (isExerciseName(token)) {
@@ -400,10 +373,6 @@ function createInterpreter(tokens: Token[]): Interpreter {
     const token = advance();
 
     switch (token.type) {
-      case "HASHTAG":
-        buildHeadline(token);
-        break;
-
       case "HYPHEN":
       case "STRING":
         buildExerciseName(token);
@@ -425,18 +394,16 @@ function createInterpreter(tokens: Token[]): Interpreter {
         interpreteConstruct();
       }
 
-      return { headline, exercises };
+      return exercises;
     },
   };
 }
 
 //--------------------------------------------------PARSER--------------------------------------------------
 
-export function parse(
-  source: string | undefined
-): { headline: string | null; exercises: Exercise[] } | undefined {
+export function parse(source: string | undefined): Exercise[] | null {
   if (source === undefined) {
-    return;
+    return null;
   }
 
   const scanner = createScanner(source);
