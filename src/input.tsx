@@ -1,11 +1,10 @@
 import { useCallback, useLayoutEffect } from "react";
 import { useIsMobile, useTopLevelState } from "./context";
 import "./styles/input.css";
-import { CurrentInput, TrainingWithoutVolume } from "./types";
+import { CurrentInput } from "./types";
 
 interface InputSectionProps {
   readonly currentInput: CurrentInput;
-  readonly currentTraining: TrainingWithoutVolume;
   readonly actionHandler: () => void;
   readonly textAreaRef: React.MutableRefObject<HTMLTextAreaElement | null>;
 }
@@ -14,7 +13,6 @@ export const Input = ({
   textAreaRef,
   currentInput,
   actionHandler,
-  currentTraining,
 }: InputSectionProps): JSX.Element => {
   const isMobile = useIsMobile();
   const [{ showBottomBar }, dispatch] = useTopLevelState();
@@ -50,11 +48,11 @@ export const Input = ({
       dispatch({
         type: "set-input",
         currentInput: {
-          headline: currentTraining.headline || "",
+          headline: currentInput.headline || "",
           exercises: event.currentTarget.value,
         },
       }),
-    [currentTraining.headline, dispatch]
+    [currentInput.headline, dispatch]
   );
 
   useLayoutEffect(() => {
@@ -76,8 +74,6 @@ export const Input = ({
           onChange={inputOnChangeHandler}
         />
         <textarea
-          id="training"
-          name="training"
           ref={textAreaRef}
           onKeyDown={keyDownHandler}
           value={currentInput.exercises}

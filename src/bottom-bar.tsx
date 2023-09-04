@@ -17,7 +17,7 @@ import { parse } from "./parser";
 import { Action } from "./state-reducer";
 import "./styles/bottom-bar.css";
 import { Suggestion } from "./suggestion";
-import { Mode, TrainingWithoutVolume } from "./types";
+import { CurrentInput, Mode, TrainingWithoutVolume } from "./types";
 import { isEmptyTraining } from "./utils/is-empty-training";
 import { useEscape } from "./utils/use-escape";
 
@@ -67,7 +67,7 @@ export function BottomBar({
     currentTraining,
   });
 
-  const disabled = isDisabled(mode, currentTraining, currentInput.exercises);
+  const disabled = isDisabled({ mode, currentTraining, currentInput });
 
   return (
     <footer
@@ -99,7 +99,6 @@ export function BottomBar({
         textAreaRef={textAreaRef}
         currentInput={currentInput}
         actionHandler={actionHandler}
-        currentTraining={currentTraining}
       />
       <div
         style={{ position: "absolute", bottom: bottomCTAsBottomOffset }}
@@ -107,11 +106,11 @@ export function BottomBar({
       >
         <Suggestion currentInput={currentInput} textAreaRef={textAreaRef} />
         <button
-          className="btn-confirm"
-          aria-label="confirmation"
           type="button"
           disabled={disabled}
+          className="btn-confirm"
           onClick={actionHandler}
+          aria-label="confirmation"
           style={{
             color: disabled ? "var(--cta-disabled)" : "var(--text-primary)",
           }}
@@ -127,16 +126,22 @@ export function BottomBar({
   );
 }
 
-const isDisabled = (
-  mode: Mode,
-  currentTraining: TrainingWithoutVolume,
-  serializedExercises: string
-): boolean =>
+interface IsDisabledParams {
+  readonly mode: Mode;
+  readonly currentInput: CurrentInput;
+  readonly currentTraining: TrainingWithoutVolume;
+}
+
+const isDisabled = ({
+  mode,
+  currentInput,
+  currentTraining,
+}: IsDisabledParams): boolean =>
   mode.type === "add"
     ? isEmptyTraining(currentTraining)
     : mode.type === "edit"
-    ? serializedExercises?.trim() === mode.initialInput.exercises &&
-      currentTraining.headline?.trim() === mode.initialInput.headline
+    ? currentInput.exercises?.trim() === mode.initialInput.exercises &&
+      currentInput.headline?.trim() === mode.initialInput.headline
     : false;
 
 interface HandleActionParams {
