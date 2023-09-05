@@ -34,7 +34,11 @@ const TrainingCard = ({
       ref={trainingRef}
       onClick={isMobile ? undefined : () => scrollOnClick(trainingRef.current)}
     >
-      <Training training={training} searchTerm={searchTerm} />
+      <Training
+        training={training}
+        dispatch={dispatch}
+        searchTerm={searchTerm}
+      />
       <div className="buttons-container">
         <button
           aria-label="edit"

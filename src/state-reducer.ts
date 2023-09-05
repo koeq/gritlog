@@ -25,6 +25,7 @@ export type Action =
   | { type: "repeat"; currentInput: CurrentInput }
   | { type: "delete"; id: number }
   | { type: "set-trainings"; trainings: Training[] }
+  | { type: "set-training-date"; training: Training }
   | { type: "cancel-add" }
   | { type: "cancel-edit" }
   | {
@@ -126,6 +127,17 @@ export function reducer(state: TopLevelState, action: Action): TopLevelState {
       return {
         ...state,
         trainings: sortTrainingsByDate(trainings),
+      };
+    }
+
+    case "set-training-date": {
+      const { training } = action;
+
+      return {
+        ...state,
+        trainings: sortTrainingsByDate(
+          trainings.map((t) => (t.id === training.id ? training : t))
+        ),
       };
     }
 
