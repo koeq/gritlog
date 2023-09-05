@@ -74,6 +74,7 @@ export const Input = ({
           onChange={inputOnChangeHandler}
         />
         <textarea
+          id="text-area"
           ref={textAreaRef}
           onKeyDown={keyDownHandler}
           value={currentInput.exercises}
