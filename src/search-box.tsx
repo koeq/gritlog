@@ -61,8 +61,9 @@ export function SearchBox(): JSX.Element {
         {active ? <IoCloseOutline size={22} /> : <IoSearch size={19} />}
       </button>
       <input
-        ref={inputRef}
+        id="search-input"
         type="text"
+        ref={inputRef}
         value={search}
         placeholder="Search exercises"
         className={`input-search${active ? " active" : ""}`}
