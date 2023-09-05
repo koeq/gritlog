@@ -1,41 +1,50 @@
-import { useRef, useState } from "react";
+import { useMemo, useRef, useState } from "react";
 import { IoCalendarOutline } from "react-icons/io5";
-import { useAuth, useIsMobile, useTopLevelState } from "./context";
+import { useAuth, useIsMobile } from "./context";
 import { editTraining } from "./edit-training";
 import { Action } from "./state-reducer";
 import "./styles/calendar.css";
 import { Training } from "./types";
 import { formatDate } from "./utils/date";
 
-export const Calendar = ({ id }: { id: number }): JSX.Element | null => {
+interface Props {
+  readonly training: Training;
+  readonly dispatch: React.Dispatch<Action>;
+}
+
+export const Calendar = ({ training, dispatch }: Props): JSX.Element | null => {
   const { logout } = useAuth();
   const isMobile = useIsMobile();
   const inputRef = useRef<HTMLInputElement | null>(null);
-  const [{ trainings }, dispatch] = useTopLevelState();
-  const currentTraining = trainings.find((t) => t.id === id);
+  const [formattedDate, setFormattedDate] = useState(formatDate(training.date));
 
-  const [calendarDate, setCalendarDate] = useState(
-    currentTraining?.date ? formatDate(currentTraining.date) : undefined
+  // Different event handlers for mobile and desktop are necessary since
+  // the onChange is not a reliable indicator if the date selection was made.
+
+  const eventHandlers = useMemo(
+    () =>
+      isMobile
+        ? // Mobile
+          {
+            onBlur: () =>
+              setUpdatedDate({ training, dispatch, logout, formattedDate }),
+            onChange: (event: React.ChangeEvent<HTMLInputElement>) =>
+              setFormattedDate(event.target.value),
+          }
+        : // Desktop
+          {
+            onChange: (event: React.ChangeEvent<HTMLInputElement>) => {
+              setFormattedDate(event.target.value);
+              setUpdatedDate({
+                training,
+                dispatch,
+                logout,
+                formattedDate: event.target.value,
+              });
+            },
+          },
+    [training, dispatch, logout, formattedDate]
   );
-
-  if (trainings === undefined) {
-    return null;
-  }
-
-  const mobileEventHandlers = {
-    onBlur: () => setDate({ id, trainings, dispatch, logout, calendarDate }),
-    onChange: (event: React.ChangeEvent<HTMLInputElement>) =>
-      setCalendarDate(event.target.value),
-  };
-
-  const desktopEventHandlers = {
-    onChange: (event: React.ChangeEvent<HTMLInputElement>) => {
-      const newDate = event.target.value;
-
-      setCalendarDate(newDate),
-        setDate({ id, trainings, dispatch, logout, calendarDate: newDate });
-    },
-  };
 
   return (
     <button
@@ -46,56 +55,44 @@ export const Calendar = ({ id }: { id: number }): JSX.Element | null => {
       <IoCalendarOutline size={15} />
 
       <input
+        type="date"
         ref={inputRef}
         id="date-picker"
-        type="date"
-        value={calendarDate}
-        //  This workaround is necessary since the onChange event is not a
-        // reliable indicator if the final date selection was confirmed.
-        {...(isMobile ? mobileEventHandlers : desktopEventHandlers)}
+        value={formattedDate}
+        {...eventHandlers}
       />
     </button>
   );
 };
 
-interface SetDateParams {
-  id: number;
-  logout: () => void;
-  dispatch: React.Dispatch<Action>;
-  trainings: Training[];
-  calendarDate: string | undefined;
+interface SetUpdatedDateParams {
+  readonly training: Training;
+  readonly logout: () => void;
+  readonly formattedDate: string;
+  readonly dispatch: React.Dispatch<Action>;
 }
 
-const setDate = ({
-  id,
-  trainings,
-  dispatch,
-  calendarDate,
+const setUpdatedDate = ({
   logout,
-}: SetDateParams) => {
-  const training = trainings.find((training) => training.id === id);
-
-  if (!calendarDate || !training) {
-    return;
-  }
-
-  const currentTraining: Training = {
+  training,
+  dispatch,
+  formattedDate,
+}: SetUpdatedDateParams) => {
+  const updatedTraining: Training = {
     ...training,
-    date: new Date(calendarDate).toString(),
+    date: new Date(formattedDate).toString(),
   };
 
-  if (calendarDate === formatDate(training.date)) {
+  // This seems to prevent data corruption if the date is invalid.
+  // TODO: Find out why and find a cleaner solution to parse the date and handle failure.
+  if (formattedDate === formatDate(training.date)) {
     return;
   }
 
-  const updatedTrainings = trainings.map((training) =>
-    training.id === id ? currentTraining : training
-  );
-
-  editTraining(currentTraining, logout);
+  editTraining(updatedTraining, logout);
 
   dispatch({
-    type: "set-trainings",
-    trainings: updatedTrainings,
+    type: "set-training-date",
+    training: updatedTraining,
   });
 };
