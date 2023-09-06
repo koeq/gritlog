@@ -1,7 +1,13 @@
 import { useCallback, useLayoutEffect } from "react";
-import { useIsMobile, useTopLevelState } from "./context";
+import { useTopLevelState } from "./context";
 import "./styles/input.css";
 import { CurrentInput } from "./types";
+
+declare module "react" {
+  interface TextareaHTMLAttributes<T> extends HTMLAttributes<T> {
+    enterKeyHint?: string;
+  }
+}
 
 interface InputSectionProps {
   readonly currentInput: CurrentInput;
@@ -14,21 +20,16 @@ export const Input = ({
   currentInput,
   actionHandler,
 }: InputSectionProps): JSX.Element => {
-  const isMobile = useIsMobile();
   const [{ showBottomBar }, dispatch] = useTopLevelState();
 
   const keyDownHandler = useCallback(
     (e) => {
-      if (isMobile) {
-        return;
-      }
-
       if (e.key === "Enter" && !e.shiftKey) {
         e.preventDefault();
         actionHandler();
       }
     },
-    [isMobile, actionHandler]
+    [actionHandler]
   );
 
   const inputOnChangeHandler = useCallback(
@@ -65,8 +66,9 @@ export const Input = ({
     <>
       <div className="input-wrapper">
         <input
-          type="text"
+          type="search"
           id="title-input"
+          enterKeyHint="done"
           placeholder="Title"
           className="text-input"
           onKeyDown={keyDownHandler}
@@ -75,6 +77,7 @@ export const Input = ({
         />
         <textarea
           id="text-area"
+          enterKeyHint="done"
           ref={textAreaRef}
           onKeyDown={keyDownHandler}
           value={currentInput.exercises}

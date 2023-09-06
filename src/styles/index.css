@@ -108,6 +108,11 @@ hr {
   background: var(--border-primary);
 }
 
+input[type="search"] {
+  appearance: none;
+  -webkit-appearance: none;
+}
+
 .text-off {
   color: var(--text-off);
 }
