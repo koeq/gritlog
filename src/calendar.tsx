@@ -43,7 +43,7 @@ export const Calendar = ({ training, dispatch }: Props): JSX.Element | null => {
               });
             },
           },
-    [training, dispatch, logout, formattedDate]
+    [isMobile, training, dispatch, logout, formattedDate]
   );
 
   return (
