@@ -18,8 +18,8 @@
 
 textarea {
   resize: none;
-  height: 120px;
-  margin-top: 24px;
+  height: 110px;
+  margin-top: 22px;
   max-height: 175px;
   line-height: 1.25;
   color: var(--text-primary);
