@@ -62,18 +62,16 @@
   justify-content: center;
   align-items: center;
   border-radius: 50%;
-  width: 24px;
-  height: 24px;
 }
 
-.btn-confirm::before {
+/* .btn-confirm::before {
   content: "";
   position: absolute;
-  top: -5px;
-  left: -5px;
-  width: calc(100% + 10px);
-  height: calc(100% + 10px);
+  top: -4px;
+  left: -4px;
+  width: calc(100% + 8px);
+  height: calc(100% + 8px);
   border-radius: 50%;
   border: 0.8px solid var(--border-secondary);
   z-index: -1;
-}
+} */

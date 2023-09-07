@@ -6,7 +6,7 @@ import {
   useRef,
   useState,
 } from "react";
-import { ImInfo } from "react-icons/im";
+import { GoInfo } from "react-icons/go";
 import { IoMdAdd, IoMdClose } from "react-icons/io";
 import { IoCheckmarkSharp } from "react-icons/io5";
 import { addTraining } from "./add-training";
@@ -77,15 +77,6 @@ export function BottomBar({
     >
       <div className="input-btn-container input-top-container">
         <button
-          aria-label="info"
-          type="button"
-          className="button circle-hover btn-info"
-          onClick={() => setShowFormatInfo(true)}
-        >
-          <ImInfo size={15} color="var(--text-off)" />
-        </button>
-        <h3 id="bottom-bar-headline">{mode.type}</h3>
-        <button
           aria-label="cancelation"
           type="button"
           className="btn-cancel"
@@ -93,18 +84,8 @@ export function BottomBar({
         >
           <IoMdClose size={24} />
         </button>
-      </div>
+        <h3 id="bottom-bar-headline">{mode.type}</h3>
 
-      <Input
-        textAreaRef={textAreaRef}
-        currentInput={currentInput}
-        actionHandler={actionHandler}
-      />
-      <div
-        style={{ position: "absolute", bottom: bottomCTAsBottomOffset }}
-        className="input-btn-container input-bottom-container"
-      >
-        <Suggestion currentInput={currentInput} textAreaRef={textAreaRef} />
         <button
           type="button"
           disabled={disabled}
@@ -121,6 +102,26 @@ export function BottomBar({
             <IoCheckmarkSharp size={24} />
           )}
         </button>
+      </div>
+
+      <Input
+        textAreaRef={textAreaRef}
+        currentInput={currentInput}
+        actionHandler={actionHandler}
+      />
+      <div
+        style={{ position: "absolute", bottom: bottomCTAsBottomOffset }}
+        className="input-btn-container input-bottom-container"
+      >
+        <button
+          type="button"
+          aria-label="info"
+          className="button circle-hover btn-info"
+          onClick={() => setShowFormatInfo(true)}
+        >
+          <GoInfo size={20} color="var(--text-off)" />
+        </button>
+        <Suggestion currentInput={currentInput} textAreaRef={textAreaRef} />
       </div>
     </footer>
   );
