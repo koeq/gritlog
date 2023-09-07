@@ -21,7 +21,7 @@ import { CurrentInput, Mode, TrainingWithoutVolume } from "./types";
 import { isEmptyTraining } from "./utils/is-empty-training";
 import { useEscape } from "./utils/use-escape";
 
-const BOTTOM_CTAS_MARGIN = 16;
+const BOTTOM_CTAS_MARGIN = 12;
 
 interface BottomBarProps {
   readonly textAreaRef: React.MutableRefObject<HTMLTextAreaElement | null>;
@@ -163,7 +163,7 @@ const handleAction = ({
   mode.type === "add"
     ? () => handleAdd({ currentTraining, dispatch, logout, textAreaRef })
     : mode.type === "edit"
-    ? () => handleEdit({ mode, currentTraining, dispatch, logout })
+    ? () => handleEdit({ mode, currentTraining, dispatch, logout, textAreaRef })
     : () => undefined;
 
 const handleCancel = (mode: Mode, dispatch: React.Dispatch<Action>) =>
@@ -174,10 +174,10 @@ const handleCancel = (mode: Mode, dispatch: React.Dispatch<Action>) =>
     : () => undefined;
 
 interface HandleAddParams {
-  logout: () => void;
-  currentTraining: TrainingWithoutVolume;
-  dispatch: Dispatch<Action>;
-  textAreaRef: React.MutableRefObject<HTMLTextAreaElement | null>;
+  readonly logout: () => void;
+  readonly currentTraining: TrainingWithoutVolume;
+  readonly dispatch: Dispatch<Action>;
+  readonly textAreaRef: React.MutableRefObject<HTMLTextAreaElement | null>;
 }
 
 export const handleAdd = ({
@@ -192,23 +192,27 @@ export const handleAdd = ({
 };
 
 interface HandleEditParams {
-  logout: () => void;
+  readonly logout: () => void;
   readonly mode: Mode;
   readonly dispatch: React.Dispatch<Action>;
   readonly currentTraining: TrainingWithoutVolume;
+  readonly textAreaRef: React.MutableRefObject<HTMLTextAreaElement | null>;
 }
 
 const handleEdit = ({
   mode,
-  currentTraining,
-  dispatch,
   logout,
+  dispatch,
+  textAreaRef,
+  currentTraining,
 }: HandleEditParams): void => {
   if (mode.type !== "edit") {
     return;
   }
 
   const { id, date } = mode;
+  textAreaRef.current?.blur();
+
   editTraining({ ...currentTraining, id, date }, logout);
 
   dispatch({
