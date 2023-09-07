@@ -75,6 +75,7 @@ export const Input = ({
           value={currentInput.headline}
           onChange={inputOnChangeHandler}
         />
+
         <textarea
           id="text-area"
           enterKeyHint="done"
@@ -85,7 +86,7 @@ export const Input = ({
           placeholder="Squats @80kg 8/8/8..."
           tabIndex={showBottomBar ? undefined : -1}
           className={`text-input ${showBottomBar ? "open" : "close"}`}
-        ></textarea>
+        />
       </div>
     </>
   );
