@@ -2,11 +2,11 @@ import { useCallback, useRef } from "react";
 import "../src/styles/authed-app.css";
 import { AddEditCTAs } from "./add-edit-ctas";
 import { AddFirstTraining } from "./add-first-training";
-import { BottomBar } from "./bottom-bar";
-import { BottomBarLayer } from "./bottom-bar-layer";
 import { useTopLevelState } from "./context";
 import { DeletionDialog } from "./deletion-dialog";
 import { filterTrainings } from "./filter-trainings";
+import { InputSection } from "./input-section";
+import { InputSectionLayer } from "./input-section-layer";
 import { Layer } from "./layer";
 import { serializeExercises } from "./serialize-exercises";
 import { MemoizedTrainingList } from "./training-list";
@@ -20,7 +20,7 @@ export const Trainings = ({
   trainings,
 }: TrainingsSectionProps): JSX.Element => {
   const textAreaRef = useRef<HTMLTextAreaElement | null>(null);
-  const [{ mode, showBottomBar, searchTerm }, dispatch] = useTopLevelState();
+  const [{ mode, searchTerm, showInputSection }, dispatch] = useTopLevelState();
 
   const handleSetEditMode = useCallback(
     (id: number) => {
@@ -68,8 +68,8 @@ export const Trainings = ({
         </Layer>
       )}
 
-      {showBottomBar && <BottomBarLayer />}
-      <BottomBar textAreaRef={textAreaRef} />
+      {showInputSection && <InputSectionLayer />}
+      <InputSection textAreaRef={textAreaRef} />
     </>
   );
 };

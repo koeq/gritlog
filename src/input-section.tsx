@@ -10,28 +10,30 @@ import { FormatInfo } from "./format-info";
 import { Input } from "./input";
 import { parse } from "./parser";
 import { Action } from "./state-reducer";
-import "./styles/bottom-bar.css";
+import "./styles/input-section.css";
 import { Suggestion } from "./suggestion";
 import { CurrentInput, Mode, TrainingWithoutVolume } from "./types";
 import { useCTABarBottomOffset } from "./use-cta-bar-bottom-offset";
 import { isEmptyTraining } from "./utils/is-empty-training";
 import { useEscape } from "./utils/use-escape";
 
-interface BottomBarProps {
+interface InputSectionProps {
   readonly textAreaRef: React.MutableRefObject<HTMLTextAreaElement | null>;
 }
 
-export function BottomBar({ textAreaRef }: BottomBarProps): JSX.Element | null {
+export function InputSection({
+  textAreaRef,
+}: InputSectionProps): JSX.Element | null {
   const { logout } = useAuth();
   const isMobile = useIsMobile();
-  const bottomBarRef = useRef(null);
+  const inputSectionRef = useRef(null);
   const ctaBarRef = useRef<HTMLDivElement>(null);
 
-  const [{ trainings, currentInput, showBottomBar, mode }, dispatch] =
+  const [{ mode, trainings, currentInput, showInputSection }, dispatch] =
     useTopLevelState();
 
   const [showInfo, setShowInfo] = useState(false);
-  const ctaBarBottomOffset = useCTABarBottomOffset(showBottomBar);
+  const ctaBarBottomOffset = useCTABarBottomOffset(showInputSection);
 
   useLayoutEffect(() => {
     if (!ctaBarRef.current) {
@@ -58,7 +60,7 @@ export function BottomBar({ textAreaRef }: BottomBarProps): JSX.Element | null {
   };
 
   const cancelHandler = handleCancel(mode, dispatch);
-  useEscape(bottomBarRef, cancelHandler);
+  useEscape(inputSectionRef, cancelHandler);
 
   const actionHandler = handleAction({
     mode,
@@ -71,10 +73,10 @@ export function BottomBar({ textAreaRef }: BottomBarProps): JSX.Element | null {
   const disabled = isDisabled({ mode, currentTraining, currentInput });
 
   return (
-    <footer
-      ref={bottomBarRef}
+    <section
+      ref={inputSectionRef}
       style={{ height: isMobile ? "calc(100% - 44px)" : "55%" }}
-      className={`bottom-bar ${showBottomBar ? "" : "closed"}`}
+      className={`input-section ${showInputSection ? "" : "closed"}`}
     >
       <div className="input-btn-container input-top-container">
         <button
@@ -89,7 +91,7 @@ export function BottomBar({ textAreaRef }: BottomBarProps): JSX.Element | null {
             <GoInfo size={20} color="var(--text-primary)" />
           )}
         </button>
-        <h3 id="bottom-bar-headline">{mode.type}</h3>
+        <h3 id="input-section-headline">{mode.type}</h3>
         <button
           aria-label="cancelation"
           type="button"
@@ -130,7 +132,7 @@ export function BottomBar({ textAreaRef }: BottomBarProps): JSX.Element | null {
           </div>
         </>
       )}
-    </footer>
+    </section>
   );
 }
 
@@ -153,11 +155,11 @@ const isDisabled = ({
     : false;
 
 interface HandleActionParams {
-  mode: Mode;
-  logout: () => void;
-  dispatch: React.Dispatch<Action>;
-  currentTraining: TrainingWithoutVolume;
-  textAreaRef: React.MutableRefObject<HTMLTextAreaElement | null>;
+  readonly mode: Mode;
+  readonly logout: () => void;
+  readonly dispatch: React.Dispatch<Action>;
+  readonly currentTraining: TrainingWithoutVolume;
+  readonly textAreaRef: React.MutableRefObject<HTMLTextAreaElement | null>;
 }
 
 const handleAction = ({

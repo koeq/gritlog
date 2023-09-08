@@ -12,11 +12,11 @@ import {
 import { sortTrainingsByDate } from "./utils/sort-trainings-by-date";
 
 export type TopLevelState = {
-  trainings: Training[];
-  currentInput: CurrentInput;
-  showBottomBar: boolean;
-  mode: Mode;
-  searchTerm: string;
+  readonly mode: Mode;
+  readonly searchTerm: string;
+  readonly trainings: Training[];
+  readonly showInputSection: boolean;
+  readonly currentInput: CurrentInput;
 };
 
 export type Action =
@@ -65,7 +65,7 @@ export function reducer(state: TopLevelState, action: Action): TopLevelState {
 
       return {
         ...state,
-        showBottomBar: false,
+        showInputSection: false,
         mode: { type: "add" },
         currentInput: { headline: "", exercises: "" },
 
@@ -81,7 +81,7 @@ export function reducer(state: TopLevelState, action: Action): TopLevelState {
 
       return {
         ...state,
-        showBottomBar: false,
+        showInputSection: false,
         mode: { type: "add" },
         currentInput: { headline: "", exercises: "" },
 
@@ -101,7 +101,7 @@ export function reducer(state: TopLevelState, action: Action): TopLevelState {
       return {
         ...state,
         currentInput,
-        showBottomBar: true,
+        showInputSection: true,
         mode: { type: "add" },
       };
     }
@@ -144,7 +144,7 @@ export function reducer(state: TopLevelState, action: Action): TopLevelState {
     case "cancel-add": {
       return {
         ...state,
-        showBottomBar: false,
+        showInputSection: false,
         currentInput: { headline: "", exercises: "" },
       };
     }
@@ -152,7 +152,7 @@ export function reducer(state: TopLevelState, action: Action): TopLevelState {
     case "cancel-edit": {
       return {
         ...state,
-        showBottomBar: false,
+        showInputSection: false,
         mode: { type: "add" },
         currentInput: { headline: "", exercises: "" },
       };
@@ -165,7 +165,7 @@ export function reducer(state: TopLevelState, action: Action): TopLevelState {
 
       return {
         ...state,
-        showBottomBar: true,
+        showInputSection: true,
         currentInput: {
           headline,
           exercises: serializedExercises,
@@ -184,7 +184,7 @@ export function reducer(state: TopLevelState, action: Action): TopLevelState {
 
       return {
         ...state,
-        showBottomBar: false,
+        showInputSection: false,
         mode: { type: "delete", id },
         currentInput: { headline: "", exercises: "" },
       };
@@ -203,7 +203,7 @@ export function reducer(state: TopLevelState, action: Action): TopLevelState {
     }
 
     case "open-input": {
-      return { ...state, showBottomBar: true };
+      return { ...state, showInputSection: true };
     }
 
     case "set-search-term": {
@@ -229,7 +229,7 @@ export function reducer(state: TopLevelState, action: Action): TopLevelState {
 export const initialState: TopLevelState = {
   trainings: [],
   searchTerm: "",
-  showBottomBar: false,
+  showInputSection: false,
   mode: { type: "add" },
   currentInput: { headline: "", exercises: "" },
 };
