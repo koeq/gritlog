@@ -1,10 +1,12 @@
-import { Dispatch, useLayoutEffect, useMemo, useRef } from "react";
+import { Dispatch, useLayoutEffect, useMemo, useRef, useState } from "react";
+import { BsArrowLeft } from "react-icons/bs";
 import { GoInfo } from "react-icons/go";
 import { IoMdAdd, IoMdClose } from "react-icons/io";
 import { IoCheckmarkSharp } from "react-icons/io5";
 import { addTraining } from "./add-training";
 import { useAuth, useIsMobile, useTopLevelState } from "./context";
 import { editTraining } from "./edit-training";
+import { FormatInfo } from "./format-info";
 import { Input } from "./input";
 import { parse } from "./parser";
 import { Action } from "./state-reducer";
@@ -17,22 +19,27 @@ import { useEscape } from "./utils/use-escape";
 
 interface BottomBarProps {
   readonly textAreaRef: React.MutableRefObject<HTMLTextAreaElement | null>;
-  readonly setShowFormatInfo: Dispatch<React.SetStateAction<boolean>>;
 }
 
-export function BottomBar({
-  textAreaRef,
-  setShowFormatInfo,
-}: BottomBarProps): JSX.Element | null {
+export function BottomBar({ textAreaRef }: BottomBarProps): JSX.Element | null {
   const { logout } = useAuth();
   const isMobile = useIsMobile();
-  const ctaBarRef = useRef<HTMLDivElement>(null);
   const bottomBarRef = useRef(null);
+  const ctaBarRef = useRef<HTMLDivElement>(null);
 
   const [{ trainings, currentInput, showBottomBar, mode }, dispatch] =
     useTopLevelState();
 
+  const [showInfo, setShowInfo] = useState(false);
   const ctaBarBottomOffset = useCTABarBottomOffset(showBottomBar);
+
+  useLayoutEffect(() => {
+    if (!ctaBarRef.current) {
+      return;
+    }
+
+    ctaBarRef.current.style.transform = `translateY(-${ctaBarBottomOffset}px)`;
+  }, [ctaBarBottomOffset, showInfo]);
 
   const exercises =
     useMemo(() => parse(currentInput.exercises), [currentInput.exercises]) ||
@@ -63,66 +70,66 @@ export function BottomBar({
 
   const disabled = isDisabled({ mode, currentTraining, currentInput });
 
-  useLayoutEffect(() => {
-    if (!ctaBarRef.current) {
-      return;
-    }
-
-    ctaBarRef.current.style.transform = `translateY(-${ctaBarBottomOffset}px)`;
-  }, [ctaBarBottomOffset]);
-
   return (
     <footer
       ref={bottomBarRef}
-      style={{ height: isMobile ? "calc(100% - 44px)" : "34%" }}
+      style={{ height: isMobile ? "calc(100% - 44px)" : "55%" }}
       className={`bottom-bar ${showBottomBar ? "" : "closed"}`}
     >
       <div className="input-btn-container input-top-container">
         <button
           type="button"
-          aria-label="info"
-          className="button circle-hover btn-info"
-          onClick={() => setShowFormatInfo(true)}
+          aria-label="show-info-navigation"
+          className="button btn-info"
+          onClick={() => setShowInfo((showInfo) => !showInfo)}
         >
-          <GoInfo size={18} color="var(--text-off)" />
+          {showInfo ? (
+            <BsArrowLeft size={20} color="var(--text-primary)" />
+          ) : (
+            <GoInfo size={20} color="var(--text-primary)" />
+          )}
         </button>
-
         <h3 id="bottom-bar-headline">{mode.type}</h3>
-
         <button
           aria-label="cancelation"
           type="button"
           className="btn-cancel"
           onClick={cancelHandler}
         >
-          <IoMdClose size={24} />
+          <IoMdClose size={26} />
         </button>
       </div>
+      {showInfo ? (
+        <FormatInfo />
+      ) : (
+        <>
+          <Input
+            textAreaRef={textAreaRef}
+            currentInput={currentInput}
+            actionHandler={actionHandler}
+          />
 
-      <Input
-        textAreaRef={textAreaRef}
-        currentInput={currentInput}
-        actionHandler={actionHandler}
-      />
-      <div ref={ctaBarRef} className="input-btn-container input-cta-bar">
-        <Suggestion currentInput={currentInput} textAreaRef={textAreaRef} />
-        <button
-          type="button"
-          disabled={disabled}
-          className="btn-confirm"
-          onClick={actionHandler}
-          aria-label="confirmation"
-          style={{
-            color: disabled ? "var(--cta-disabled)" : "var(--text-primary)",
-          }}
-        >
-          {mode.type === "add" ? (
-            <IoMdAdd size={28} />
-          ) : (
-            <IoCheckmarkSharp size={28} />
-          )}
-        </button>
-      </div>
+          <div ref={ctaBarRef} className="input-btn-container input-cta-bar">
+            <Suggestion currentInput={currentInput} textAreaRef={textAreaRef} />
+            <button
+              type="button"
+              disabled={disabled}
+              className="btn-confirm"
+              onClick={actionHandler}
+              aria-label="confirmation"
+              style={{
+                color: disabled ? "var(--cta-disabled)" : "var(--text-primary)",
+              }}
+            >
+              {mode.type === "add" ? (
+                <IoMdAdd size={28} />
+              ) : (
+                <IoCheckmarkSharp size={28} />
+              )}
+            </button>
+          </div>
+        </>
+      )}
     </footer>
   );
 }
