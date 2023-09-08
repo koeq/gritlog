@@ -1,11 +1,4 @@
-import {
-  Dispatch,
-  useCallback,
-  useLayoutEffect,
-  useMemo,
-  useRef,
-  useState,
-} from "react";
+import { Dispatch, useLayoutEffect, useMemo, useRef } from "react";
 import { GoInfo } from "react-icons/go";
 import { IoMdAdd, IoMdClose } from "react-icons/io";
 import { IoCheckmarkSharp } from "react-icons/io5";
@@ -18,10 +11,9 @@ import { Action } from "./state-reducer";
 import "./styles/bottom-bar.css";
 import { Suggestion } from "./suggestion";
 import { CurrentInput, Mode, TrainingWithoutVolume } from "./types";
+import { useCTABarBottomOffset } from "./use-cta-bar-bottom-offset";
 import { isEmptyTraining } from "./utils/is-empty-training";
 import { useEscape } from "./utils/use-escape";
-
-const BOTTOM_CTAS_MARGIN = 12;
 
 interface BottomBarProps {
   readonly textAreaRef: React.MutableRefObject<HTMLTextAreaElement | null>;
@@ -34,11 +26,13 @@ export function BottomBar({
 }: BottomBarProps): JSX.Element | null {
   const { logout } = useAuth();
   const isMobile = useIsMobile();
+  const ctaBarRef = useRef<HTMLDivElement>(null);
   const bottomBarRef = useRef(null);
-  const bottomCTAsBottomOffset = useBottomCTAsBottomOffset();
 
   const [{ trainings, currentInput, showBottomBar, mode }, dispatch] =
     useTopLevelState();
+
+  const ctaBarBottomOffset = useCTABarBottomOffset(showBottomBar);
 
   const exercises =
     useMemo(() => parse(currentInput.exercises), [currentInput.exercises]) ||
@@ -69,6 +63,14 @@ export function BottomBar({
 
   const disabled = isDisabled({ mode, currentTraining, currentInput });
 
+  useLayoutEffect(() => {
+    if (!ctaBarRef.current) {
+      return;
+    }
+
+    ctaBarRef.current.style.transform = `translateY(-${ctaBarBottomOffset}px)`;
+  }, [ctaBarBottomOffset]);
+
   return (
     <footer
       ref={bottomBarRef}
@@ -77,6 +79,17 @@ export function BottomBar({
     >
       <div className="input-btn-container input-top-container">
         <button
+          type="button"
+          aria-label="info"
+          className="button circle-hover btn-info"
+          onClick={() => setShowFormatInfo(true)}
+        >
+          <GoInfo size={18} color="var(--text-off)" />
+        </button>
+
+        <h3 id="bottom-bar-headline">{mode.type}</h3>
+
+        <button
           aria-label="cancelation"
           type="button"
           className="btn-cancel"
@@ -84,8 +97,15 @@ export function BottomBar({
         >
           <IoMdClose size={24} />
         </button>
-        <h3 id="bottom-bar-headline">{mode.type}</h3>
+      </div>
 
+      <Input
+        textAreaRef={textAreaRef}
+        currentInput={currentInput}
+        actionHandler={actionHandler}
+      />
+      <div ref={ctaBarRef} className="input-btn-container input-cta-bar">
+        <Suggestion currentInput={currentInput} textAreaRef={textAreaRef} />
         <button
           type="button"
           disabled={disabled}
@@ -97,31 +117,11 @@ export function BottomBar({
           }}
         >
           {mode.type === "add" ? (
-            <IoMdAdd size={24} />
+            <IoMdAdd size={28} />
           ) : (
-            <IoCheckmarkSharp size={24} />
+            <IoCheckmarkSharp size={28} />
           )}
         </button>
-      </div>
-
-      <Input
-        textAreaRef={textAreaRef}
-        currentInput={currentInput}
-        actionHandler={actionHandler}
-      />
-      <div
-        style={{ position: "absolute", bottom: bottomCTAsBottomOffset }}
-        className="input-btn-container input-bottom-container"
-      >
-        <button
-          type="button"
-          aria-label="info"
-          className="button circle-hover btn-info"
-          onClick={() => setShowFormatInfo(true)}
-        >
-          <GoInfo size={20} color="var(--text-off)" />
-        </button>
-        <Suggestion currentInput={currentInput} textAreaRef={textAreaRef} />
       </div>
     </footer>
   );
@@ -220,35 +220,4 @@ const handleEdit = ({
     currentTraining: { ...currentTraining, date },
     mode,
   });
-};
-
-const useBottomCTAsBottomOffset = (): number => {
-  const isMobile = useIsMobile();
-  const changedHeightRef = useRef(false);
-
-  const [bottomCTAsHeight, setBottomCTAsHeight] = useState(BOTTOM_CTAS_MARGIN);
-
-  const resizeHandler = useCallback(() => {
-    if (changedHeightRef.current || !visualViewport) {
-      return;
-    }
-
-    setBottomCTAsHeight(
-      window.innerHeight - visualViewport.height + BOTTOM_CTAS_MARGIN
-    );
-
-    changedHeightRef.current = true;
-  }, []);
-
-  useLayoutEffect(() => {
-    if (!isMobile) {
-      return;
-    }
-
-    visualViewport?.addEventListener("resize", resizeHandler);
-
-    return () => visualViewport?.removeEventListener("resize", resizeHandler);
-  }, [resizeHandler, isMobile]);
-
-  return bottomCTAsHeight;
 };
