@@ -66,9 +66,7 @@ export const Input = ({
     <>
       <div className="input-wrapper">
         <input
-          type="search"
           id="title-input"
-          enterKeyHint="done"
           placeholder="Title"
           className="text-input"
           onKeyDown={keyDownHandler}
@@ -78,7 +76,6 @@ export const Input = ({
 
         <textarea
           id="text-area"
-          enterKeyHint="done"
           ref={textAreaRef}
           onKeyDown={keyDownHandler}
           value={currentInput.exercises}

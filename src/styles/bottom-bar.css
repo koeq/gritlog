@@ -39,9 +39,10 @@
   font-size: 16px;
 }
 
-.input-bottom-container {
-  height: 28px;
-  margin-top: 24px;
+.input-cta-bar {
+  bottom: 0;
+  position: absolute;
+  transition: transform 0.5s cubic-bezier(0.38, 0.7, 0.125, 1);
 }
 
 .btn-info {
@@ -64,14 +65,14 @@
   border-radius: 50%;
 }
 
-/* .btn-confirm::before {
+.btn-confirm::before {
   content: "";
   position: absolute;
-  top: -4px;
-  left: -4px;
-  width: calc(100% + 8px);
-  height: calc(100% + 8px);
+  top: -5px;
+  left: -5px;
+  width: calc(100% + 10px);
+  height: calc(100% + 10px);
   border-radius: 50%;
   border: 0.8px solid var(--border-secondary);
   z-index: -1;
-} */
+}
