@@ -3,7 +3,7 @@ import { Action, TopLevelState, initialState, reducer } from "../state-reducer";
 import { useSafeContext } from "../utils/use-safe-context";
 
 interface TopLevelStateProviderProps {
-  children: ReactNode;
+  readonly children: ReactNode;
 }
 
 export const TopLevelStateContext = createContext<

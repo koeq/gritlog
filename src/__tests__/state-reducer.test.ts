@@ -10,7 +10,7 @@ describe("Mutate global state", () => {
     state = {
       trainings: [],
       currentInput: { headline: "", exercises: "" },
-      showBottomBar: false,
+      showInputSection: false,
       mode: { type: "add" },
       searchTerm: "",
     };
@@ -37,7 +37,7 @@ describe("Mutate global state", () => {
 
     expect(newState).toStrictEqual({
       trainings: [someTraining],
-      showBottomBar: false,
+      showInputSection: false,
       mode: { type: "add" },
       currentInput: { headline: "", exercises: "" },
       searchTerm: "",
@@ -76,7 +76,7 @@ describe("Mutate global state", () => {
 
     expect(newState).toStrictEqual({
       trainings: [{ ...currentTraining }],
-      showBottomBar: false,
+      showInputSection: false,
       mode: { type: "add" },
       currentInput: { headline: "", exercises: "" },
       searchTerm: "",
@@ -99,7 +99,7 @@ describe("Mutate global state", () => {
 
     expect(newState).toStrictEqual({
       ...state,
-      showBottomBar: true,
+      showInputSection: true,
       mode: { type: "add" },
       currentInput: newState.currentInput,
     });
@@ -118,7 +118,7 @@ describe("Mutate global state", () => {
 
     expect(newState).toStrictEqual({
       trainings: [],
-      showBottomBar: false,
+      showInputSection: false,
       mode: { type: "add" },
       currentInput: { headline: "", exercises: "" },
       searchTerm: "",
@@ -140,7 +140,7 @@ describe("Mutate global state", () => {
   it("Cancel add", () => {
     state = {
       ...state,
-      showBottomBar: true,
+      showInputSection: true,
       currentInput: { headline: "", exercises: "" },
     };
 
@@ -150,7 +150,7 @@ describe("Mutate global state", () => {
 
     expect(newState).toStrictEqual({
       ...state,
-      showBottomBar: false,
+      showInputSection: false,
       currentInput: { headline: "", exercises: "" },
     });
   });
@@ -158,7 +158,7 @@ describe("Mutate global state", () => {
   it("Cancel edit", () => {
     state = {
       ...state,
-      showBottomBar: true,
+      showInputSection: true,
       currentInput: { headline: "", exercises: "" },
       mode: {
         type: "edit",
@@ -177,7 +177,7 @@ describe("Mutate global state", () => {
 
     expect(newState).toStrictEqual({
       ...state,
-      showBottomBar: false,
+      showInputSection: false,
       currentInput: { headline: "", exercises: "" },
       mode: { type: "add" },
     });
@@ -193,7 +193,7 @@ describe("Mutate global state", () => {
 
     expect(newState).toStrictEqual({
       ...state,
-      showBottomBar: true,
+      showInputSection: true,
       currentInput: { headline: "", exercises: "some exercises" },
       mode: {
         type: "edit",
@@ -210,7 +210,7 @@ describe("Mutate global state", () => {
   it("Set delete mode", () => {
     state = {
       ...state,
-      showBottomBar: true,
+      showInputSection: true,
       currentInput: { headline: "", exercises: "" },
     };
 
@@ -221,7 +221,7 @@ describe("Mutate global state", () => {
 
     expect(newState).toStrictEqual({
       ...state,
-      showBottomBar: false,
+      showInputSection: false,
       currentInput: { headline: "", exercises: "" },
       mode: {
         type: "delete",

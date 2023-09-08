@@ -12,16 +12,16 @@ export const AddEditCTAs = ({
   textAreaRef,
   handleSetEditMode,
 }: AddEditCTAsProps): JSX.Element => {
-  const [{ trainings, showBottomBar }, dispatch] = useTopLevelState();
+  const [{ trainings, showInputSection }, dispatch] = useTopLevelState();
   const latestTrainingId = trainings[0]?.id;
 
   return (
-    <div className={showBottomBar ? "btns btns-input-open" : "btns"}>
+    <div className={showInputSection ? "btns btns-input-open" : "btns"}>
       <>
         <button
           aria-label="add"
           className="btn-round top"
-          disabled={showBottomBar}
+          disabled={showInputSection}
           type="button"
           onClick={() => {
             dispatch({ type: "open-input" });
@@ -37,7 +37,7 @@ export const AddEditCTAs = ({
           }`}
           type="button"
           disabled={
-            latestTrainingId === undefined || showBottomBar ? true : false
+            latestTrainingId === undefined || showInputSection ? true : false
           }
           onClick={
             latestTrainingId !== undefined

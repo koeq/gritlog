@@ -2,7 +2,7 @@ import { useEffect, useRef } from "react";
 import { setMetaThemeColor, useTheme, useTopLevelState } from "./context";
 import "./styles/layer.css";
 
-export function BottomBarLayer(): JSX.Element {
+export function InputSectionLayer(): JSX.Element {
   const { theme } = useTheme();
   const layerRef = useRef<HTMLDivElement>(null);
   const [{ mode }, dispatch] = useTopLevelState();
@@ -42,8 +42,6 @@ export function BottomBarLayer(): JSX.Element {
           ? () => dispatch({ type: "cancel-edit" })
           : undefined
       }
-    >
-      <></>
-    </div>
+    ></div>
   );
 }

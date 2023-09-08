@@ -20,7 +20,7 @@ export const Input = ({
   currentInput,
   actionHandler,
 }: InputSectionProps): JSX.Element => {
-  const [{ showBottomBar }, dispatch] = useTopLevelState();
+  const [{ showInputSection }, dispatch] = useTopLevelState();
 
   const keyDownHandler = useCallback(
     (e) => {
@@ -81,8 +81,8 @@ export const Input = ({
           value={currentInput.exercises}
           onChange={textAreaOnChangeHandler}
           placeholder="Squats @80kg 8/8/8..."
-          tabIndex={showBottomBar ? undefined : -1}
-          className={`text-input ${showBottomBar ? "open" : "close"}`}
+          tabIndex={showInputSection ? undefined : -1}
+          className={`text-input ${showInputSection ? "open" : "close"}`}
         />
       </div>
     </>
