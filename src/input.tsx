@@ -1,5 +1,5 @@
 import { useCallback, useLayoutEffect } from "react";
-import { useTopLevelState } from "./context";
+import { useIsMobile, useTopLevelState } from "./context";
 import "./styles/input.css";
 import { CurrentInput } from "./types";
 
@@ -20,16 +20,21 @@ export const Input = ({
   currentInput,
   actionHandler,
 }: InputSectionProps): JSX.Element => {
+  const isMobile = useIsMobile();
   const [{ showInputSection }, dispatch] = useTopLevelState();
 
   const keyDownHandler = useCallback(
     (e) => {
+      if (isMobile) {
+        return;
+      }
+
       if (e.key === "Enter" && !e.shiftKey) {
         e.preventDefault();
         actionHandler();
       }
     },
-    [actionHandler]
+    [isMobile, actionHandler]
   );
 
   const inputOnChangeHandler = useCallback(
