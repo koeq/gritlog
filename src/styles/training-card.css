@@ -47,7 +47,3 @@
   border-radius: 0 var(--border-radius) var(--border-radius) 0;
   scroll-snap-align: end;
 }
-
-.editing {
-  border: 1px dashed var(--color-progress);
-}

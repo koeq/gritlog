@@ -5,12 +5,11 @@ import { serializeExercises } from "./serialize-exercises";
 import { Action } from "./state-reducer";
 import "./styles/trainings-by-month.css";
 import { MemoizedTrainingCard } from "./training-card";
-import { Mode, Training } from "./types";
+import { Training } from "./types";
 
 const OPEN_MONTHS = 2;
 
 interface TrainingsByMonthProps {
-  readonly mode: Mode;
   readonly index: number;
   readonly searchTerm: string;
   readonly trainings: Training[];
@@ -21,7 +20,6 @@ interface TrainingsByMonthProps {
 }
 
 export const TrainingsByMonth = ({
-  mode,
   index,
   dispatch,
   trainings,
@@ -78,7 +76,6 @@ export const TrainingsByMonth = ({
               textAreaRef={textAreaRef}
               handleRepeat={handleRepeat}
               handleSetEditMode={handleSetEditMode}
-              editing={mode.type === "edit" && mode.id === training.id}
             />
           );
         })}

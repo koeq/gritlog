@@ -7,7 +7,6 @@ import { Training } from "./training";
 import { Training as TrainingType } from "./types";
 
 interface TrainingCard {
-  readonly editing: boolean;
   readonly searchTerm: string;
   readonly training: TrainingType;
   readonly handleRepeat: (id: number) => void;
@@ -17,7 +16,6 @@ interface TrainingCard {
 }
 
 const TrainingCard = ({
-  editing,
   training,
   dispatch,
   searchTerm,
@@ -30,7 +28,7 @@ const TrainingCard = ({
 
   return (
     <div
-      className={`training-with-buttons ${editing ? "editing" : ""}`}
+      className="training-with-buttons "
       ref={trainingRef}
       onClick={isMobile ? undefined : () => scrollOnClick(trainingRef.current)}
     >

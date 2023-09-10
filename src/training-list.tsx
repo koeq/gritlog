@@ -4,10 +4,9 @@ import { groupTrainingsByMonth } from "./group-training-by-month";
 import { Action } from "./state-reducer";
 import "./styles/training-list.css";
 import { TrainingsByMonth } from "./trainings-by-month";
-import { Mode, Training } from "./types";
+import { Training } from "./types";
 
 interface TrainingsProps {
-  readonly mode: Mode;
   readonly searchTerm: string;
   readonly trainings: Training[];
   readonly dispatch: Dispatch<Action>;
@@ -16,7 +15,6 @@ interface TrainingsProps {
 }
 
 export const TrainingList = ({
-  mode,
   dispatch,
   trainings,
   searchTerm,
@@ -42,7 +40,6 @@ export const TrainingList = ({
             <Fragment key={`${date.month}-${date.year}`}>
               <TrainingsByMonth
                 date={date}
-                mode={mode}
                 index={index}
                 dispatch={dispatch}
                 trainings={trainings}
