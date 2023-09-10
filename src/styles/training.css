@@ -3,9 +3,8 @@
   --column-header-font-weight: 450;
 
   width: 100%;
-  padding: 10px;
+  padding: 8px;
   cursor: pointer;
-  border-spacing: 0;
   scroll-snap-align: start;
   background: var(--background-secondary);
 }
