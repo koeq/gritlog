@@ -48,7 +48,6 @@ export const Trainings = ({
         <AddFirstTraining />
       ) : (
         <MemoizedTrainingList
-          mode={mode}
           dispatch={dispatch}
           searchTerm={searchTerm}
           textAreaRef={textAreaRef}
