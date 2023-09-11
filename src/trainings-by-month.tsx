@@ -28,11 +28,10 @@ export const TrainingsByMonth = ({
   handleSetEditMode,
   date: { month, year },
 }: TrainingsByMonthProps): JSX.Element => {
-  const [open, setOpen] = useState<boolean | null>(null);
+  const [open, setOpen] = useState(true);
 
   useEffect(() => {
-    const shouldBeOpen = index < OPEN_MONTHS || searchTerm.length > 0;
-    setOpen((prev) => (shouldBeOpen !== prev ? shouldBeOpen : prev));
+    setOpen(index < OPEN_MONTHS || searchTerm.length > 0);
   }, [index, searchTerm]);
 
   const handleRepeat = useCallback(
