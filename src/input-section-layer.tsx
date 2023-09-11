@@ -1,5 +1,6 @@
 import { useEffect, useRef } from "react";
 import { setMetaThemeColor, useTheme, useTopLevelState } from "./context";
+import "./styles/input-section-layer.css";
 import "./styles/layer.css";
 
 export function InputSectionLayer(): JSX.Element {
@@ -34,6 +35,7 @@ export function InputSectionLayer(): JSX.Element {
   return (
     <div
       ref={layerRef}
+      id="input-section-layer"
       className="layer muted-background"
       onClick={
         mode.type === "add"
