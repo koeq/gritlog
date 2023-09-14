@@ -52,12 +52,12 @@
 }
 
 .light {
-  --background-primary: rgb(250, 250, 254);
+  --background-primary: #fdfdff;
   --background-secondary: #fdfdff;
   --background-tertiary: #ececf6;
-  --background-transparent: rgba(250, 250, 254, 0.5);
-  --background-muted: rgba(175, 184, 193, 0.3);
-  --border-primary: rgb(210, 210, 220);
+  --background-transparent: #fdfdff80;
+  --background-muted: #afb8c14d;
+  --border-primary: #d2d2dc;
   --border-secondary: rgb(230, 230, 235);
   --border-training: rgb(242, 242, 244);
   --text-primary: #000000;
