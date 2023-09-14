@@ -74,7 +74,12 @@ export const ThemeProvider = ({
     document.documentElement.classList.remove(previousTheme);
     document.documentElement.classList.add(theme);
     document.documentElement.style.colorScheme = theme;
-    setMetaThemeColor(theme === "light" ? "#fdfdff" : "#07090f");
+
+    setMetaThemeColor(
+      getComputedStyle(document.documentElement).getPropertyValue(
+        "--background-primary"
+      )
+    );
   }, [theme]);
 
   return (
