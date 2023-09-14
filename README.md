@@ -14,7 +14,7 @@
 
 Sign in with your google account.
 <br/>
-Simply type your workout in the input field.
+To add a training click the "+" and type your workout in the input field.
 <br/>
 <br/>
 Use the following format:
@@ -22,7 +22,6 @@ Use the following format:
 
 | Input                             | Output             |
 | --------------------------------- | ------------------ |
-| #Training headline                | Training headline  |
 | Squats @100 8/8/8                 | Squats 100kg 8/8/8 |
 | Squats @100 3\*8                  | Squats 100kg 8/8/8 |
 | Squats 100lbs                     | Squats 100lbs      |
