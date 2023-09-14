@@ -14,7 +14,7 @@
 
 Sign in with your google account.
 <br/>
-To add a training click the "+" and type your workout in the input field.
+To add a training click the "+" button and type your workout in the input field.
 <br/>
 <br/>
 Use the following format:
