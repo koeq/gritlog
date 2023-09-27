@@ -60,7 +60,7 @@
   --border-primary: rgb(210, 210, 220);
   --border-secondary: rgb(235, 235, 240);
   --border-training: rgb(242, 242, 244);
-  --text-primary: #000000;
+  --text-primary: rgb(20, 20, 20);
   --text-secondary: #000000;
   --text-tertiary: rgb(20, 20, 20);
   --cta: #000000;
