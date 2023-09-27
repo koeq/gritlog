@@ -30,7 +30,7 @@
   --background-transparent: rgba(7, 9, 15, 0.5);
   --background-muted: rgba(110, 118, 135, 0.3);
   --border-primary: rgb(40, 42, 50);
-  --border-secondary: rgb(50, 52, 60);
+  --border-secondary: rgb(43, 45, 54);
   --border-training: rgb(30, 32, 40);
   --text-primary: #f7f8f8;
   --text-secondary: #e8e8e8;
@@ -57,8 +57,8 @@
   --background-tertiary: #ececf6;
   --background-transparent: #fdfdff80;
   --background-muted: #afb8c14d;
-  --border-primary: #d2d2dc;
-  --border-secondary: rgb(230, 230, 235);
+  --border-primary: rgb(210, 210, 220);
+  --border-secondary: rgb(235, 235, 240);
   --border-training: rgb(242, 242, 244);
   --text-primary: #000000;
   --text-secondary: #000000;
