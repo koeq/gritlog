@@ -69,7 +69,7 @@
   --hover-secondary: 0.95;
   --hover-circle: rgba(0, 0, 0, 0.05);
   --box-shadow-top: 0 3px 6px rgba(0, 0, 0, 0.12), 0 3px 6px rgba(0, 0, 0, 0.19);
-  --shadow-small: rgba(0, 0, 0, 0.15) 0px 2px 8px;
+  --shadow-small: rgba(0, 0, 0, 0.08) 0px 2px 8px;
   --color-highlight: #3673f5;
   --color-regress: rgba(230, 148, 3, 1);
   --background-regress: rgba(230, 148, 3, 0.25);
