@@ -13,6 +13,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
+  margin-bottom: 18px;
 }
 
 .date {
@@ -21,23 +22,6 @@
   align-items: center;
   white-space: nowrap;
   justify-content: flex-end;
-  font-weight: var(--column-header-font-weight);
-}
-
-#header-row {
-  display: grid;
-  margin-top: 30px;
-  margin-bottom: 8px;
-  align-items: center;
-  grid-template-columns: 33% 20% 30% 17%;
-}
-
-#repetition-header {
-  margin-left: 16px;
-}
-
-.label-header {
-  width: fit-content;
   font-weight: var(--column-header-font-weight);
 }
 

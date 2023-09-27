@@ -20,7 +20,6 @@ export const Training = ({
   return (
     <div className="training" tabIndex={0}>
       <HeadlineDateRow training={training} dispatch={dispatch} />
-      <Headers />
       <Values training={training} searchTerm={searchTerm} />
     </div>
   );
@@ -42,18 +41,6 @@ const HeadlineDateRow = ({
         {createDateFormat(new Date(training.date), true)}
         <Calendar training={training} dispatch={dispatch} />
       </div>
-    </div>
-  );
-};
-
-const Headers = (): JSX.Element => {
-  return (
-    <div id="header-row">
-      <h3 className="label-header">exercise</h3>
-      <h3 className="label-header">weight</h3>
-      <h3 id="repetition-header" className="label-header">
-        reps
-      </h3>
     </div>
   );
 };
