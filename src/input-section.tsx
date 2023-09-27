@@ -75,7 +75,7 @@ export function InputSection({
   return (
     <section
       ref={inputSectionRef}
-      style={{ height: isMobile ? "calc(100% - 44px)" : "55%" }}
+      style={{ height: isMobile ? "calc(100% - 44px)" : "44%" }}
       className={`input-section ${showInputSection ? "" : "closed"}`}
     >
       <div className="input-btn-container input-top-container">
