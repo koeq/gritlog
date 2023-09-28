@@ -46,13 +46,14 @@ export const ExerciseRow = ({
       {volumeChange !== null && !weightChange ? (
         <div id="change" className={"row"}>
           <span
-            className={`${
+            className="change"
+            id={
               volumeChange === 0
-                ? "zero"
+                ? "equal"
                 : volumeChange > 0
-                ? "positive"
-                : "negative"
-            } change`}
+                ? "progress"
+                : "regress"
+            }
           >
             {`${sign}${Math.abs(volumeChange).toFixed(0)}%`}
           </span>
@@ -68,6 +69,7 @@ const renderWeight = (weight: ParsedWeight | undefined) => {
   return weight ? (
     <>
       {weight.value}
+
       <span className="text-off">{` ${weight.unit}`}</span>
     </>
   ) : (
