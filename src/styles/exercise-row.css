@@ -62,5 +62,5 @@
 }
 
 .searched-exercise-name {
-  color: var(--color-progress) !important;
+  color: var(--color-highlight-secondary) !important;
 }

@@ -69,7 +69,7 @@ function VolumeOverTimeChart({
           data: volumens,
           borderColor: getComputedStyle(
             document.documentElement
-          ).getPropertyValue("--color-progress"),
+          ).getPropertyValue("--color-highlight-secondary"),
           backgroundColor: "rgba(90, 130, 255, 0.6)",
         },
       ],
