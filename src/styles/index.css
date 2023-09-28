@@ -130,7 +130,7 @@ button {
 
 hr {
   display: block;
-  height: 0.8px;
+  height: 1px;
   border: none;
   width: min(450px, 95%);
   background: var(--border-secondary);

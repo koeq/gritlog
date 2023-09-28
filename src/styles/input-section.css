@@ -31,7 +31,7 @@
 
 .input-top-container {
   padding: 8px 0;
-  border-bottom: 0.8px solid var(--border-primary);
+  border-bottom: 1px solid var(--border-primary);
 }
 
 #input-section-headline {
