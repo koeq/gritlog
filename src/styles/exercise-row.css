@@ -35,24 +35,29 @@
 }
 
 .change {
+  font-size: 13px;
+  border: 1px solid;
   width: fit-content;
   border-radius: 16px;
   padding: 5px 5px 4px 5px;
 }
 
-.zero {
-  color: var(--color-even);
-  background-color: var(--background-even);
+#equal {
   padding: 5px 6px 4px 6px;
+  color: var(--color-equal);
+  border-color: var(--border-equal);
+  background-color: var(--background-equal);
 }
 
-.positive {
+#progress {
   color: var(--color-progress);
+  border-color: var(--border-progress);
   background-color: var(--background-progress);
 }
 
-.negative {
+#regress {
   color: var(--color-regress);
+  border-color: var(--border-regress);
   background-color: var(--background-regress);
 }
 
