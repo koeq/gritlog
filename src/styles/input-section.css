@@ -73,6 +73,6 @@
   width: calc(100% + 10px);
   height: calc(100% + 10px);
   border-radius: 50%;
-  border: 0.8px solid var(--border-secondary);
+  border: 1px solid var(--border-secondary);
   z-index: -1;
 }
