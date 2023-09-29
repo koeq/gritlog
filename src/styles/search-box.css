@@ -27,7 +27,7 @@
   position: absolute;
   border-radius: 26px;
   right: 0px;
-  margin-right: 4px;
+  padding: 4px;
   background-color: transparent;
   pointer-events: painted;
 }
