@@ -15,7 +15,7 @@
 
 .theme-toggle-btn {
   display: flex;
-  color: var(--text-primary);
+  color: var(--text);
   padding: 7px;
   border-radius: 50%;
 }

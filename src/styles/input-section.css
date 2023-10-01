@@ -51,7 +51,7 @@
 }
 
 .btn-cancel {
-  color: var(--text-primary);
+  color: var(--text);
   display: flex;
   align-items: center;
   border-radius: 50%;

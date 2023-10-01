@@ -13,7 +13,7 @@
 }
 
 .format-box {
-  border: 1px solid var(--border-secondary);
+  border: 1px solid var(--border-primary);
   border-radius: 12px;
   padding: 8px 16px;
   display: inline;
@@ -27,7 +27,7 @@
 .description {
   text-align: center;
   font-size: 14px;
-  color: var(--text-tertiary);
+  color: var(--text);
 }
 
 .training-format-explanation .label {

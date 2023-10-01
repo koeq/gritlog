@@ -1,5 +1,5 @@
 .no-result-text {
-  color: var(--text-primary);
+  color: var(--text);
   margin: 240px 20px 0px 20px;
   font-size: 22px;
   font-weight: 300;
@@ -9,7 +9,7 @@
 }
 
 .no-result-term {
-  color: var(--text-primary);
+  color: var(--text);
   font-size: 22px;
   font-weight: 600;
   word-break: break-all;
