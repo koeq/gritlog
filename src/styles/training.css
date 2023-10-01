@@ -1,7 +1,4 @@
 .training {
-  --row-margin: 7px;
-  --column-header-font-weight: 450;
-
   width: 100%;
   padding: 8px;
   cursor: pointer;
@@ -11,23 +8,20 @@
 
 .headline-date-row {
   display: flex;
+  margin-bottom: 18px;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 18px;
 }
 
 .date {
-  font-size: 14px;
   display: flex;
   align-items: center;
   white-space: nowrap;
   justify-content: flex-end;
-  font-weight: var(--column-header-font-weight);
 }
 
 #headline {
-  font-size: 14px;
+  color: var(--text-off);
   padding-right: 12px;
   word-break: break-all;
-  font-weight: var(--column-header-font-weight);
 }
