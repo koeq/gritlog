@@ -9,7 +9,7 @@
   scrollbar-width: none;
   margin-bottom: 34px;
   box-shadow: var(--shadow-small);
-  border: 1px solid var(--border-secondary);
+  border: 1.5px solid var(--border-secondary);
 }
 
 .training-with-buttons::-webkit-scrollbar {
