@@ -13,7 +13,7 @@
   transition: width 0.3s ease-out;
   padding-left: 10px;
   padding-right: 40px;
-  color: var(--text-primary);
+  color: var(--text);
   background: transparent;
   pointer-events: none;
 }
@@ -22,7 +22,7 @@
   display: flex;
   align-items: center;
   border-style: none;
-  color: var(--text-primary);
+  color: var(--text);
   cursor: pointer;
   position: absolute;
   border-radius: 26px;

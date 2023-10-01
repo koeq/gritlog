@@ -75,7 +75,7 @@ export function InputSection({
   return (
     <section
       ref={inputSectionRef}
-      style={{ height: isMobile ? "calc(100% - 44px)" : "44%" }}
+      style={{ height: isMobile ? "calc(100% - 44px)" : "50%" }}
       className={`input-section ${showInputSection ? "" : "closed"}`}
     >
       <div className="input-btn-container input-top-container">
@@ -86,9 +86,9 @@ export function InputSection({
           onClick={() => setShowInfo((showInfo) => !showInfo)}
         >
           {showInfo ? (
-            <BsArrowLeft size={20} color="var(--text-primary)" />
+            <BsArrowLeft size={20} color="var(--text)" />
           ) : (
-            <GoInfo size={20} color="var(--text-primary)" />
+            <GoInfo size={20} color="var(--text)" />
           )}
         </button>
         <h3 id="input-section-headline">{mode.type}</h3>
@@ -120,7 +120,7 @@ export function InputSection({
               onClick={actionHandler}
               aria-label="confirmation"
               style={{
-                color: disabled ? "var(--cta-disabled)" : "var(--text-primary)",
+                color: disabled ? "var(--cta-disabled)" : "var(--text)",
               }}
             >
               {mode.type === "add" ? (

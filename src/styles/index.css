@@ -32,8 +32,7 @@
   --border-secondary: rgb(43, 45, 54);
   --border-training: rgb(30, 32, 40);
 
-  --text-primary: rgb(235, 235, 235);
-  --text-tertiary: rgb(200, 200, 200);
+  --text: rgb(235, 235, 235);
 
   --cta: #ffffff;
   --cta-disabled: rgb(118, 123, 135);
@@ -74,8 +73,7 @@
   --border-secondary: rgb(235, 235, 240);
   --border-training: rgb(242, 242, 244);
 
-  --text-primary: rgb(20, 20, 20);
-  --text-tertiary: rgb(20, 20, 20);
+  --text: rgb(20, 20, 20);
 
   --cta: #000000;
   --cta-disabled: rgb(200, 200, 219);

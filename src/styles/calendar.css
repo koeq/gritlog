@@ -2,7 +2,7 @@
   position: relative;
   display: flex;
   justify-content: center;
-  color: var(--text-primary);
+  color: var(--text);
   align-items: center;
   width: 26px;
   height: 26px;

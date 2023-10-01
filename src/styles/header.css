@@ -20,7 +20,7 @@
 }
 
 .heading {
-  color: var(--text-primary);
+  color: var(--text);
   display: flex;
   align-items: center;
   font-size: 17px;
@@ -47,12 +47,12 @@
 }
 
 .analytics-link-container.active {
-  color: var(--text-primary);
-  border-bottom: 1px solid var(--text-primary);
+  color: var(--text);
+  border-bottom: 1px solid var(--text);
 }
 
 .analytics-link.active {
-  color: var(--text-primary);
+  color: var(--text);
 }
 
 @media (min-width: 560px) {

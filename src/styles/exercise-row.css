@@ -1,5 +1,5 @@
 .exercise-row {
-  color: var(--text-primary);
+  color: var(--text);
   display: grid;
   align-items: center;
   grid-template-columns: 33% 20% 30% 17%;
