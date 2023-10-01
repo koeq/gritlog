@@ -20,7 +20,7 @@
 }
 .loader {
   margin-bottom: 120px;
-  color: var(--text-secondary);
+  color: var(--text-primary);
   font-size: 7px;
   position: relative;
   text-indent: -9999em;
