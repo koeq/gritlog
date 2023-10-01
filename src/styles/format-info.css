@@ -3,7 +3,7 @@
   align-items: center;
   justify-content: center;
   position: relative;
-  top: 35%;
+  top: 34%;
 }
 
 .format-container {
@@ -25,9 +25,9 @@
 }
 
 .description {
+  color: var(--text-off);
+
   text-align: center;
-  font-size: 14px;
-  color: var(--text);
 }
 
 .training-format-explanation .label {
