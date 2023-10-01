@@ -30,20 +30,20 @@
 }
 
 #edit {
-  color: var(--text-secondary);
+  color: var(--text-primary);
   border-radius: 0;
   border-left: 0.8px solid var(--border-secondary);
   border-right: 0.8px solid var(--border-secondary);
 }
 
 #repeat {
-  color: var(--text-secondary);
+  color: var(--text-primary);
   border-radius: 0;
   border-right: 0.8px solid var(--border-secondary);
 }
 
 #delete {
-  color: var(--text-secondary);
+  color: var(--text-primary);
   border-radius: 0 var(--border-radius) var(--border-radius) 0;
   scroll-snap-align: end;
 }

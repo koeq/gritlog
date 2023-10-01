@@ -16,7 +16,7 @@
   padding: 0;
   margin: 0;
   font-family: "Mona Sans", sans-serif;
-  font-weight: 350;
+  font-weight: 400;
   font-size: 15px;
 }
 
@@ -33,7 +33,6 @@
   --border-training: rgb(30, 32, 40);
 
   --text-primary: #f7f8f8;
-  --text-secondary: #e8e8e8;
   --text-tertiary: rgb(200, 200, 200);
 
   --cta: #ffffff;
@@ -75,8 +74,7 @@
   --border-secondary: rgb(235, 235, 240);
   --border-training: rgb(242, 242, 244);
 
-  --text-primary: #000000;
-  --text-secondary: #000000;
+  --text-primary: rgb(20, 20, 20);
   --text-tertiary: rgb(20, 20, 20);
 
   --cta: #000000;
