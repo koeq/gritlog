@@ -49,8 +49,8 @@
 
   --color-equal: #8e8e93;
   --color-highlight: #3673f5;
-  --color-progress: #67d3cf;
-  --color-regress: #ffb33f;
+  --color-progress: rgb(103, 211, 207);
+  --color-regress: rgb(255, 179, 63);
   --color-highlight-secondary: #66a1f8;
 
   --background-equal: rgba(142, 142, 147, 0.1);
@@ -75,7 +75,7 @@
   --border-secondary: rgb(235, 235, 240);
   --border-training: rgb(242, 242, 244);
 
-  --text-primary: rgb(20, 20, 20);
+  --text-primary: #000000;
   --text-secondary: #000000;
   --text-tertiary: rgb(20, 20, 20);
 
@@ -89,20 +89,19 @@
   --box-shadow-top: 0 3px 6px rgba(0, 0, 0, 0.12), 0 3px 6px rgba(0, 0, 0, 0.19);
   --shadow-small: rgba(0, 0, 0, 0.08) 0px 2px 8px;
 
-  --color-equal: rgba(136, 136, 136, 0.7);
+  --color-equal: rgba(150, 150, 150, 0.7);
   --color-highlight: #3673f5;
-  --color-progress: rgb(0, 194, 187);
-  --color-regress: rgb(255, 166, 29);
+  --color-progress: rgb(83, 191, 187);
+  --color-regress: rgb(240, 165, 55);
   --color-highlight-secondary: #66a1f8;
 
-  --background-equal: rgba(142, 142, 147, 0.05);
-  --background-progress: rgba(0, 194, 187, 0.08);
-  --background-regress: rgba(255, 166, 29, 0.1);
+  --background-equal: rgba(150, 150, 150, 0.05);
+  --background-progress: rgba(83, 191, 187, 0.08);
+  --background-regress: rgba(240, 165, 55, 0.1);
 
-  --border-equal: rgba(142, 142, 147, 0.5);
-  --border-progress: rgba(0, 194, 187, 0.5);
-  --border-regress: rgba(255, 166, 29, 0.5);
-
+  --border-equal: rgba(150, 150, 150, 0.5);
+  --border-progress: rgba(83, 191, 187, 0.5);
+  --border-regress: rgba(240, 165, 55, 0.5);
   --activity-graph-square: #ececf6;
 }
 
