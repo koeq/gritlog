@@ -21,6 +21,6 @@
     "noUnusedLocals": true,
     "noUnusedParameters": true
   },
-  "include": ["src", "lambdas/**/*.ts"],
+  "include": ["src", "api/**/*.ts"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }

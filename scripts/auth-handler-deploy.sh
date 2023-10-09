@@ -1,6 +1,6 @@
-cd lambdas/ && npm run build &&
+cd api/ && npm run build &&
 cd auth-handler/dist && zip -r auth-handler.zip * && cd ../../.. &&
-aws lambda update-function-code --function-name auth-handler --region eu-central-1 --zip-file fileb://lambdas/auth-handler/dist/auth-handler.zip --output text
+aws lambda update-function-code --function-name auth-handler --region eu-central-1 --zip-file fileb://api/auth-handler/dist/auth-handler.zip --output text
 # dev
 aws lambda wait function-updated --function-name auth-handler
 aws lambda update-function-configuration --function-name auth-handler  --output text
