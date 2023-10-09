@@ -3,5 +3,5 @@
   border-radius: 26px;
   align-items: center;
   color: var(--color-highlight-secondary);
-  border: 1px solid var(--color-highlight-secondary);
+  border: 1.5px solid var(--color-highlight-secondary);
 }

@@ -33,7 +33,7 @@
   border-radius: 12px;
   color: var(--text);
   background-color: var(--background-primary);
-  border: 1px solid var(--border-secondary);
+  border: 1.5px solid var(--border-secondary);
 }
 
 #exercise-select {
