@@ -32,7 +32,7 @@ export const Calendar = ({ training, dispatch }: Props): JSX.Element | null => {
               setUpdatedDate({ training, dispatch, logout, formattedDate });
             },
             onChange: (event: React.ChangeEvent<HTMLInputElement>) => {
-              // If datepicker "clear" button is used the target might be an empty string.
+              // If the datepicker "clear" button is used the target might be an empty string.
               if (!event.target.value) {
                 return;
               }
@@ -89,6 +89,15 @@ const setUpdatedDate = ({
     ...training,
     date: new Date(formattedDate).toString(),
   };
+
+  if (updatedTraining.date === "Invalid Date") {
+    console.warn(
+      `Encountered invalid date on training with id ${updatedTraining.id}.`
+    );
+
+    return;
+  }
+
   editTraining(updatedTraining, logout);
 
   dispatch({
