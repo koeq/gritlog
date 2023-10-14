@@ -16,30 +16,37 @@ export const Calendar = ({ training, dispatch }: Props): JSX.Element | null => {
   const { logout } = useAuth();
   const isMobile = useIsMobile();
   const inputRef = useRef<HTMLInputElement | null>(null);
+
+  // Internal date state is necessary because the onBlur event does not receive
+  // the updated value.
   const [formattedDate, setFormattedDate] = useState(formatDate(training.date));
 
-  // Different event handlers for mobile and desktop are necessary since
-  // the onChange is not a reliable indicator if the date selection was made.
-
+  // Different event handlers for mobile and desktop are necessary since the
+  // onChange is not a reliable indicator if the date selection was made.
   const eventHandlers = useMemo(
     () =>
       isMobile
-        ? // Mobile
-          {
-            onBlur: () =>
-              setUpdatedDate({ training, dispatch, logout, formattedDate }),
-            onChange: (event: React.ChangeEvent<HTMLInputElement>) =>
-              setFormattedDate(event.target.value),
-          }
-        : // Desktop
-          {
+        ? {
+            onBlur: (event: React.FocusEvent<HTMLInputElement>) => {
+              console.log(event.target.value);
+              setUpdatedDate({ training, dispatch, logout, formattedDate });
+            },
             onChange: (event: React.ChangeEvent<HTMLInputElement>) => {
+              // If datepicker "clear" button is used the target might be an empty string.
+              if (!event.target.value) {
+                return;
+              }
+
               setFormattedDate(event.target.value);
+            },
+          }
+        : {
+            onChange: (event: React.ChangeEvent<HTMLInputElement>) => {
               setUpdatedDate({
                 training,
                 dispatch,
                 logout,
-                formattedDate: event.target.value,
+                formattedDate: formatDate(event.target.value),
               });
             },
           },
@@ -82,13 +89,6 @@ const setUpdatedDate = ({
     ...training,
     date: new Date(formattedDate).toString(),
   };
-
-  // This seems to prevent data corruption if the date is invalid.
-  // TODO: Find out why and find a cleaner solution to parse the date and handle failure.
-  if (formattedDate === formatDate(training.date)) {
-    return;
-  }
-
   editTraining(updatedTraining, logout);
 
   dispatch({
