@@ -27,8 +27,7 @@ export const Calendar = ({ training, dispatch }: Props): JSX.Element | null => {
     () =>
       isMobile
         ? {
-            onBlur: (event: React.FocusEvent<HTMLInputElement>) => {
-              console.log(event.target.value);
+            onBlur: () => {
               setUpdatedDate({ training, dispatch, logout, formattedDate });
             },
             onChange: (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -42,6 +41,11 @@ export const Calendar = ({ training, dispatch }: Props): JSX.Element | null => {
           }
         : {
             onChange: (event: React.ChangeEvent<HTMLInputElement>) => {
+              // If the datepicker "clear" button is used the target might be an empty string.
+              if (!event.target.value) {
+                return;
+              }
+
               setUpdatedDate({
                 training,
                 dispatch,
