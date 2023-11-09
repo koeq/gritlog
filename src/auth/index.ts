@@ -1,2 +1,2 @@
 export * from "./login";
-export * from "./use-authed";
+export * from "./use-is-authed";

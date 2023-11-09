@@ -4,17 +4,17 @@ import { useAuth } from "./context";
 import "./styles/unauthed-app.css";
 
 const UnauthedApp = ({
-  googleScriptLoaded,
+  isGoogleScriptLoaded,
 }: {
-  readonly googleScriptLoaded: boolean;
+  readonly isGoogleScriptLoaded: boolean;
 }): JSX.Element => {
   const { startLoginFlow } = useAuth();
 
   useEffect(() => {
-    if (googleScriptLoaded) {
+    if (isGoogleScriptLoaded) {
       startLoginFlow();
     }
-  }, [googleScriptLoaded, startLoginFlow]);
+  }, [isGoogleScriptLoaded, startLoginFlow]);
 
   return (
     <div className="unauthed">

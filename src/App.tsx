@@ -12,6 +12,7 @@ export type AnalyticsSectionType = "activity" | "volume";
 export type Section =
   | {
       readonly type: "trainings";
+      // TODO: Why do we need the null value here? -> Most likely we don't.
       readonly analyticsType: null;
     }
   | {
@@ -20,9 +21,9 @@ export type Section =
     };
 
 export const App = (): JSX.Element | null => {
-  const { authed } = useAuth();
+  const { isAuthed: authed } = useAuth();
   const [menuOpen, setMenuOpen] = useState(false);
-  const googleScriptLoaded = useGoogleScript(authed === false);
+  const isGoogleScriptLoaded = useGoogleScript(authed === false);
 
   const [section, setSection] = useState<Section>({
     type: "trainings",
@@ -52,7 +53,7 @@ export const App = (): JSX.Element | null => {
           />
         </>
       ) : (
-        <UnauthedApp googleScriptLoaded={googleScriptLoaded} />
+        <UnauthedApp isGoogleScriptLoaded={isGoogleScriptLoaded} />
       )}
     </Suspense>
   );

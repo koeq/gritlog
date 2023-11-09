@@ -1,5 +1,5 @@
 import { createContext } from "react";
-import { deleteAuthCookie, useAuthed } from "../auth";
+import { deleteAuthCookie, useIsAuthed } from "../auth";
 import { handleSignInWithGoogle } from "../auth/handle-sign-in-with-google";
 import { useSafeContext } from "../utils/use-safe-context";
 
@@ -8,7 +8,7 @@ interface AuthProviderProps {
 }
 
 interface AuthContext {
-  authed: boolean | undefined;
+  isAuthed: boolean | undefined;
   logout: () => void;
   startLoginFlow: () => void;
 }
@@ -16,17 +16,17 @@ interface AuthContext {
 const authContext = createContext<AuthContext | undefined>(undefined);
 
 export const AuthProvider = (props: AuthProviderProps): JSX.Element => {
-  const [authed, setAuthed] = useAuthed();
+  const { isAuthed, setIsAuthed } = useIsAuthed();
 
   const logout = () => {
     deleteAuthCookie();
-    setAuthed(false);
+    setIsAuthed(false);
   };
 
   const startLoginFlow = () => {
     window.google.accounts.id.initialize({
       client_id: import.meta.env.VITE_DATA_CLIENT_ID,
-      callback: (response) => handleSignInWithGoogle(response, setAuthed),
+      callback: (response) => handleSignInWithGoogle(response, setIsAuthed),
     });
 
     const signInWithGoogleButton = document.getElementById(
@@ -47,7 +47,7 @@ export const AuthProvider = (props: AuthProviderProps): JSX.Element => {
 
   return (
     <authContext.Provider
-      value={{ authed, logout, startLoginFlow }}
+      value={{ isAuthed, logout, startLoginFlow }}
       {...props}
     />
   );
