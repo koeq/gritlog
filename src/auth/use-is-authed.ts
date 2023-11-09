@@ -50,11 +50,11 @@ const checkAuthentication = async (): Promise<boolean> => {
   }
 };
 
-export const useAuthed = (): readonly [
-  boolean | undefined,
-  React.Dispatch<React.SetStateAction<boolean | undefined>>
-] => {
-  const [authed, setAuthed] = useState<boolean | undefined>();
+export const useIsAuthed = (): {
+  isAuthed: boolean | undefined;
+  setIsAuthed: React.Dispatch<React.SetStateAction<boolean | undefined>>;
+} => {
+  const [isAuthed, setIsAuthed] = useState<boolean | undefined>();
 
   useEffect(() => {
     const authenticate = async () => {
@@ -62,9 +62,9 @@ export const useAuthed = (): readonly [
         const isAuthenticated = await checkAuthentication();
 
         if (isAuthenticated) {
-          setAuthed(true);
+          setIsAuthed(true);
         } else {
-          setAuthed(false);
+          setIsAuthed(false);
         }
       } catch (err) {
         console.log(err);
@@ -74,5 +74,5 @@ export const useAuthed = (): readonly [
     authenticate();
   }, []);
 
-  return [authed, setAuthed] as const;
+  return { isAuthed, setIsAuthed };
 };
