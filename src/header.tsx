@@ -8,7 +8,7 @@ import "./styles/header.css";
 const analyticsTypes = ["activity", "volume"] as const;
 
 interface HeaderProps {
-  readonly authed: boolean;
+  readonly isAuthed: boolean;
   readonly section: Section;
   readonly menuOpen: boolean;
   readonly setSection: React.Dispatch<React.SetStateAction<Section>>;
@@ -16,7 +16,7 @@ interface HeaderProps {
 }
 
 export const Header = ({
-  authed,
+  isAuthed,
   section,
   menuOpen,
   setSection,
@@ -26,7 +26,7 @@ export const Header = ({
 
   useEffect(() => {
     setMenuOpen(false);
-  }, [setMenuOpen, authed]);
+  }, [setMenuOpen, isAuthed]);
 
   return (
     <header className="header">
@@ -68,7 +68,7 @@ export const Header = ({
           />
         </svg>
 
-        {authed && (
+        {isAuthed && (
           <div className="cta-section">
             {section.type === "trainings" && <SearchBox />}
             {section.type === "analytics" &&
