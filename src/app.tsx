@@ -19,28 +19,28 @@ export type Section =
     };
 
 export const App = (): JSX.Element | null => {
-  const { isAuthed: authed } = useAuth();
+  const { isAuthed } = useAuth();
   const [menuOpen, setMenuOpen] = useState(false);
-  const isGoogleScriptLoaded = useGoogleScript(authed === false);
+  const isGoogleScriptLoaded = useGoogleScript(isAuthed === false);
 
   const [section, setSection] = useState<Section>({
     type: "trainings",
   });
 
-  if (authed === undefined) {
+  if (isAuthed === undefined) {
     return null;
   }
 
   return (
     <Suspense fallback={<></>}>
       <Header
-        authed={authed}
+        isAuthed={isAuthed}
         section={section}
         menuOpen={menuOpen}
         setSection={setSection}
         setMenuOpen={setMenuOpen}
       />
-      {authed ? (
+      {isAuthed ? (
         <>
           <AuthedApp section={section} />
           <Menu
