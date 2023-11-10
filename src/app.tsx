@@ -12,8 +12,6 @@ export type AnalyticsSectionType = "activity" | "volume";
 export type Section =
   | {
       readonly type: "trainings";
-      // TODO: Why do we need the null value here? -> Most likely we don't.
-      readonly analyticsType: null;
     }
   | {
       readonly type: "analytics";
@@ -27,7 +25,6 @@ export const App = (): JSX.Element | null => {
 
   const [section, setSection] = useState<Section>({
     type: "trainings",
-    analyticsType: null,
   });
 
   if (authed === undefined) {

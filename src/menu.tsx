@@ -28,7 +28,7 @@ export const Menu = ({
             onClick={(e) => {
               e.preventDefault();
               setMenuOpen(false);
-              setSection({ type: "trainings", analyticsType: null });
+              setSection({ type: "trainings" });
             }}
           >
             trainings
