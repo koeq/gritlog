@@ -5,7 +5,7 @@ import { editTraining } from "./edit-training";
 import { Action } from "./state-reducer";
 import "./styles/calendar.css";
 import { Training } from "./types";
-import { formatDate } from "./utils/date";
+import { formatDate, mergeDateStrings } from "./utils/date";
 
 interface Props {
   readonly training: Training;
@@ -19,7 +19,7 @@ export const Calendar = ({ training, dispatch }: Props): JSX.Element | null => {
 
   // Internal date state is necessary because the onBlur event does not receive
   // the updated value.
-  const [formattedDate, setFormattedDate] = useState(formatDate(training.date));
+  const [datePickerDate, setDatePickerDate] = useState(new Date(training.date));
 
   // Different event handlers for mobile and desktop are necessary since the
   // onChange is not a reliable indicator if the date selection was made.
@@ -28,15 +28,28 @@ export const Calendar = ({ training, dispatch }: Props): JSX.Element | null => {
       isMobile
         ? {
             onBlur: () => {
-              setUpdatedDate({ training, dispatch, logout, formattedDate });
+              updateDate({
+                training,
+                dispatch,
+                logout,
+                newDate: datePickerDate,
+              });
             },
             onChange: (event: React.ChangeEvent<HTMLInputElement>) => {
               // If the datepicker "clear" button is used the target might be an empty string.
               if (!event.target.value) {
                 return;
               }
+              const newDate = mergeDateStrings({
+                datePicker: event.target.value,
+                trainingDate: training.date,
+              });
 
-              setFormattedDate(event.target.value);
+              if (!newDate) {
+                return;
+              }
+
+              setDatePickerDate(newDate);
             },
           }
         : {
@@ -46,15 +59,24 @@ export const Calendar = ({ training, dispatch }: Props): JSX.Element | null => {
                 return;
               }
 
-              setUpdatedDate({
+              const newDate = mergeDateStrings({
+                datePicker: event.target.value,
+                trainingDate: training.date,
+              });
+
+              if (!newDate) {
+                return;
+              }
+
+              updateDate({
                 training,
                 dispatch,
                 logout,
-                formattedDate: formatDate(event.target.value),
+                newDate,
               });
             },
           },
-    [isMobile, training, dispatch, logout, formattedDate]
+    [isMobile, training, dispatch, logout, datePickerDate]
   );
 
   return (
@@ -69,29 +91,29 @@ export const Calendar = ({ training, dispatch }: Props): JSX.Element | null => {
         type="date"
         ref={inputRef}
         id="date-picker"
-        value={formattedDate}
+        value={formatDate(datePickerDate)}
         {...eventHandlers}
       />
     </button>
   );
 };
 
-interface SetUpdatedDateParams {
+interface UpdateDateParams {
   readonly training: Training;
   readonly logout: () => void;
-  readonly formattedDate: string;
+  readonly newDate: Date;
   readonly dispatch: React.Dispatch<Action>;
 }
 
-const setUpdatedDate = ({
+const updateDate = ({
   logout,
   training,
   dispatch,
-  formattedDate,
-}: SetUpdatedDateParams) => {
+  newDate,
+}: UpdateDateParams) => {
   const updatedTraining: Training = {
     ...training,
-    date: new Date(formattedDate).toString(),
+    date: newDate.toISOString(),
   };
 
   if (updatedTraining.date === "Invalid Date") {
