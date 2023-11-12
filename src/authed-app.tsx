@@ -14,8 +14,6 @@ const AuthedApp = ({ section }: AuthedAppProps): JSX.Element => {
   const [{ trainings }, dispatch] = useTopLevelState();
   const isLoading = useFetchTrainings(dispatch);
 
-  console.log(trainings);
-
   if (isLoading) {
     return <LoadingDots />;
   }

@@ -1,4 +1,5 @@
 import {
+  AttributeValue,
   UpdateItemCommand,
   UpdateItemCommandInput,
 } from "@aws-sdk/client-dynamodb";
@@ -14,52 +15,56 @@ export const editTraining = async (
   body: APIGatewayProxyEvent["body"],
   origin: string | undefined
 ): Promise<JsonResponse> => {
+  if (!body) {
+    console.error("Unable to edit training: Missing training.");
+
+    return buildResponse(500, "Unable to edit training.", origin);
+  }
+
   try {
-    if (!body) {
-      console.error("Unable to edit training: Missing training.");
-
-      return buildResponse(500, "Unable to edit training.", origin);
-    }
-
     const training = JSON.parse(body) as Training;
     const { email }: GoogleUserData = jwt_decode(jwt);
+    const { exercises, headline, date, endDate } = training;
 
-    const marshalledExercises = marshall({ exercises: training.exercises })[
-      "exercises"
-    ];
-
-    if (!marshalledExercises) {
-      throw new Error("Unable to marshall exercises");
+    const marshalledValues = marshall({ exercises, headline, date });
+    if (
+      !marshalledValues.exercises ||
+      !marshalledValues.headline ||
+      !marshalledValues.date
+    ) {
+      throw new Error("Unable to marshall training.");
     }
 
-    const marshalledHeadline = marshall({ headline: training.headline })[
-      "headline"
-    ];
+    let updateExpression =
+      "set exercises = :newExercises, headline = :newHeadline, #date_attr = :newDate";
 
-    if (!marshalledHeadline) {
-      throw new Error("Unable to marshall headline");
-    }
+    const expressionAttributeValues: Record<string, AttributeValue> = {
+      ":newExercises": marshalledValues.exercises,
+      ":newHeadline": marshalledValues.headline,
+      ":newDate": marshalledValues.date,
+    };
 
-    const marshalledDate = marshall({ date: training.date })["date"];
+    // Not all trainings have end dates.
+    if (endDate) {
+      const marshalledEndDate = marshall({ endDate }).endDate;
 
-    if (!marshalledDate) {
-      throw new Error("Unable to marshall date");
+      if (!marshalledEndDate) {
+        throw new Error("Unable to marshall end date.");
+      }
+
+      updateExpression += ", endDate = :newEndDate";
+      expressionAttributeValues[":newEndDate"] = marshalledEndDate;
     }
 
     const params: UpdateItemCommandInput = {
       TableName: "trainings",
       Key: marshall({ email, id: training.id }),
-      UpdateExpression:
-        "set exercises = :newExercises, headline = :newHeadline, #date_attr = :newDate",
-      // Date is a reserved keyword within dynamoDB and needs to be mapped
+      UpdateExpression: updateExpression,
+      // Date is a reserved keyword within dynamoDB and needs to be mapped.
       ExpressionAttributeNames: {
         "#date_attr": "date",
       },
-      ExpressionAttributeValues: {
-        ":newExercises": marshalledExercises,
-        ":newHeadline": marshalledHeadline,
-        ":newDate": marshalledDate,
-      },
+      ExpressionAttributeValues: expressionAttributeValues,
       ReturnValues: "UPDATED_NEW",
     };
 

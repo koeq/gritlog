@@ -17,10 +17,13 @@ export const Training = ({
   dispatch,
   searchTerm,
 }: TrainingProps): JSX.Element | null => {
+  const { date, endDate } = training;
+
   return (
     <div className="training" tabIndex={0}>
-      <HeadlineDateRow training={training} dispatch={dispatch} />
+      <HeadlineAndDate training={training} dispatch={dispatch} />
       <Values training={training} searchTerm={searchTerm} />
+      {endDate && <Time date={date} endDate={endDate} />}
     </div>
   );
 };
@@ -30,7 +33,7 @@ interface HeadlineDateRowProps {
   readonly dispatch: Dispatch<Action>;
 }
 
-const HeadlineDateRow = ({
+const HeadlineAndDate = ({
   training,
   dispatch,
 }: HeadlineDateRowProps): JSX.Element => {
@@ -76,5 +79,42 @@ const Values = ({ training, searchTerm }: TrainingValuesProps): JSX.Element => {
         );
       })}
     </>
+  );
+};
+
+interface TimeProps {
+  readonly date: string;
+  readonly endDate: string;
+}
+
+const Time = ({ date, endDate }: TimeProps) => {
+  const dateObj = new Date(date);
+  const endDateObj = new Date(endDate);
+  const differenceInMilliseconds = endDateObj.getTime() - dateObj.getTime();
+
+  const differenceInHours = Math.floor(differenceInMilliseconds / 3600000);
+
+  const differenceInMinutes = Math.floor(
+    (differenceInMilliseconds % 3600000) / 60000
+  );
+
+  const formattedTimeDifference = `${
+    differenceInHours < 10 ? "0" : ""
+  }${differenceInHours}:${
+    differenceInMinutes < 10 ? "0" : ""
+  }${differenceInMinutes} h`;
+
+  const timeFormattingOptions: Intl.DateTimeFormatOptions = {
+    hour: "2-digit",
+    minute: "2-digit",
+  };
+  return (
+    <div id="time-row">
+      <span>Start:{dateObj.toLocaleTimeString([], timeFormattingOptions)}</span>
+      <span>
+        End: {endDateObj.toLocaleTimeString([], timeFormattingOptions)}
+      </span>
+      <span>Duration: {formattedTimeDifference}</span>
+    </div>
   );
 };
