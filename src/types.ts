@@ -5,6 +5,7 @@ import { TrainingSchema } from "./schemas";
 // }
 //   id: number;
 //   date: string;
+//   endDate: string;
 //   headline: string | null;
 //   exercises: {
 //     name: string;

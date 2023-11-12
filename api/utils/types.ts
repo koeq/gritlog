@@ -6,6 +6,7 @@ export interface Exercise {
 
 export interface Training {
   readonly date: string;
+  readonly endDate: string | undefined;
   readonly id: number;
   readonly headline?: string | null | undefined;
   readonly exercises: Exercise[] | undefined;

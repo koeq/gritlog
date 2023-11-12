@@ -57,6 +57,7 @@ export function InputSection({
     exercises,
     id: mode.type === "edit" ? mode.id : highestTrainingId + 1,
     date: new Date().toISOString(),
+    endDate: new Date().toISOString(),
   };
 
   const cancelHandler = handleCancel(mode, dispatch);
