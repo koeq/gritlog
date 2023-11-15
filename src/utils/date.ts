@@ -1,3 +1,4 @@
+export const MILLISECONDS_IN_HOUR = 3600000;
 /**
  * Formats a date string to a standardized format ("YYYY-MM-DD").
  *
@@ -15,7 +16,8 @@ interface Dates {
 }
 
 /**
- * Merges two date strings of different formats into a combined date object.
+ * Merges two date strings of different formats into a combined date object by taking the date
+ * of the first argument and the time of the second argument.
  *
  * @param datePicker A date string formatted as "YYYY-MM-DD" which is returned by the datepicker.
  * @param trainingDate A date string in the ISO 8601 format.

@@ -29,11 +29,24 @@
 
 #time-row {
   color: var(--text-off);
-  display: grid;
-  grid-template-columns: 33% 33% 33%;
+  display: flex;
+  justify-content: space-between;
   margin-top: 24px;
 }
 
-#time-row > span {
-  font-size: 14px;
+.time-row-item {
+  display: flex;
+  align-items: center;
+}
+
+.time-row-label {
+  margin-right: 4px;
+  border: 1.5px solid var(--border-secondary);
+  border-radius: 12px;
+  padding: 3px 6px;
+}
+
+.time-row-icon {
+  margin-right: 4px;
+  margin-bottom: 1px;
 }

@@ -22,7 +22,7 @@ describe("Merge date picker date with trainings date:", () => {
     ];
 
     test.each(invalidTestCases)(
-      'Should handle invalid inputs "%s" and "%s"',
+      'Should handle invalid inputs "%s" and "%s".',
       (datePicker, trainingDate) => {
         const result = mergeDateStrings({ datePicker, trainingDate });
         expect(result).toBeUndefined();
