@@ -1,33 +1,32 @@
-<section>
-<h1 font-family="san-serif"  align="center"> gritlog </h1>
+# gritlog 
 
-  <p align="center">
-    Track your workouts online:
-    <br />
-    <a href="https://gritlog.app"><strong>Check out live »</strong></a>
-    <br />
-    <br />
-    
-  </p>
 
-## How does it work?
+Gritlog is a web-based strength training journal. <br>
+It simplifies tracking your workouts and offers valuable insights into your progress.
 
-Sign in with your google account.
-<br/>
-To add a training click the "+" button and type your workout in the input field.
-<br/>
-<br/>
-Use the following format:
-<br/>
 
-| Input                             | Output             |
-| --------------------------------- | ------------------ |
-| Squats @100 8/8/8                 | Squats 100kg 8/8/8 |
-| Squats @100 3\*8                  | Squats 100kg 8/8/8 |
-| Squats 100lbs                     | Squats 100lbs      |
-| Squats @100 3\*8 @95 3\*8         | Squats 100kg 8/8/8 |
-|                                   | Squats 95kg 8/8/8  |
-| Squats @100 3\*8 Lunches @80 3\*8 | Squats 100kg 8/8/8 |
-|                                   | Lunches 80kg 8/8/8 |
+<img src="https://github.com/koeq/gritlog/assets/64101761/475b1813-2bc5-4836-bb15-496d04f5d224" alt="training card" width='400' height='400' text-align='center'>
 
-</section>
+
+
+
+
+## Features:
+- **Easy Workout Tracking:** Utilize a specialized syntax for quick and accurate recording of your training sessions.
+- **Insightful Data Analysis:** Understand your progress with visual and data-driven insights.
+
+## How It Works:
+
+1. **Sign In:** Use your Google account for easy access.
+2. **Add a Workout:** Click the "+" button to add a new training session.
+3. **Enter Your Workout:** Follow our simple format to input your workout details.
+
+### Input Syntax Guide:
+
+| Input Format                        | Recorded As       |
+| ----------------------------------- | ----------------- |
+| `Squats @100 8/8/8`                 | Squats 100kg 8/8/8|
+| `Squats @100 3*8`                   | Squats 100kg 8/8/8|
+| `Squats 100lbs`                     | Squats 100lbs     |
+| `Squats @100 3*8 @95 3*8`           | Squats 100kg 8/8/8<br/>Squats 95kg 8/8/8 |
+| `Squats @100 3*8 Lunches @80 3*8`   | Squats 100kg 8/8/8<br/>Lunches 80kg 8/8/8 |
