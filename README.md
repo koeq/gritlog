@@ -20,8 +20,8 @@ It simplifies tracking your workouts and offers valuable insights into your prog
 
 | Input Format                      | Recorded As                               |
 | --------------------------------- | ----------------------------------------- |
-| `Squats @100 8/8/8`               | Squats 100kg 8/8/8                        |
-| `Squats @100 3*8`                 | Squats 100kg 8/8/8                        |
+| `Squats @100 8/8/7`               | Squats 100kg 8/8/7                        |
+| `Squats @100 3*8`                 | Squats 100kg 3x8                          |
 | `Squats 100lbs`                   | Squats 100lbs                             |
-| `Squats @100 3*8 @95 3*8`         | Squats 100kg 8/8/8<br/>Squats 95kg 8/8/8  |
-| `Squats @100 3*8 Lunches @80 3*8` | Squats 100kg 8/8/8<br/>Lunches 80kg 8/8/8 |
+| `Squats @100 3*8 @95 3*8`         | Squats 100kg 3x8  <br/> Squats 95kg 3x8   |
+| `Squats @100 3*8 Lunches @80 3*8` | Squats 100kg 3x8 <br/> Lunches 80kg 3x8   |
