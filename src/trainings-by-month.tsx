@@ -7,7 +7,7 @@ import "./styles/trainings-by-month.css";
 import { MemoizedTrainingCard } from "./training-card";
 import { Training } from "./types";
 
-const OPEN_MONTHS = 2;
+const OPEN_MONTHS = 1;
 
 interface TrainingsByMonthProps {
   readonly index: number;
@@ -29,6 +29,10 @@ export const TrainingsByMonth = ({
   date: { month, year },
 }: TrainingsByMonthProps): JSX.Element => {
   const [open, setOpen] = useState(true);
+
+  const monthIndicator = `${month.slice(0, 3)} ${
+    new Date().getFullYear() > year ? year : ""
+  }`;
 
   useEffect(() => {
     setOpen(index < OPEN_MONTHS || searchTerm.length > 0);
@@ -58,7 +62,7 @@ export const TrainingsByMonth = ({
     <>
       <div className="date-range">
         <span className="date-range-text">
-          {month} {new Date().getFullYear() > year ? year : null}
+          {open && index === 0 ? null : monthIndicator}
         </span>
         <button onClick={() => setOpen((prev) => !prev)}>
           {open ? <IoChevronUp size={22} /> : <IoChevronDown size={22} />}
