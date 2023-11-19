@@ -12,7 +12,7 @@ interface ThemeProviderProps {
   children: ReactNode;
 }
 
-type Theme = "light" | "dark";
+export type Theme = "light" | "dark";
 type ThemeType = "OS" | "custom";
 
 interface ThemeContextProps {
