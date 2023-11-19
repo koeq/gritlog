@@ -1,18 +1,22 @@
-.date-range {
+.month-indicator {
   display: flex;
   align-items: center;
   justify-content: space-between;
   width: min(450px, 95%);
-  margin: 24px 0;
+  margin: 22px 0;
 }
 
-.date-range button {
-  color: var(--text);
-}
-
-.date-range-text {
+.month-indicator-text {
   color: var(--text);
   font-size: 16px;
   font-weight: 550;
   font-stretch: 110%;
+}
+
+.month-indicator button {
+  padding: 3px;
+  display: flex;
+  border-radius: 24px;
+  color: var(--text-off);
+  border: 1px solid var(--border-secondary);
 }

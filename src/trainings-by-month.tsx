@@ -60,8 +60,8 @@ export const TrainingsByMonth = ({
 
   return (
     <>
-      <div className="date-range">
-        <span className="date-range-text">
+      <div className="month-indicator">
+        <span className="month-indicator-text">
           {open && index === 0 ? null : monthIndicator}
         </span>
         <button onClick={() => setOpen((prev) => !prev)}>
