@@ -1,6 +1,6 @@
 # gritlog
 
-Gritlog is a web-based strength training journal. <br>
+Gritlog is a text-based strength training journal. <br>
 It simplifies tracking your workouts and offers valuable insights into your progress.
 
 <img src="https://github.com/koeq/gritlog/assets/64101761/475b1813-2bc5-4836-bb15-496d04f5d224" alt="training card" width='400' height='400' text-align='center'>
