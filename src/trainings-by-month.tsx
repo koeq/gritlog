@@ -1,4 +1,4 @@
-import { Dispatch, useCallback, useEffect, useState } from "react";
+import { Dispatch, useCallback, useEffect, useMemo, useState } from "react";
 import { IoChevronDown, IoChevronUp } from "react-icons/io5";
 import { TrainingsByMonth as TrainingByMonthType } from "./group-training-by-month";
 import { serializeExercises } from "./serialize-exercises";
@@ -30,9 +30,10 @@ export const TrainingsByMonth = ({
 }: TrainingsByMonthProps): JSX.Element => {
   const [open, setOpen] = useState(true);
 
-  const monthIndicator = `${month.slice(0, 3)} ${
-    new Date().getFullYear() > year ? year : ""
-  }`;
+  const monthIndicator = useMemo(
+    () => `${month.slice(0, 3)} ${new Date().getFullYear() > year ? year : ""}`,
+    [month, year]
+  );
 
   useEffect(() => {
     setOpen(index < OPEN_MONTHS || searchTerm.length > 0);
@@ -60,14 +61,15 @@ export const TrainingsByMonth = ({
 
   return (
     <>
-      <div className="month-indicator">
-        <span className="month-indicator-text">
-          {open && index === 0 ? null : monthIndicator}
-        </span>
-        <button onClick={() => setOpen((prev) => !prev)}>
+      <button
+        className="month-indicator"
+        onClick={() => setOpen((prev) => !prev)}
+      >
+        <span className="month-indicator-text">{monthIndicator}</span>
+        <div>
           {open ? <IoChevronUp size={22} /> : <IoChevronDown size={22} />}
-        </button>
-      </div>
+        </div>
+      </button>
       {open &&
         trainings.map((training) => {
           return (

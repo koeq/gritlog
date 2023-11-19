@@ -3,7 +3,8 @@
   align-items: center;
   justify-content: space-between;
   width: min(450px, 95%);
-  margin: 22px 0;
+  padding: 22px 0;
+  cursor: pointer;
 }
 
 .month-indicator-text {
@@ -13,7 +14,7 @@
   font-stretch: 110%;
 }
 
-.month-indicator button {
+.month-indicator div {
   padding: 3px;
   display: flex;
   border-radius: 24px;
