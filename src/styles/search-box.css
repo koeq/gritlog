@@ -43,3 +43,7 @@
   border: 1.5px solid var(--border-primary);
   pointer-events: all;
 }
+
+.input-search::placeholder {
+  color: var(--text-off);
+}
