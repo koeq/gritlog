@@ -23,7 +23,6 @@ type Literal = string | number;
 interface Token {
   readonly type: TokenType;
   readonly lexeme: string;
-  // TODO: what is the correct type of literal here
   readonly literal: Literal | null;
   readonly line: number;
 }
@@ -50,7 +49,7 @@ interface Interpreter {
 //-------------------------------------------------Scanner--------------------------------------------------
 // DEFINITIONS
 // ---------------------------------------------------------------------------------------------------------
-// Lexemes are the smallest sequence of substrings of the source which still represent something.
+// Lexemes are the smallest sequence of substrings of the source which still represent something with sematic meaning.
 // A token is made out of a lexeme and additional data to that lexeme (e.g. token type)
 // ---------------------------------------------------------------------------------------------------------
 
@@ -227,7 +226,7 @@ function createScanner(source: string): Scanner {
   };
 }
 
-//-----------------------------------------------INTERPRETER------------------------------------------------
+//-----------------------------------------------Interpreter------------------------------------------------
 // GRAMMAR RULES
 // ---------------------------------------------------------------------------------------------------------
 // Headline --------> # ANYTHING
@@ -407,7 +406,7 @@ export function parse(source: string | undefined): Exercise[] | null {
   }
 
   const scanner = createScanner(source);
-  const tokens: Token[] = scanner.scanTokens(source);
+  const tokens = scanner.scanTokens(source);
   const interpreter = createInterpreter(tokens);
 
   return interpreter.interpret();
@@ -432,7 +431,6 @@ const isNumber = (char: string): boolean => {
   return numbers.test(char);
 };
 
-// TODO: make connection to keywords object
 const isWeightUnit = (str: string): boolean => str === "kg" || str === "lbs";
 
 const isExerciseName = (token: Token) =>
@@ -440,6 +438,7 @@ const isExerciseName = (token: Token) =>
   token.type === "HYPHEN" ||
   token.type === "WHITESPACE";
 
+// TODO: clarify, why whitespace?
 const isRepetition = (token: Token): boolean =>
   token.type === "NUMBER" ||
   token.type === "FORWARD_SLASH" ||
