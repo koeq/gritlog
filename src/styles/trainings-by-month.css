@@ -14,10 +14,4 @@
   font-stretch: 110%;
 }
 
-.month-indicator div {
-  padding: 3px;
-  display: flex;
-  border-radius: 24px;
-  color: var(--text-off);
-  border: 1px solid var(--border-secondary);
-}
+

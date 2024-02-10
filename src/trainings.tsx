@@ -1,7 +1,7 @@
 import { useCallback, useRef } from "react";
 import "../src/styles/authed-app.css";
-import { AddEditCTAs } from "./add-edit-ctas";
 import { AddFirstTraining } from "./add-first-training";
+import { BottomBar } from "./bottom-bar";
 import { useTopLevelState } from "./context";
 import { DeletionDialog } from "./deletion-dialog";
 import { filterTrainings } from "./filter-trainings";
@@ -56,11 +56,12 @@ export const Trainings = ({
         />
       )}
 
-      <AddEditCTAs
+      {/* <AddEditCTAs
         textAreaRef={textAreaRef}
         handleSetEditMode={handleSetEditMode}
-      />
+      /> */}
 
+      <BottomBar />
       {mode.type === "delete" && (
         <Layer>
           <DeletionDialog id={mode.id} />

@@ -3,6 +3,5 @@
   align-items: center;
   padding-bottom: 80px;
   justify-content: center;
-  margin-top: var(--header-height);
-  height: calc(100svh - var(--header-height));
+  height: calc(100svh);
 }
