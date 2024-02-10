@@ -38,18 +38,16 @@ export const Header = ({
             {section.type === "analytics" &&
               analyticsTypes.map((type) => (
                 <div
-                  className={`analytics-link-container${
-                    section.analyticsType === type ? " active" : ""
-                  }`}
+                  className={`analytics-link-container${section.analyticsType === type ? " active" : ""
+                    }`}
                   key={type}
                 >
                   <a
                     onClick={() =>
                       setSection({ type: "analytics", analyticsType: type })
                     }
-                    className={`analytics-link${
-                      section.analyticsType === type ? " active" : ""
-                    }`}
+                    className={`analytics-link${section.analyticsType === type ? " active" : ""
+                      }`}
                   >
                     {type}
                   </a>

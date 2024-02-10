@@ -66,9 +66,11 @@ export const TrainingsByMonth = ({
         onClick={() => setOpen((prev) => !prev)}
       >
         <span className="month-indicator-text">{monthIndicator}</span>
-        <div>
-          {open ? <IoChevronUp size={22} /> : <IoChevronDown size={22} />}
-        </div>
+        {open ? (
+          <IoChevronUp color="#8E8E93" size={22} />
+        ) : (
+          <IoChevronDown color="#8E8E93" size={22} />
+        )}
       </button>
       {open &&
         trainings.map((training) => {
