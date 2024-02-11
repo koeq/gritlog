@@ -42,7 +42,11 @@ export const App = (): JSX.Element | null => {
       /> */}
       {isAuthed ? (
         <>
-          <AuthedApp section={section} setMenuOpen={setMenuOpen} />
+          <AuthedApp
+            section={section}
+            menuOpen={menuOpen}
+            setMenuOpen={setMenuOpen}
+          />
           <Menu
             menuOpen={menuOpen}
             setSection={setSection}

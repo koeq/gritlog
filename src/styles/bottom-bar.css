@@ -19,11 +19,9 @@
 #bottom-bar button {
   display: flex;
   align-items: center;
-}
-
-#settings {
   color: var(--cta);
 }
+
 
 @media (min-width: 460px) {
   #bottom-bar {
