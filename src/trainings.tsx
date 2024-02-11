@@ -1,4 +1,4 @@
-import { useCallback, useRef } from "react";
+import { Dispatch, SetStateAction, useCallback, useRef } from "react";
 import "../src/styles/authed-app.css";
 import { AddFirstTraining } from "./add-first-training";
 import { BottomBar } from "./bottom-bar";
@@ -14,10 +14,12 @@ import { Training } from "./types";
 
 interface TrainingsSectionProps {
   readonly trainings: Training[];
+  readonly setMenuOpen: Dispatch<SetStateAction<boolean>>;
 }
 
 export const Trainings = ({
   trainings,
+  setMenuOpen,
 }: TrainingsSectionProps): JSX.Element => {
   const textAreaRef = useRef<HTMLTextAreaElement | null>(null);
   const [{ mode, searchTerm, showInputSection }, dispatch] = useTopLevelState();
@@ -61,7 +63,7 @@ export const Trainings = ({
         handleSetEditMode={handleSetEditMode}
       /> */}
 
-      <BottomBar />
+      <BottomBar setMenuOpen={setMenuOpen} />
       {mode.type === "delete" && (
         <Layer>
           <DeletionDialog id={mode.id} />

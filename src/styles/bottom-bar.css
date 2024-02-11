@@ -2,6 +2,7 @@
   position: fixed;
   bottom: 0;
   width: 100%;
+  height: var(--bottom-bar-height);
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -13,6 +14,15 @@
   backdrop-filter: blur(14px);
   -webkit-backdrop-filter: blur(14px);
   z-index: 3;
+}
+
+#bottom-bar button {
+  display: flex;
+  align-items: center;
+}
+
+#settings {
+  color: var(--cta);
 }
 
 @media (min-width: 460px) {
