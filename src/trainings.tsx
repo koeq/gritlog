@@ -26,6 +26,8 @@ export const Trainings = ({
   const textAreaRef = useRef<HTMLTextAreaElement | null>(null);
   const [{ mode, searchTerm, showInputSection }, dispatch] = useTopLevelState();
 
+  // TODO: this should probably be a dispatch action 
+
   const handleSetEditMode = useCallback(
     (id: number) => {
       const training = trainings.find((training) => training.id === id);
@@ -66,9 +68,10 @@ export const Trainings = ({
       /> */}
 
       <BottomBar
-        textAreaRef={textAreaRef}
         menuOpen={menuOpen}
+        textAreaRef={textAreaRef}
         setMenuOpen={setMenuOpen}
+        handleSetEditMode={handleSetEditMode}
       />
       {mode.type === "delete" && (
         <Layer>
