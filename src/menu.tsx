@@ -61,13 +61,14 @@ export const Menu = ({
           </button>
         </li>
         <hr />
+        <li>
+          <a href="https://github.com/koeq/gritlog">
+            <IoLogoGithub fill="#9EA3A9" size={"26"} />
+          </a>
+        </li>
       </ul>
 
-      <div className="social">
-        <a href="https://github.com/koeq/gritlog">
-          <IoLogoGithub fill="#9EA3A9" size={"26"} />
-        </a>
-      </div>
+      <div className="social"></div>
     </nav>
   );
 };

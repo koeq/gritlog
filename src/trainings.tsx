@@ -13,11 +13,13 @@ import { MemoizedTrainingList } from "./training-list";
 import { Training } from "./types";
 
 interface TrainingsSectionProps {
+  readonly menuOpen: boolean;
   readonly trainings: Training[];
   readonly setMenuOpen: Dispatch<SetStateAction<boolean>>;
 }
 
 export const Trainings = ({
+  menuOpen,
   trainings,
   setMenuOpen,
 }: TrainingsSectionProps): JSX.Element => {
@@ -63,7 +65,11 @@ export const Trainings = ({
         handleSetEditMode={handleSetEditMode}
       /> */}
 
-      <BottomBar setMenuOpen={setMenuOpen} />
+      <BottomBar
+        textAreaRef={textAreaRef}
+        menuOpen={menuOpen}
+        setMenuOpen={setMenuOpen}
+      />
       {mode.type === "delete" && (
         <Layer>
           <DeletionDialog id={mode.id} />

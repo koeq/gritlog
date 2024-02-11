@@ -9,10 +9,15 @@ import { useFetchTrainings } from "./use-fetch-trainings";
 
 interface AuthedAppProps {
   readonly section: Section;
+  readonly menuOpen: boolean;
   readonly setMenuOpen: Dispatch<SetStateAction<boolean>>;
 }
 
-const AuthedApp = ({ section, setMenuOpen }: AuthedAppProps): JSX.Element => {
+const AuthedApp = ({
+  section,
+  menuOpen,
+  setMenuOpen,
+}: AuthedAppProps): JSX.Element => {
   const [{ trainings }, dispatch] = useTopLevelState();
   const isLoading = useFetchTrainings(dispatch);
 
@@ -23,7 +28,11 @@ const AuthedApp = ({ section, setMenuOpen }: AuthedAppProps): JSX.Element => {
   return (
     <section className={`${section.type}-section`}>
       {section.type === "trainings" && (
-        <Trainings trainings={trainings} setMenuOpen={setMenuOpen} />
+        <Trainings
+          trainings={trainings}
+          menuOpen={menuOpen}
+          setMenuOpen={setMenuOpen}
+        />
       )}
       {section.type === "analytics" && (
         <Analytics trainings={trainings} section={section} />
