@@ -1,3 +1,4 @@
+import { Dispatch, SetStateAction } from "react";
 import "../src/styles/authed-app.css";
 import { Analytics } from "./analytics";
 import { Section } from "./app";
@@ -8,9 +9,10 @@ import { useFetchTrainings } from "./use-fetch-trainings";
 
 interface AuthedAppProps {
   readonly section: Section;
+  readonly setMenuOpen: Dispatch<SetStateAction<boolean>>;
 }
 
-const AuthedApp = ({ section }: AuthedAppProps): JSX.Element => {
+const AuthedApp = ({ section, setMenuOpen }: AuthedAppProps): JSX.Element => {
   const [{ trainings }, dispatch] = useTopLevelState();
   const isLoading = useFetchTrainings(dispatch);
 
@@ -20,7 +22,9 @@ const AuthedApp = ({ section }: AuthedAppProps): JSX.Element => {
 
   return (
     <section className={`${section.type}-section`}>
-      {section.type === "trainings" && <Trainings trainings={trainings} />}
+      {section.type === "trainings" && (
+        <Trainings trainings={trainings} setMenuOpen={setMenuOpen} />
+      )}
       {section.type === "analytics" && (
         <Analytics trainings={trainings} section={section} />
       )}
