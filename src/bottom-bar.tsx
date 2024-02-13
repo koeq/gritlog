@@ -1,6 +1,5 @@
+import { ChevronLeftCircle, PlusCircle, Search } from "lucide-react";
 import { Dispatch, SetStateAction } from "react";
-import { IoMdAdd } from "react-icons/io";
-import { IoPencil, IoSearch } from "react-icons/io5";
 import { useTopLevelState } from "./context";
 import { Hamburger } from "./hamburger";
 import "./styles/bottom-bar.css";
@@ -24,7 +23,12 @@ export const BottomBar = ({
   return (
     <nav id="bottom-bar">
       <Hamburger setMenuOpen={setMenuOpen} menuOpen={menuOpen} />
-      <IoSearch size={22} />
+      <Search
+        size={28}
+        color={getComputedStyle(document.body).getPropertyValue(
+          "--cta-disabled"
+        )}
+      />
       <button
         aria-label="edit"
         className={`btn-round ${trainings && latestTrainingId === undefined ? "btn-disabled" : ""
@@ -39,7 +43,7 @@ export const BottomBar = ({
             : undefined
         }
       >
-        <IoPencil size={22} />
+        <ChevronLeftCircle size={28} />
       </button>
       <button
         aria-label="add"
@@ -51,7 +55,7 @@ export const BottomBar = ({
             textAreaRef.current?.focus();
         }}
       >
-        <IoMdAdd size={26} strokeWidth={10} />
+        <PlusCircle size={28} />
       </button>
     </nav>
   );

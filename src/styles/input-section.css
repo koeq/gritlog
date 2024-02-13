@@ -58,22 +58,4 @@
   border-radius: 50%;
 }
 
-.btn-confirm {
-  position: relative;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border-radius: 50%;
-}
 
-.btn-confirm::before {
-  content: "";
-  position: absolute;
-  top: -5px;
-  left: -5px;
-  width: calc(100% + 10px);
-  height: calc(100% + 10px);
-  border-radius: 50%;
-  border: 1.5px solid var(--border-secondary);
-  z-index: -1;
-}

@@ -1,8 +1,8 @@
+import { CheckCircle2, PlusCircle } from "lucide-react";
 import { Dispatch, useLayoutEffect, useMemo, useRef, useState } from "react";
 import { BsArrowLeft } from "react-icons/bs";
 import { GoInfo } from "react-icons/go";
-import { IoMdAdd, IoMdClose } from "react-icons/io";
-import { IoCheckmarkSharp } from "react-icons/io5";
+import { IoMdClose } from "react-icons/io";
 import { addTraining } from "./add-training";
 import { useAuth, useIsMobile, useTopLevelState } from "./context";
 import { editTraining } from "./edit-training";
@@ -125,9 +125,9 @@ export function InputSection({
               }}
             >
               {mode.type === "add" ? (
-                <IoMdAdd size={28} />
+                <PlusCircle size={34} />
               ) : (
-                <IoCheckmarkSharp size={28} />
+                <CheckCircle2 size={34} />
               )}
             </button>
           </div>
@@ -151,9 +151,9 @@ const isDisabled = ({
   mode.type === "add"
     ? isEmptyTraining(currentTraining)
     : mode.type === "edit"
-    ? currentInput.exercises?.trim() === mode.initialInput.exercises &&
+      ? currentInput.exercises?.trim() === mode.initialInput.exercises &&
       currentInput.headline?.trim() === mode.initialInput.headline
-    : false;
+      : false;
 
 interface HandleActionParams {
   readonly mode: Mode;
@@ -173,15 +173,15 @@ const handleAction = ({
   mode.type === "add"
     ? () => handleAdd({ currentTraining, dispatch, logout, textAreaRef })
     : mode.type === "edit"
-    ? () => handleEdit({ mode, currentTraining, dispatch, logout, textAreaRef })
-    : () => undefined;
+      ? () => handleEdit({ mode, currentTraining, dispatch, logout, textAreaRef })
+      : () => undefined;
 
 const handleCancel = (mode: Mode, dispatch: React.Dispatch<Action>) =>
   mode.type === "add"
     ? () => dispatch({ type: "cancel-add" })
     : mode.type === "edit"
-    ? () => dispatch({ type: "cancel-edit" })
-    : () => undefined;
+      ? () => dispatch({ type: "cancel-edit" })
+      : () => undefined;
 
 interface HandleAddParams {
   readonly logout: () => void;
