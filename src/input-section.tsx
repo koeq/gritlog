@@ -1,8 +1,5 @@
 import { CheckCircle2, Info, MoveLeft, PlusCircle, X } from "lucide-react";
 import { Dispatch, useLayoutEffect, useMemo, useRef, useState } from "react";
-import { BsArrowLeft } from "react-icons/bs";
-import { GoInfo } from "react-icons/go";
-import { IoMdClose } from "react-icons/io";
 import { addTraining } from "./add-training";
 import { useAuth, useIsMobile, useTopLevelState } from "./context";
 import { editTraining } from "./edit-training";

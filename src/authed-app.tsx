@@ -1,9 +1,11 @@
-import { Dispatch, SetStateAction } from "react";
+import { Dispatch, SetStateAction, useCallback, useRef } from "react";
 import "../src/styles/authed-app.css";
 import { Analytics } from "./analytics";
 import { Section } from "./app";
+import { BottomBar } from "./bottom-bar";
 import { useTopLevelState } from "./context";
 import { LoadingDots } from "./loading-dots";
+import { serializeExercises } from "./serialize-exercises";
 import { Trainings } from "./trainings";
 import { useFetchTrainings } from "./use-fetch-trainings";
 
@@ -20,6 +22,28 @@ const AuthedApp = ({
 }: AuthedAppProps): JSX.Element => {
   const [{ trainings }, dispatch] = useTopLevelState();
   const isLoading = useFetchTrainings(dispatch);
+  const textAreaRef = useRef<HTMLTextAreaElement | null>(null);
+
+  // TODO: this should probably be a dispatch action
+  const handleSetEditMode = useCallback(
+    (id: number) => {
+      const training = trainings.find((training) => training.id === id);
+
+      if (!training) {
+        return;
+      }
+
+      dispatch({
+        id,
+        date: training.date,
+        type: "set-edit-mode",
+        serializedExercises: serializeExercises(training),
+      });
+
+      textAreaRef.current?.focus();
+    },
+    [trainings, dispatch]
+  );
 
   if (isLoading) {
     return <LoadingDots />;
@@ -30,13 +54,19 @@ const AuthedApp = ({
       {section.type === "trainings" && (
         <Trainings
           trainings={trainings}
-          menuOpen={menuOpen}
-          setMenuOpen={setMenuOpen}
+          textAreaRef={textAreaRef}
+          handleSetEditMode={handleSetEditMode}
         />
       )}
       {section.type === "analytics" && (
         <Analytics trainings={trainings} section={section} />
       )}
+      <BottomBar
+        menuOpen={menuOpen}
+        setMenuOpen={setMenuOpen}
+        textAreaRef={textAreaRef}
+        handleSetEditMode={handleSetEditMode}
+      />
     </section>
   );
 };
