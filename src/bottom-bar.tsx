@@ -1,4 +1,8 @@
-import { ChevronLeftCircle, PlusCircle, Search } from "lucide-react";
+import {
+  PlusCircle,
+  Search,
+  SquarePen
+} from "lucide-react";
 import { Dispatch, SetStateAction } from "react";
 import { useTopLevelState } from "./context";
 import { Hamburger } from "./hamburger";
@@ -24,7 +28,7 @@ export const BottomBar = ({
     <nav id="bottom-bar">
       <Hamburger setMenuOpen={setMenuOpen} menuOpen={menuOpen} />
       <Search
-        size={28}
+        size={25}
         color={getComputedStyle(document.body).getPropertyValue(
           "--cta-disabled"
         )}
@@ -43,7 +47,7 @@ export const BottomBar = ({
             : undefined
         }
       >
-        <ChevronLeftCircle size={28} />
+        <SquarePen size={25} />
       </button>
       <button
         aria-label="add"

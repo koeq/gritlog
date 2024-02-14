@@ -1,4 +1,4 @@
-import { CheckCircle2, PlusCircle } from "lucide-react";
+import { CheckCircle2, Info, MoveLeft, PlusCircle, X } from "lucide-react";
 import { Dispatch, useLayoutEffect, useMemo, useRef, useState } from "react";
 import { BsArrowLeft } from "react-icons/bs";
 import { GoInfo } from "react-icons/go";
@@ -87,9 +87,9 @@ export function InputSection({
           onClick={() => setShowInfo((showInfo) => !showInfo)}
         >
           {showInfo ? (
-            <BsArrowLeft size={20} color="var(--text)" />
+            <MoveLeft size={20} color="var(--text)" strokeWidth={2.5} />
           ) : (
-            <GoInfo size={20} color="var(--text)" />
+            <Info size={20} color="var(--text)" strokeWidth={2.5} />
           )}
         </button>
         <h3 id="input-section-headline">{mode.type}</h3>
@@ -99,7 +99,7 @@ export function InputSection({
           className="btn-cancel"
           onClick={cancelHandler}
         >
-          <IoMdClose size={26} />
+          <X size={25} />
         </button>
       </div>
       {showInfo ? (

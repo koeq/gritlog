@@ -31,7 +31,7 @@
 }
 
 @media (min-width: 460px) {
-  * {
+* {
     --bottom-bar-height: 55px;
   }
 }
@@ -82,7 +82,7 @@
   --background-primary: #fdfdff;
   --background-secondary: #fdfdff;
   --background-tertiary: #ececf6;
-  --background-transparent: #fdfdff80;
+  --background-transparent: hsla(240, 100%, 100%, 0.80);
 
   --background-muted: #afb8c14d;
   --border-primary: rgb(210, 210, 220);
