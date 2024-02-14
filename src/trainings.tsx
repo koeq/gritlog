@@ -1,52 +1,27 @@
-import { Dispatch, SetStateAction, useCallback, useRef } from "react";
+import { MutableRefObject } from "react";
 import "../src/styles/authed-app.css";
 import { AddFirstTraining } from "./add-first-training";
-import { BottomBar } from "./bottom-bar";
 import { useTopLevelState } from "./context";
 import { DeletionDialog } from "./deletion-dialog";
 import { filterTrainings } from "./filter-trainings";
 import { InputSection } from "./input-section";
 import { InputSectionLayer } from "./input-section-layer";
 import { Layer } from "./layer";
-import { serializeExercises } from "./serialize-exercises";
 import { MemoizedTrainingList } from "./training-list";
 import { Training } from "./types";
 
 interface TrainingsSectionProps {
-  readonly menuOpen: boolean;
   readonly trainings: Training[];
-  readonly setMenuOpen: Dispatch<SetStateAction<boolean>>;
+  readonly textAreaRef: MutableRefObject<HTMLTextAreaElement | null>;
+  readonly handleSetEditMode: (id: number) => void;
 }
 
 export const Trainings = ({
-  menuOpen,
   trainings,
-  setMenuOpen,
+  textAreaRef,
+  handleSetEditMode,
 }: TrainingsSectionProps): JSX.Element => {
-  const textAreaRef = useRef<HTMLTextAreaElement | null>(null);
   const [{ mode, searchTerm, showInputSection }, dispatch] = useTopLevelState();
-
-  // TODO: this should probably be a dispatch action 
-
-  const handleSetEditMode = useCallback(
-    (id: number) => {
-      const training = trainings.find((training) => training.id === id);
-
-      if (!training) {
-        return;
-      }
-
-      dispatch({
-        id,
-        date: training.date,
-        type: "set-edit-mode",
-        serializedExercises: serializeExercises(training),
-      });
-
-      textAreaRef.current?.focus();
-    },
-    [trainings, dispatch]
-  );
 
   return (
     <>
@@ -67,12 +42,6 @@ export const Trainings = ({
         handleSetEditMode={handleSetEditMode}
       /> */}
 
-      <BottomBar
-        menuOpen={menuOpen}
-        textAreaRef={textAreaRef}
-        setMenuOpen={setMenuOpen}
-        handleSetEditMode={handleSetEditMode}
-      />
       {mode.type === "delete" && (
         <Layer>
           <DeletionDialog id={mode.id} />

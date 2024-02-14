@@ -1,8 +1,4 @@
-import {
-  PlusCircle,
-  Search,
-  SquarePen
-} from "lucide-react";
+import { PlusCircle, Search, SquarePen } from "lucide-react";
 import { Dispatch, SetStateAction } from "react";
 import { useTopLevelState } from "./context";
 import { Hamburger } from "./hamburger";
