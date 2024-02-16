@@ -9,10 +9,11 @@ describe("Mutate global state", () => {
   beforeEach(() => {
     state = {
       trainings: [],
-      currentInput: { headline: "", exercises: "" },
-      showInputSection: false,
-      mode: { type: "add" },
       searchTerm: "",
+      searchActive: false,
+      mode: { type: "add" },
+      showInputSection: false,
+      currentInput: { headline: "", exercises: "" },
     };
   });
 
@@ -36,11 +37,11 @@ describe("Mutate global state", () => {
     });
 
     expect(newState).toStrictEqual({
+      ...state,
       trainings: [someTraining],
       showInputSection: false,
       mode: { type: "add" },
       currentInput: { headline: "", exercises: "" },
-      searchTerm: "",
     });
   });
 
@@ -75,11 +76,12 @@ describe("Mutate global state", () => {
     });
 
     expect(newState).toStrictEqual({
-      trainings: [{ ...currentTraining }],
-      showInputSection: false,
-      mode: { type: "add" },
-      currentInput: { headline: "", exercises: "" },
+      ...state,
       searchTerm: "",
+      mode: { type: "add" },
+      showInputSection: false,
+      trainings: [{ ...currentTraining }],
+      currentInput: { headline: "", exercises: "" },
     });
   });
 
@@ -117,11 +119,11 @@ describe("Mutate global state", () => {
     });
 
     expect(newState).toStrictEqual({
+      ...state,
       trainings: [],
       showInputSection: false,
       mode: { type: "add" },
       currentInput: { headline: "", exercises: "" },
-      searchTerm: "",
     });
   });
 

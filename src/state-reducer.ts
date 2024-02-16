@@ -14,6 +14,7 @@ import { sortTrainingsByDate } from "./utils/sort-trainings-by-date";
 export type TopLevelState = {
   readonly mode: Mode;
   readonly searchTerm: string;
+  readonly searchActive: boolean;
   readonly trainings: Training[];
   readonly showInputSection: boolean;
   readonly currentInput: CurrentInput;
@@ -38,6 +39,7 @@ export type Action =
   | { type: "set-mode"; mode: Mode }
   | { type: "set-input"; currentInput: CurrentInput }
   | { type: "open-input" }
+  | { type: "toggle-search" }
   | { type: "set-search-term"; searchTerm: string }
   | { type: "clear-search-term" };
 
@@ -206,6 +208,10 @@ export function reducer(state: TopLevelState, action: Action): TopLevelState {
       return { ...state, showInputSection: true };
     }
 
+    case "toggle-search": {
+      return { ...state, searchActive: !state.searchActive };
+    }
+
     case "set-search-term": {
       const { searchTerm } = action;
 
@@ -229,7 +235,8 @@ export function reducer(state: TopLevelState, action: Action): TopLevelState {
 export const initialState: TopLevelState = {
   trainings: [],
   searchTerm: "",
-  showInputSection: false,
+  searchActive: false,
   mode: { type: "add" },
+  showInputSection: false,
   currentInput: { headline: "", exercises: "" },
 };

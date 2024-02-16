@@ -23,15 +23,12 @@ export const BottomBar = ({
   return (
     <nav id="bottom-bar">
       <Hamburger setMenuOpen={setMenuOpen} menuOpen={menuOpen} />
-      <Search
-        size={25}
-        color={getComputedStyle(document.body).getPropertyValue(
-          "--cta-disabled"
-        )}
-      />
+      <button disabled={Boolean(!trainings.length)}>
+        <Search size={25} onClick={() => dispatch({ type: "toggle-search" })} />
+      </button>
       <button
         aria-label="edit"
-        className={`btn-round ${trainings && latestTrainingId === undefined ? "btn-disabled" : ""
+        className={`btn-round ${latestTrainingId === undefined ? "btn-disabled" : ""
           }`}
         type="button"
         disabled={

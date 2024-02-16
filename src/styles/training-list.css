@@ -4,7 +4,12 @@
   top: 0;
   bottom: 0;
   overflow-y: scroll;
+  transition: 0.2s ease-out;
 }
+
+.training-list.search-active {
+  transform: translateY(50px);
+} 
 
 .training-list > section {
   width: 100%;
