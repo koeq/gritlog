@@ -8,6 +8,7 @@ import { Training } from "./types";
 
 interface TrainingsProps {
   readonly searchTerm: string;
+  readonly searchActive: boolean;
   readonly trainings: Training[];
   readonly dispatch: Dispatch<Action>;
   readonly handleSetEditMode: (id: number) => void;
@@ -19,6 +20,7 @@ export const TrainingList = ({
   trainings,
   searchTerm,
   textAreaRef,
+  searchActive,
   handleSetEditMode,
 }: TrainingsProps): JSX.Element | null => {
   const normalizedSearchTerm = searchTerm.toLowerCase().trim();
@@ -33,7 +35,7 @@ export const TrainingList = ({
   }
 
   return (
-    <main className="training-list">
+    <main className={`training-list ${searchActive ? "search-active" : ""}`}>
       <section>
         {trainingsByMonth.map(({ trainings, date }, index) => {
           return (

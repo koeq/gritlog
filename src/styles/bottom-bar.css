@@ -19,10 +19,12 @@
 #bottom-bar button {
   display: flex;
   align-items: center;
+  color: var(--cta)
 }
 
 .btn-disabled {
   color: var(--cta-disabled);
+  cursor: default;
 }
 
 

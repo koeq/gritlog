@@ -7,6 +7,7 @@ import { filterTrainings } from "./filter-trainings";
 import { InputSection } from "./input-section";
 import { InputSectionLayer } from "./input-section-layer";
 import { Layer } from "./layer";
+import { SearchBox } from "./search-box";
 import { MemoizedTrainingList } from "./training-list";
 import { Training } from "./types";
 
@@ -21,26 +22,26 @@ export const Trainings = ({
   textAreaRef,
   handleSetEditMode,
 }: TrainingsSectionProps): JSX.Element => {
-  const [{ mode, searchTerm, showInputSection }, dispatch] = useTopLevelState();
+  const [{ mode, searchTerm, showInputSection, searchActive }, dispatch] =
+    useTopLevelState();
 
   return (
     <>
       {trainings.length === 0 ? (
         <AddFirstTraining />
       ) : (
-        <MemoizedTrainingList
-          dispatch={dispatch}
-          searchTerm={searchTerm}
-          textAreaRef={textAreaRef}
-          handleSetEditMode={handleSetEditMode}
-          trainings={filterTrainings(searchTerm, trainings)}
-        />
+        <>
+          <SearchBox />
+          <MemoizedTrainingList
+            dispatch={dispatch}
+            searchTerm={searchTerm}
+            searchActive={searchActive}
+            textAreaRef={textAreaRef}
+            handleSetEditMode={handleSetEditMode}
+            trainings={filterTrainings(searchTerm, trainings)}
+          />
+        </>
       )}
-
-      {/* <AddEditCTAs
-        textAreaRef={textAreaRef}
-        handleSetEditMode={handleSetEditMode}
-      /> */}
 
       {mode.type === "delete" && (
         <Layer>
