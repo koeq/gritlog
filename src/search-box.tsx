@@ -1,3 +1,4 @@
+import { X } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
 import { useTopLevelState } from "./context";
 import "./styles/search-box.css";
@@ -9,10 +10,11 @@ export function SearchBox(): JSX.Element {
   const [search, setSearch] = useState("");
   const [{ searchActive }, dispatch] = useTopLevelState();
 
-  // const handleClose = () => {
-  //   setSearch("");
-  //   dispatch({ type: "clear-search-term" });
-  // };
+  const handleClose = () => {
+    setSearch("");
+    dispatch({ type: "clear-search-term" });
+    dispatch({ type: "toggle-search" });
+  };
 
   const searchTermResult = useMemo(
     () =>
@@ -32,17 +34,22 @@ export function SearchBox(): JSX.Element {
   }, [searchTermResult]);
 
   return (
-    <div className={`search-box ${searchActive ? "active" : ""}`}>
-      <input
-        type="text"
-        value={search}
-        placeholder="Search exercise"
-        className={`input-search active`}
-        onChange={(event) => {
-          setSearch(event.target.value);
-          searchTermResult.debounced(event.target.value);
-        }}
-      />
+    <div className={`search ${searchActive ? "active" : ""}`}>
+      <div className="search-box">
+        <input
+          type="text"
+          value={search}
+          placeholder="Search exercise"
+          className={`input-search active`}
+          onChange={(event) => {
+            setSearch(event.target.value);
+            searchTermResult.debounced(event.target.value);
+          }}
+        />
+        <button onClick={handleClose}>
+          <X size={20} />
+        </button>
+      </div>
     </div>
   );
 }
