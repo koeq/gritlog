@@ -4,11 +4,11 @@
   top: 0;
   bottom: 0;
   overflow-y: scroll;
-  transition: 0.2s ease-out;
+  transition: padding-top 0.2s ease-out;
 }
 
 .training-list.search-active {
-  transform: translateY(50px);
+  padding-top: 57px;
 } 
 
 .training-list > section {
