@@ -12,11 +12,10 @@
   background: var(--background-transparent);
   border-end-end-radius: 20px;
   border-end-start-radius: 20px;
-  
 }
 
 .search.active {
-  transform:  translateY(57px);
+  transform: translateY(57px);
 }
 
 .search-box {
@@ -30,10 +29,9 @@
 
 .search-box button {
   display: flex;
-  align-items: center;;
+  align-items: center;
   color: var(--cta);
 }
-
 
 .input-search {
   height: 36px;
@@ -43,9 +41,6 @@
   color: var(--text);
   background: transparent;
 }
-
-
-
 
 .input-search::placeholder {
   color: var(--text-off);

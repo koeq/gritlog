@@ -10,12 +10,12 @@ export type AnalyticsSectionType = "activity" | "volume";
 
 export type Section =
   | {
-    readonly type: "trainings";
-  }
+      readonly type: "trainings";
+    }
   | {
-    readonly type: "analytics";
-    readonly analyticsType: AnalyticsSectionType;
-  };
+      readonly type: "analytics";
+      readonly analyticsType: AnalyticsSectionType;
+    };
 
 export const App = (): JSX.Element | null => {
   const { isAuthed } = useAuth();

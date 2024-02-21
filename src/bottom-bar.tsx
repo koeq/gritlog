@@ -33,8 +33,9 @@ export const BottomBar = ({
       </button>
       <button
         aria-label="edit"
-        className={`btn-round ${latestTrainingId === undefined || isAnalytics ? "btn-disabled" : ""
-          }`}
+        className={`btn-round ${
+          latestTrainingId === undefined || isAnalytics ? "btn-disabled" : ""
+        }`}
         type="button"
         disabled={latestTrainingId === undefined}
         onClick={

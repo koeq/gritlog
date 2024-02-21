@@ -29,7 +29,6 @@
   justify-content: space-between;
 }
 
-
 .input-top-container {
   padding: 8px 0;
   border-bottom: 1px solid var(--border-secondary);
@@ -58,5 +57,3 @@
   align-items: center;
   border-radius: 50%;
 }
-
-
