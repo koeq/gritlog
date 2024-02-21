@@ -21,23 +21,24 @@ export const BottomBar = ({
 }: BottomBarProps): JSX.Element => {
   const [{ trainings }, dispatch] = useTopLevelState();
   const latestTrainingId = trainings[0]?.id;
+  const noTrainings = trainings.length === 0;
 
   return (
     <nav id="bottom-bar">
       <Hamburger setMenuOpen={setMenuOpen} menuOpen={menuOpen} />
       <button
-        className={isAnalytics ? "btn-disabled" : ""}
-        disabled={Boolean(!trainings.length) || isAnalytics}
+        className={noTrainings || isAnalytics ? "btn-disabled" : ""}
+        disabled={noTrainings || isAnalytics}
       >
         <Search size={25} onClick={() => dispatch({ type: "toggle-search" })} />
       </button>
       <button
         aria-label="edit"
         className={`btn-round ${
-          latestTrainingId === undefined || isAnalytics ? "btn-disabled" : ""
+          noTrainings || isAnalytics ? "btn-disabled" : ""
         }`}
         type="button"
-        disabled={latestTrainingId === undefined}
+        disabled={noTrainings}
         onClick={
           latestTrainingId !== undefined
             ? () => handleSetEditMode(latestTrainingId)
