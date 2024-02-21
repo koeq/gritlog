@@ -103,9 +103,11 @@ const Time = ({ date, endDate }: TimeProps) => {
     (differenceInMilliseconds % MILLISECONDS_IN_HOUR) / 60000
   );
 
-  const formattedTimeDifference = `${differenceInHours < 10 ? "0" : ""
-    }${differenceInHours}:${differenceInMinutes < 10 ? "0" : ""
-    }${differenceInMinutes} h`;
+  const formattedTimeDifference = `${
+    differenceInHours < 10 ? "0" : ""
+  }${differenceInHours}:${
+    differenceInMinutes < 10 ? "0" : ""
+  }${differenceInMinutes} h`;
 
   const timeFormattingOptions: Intl.DateTimeFormatOptions = {
     hour: "2-digit",

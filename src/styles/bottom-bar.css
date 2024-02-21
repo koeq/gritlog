@@ -10,7 +10,7 @@
   padding: 0 18px;
   padding-bottom: 38px;
   padding-top: 10px;
-  background: var( --background-transparent); 
+  background: var(--background-transparent);
   backdrop-filter: blur(14px);
   -webkit-backdrop-filter: blur(14px);
   z-index: 3;
@@ -24,7 +24,7 @@
   width: 36px;
   display: flex;
   align-items: center;
-  color: var(--cta)
+  color: var(--cta);
 }
 
 .btn-disabled {
@@ -32,11 +32,9 @@
   cursor: default;
 }
 
-
 @media (min-width: 460px) {
   #bottom-bar {
     width: min(500px, 95%);
     padding: 14px 30px;
   }
 }
-

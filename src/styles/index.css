@@ -31,7 +31,7 @@
 }
 
 @media (min-width: 460px) {
-* {
+  * {
     --bottom-bar-height: 55px;
   }
 }
@@ -41,7 +41,7 @@
   --background-primary: #07090f;
   --background-secondary: rgb(18, 18, 22);
   --background-tertiary: #2e3038;
-  --background-transparent: rgba(7, 9, 15, 0.80);
+  --background-transparent: rgba(7, 9, 15, 0.8);
   --background-muted: rgba(110, 118, 135, 0.3);
 
   --border-primary: rgb(40, 42, 50);
@@ -82,7 +82,7 @@
   --background-primary: #fdfdff;
   --background-secondary: #fdfdff;
   --background-tertiary: #ececf6;
-  --background-transparent: hsla(240, 100%, 100%, 0.80);
+  --background-transparent: hsla(240, 100%, 100%, 0.8);
 
   --background-muted: #afb8c14d;
   --border-primary: rgb(210, 210, 220);

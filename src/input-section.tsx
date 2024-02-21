@@ -148,9 +148,9 @@ const isDisabled = ({
   mode.type === "add"
     ? isEmptyTraining(currentTraining)
     : mode.type === "edit"
-      ? currentInput.exercises?.trim() === mode.initialInput.exercises &&
+    ? currentInput.exercises?.trim() === mode.initialInput.exercises &&
       currentInput.headline?.trim() === mode.initialInput.headline
-      : false;
+    : false;
 
 interface HandleActionParams {
   readonly mode: Mode;
@@ -170,15 +170,15 @@ const handleAction = ({
   mode.type === "add"
     ? () => handleAdd({ currentTraining, dispatch, logout, textAreaRef })
     : mode.type === "edit"
-      ? () => handleEdit({ mode, currentTraining, dispatch, logout, textAreaRef })
-      : () => undefined;
+    ? () => handleEdit({ mode, currentTraining, dispatch, logout, textAreaRef })
+    : () => undefined;
 
 const handleCancel = (mode: Mode, dispatch: React.Dispatch<Action>) =>
   mode.type === "add"
     ? () => dispatch({ type: "cancel-add" })
     : mode.type === "edit"
-      ? () => dispatch({ type: "cancel-edit" })
-      : () => undefined;
+    ? () => dispatch({ type: "cancel-edit" })
+    : () => undefined;
 
 interface HandleAddParams {
   readonly logout: () => void;
