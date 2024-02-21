@@ -6,7 +6,7 @@
   align-items: center;
   width: min(450px, 95%);
   padding-top: 18px;
-  transition: transform 0.2s ease-out;
+  transition: transform 0.2s ease;
   backdrop-filter: blur(14px);
   -webkit-backdrop-filter: blur(14px);
   background: var(--background-transparent);

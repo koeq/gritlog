@@ -32,14 +32,6 @@ export const App = (): JSX.Element | null => {
 
   return (
     <Suspense fallback={<></>}>
-      {/* TODO: delete */}
-      {/* <Header
-        isAuthed={isAuthed}
-        section={section}
-        menuOpen={menuOpen}
-        setSection={setSection}
-        setMenuOpen={setMenuOpen}
-      /> */}
       {isAuthed ? (
         <>
           <AuthedApp
