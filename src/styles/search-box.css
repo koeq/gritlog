@@ -1,12 +1,12 @@
 .search {
   position: fixed;
-  top: -57px;
+  top: -70px;
   z-index: 1;
   display: flex;
   align-items: center;
   width: min(450px, 95%);
   padding-top: 18px;
-  transition: transform 0.2s ease;
+  transition: transform 0.25s ease;
   backdrop-filter: blur(14px);
   -webkit-backdrop-filter: blur(14px);
   background: var(--background-transparent);
@@ -15,7 +15,7 @@
 }
 
 .search.active {
-  transform: translateY(57px);
+  transform: translateY(70px);
 }
 
 .search-box {
