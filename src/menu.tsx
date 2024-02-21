@@ -41,7 +41,7 @@ export const Menu = ({
             onClick={(e) => {
               e.preventDefault();
               setMenuOpen(false);
-              setSection({ type: "analytics", analyticsType: "activity" });
+              setSection({ type: "analytics", analyticsType: "volume" });
             }}
           >
             analytics

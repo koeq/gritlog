@@ -66,6 +66,7 @@ const AuthedApp = ({
         setMenuOpen={setMenuOpen}
         textAreaRef={textAreaRef}
         handleSetEditMode={handleSetEditMode}
+        isAnalytics={section.type === "analytics"}
       />
     </section>
   );

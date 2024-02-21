@@ -7,7 +7,7 @@
   justify-content: space-between;
   align-items: center;
   border-top: 1px solid var(--border-secondary);
-  padding: 0 22px;
+  padding: 0 18px;
   padding-bottom: 38px;
   padding-top: 10px;
   background: var( --background-transparent); 
@@ -18,12 +18,17 @@
 
 #bottom-bar button {
   display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 36px;
+  width: 36px;
+  display: flex;
   align-items: center;
   color: var(--cta)
 }
 
 .btn-disabled {
-  color: var(--cta-disabled);
+  color: var(--cta-disabled) !important;
   cursor: default;
 }
 
