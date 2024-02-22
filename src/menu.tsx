@@ -21,7 +21,6 @@ export const Menu = ({
   return (
     <nav className={`menu${menuOpen ? " menu-open" : ""}`}>
       <ul className="menu-list">
-        <hr />
         <li>
           <a
             className="menu-list-item"
