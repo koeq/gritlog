@@ -23,6 +23,7 @@ const AuthedApp = ({
   const [{ trainings }, dispatch] = useTopLevelState();
   const isLoading = useFetchTrainings(dispatch);
   const textAreaRef = useRef<HTMLTextAreaElement | null>(null);
+  const searchBarRef = useRef<HTMLInputElement | null>(null);
 
   // TODO: this should probably be a dispatch action
   const handleSetEditMode = useCallback(
@@ -55,6 +56,7 @@ const AuthedApp = ({
         <Trainings
           trainings={trainings}
           textAreaRef={textAreaRef}
+          searchBarRef={searchBarRef}
           handleSetEditMode={handleSetEditMode}
         />
       )}
@@ -65,6 +67,7 @@ const AuthedApp = ({
         menuOpen={menuOpen}
         setMenuOpen={setMenuOpen}
         textAreaRef={textAreaRef}
+        searchBarRef={searchBarRef}
         handleSetEditMode={handleSetEditMode}
         isAnalytics={section.type === "analytics"}
       />
