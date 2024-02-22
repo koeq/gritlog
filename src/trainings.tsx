@@ -13,13 +13,15 @@ import { Training } from "./types";
 
 interface TrainingsSectionProps {
   readonly trainings: Training[];
-  readonly textAreaRef: MutableRefObject<HTMLTextAreaElement | null>;
   readonly handleSetEditMode: (id: number) => void;
+  readonly textAreaRef: MutableRefObject<HTMLTextAreaElement | null>;
+  readonly searchBarRef: MutableRefObject<HTMLInputElement | null>;
 }
 
 export const Trainings = ({
   trainings,
   textAreaRef,
+  searchBarRef,
   handleSetEditMode,
 }: TrainingsSectionProps): JSX.Element => {
   const [{ mode, searchTerm, showInputSection, searchActive }, dispatch] =
@@ -31,7 +33,7 @@ export const Trainings = ({
         <AddFirstTraining />
       ) : (
         <>
-          <SearchBox />
+          <SearchBox searchBarRef={searchBarRef} />
           <MemoizedTrainingList
             dispatch={dispatch}
             searchTerm={searchTerm}

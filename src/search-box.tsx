@@ -1,10 +1,15 @@
 import { X } from "lucide-react";
-import { useEffect, useMemo, useState } from "react";
+import { MutableRefObject, useEffect, useMemo, useState } from "react";
 import { useTopLevelState } from "./context";
 import "./styles/search-box.css";
 import { debounce } from "./utils/debounce";
+import { useEscape } from "./utils/use-escape";
 
-export function SearchBox(): JSX.Element {
+export function SearchBox({
+  searchBarRef,
+}: {
+  readonly searchBarRef: MutableRefObject<HTMLInputElement | null>;
+}): JSX.Element {
   // To ensure the ability to debounce the setting of the external
   // search state, we maintain both internal and global search states.
   const [search, setSearch] = useState("");
@@ -15,6 +20,8 @@ export function SearchBox(): JSX.Element {
     dispatch({ type: "clear-search-term" });
     dispatch({ type: "toggle-search" });
   };
+
+  useEscape(searchBarRef, handleClose);
 
   const searchTermResult = useMemo(
     () =>
@@ -40,6 +47,7 @@ export function SearchBox(): JSX.Element {
           type="text"
           value={search}
           placeholder="Search exercise"
+          ref={searchBarRef}
           className={`input-search active`}
           onChange={(event) => {
             setSearch(event.target.value);

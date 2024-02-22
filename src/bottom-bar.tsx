@@ -1,5 +1,5 @@
 import { PlusCircle, Search, SquarePen } from "lucide-react";
-import { Dispatch, SetStateAction } from "react";
+import { Dispatch, MutableRefObject, SetStateAction } from "react";
 import { useTopLevelState } from "./context";
 import { Hamburger } from "./hamburger";
 import "./styles/bottom-bar.css";
@@ -9,7 +9,8 @@ interface BottomBarProps {
   readonly isAnalytics: boolean;
   readonly handleSetEditMode: (id: number) => void;
   readonly setMenuOpen: Dispatch<SetStateAction<boolean>>;
-  readonly textAreaRef: React.MutableRefObject<HTMLTextAreaElement | null>;
+  readonly textAreaRef: MutableRefObject<HTMLTextAreaElement | null>;
+  readonly searchBarRef: MutableRefObject<HTMLInputElement | null>;
 }
 
 export const BottomBar = ({
@@ -17,6 +18,7 @@ export const BottomBar = ({
   textAreaRef,
   isAnalytics,
   setMenuOpen,
+  searchBarRef,
   handleSetEditMode,
 }: BottomBarProps): JSX.Element => {
   const [{ trainings }, dispatch] = useTopLevelState();
@@ -27,10 +29,13 @@ export const BottomBar = ({
     <nav id="bottom-bar">
       <Hamburger setMenuOpen={setMenuOpen} menuOpen={menuOpen} />
       <button
-        className={noTrainings || isAnalytics ? "btn-disabled" : ""}
         disabled={noTrainings || isAnalytics}
+        className={noTrainings || isAnalytics ? "btn-disabled" : ""}
+        onClick={() => {
+          searchBarRef.current?.focus(), dispatch({ type: "toggle-search" });
+        }}
       >
-        <Search size={25} onClick={() => dispatch({ type: "toggle-search" })} />
+        <Search size={25} />
       </button>
       <button
         aria-label="edit"
