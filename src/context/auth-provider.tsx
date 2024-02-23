@@ -38,7 +38,7 @@ export const AuthProvider = (props: AuthProviderProps): JSX.Element => {
         shape: "rectangular",
         theme: "filled_blue",
         size: "large",
-        logo_alignment: "center",
+        logo_alignment: "left",
         type: "standard",
         text: "continue_with",
         width: 250,
