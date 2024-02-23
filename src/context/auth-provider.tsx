@@ -35,12 +35,13 @@ export const AuthProvider = (props: AuthProviderProps): JSX.Element => {
 
     if (signInWithGoogleButton) {
       window.google.accounts.id.renderButton(signInWithGoogleButton, {
-        shape: "pill",
-        theme: "outline",
-        size: "medium",
+        shape: "rectangular",
+        theme: "filled_blue",
+        size: "large",
         logo_alignment: "center",
-        type: "icon",
+        type: "standard",
         text: "continue_with",
+        width: 250,
       });
     }
   };
