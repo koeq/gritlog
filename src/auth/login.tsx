@@ -5,7 +5,7 @@ export const Login = (): JSX.Element => {
     <div className="login-container">
       <h1>gritlog</h1>
       <p>
-        The text based <br /> stength training journal.
+        The text based <br /> strength training journal.
       </p>
       <hr />
       <div id="sign-in-with-google" />
