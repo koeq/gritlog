@@ -21,7 +21,7 @@ export const BottomBar = ({
   searchBarRef,
   handleSetEditMode,
 }: BottomBarProps): JSX.Element => {
-  const [{ trainings }, dispatch] = useTopLevelState();
+  const [{ trainings, searchActive }, dispatch] = useTopLevelState();
   const latestTrainingId = trainings[0]?.id;
   const noTrainings = trainings.length === 0;
 
@@ -32,7 +32,13 @@ export const BottomBar = ({
         disabled={noTrainings || isAnalytics}
         className={noTrainings || isAnalytics ? "btn-disabled" : ""}
         onClick={() => {
-          searchBarRef.current?.focus(), dispatch({ type: "toggle-search" });
+          if (searchActive) {
+            searchBarRef.current?.blur();
+          } else {
+            searchBarRef.current?.focus();
+          }
+
+          dispatch({ type: "toggle-search" });
         }}
       >
         <Search size={25} />
