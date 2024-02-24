@@ -50,7 +50,10 @@ export const Menu = ({
         <li id="menu-list-item-btns">
           <ThemeToggle />
           <button
-            onClick={logout}
+            onClick={() => {
+              setMenuOpen(false);
+              logout();
+            }}
             aria-label="logout"
             className="menu-list-item"
           >
